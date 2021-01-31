@@ -21,6 +21,7 @@ export async function getOne(options: any): Promise<any> {
 }
 
 export async function add(options: any): Promise<any> {
+  delete options._id;
   const data = await collection.insertOne(options);
   return data.insertId;
 }
