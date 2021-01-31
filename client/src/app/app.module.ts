@@ -26,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { C7zFocusDirective } from './focus/focus.directive';
 import { MovieAddComponent } from './movie/add/add.component';
 import { MovieUpdateComponent } from './movie/update/update.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { MovieUpdateComponent } from './movie/update/update.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
   ],

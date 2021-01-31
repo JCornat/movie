@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class MovieAddComponent implements OnInit {
   public questions: Question[] = [
-    {key: 'id', type: 'number', label: 'id'},
+    {key: '_id', type: 'text', label: 'id', hide: true},
     {key: 'title', type: 'text', label: 'title'},
     {key: 'year', type: 'number', label: 'year'},
     {key: 'backgroundImage', type: 'text', label: 'image'},
@@ -21,8 +21,8 @@ export class MovieAddComponent implements OnInit {
   public formData: any;
 
   constructor(
-    private movieService: MovieService,
-    private router: Router,
+    public movieService: MovieService,
+    public router: Router,
   ) {
     //
   }
@@ -31,12 +31,12 @@ export class MovieAddComponent implements OnInit {
     //
   }
 
-  public onValid(data) {
+  public onValid(data): void {
     this.formData = data;
   }
 
-  public onSubmit() {
-    this.movieService.movies.push(this.formData);
+  public async onSubmit(): Promise<void> {
+    await this.movieService.add(this.formData);
     this.router.navigate(['/']);
   }
 }

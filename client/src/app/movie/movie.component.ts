@@ -19,7 +19,7 @@ export class MovieComponent implements OnInit {
     this.pullAll();
   }
 
-  public pullAll(): void {
-    this.movies = this.movieService.movies;
+  public async pullAll(): Promise<void> {
+    this.movies = await this.movieService.pullAll();
   }
 }

@@ -1,1 +1,5 @@
-<p>update works!</p>
+<div style="max-width: 500px">
+    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
+</div>
+
+<button (click)="remove()"></button>

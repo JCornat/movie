@@ -1,0 +1,32 @@
+version: '3'
+services:
+    web:
+        build:
+            context: .
+            dockerfile: app/Dockerfile
+            args:
+                - image=${WEB_IMAGE}
+        container_name: ${WEB_CONTAINER_NAME}
+        restart: always
+        depends_on:
+            - database
+        volumes:
+            - ./app:/src/app
+            - ./tsconfig.json:/src/tsconfig.json
+            - ./package.json:/src/package.json
+            - ./package-lock.json:/src/package-lock.json
+        environment:
+            - TZ=Europe/Paris
+    database:
+        image: ${DATABASE_IMAGE}
+        container_name: ${DATABASE_CONTAINER_NAME}
+        restart: always
+        ports:
+            - '${DATABASE_PORT}:27017'
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${DATABASE_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+networks:
+    default:
+        external:
+            name: main
