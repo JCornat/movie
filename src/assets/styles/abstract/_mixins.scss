@@ -1,0 +1,261 @@
+@mixin variable($property, $variable, $fallback) {
+  #{$property}: $fallback;
+  #{$property}: $variable;
+}
+
+@mixin text-ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin buttonRaisedColor($backgroundColor, $hoverBackgroundColor, $textColor: $white) {
+  color: $textColor;
+  background-color: $backgroundColor;
+
+  &:hover {
+    background-color: $hoverBackgroundColor;
+  }
+}
+
+@mixin buttonFlatColor($color) {
+  color: $color;
+
+  &:hover {
+    background-color: transparentize($color, 0.9);
+  }
+}
+
+@mixin borderRadius($radius: 8px) {
+  border-radius: $radius;
+}
+
+@mixin borderRadiusTop($radius: 8px) {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin borderRadiusRight($radius: 8px) {
+  border-top-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin borderRadiusBottom($radius: 8px) {
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin borderRadiusLeft($radius: 8px) {
+  border-top-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin build-margin() {
+  $sizes: 0 1 2 4 6 8 12 16 20 24 32;
+
+  @each $i in $sizes {
+    .m-#{$i} {
+      margin: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mb-#{$i}, .c7z-appbar-container .c7z-appbar .c7z-text-section.mb-#{$i} {
+      margin-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mt-#{$i}, .c7z-appbar-container .c7z-appbar .c7z-text-section.mt-#{$i} {
+      margin-top: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .ml-#{$i} {
+      margin-left: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mr-#{$i} {
+      margin-right: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .my-#{$i} {
+      margin-top: #{$i}px;
+      margin-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mx-#{$i} {
+      margin-left: #{$i}px;
+      margin-right: #{$i}px;
+    }
+  }
+}
+
+@mixin build-padding() {
+  $sizes: 0 1 2 4 6 8 12 16 20 24 32;
+
+  @each $i in $sizes {
+    .p-#{$i}, .c7z-card .row.p-#{$i} {
+      padding: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pb-#{$i}, .c7z-card .row.pb-#{$i} {
+      padding-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pt-#{$i}, .c7z-card .row.pt-#{$i} {
+      padding-top: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pl-#{$i}, .c7z-card .row.pl-#{$i} {
+      padding-left: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pr-#{$i}, .c7z-card .row.pr-#{$i} {
+      padding-right: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .py-#{$i}, .c7z-card .row.py-#{$i} {
+      padding-top: #{$i}px;
+      padding-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .px-#{$i}, .c7z-card .row.px-#{$i} {
+      padding-left: #{$i}px;
+      padding-right: #{$i}px;
+    }
+  }
+}
+
+@mixin build-grid-cols() {
+  @for $i from 1 through 12 {
+    .grid-cols-#{$i} {
+      grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: $minSmall) {
+    @for $i from 1 through 12 {
+      .sm\:grid-cols-#{$i} {
+        grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+      }
+    }
+  }
+
+  @media (min-width: $minMedium) {
+    @for $i from 1 through 12 {
+      .md\:grid-cols-#{$i} {
+        grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+      }
+    }
+  }
+
+  @media (min-width: $minLarge) {
+    @for $i from 1 through 12 {
+      .lg\:grid-cols-#{$i} {
+        grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+      }
+    }
+  }
+
+  @media (min-width: $minExtraLarge) {
+    @for $i from 1 through 12 {
+      .xl\:grid-cols-#{$i} {
+        grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+      }
+    }
+  }
+}
+
+@include build-grid-cols();
+
+@mixin build-grid-gap() {
+  $sizes: 0 1 2 4 8 12 16 24 32 40 48 64;
+
+  @each $i in $sizes {
+    .grid-gap-#{$i} {
+      grid-gap: #{$i}px;
+    }
+  }
+
+  @media (min-width: $minSmall) {
+    @each $i in $sizes {
+      .sm\:grid-gap-#{$i} {
+        grid-gap: #{$i}px;
+      }
+    }
+  }
+
+  @media (min-width: $minMedium) {
+    @each $i in $sizes {
+      .md\:grid-gap-#{$i} {
+        grid-gap: #{$i}px;
+      }
+    }
+  }
+
+  @media (min-width: $minLarge) {
+    @each $i in $sizes {
+      .lg\:grid-gap-#{$i} {
+        grid-gap: #{$i}px;
+      }
+    }
+  }
+
+  @media (min-width: $minExtraLarge) {
+    @each $i in $sizes {
+      .xl\:grid-gap-#{$i} {
+        grid-gap: #{$i}px;
+      }
+    }
+  }
+}
+
+@include build-grid-gap();
+
+@mixin build-border-radius() {
+  $sizes: 0 1 2 4 8 12 16 24 32;
+
+  @each $i in $sizes {
+    .round-#{$i} {
+      border-radius: #{$i}px;
+    }
+  }
+
+  .round-full {
+    border-radius: 9999px;
+  }
+}
+
+@include build-border-radius();
+
+@for $i from 0 through 10 {
+  .opacity-#{$i} {
+    opacity: ($i / 10);
+  }
+}
+
+@for $i from 0 through 12 {
+  .flex-#{$i} {
+    flex: $i;
+  }
+}

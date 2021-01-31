@@ -3,3 +3,7 @@
         <movie-item [data]="item"></movie-item>
     </ng-container>
 </div>
+
+<div style="max-width: 500px">
+    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="valid($event)"></dynamic-form-section>
+</div>

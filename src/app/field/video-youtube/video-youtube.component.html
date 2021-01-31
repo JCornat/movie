@@ -1,0 +1,7 @@
+<ng-container *ngIf="isValid">
+  <iframe width="560" height="315" [src]="url" frameborder="0" allowfullscreen style="max-width: 100%;"></iframe>
+</ng-container>
+
+<ng-container *ngIf="!isValid">
+  <span class="error" style="color: red;">URL de la vidéo YouTube incorrecte</span>
+</ng-container>

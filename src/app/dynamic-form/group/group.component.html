@@ -1,0 +1,19 @@
+<ng-container *ngIf="_formGroup">
+  <form [formGroup]="_formGroup" (submit)="submit()" (keyup.enter)="onPressEnterKey()" novalidate>
+    <ng-container *ngFor="let line of lines">
+      <div class="grid">
+        <ng-container *ngFor="let question of line">
+          <ng-container *ngIf="!question?.hide && !question?.disable">
+            <ng-container *ngIf="question.inline">
+              <div class="px-8"></div>
+            </ng-container>
+
+            <dynamic-form-question [question]="question" [formGroup]="_formGroup" [ngClass]="question.columnSize"></dynamic-form-question>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <button type="submit" style="position: absolute; z-index: -100; top: -1px; left: -1px; width: 1px; height: 1px; opacity: 0;"></button>
+  </form>
+</ng-container>

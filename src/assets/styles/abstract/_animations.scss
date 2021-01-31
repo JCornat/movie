@@ -1,0 +1,81 @@
+$transitionDuration: 0.2s;
+$transitionCurve: cubic-bezier(0.4, 0, 0.2, 1);
+
+@keyframes slideInLeft {
+  0% {
+    left: 32px;
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    left: 0;
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 0;
+  }
+
+  100% {
+    right: 32px;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: translate(0, 0) scale(0.5);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.reverse-animation {
+  transition: transform $transitionDuration $transitionCurve;
+  transform: rotate(0deg);
+
+  &.reverse {
+    transform: rotate(-180deg);
+  }
+}

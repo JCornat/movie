@@ -1,0 +1,30 @@
+$buttonSize: calc(14px + 1px);
+$buttonWeight: $medium;
+$buttonHeight: 36px;
+$buttonMargin: 4px;
+
+$chipHeight: 32px;
+$chipBorderRadius: $chipHeight;
+$chipSize: $captionSize;
+
+$z-indexes: (
+  'snackbar': 750,
+  'dropdown': 700,
+  'dialog': 650,
+  'navbar': 600,
+  'navbar-background': 599,
+  'chat': 550,
+  'fab': 200,
+  'multi-fab': 190,
+  'small-fab': 180,
+  'tooltip': 100,
+  'appbar': 20,
+  'navbar-desktop': 10,
+  'default': 1,
+  'below': -1,
+);
+
+$pelletSize: 21px;
+
+$appbarHeightMobile: 56px;
+$appbarHeightDesktop: 48px;

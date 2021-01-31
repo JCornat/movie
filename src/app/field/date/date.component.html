@@ -1,0 +1,41 @@
+<ng-container [ngSwitch]="question.skin">
+  <ng-container *ngSwitchCase="'input'">
+    <ng-container [formGroup]="formGroup">
+      <div class="flex">
+        <div class="fill">
+          <input [c7zFocus]="question.focus" [formControlName]="question.key" [id]="question.key" [placeholder]="question.placeholder" [readonly]="question.readOnly" class="form-control" type="date">
+        </div>
+
+        <ng-container *ngIf="question.nowShortcut">
+          <div class="ml-8">
+            <c7z-button class="secondary blue" title="Aujourd'hui" (onClick)="now()" icon="today"></c7z-button>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <div [formGroup]="localGroup" class="flex" [id]="question.key">
+      <div style="max-width: 75px;">
+        <field-number [formGroup]="localGroup" [question]="day" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)"></field-number>
+      </div>
+
+      <div class="ml-8" style="max-width: 75px;">
+        <field-number [formGroup]="localGroup" [question]="month" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)"></field-number>
+      </div>
+
+      <div class="ml-8" style="max-width: 75px;">
+        <field-number [formGroup]="localGroup" [question]="year" (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)"></field-number>
+      </div>
+
+      <ng-container *ngIf="question.nowShortcut">
+        <div class="ml-8">
+          <c7z-button class="secondary blue" title="Aujourd'hui" (onClick)="now()" icon="today"></c7z-button>
+        </div>
+      </ng-container>
+
+      <div class="fill"></div>
+    </div>
+  </ng-container>
+</ng-container>

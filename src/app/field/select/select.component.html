@@ -1,0 +1,19 @@
+<ng-container [formGroup]="formGroup">
+  <ng-container *ngIf="!question.readOnly">
+    <select [id]="question.key" [formControlName]="question.key">
+      <option disabled hidden [value]="''">-- Veuillez choisir une option --</option>
+      <ng-container *ngFor="let option of question.values; trackBy: trackByFn">
+        <option [value]="option.value">{{option.label || option.value}}</option>
+      </ng-container>
+    </select>
+  </ng-container>
+
+  <ng-container *ngIf="question.readOnly">
+    <select [formControlName]="question.key" [id]="question.key" disabled style="background-color: rgba(0, 0, 0, 0.12)">
+      <option [value]="''" disabled hidden>-- Veuillez choisir une option --</option>
+      <ng-container *ngFor="let option of question.values; trackBy: trackByFn">
+        <option [value]="option.value">{{option.label || option.value}}</option>
+      </ng-container>
+    </select>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,133 @@
+<div class="c7z-form-container">
+  <ng-container *ngIf="formData?.previewSections && !finished">
+    <div class="c7z-section-navbar" #sectionNavbar>
+      <ng-container *ngFor="let section of sections; index as i; trackBy: trackByFn">
+        <ng-container *ngIf="!section.disable">
+          <div class="c7z-card" [id]="'section-' + i" (click)="clickSection(section.index, $event)" [ngClass]="{'bold': section.selected}" title="{{section.name}}">
+            <div class="row clickable">{{section.name}}</div>
+            <c7z-progress-bar [progress]="section.progress"></c7z-progress-bar>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="enableReview">
+        <div class="c7z-card" (click)="clickSection(-1, $event)" [ngClass]="{'bold': review}" title="Récapitulatif">
+          <div class="row clickable">Récapitulatif</div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div class="c7z-form">
+    <ng-container *ngIf="!finished">
+      <ng-container *ngIf="!review">
+        <ng-container *ngIf="formData && section">
+          <div class="c7z-card p-20" style="padding-top: 0;">
+            <div class="header" style="padding: 0; font-size: inherit;">
+              <div class="section" *ngIf="section.name" [ngClass]="formData.color">
+                <div class="row px-20">
+                  <div class="title">{{section.name}}</div>
+                  <div class="fill"></div>
+                  <div class="pagination">{{currentSectionIndex}}/{{visibleSectionsTotal}}</div>
+                </div>
+
+                <div class="row px-20" *ngIf="section.description">
+                  <div class="description">{{section.description}}</div>
+                </div>
+              </div>
+            </div>
+
+            <ng-container *ngIf="section.questions?.length > 0">
+              <dynamic-form-group [formGroup]="localFormGroup" [questions]="questions" #dynamicFormGroup></dynamic-form-group>
+            </ng-container>
+
+            <ng-container *ngIf="!formData.noButton">
+              <div class="row p-0 pt-16">
+                <div *ngIf="!isFirstPage">
+                  <c7z-button (onClick)="previousSection()" class="raised">Précédent</c7z-button>
+                </div>
+
+                <div class="fill"></div>
+
+                <div>
+                  <ng-container *ngIf="isLastPage && !enableReview">
+                    <c7z-button (onClick)="submitSection()" class="raised" [ngClass]="formData.color" [loading]="loading">Valider</c7z-button>
+                  </ng-container>
+
+                  <ng-container *ngIf="!isLastPage || (isLastPage && enableReview)">
+                    <c7z-button (onClick)="submitSection()" class="raised" [ngClass]="formData.color">Suivant</c7z-button>
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="review">
+        <div class="c7z-card p-20 mb-16">
+          <div style="margin-bottom: 8px;">
+            Votre formulaire est complété à <span class="bold">{{formProgress}}%</span>
+          </div>
+
+          <div style="margin-bottom: 24px;">
+            <c7z-progress-bar [progress]="formProgress"></c7z-progress-bar>
+          </div>
+
+          <div style="margin-bottom: 4px;">
+            Souhaitez-vous envoyer votre réponse ?
+          </div>
+
+          <div style="margin-bottom: 24px; opacity: 0.6;">
+            Une fois envoyée, votre réponse ne pourra plus être modifiée.
+          </div>
+
+          <div *ngIf="error" style="margin-bottom: 16px;">
+            <p style="color: red;">{{error}}</p>
+          </div>
+
+          <div style="margin-bottom: 16px; text-align: center;">
+            <c7z-button (onClick)="submitSection()" class="raised" [ngClass]="formData.color" icon="send" [loading]="loading" style="height: 40px;">Envoyer</c7z-button>
+          </div>
+        </div>
+
+        <div class="c7z-card p-20">
+          <div class="row px-0">
+            <div>
+              <c7z-button (onClick)="previousSection()" class="raised">Précédent</c7z-button>
+            </div>
+
+            <div class="fill"></div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="finished">
+      <div class="c7z-card p-20 mb-16">
+        <div class="big-icon">
+          <i class="icon icon-check green"></i>
+        </div>
+
+        <div [innerHTML]="formData.endMessage || 'Réponse envoyée avec succès'"></div>
+      </div>
+
+      <ng-container *ngIf="formData.destination">
+        <div class="flex">
+          <div class="fill"></div>
+
+          <div>
+            <c7z-button class="secondary blue" icon="home" (onClick)="redirect()">Revenir à l'accueil</c7z-button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div [ngClass]="(paymentRequired && finished) ? 'c7z-card mt-8 pt-12 pb-12 ':''" #paymentContainer>
+      <div *ngIf="paymentRequired && finished" class="center">
+        Vous devez maintenant procéder au paiement. <br>Veuillez cliquer sur le boutton ci-dessous
+      </div>
+      <div class="paymentForm pt-8 center"></div>
+    </div>
+  </div>
+</div>

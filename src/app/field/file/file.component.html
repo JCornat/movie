@@ -1,0 +1,93 @@
+<div [formGroup]="formGroup">
+  <input type="hidden" class="form-control" [formControlName]="question.key">
+  <input type="file" style="position: absolute; width: 1px; height: 1px; top: 10px; left: 10px; z-index: -200;" #inputFile (change)="selectedFile($event)" [disabled]="question.readOnly">
+
+  <div [ngStyle]="{'background-color': (question.readOnly ? 'rgba(0, 0, 0, 0.1)' : '')}" class="c7z-card" style="overflow: hidden;">
+    <ng-container *ngIf="!uploadError">
+      <ng-container *ngIf="!isSending && !sent">
+        <div class="row py-12 dashed-border" [ngClass]="{'blue-border': isDragover}" c7zDragDrop (onFileDropped)="onFileDropped($event)" (onDraggedOver)="dragOver($event)" (click)="selectFile($event)">
+          <div class="mr-12">
+            <i class="icon icon-cloud-upload opacity-4" style="line-height: 24px;"></i>
+          </div>
+
+          <ng-container *ngIf="question.readOnly">
+            <p>
+              <span class="medium opacity-5" style="color:lightgrey">Glissez-déposez</span>
+            </p>
+          </ng-container>
+
+          <ng-container *ngIf="!question.readOnly">
+            <p>
+              <span class="medium opacity-5">Glissez-déposez</span> ou
+              <a class="no-decoration" href (click)="selectFile($event)">sélectionnez un fichier</a>
+            </p>
+          </ng-container>
+
+          <div class="fill"></div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="isSending">
+        <div class="row py-12 dashed-border">
+          <div class="mr-12">
+            <i class="material-icons material-icons-insert-drive-file" style="color: #2196F3; line-height: 24px;"></i>
+          </div>
+
+          <div style="overflow: hidden;">
+            <p class="text-ellipsis medium opacity-8">{{currentFile?.name}}</p>
+          </div>
+
+          <div class="fill"></div>
+
+          <div>
+            <c7z-button class="red" icon="cancel" (onClick)="abort()"></c7z-button>
+          </div>
+        </div>
+
+        <c7z-progress-bar [progress]="progress" style="position: absolute; bottom: 0; left: 0; right: 0;"></c7z-progress-bar>
+      </ng-container>
+
+      <ng-container *ngIf="sent">
+        <div class="row py-12 dashed-border green-border">
+          <div class="mr-12">
+            <i class="icon icon-insert-drive-file" style="color: #4CAF50; line-height: 24px;"></i>
+          </div>
+
+          <div style="overflow: hidden;">
+            <p class="text-ellipsis medium opacity-8">{{currentFile?.name || control.value}}</p>
+          </div>
+
+          <div class="fill"></div>
+
+          <ng-container *ngIf="!question.readOnly">
+            <c7z-button icon="close" (onClick)="resetValue()"></c7z-button>
+          </ng-container>
+        </div>
+
+        <ng-container *ngIf="imgURL">
+          <div class="preview" [style.background-image]="'url(' + this.imgURL + ')'" (click)="openPreviewDialog($event)"></div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="uploadError">
+      <div class="row py-12 dashed-border red-border">
+        <div class="mr-12">
+          <i class="icon icon-insert-drive-file" style="color: #F44336; line-height: 24px;"></i>
+        </div>
+
+        <div style="overflow: hidden;">
+          <p class="medium opacity-8">{{currentFile?.name}}</p>
+          <p class="mt-2" style="color: #F44336; font-size: 13px;">Envoi du fichier échoué</p>
+        </div>
+
+        <div class="fill"></div>
+
+        <div style="flex-shrink: 0;">
+          <c7z-button class="red" icon="replay" (onClick)="retryUploadFile()"></c7z-button>
+          <c7z-button class="red" icon="cancel" (onClick)="reset()"></c7z-button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

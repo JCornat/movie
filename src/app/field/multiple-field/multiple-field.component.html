@@ -1,0 +1,26 @@
+<ng-container [formGroup]="form">
+  <ng-container formArrayName="values" *ngFor="let control of form.get('values')['controls']; index as i">
+    <div [formGroupName]="i">
+      <div class="flex mb-8">
+        <div class="fill">
+          <input (change)="valueChanged()" (focus)="focused()" (keyup)="keyPressed()" [readOnly]="question.readOnly" autocapitalize="off" autocomplete="off"
+                 autocorrect="off" class="form-control" formControlName="value" spellcheck="false" style="border-top-right-radius: 0; border-bottom-right-radius: 0;" type="text">
+        </div>
+
+        <div>
+          <c7z-button (onClick)="remove(i)" [disabled]="question.readOnly" class="secondary red no-border-left-radius" icon="close"></c7z-button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<div class="flex mt-8">
+  <div class="fill"></div>
+
+  <div>
+    <ng-container *ngIf="!question.readOnly">
+      <c7z-button (onClick)="add()" class="raised" icon="add">Ajouter</c7z-button>
+    </ng-container>
+  </div>
+</div>

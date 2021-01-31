@@ -1,0 +1,3 @@
+<ng-container *ngIf="localFormGroup">
+  <dynamic-form-group [formGroup]="localFormGroup" [questions]="questions" (onSubmit)="submit()" #dynamicFormGroup></dynamic-form-group>
+</ng-container>

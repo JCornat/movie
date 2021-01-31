@@ -28,10 +28,10 @@
       ]
     },
     "max-classes-per-file": false,
-    "max-line-length": [
-      true,
-      140
-    ],
+//    "max-line-length": [
+//      true,
+//      140
+//    ],
     "member-ordering": [
       true,
       {
@@ -104,13 +104,13 @@
         }
       ]
     },
-    "variable-name": {
-      "options": [
-        "ban-keywords",
-        "check-format",
-        "allow-pascal-case"
-      ]
-    },
+//    "variable-name": {
+//      "options": [
+//        "ban-keywords",
+//        "check-format",
+//        "allow-pascal-case"
+//      ]
+//    },
     "whitespace": {
       "options": [
         "check-branch",
@@ -129,7 +129,7 @@
     "no-input-rename": true,
     "no-inputs-metadata-property": true,
     "no-output-native": true,
-    "no-output-on-prefix": true,
+//    "no-output-on-prefix": true,
     "no-output-rename": true,
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
@@ -141,12 +141,12 @@
       "attribute",
       "app",
       "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "app",
-      "kebab-case"
     ]
+//    "component-selector": [
+//      true,
+//      "element",
+//      "app",
+//      "kebab-case"
+//    ]
   }
 }

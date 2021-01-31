@@ -1,0 +1,84 @@
+<ng-container *ngIf="_question && !_question.hide && !_question.disable">
+  <ng-container *ngIf="_question.label">
+    <div class="mb-4">
+      <label [attr.for]="_question.key" class="medium opacity-8" style="font-size: 14px;">
+        {{_question.label}} <span *ngIf="_question.required" style="color: red; position: relative; top: -2px;">*</span>
+      </label>
+
+      <div *ngIf="_question.description" class="opacity-4 mt-4" style="font-size: 14px;">
+        <label [attr.for]="_question.description">{{_question.description}}</label>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="c7z-input-container full-width no-padding mb-16" [style.margin-bottom]="_question.marginBottom">
+    <div [ngSwitch]="_question.type">
+      <ng-container *ngSwitchCase="'text'">
+        <field-text [question]="_question" [formGroup]="_formGroup"></field-text>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'multiple-field'">
+        <field-multiple-field [question]="_question" [formGroup]="_formGroup"></field-multiple-field>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'password'">
+        <field-password [question]="_question" [formGroup]="_formGroup"></field-password>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'select'">
+        <field-select [question]="_question" [formGroup]="_formGroup"></field-select>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'textarea'">
+        <field-textarea [question]="_question" [formGroup]="_formGroup"></field-textarea>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'radio'">
+        <field-radio [question]="_question" [formGroup]="_formGroup"></field-radio>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'checkbox'">
+        <field-checkbox [question]="_question" [formGroup]="_formGroup"></field-checkbox>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'range'">
+        <field-range [question]="_question" [formGroup]="_formGroup"></field-range>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'date'">
+        <field-date [question]="_question" [formGroup]="_formGroup"></field-date>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'time'">
+        <field-time [question]="_question" [formGroup]="_formGroup"></field-time>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'number'">
+        <field-number [question]="_question" [formGroup]="_formGroup"></field-number>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'file'">
+        <field-file [question]="_question" [formGroup]="_formGroup"></field-file>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'video-youtube'">
+        <field-video-youtube [question]="_question" [formGroup]="_formGroup"></field-video-youtube>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'html'">
+        <div [innerHTML]="_question.sanitizedContent" style="word-break: break-word;"></div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'picture'">
+        <div style="text-align: center;">
+          <img [attr.src]="_question.content" [attr.alt]="_question.alt" [style.width]="_question.width || 'auto'" [style.height]="_question.height || 'auto'" [style.maxWidth]="'100%'"/>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="flex mt-6" *ngIf="_question.error && control.touched" style="align-items: flex-start;">
+      <i class="icon icon-error red mr-4" style="line-height: 12px; font-size: 16px;"></i>
+      <label class="c7z-message-error" style="line-height: 14px;">{{_question.error}}</label>
+    </div>
+  </div>
+</ng-container>

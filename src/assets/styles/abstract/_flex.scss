@@ -1,0 +1,29 @@
+.fill {
+  flex: 1;
+}
+
+.flex {
+  display: flex;
+
+  &.vertical-center {
+    align-items: center;
+  }
+
+  &.horizontal-center {
+    justify-content: center;
+  }
+
+  &.vertical-axis {
+    flex-direction: column;
+
+    // Invert property because of column direction
+    &.vertical-center {
+      justify-content: center;
+    }
+
+    // Invert property because of column direction
+    &.horizontal-center {
+      align-items: center;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<ng-container [formGroup]="formGroup">
+  <div class="flex vertical-center mt-8 mb-8" style="overflow-x: auto;">
+    <input type="hidden" [id]="question.key" class="form-control" [formControlName]="question.key">
+
+    <ng-container *ngFor="let value of values">
+      <div class="m-8" style="width: 100%; cursor: pointer; text-align: center;" (click)="select(value)">
+        <div class="mb-4">
+          <i *ngIf="control.value === value" [ngClass]="{'read-only': question.readOnly}" class="icon icon-radio-button-checked"></i>
+          <i *ngIf="control.value !== value" [ngClass]="{'read-only': question.readOnly}" class="icon icon-radio-button-unchecked"></i>
+        </div>
+
+        <div>
+          <strong class="medium pt-8">{{value}}</strong>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

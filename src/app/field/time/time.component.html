@@ -1,0 +1,7 @@
+<div [formGroup]="formGroup" class="flex">
+  <input type="time" [placeholder]="question.placeholder" [id]="question.key" [formControlName]="question.key" [readOnly]="question.readOnly" class="form-control">
+
+  <ng-container *ngIf="question.nowShortcut">
+    <c7z-button class="raised" title="Maintenant" (onClick)="now()" icon="today"></c7z-button>
+  </ng-container>
+</div>

@@ -1,0 +1,33 @@
+<ng-container [formGroup]="formGroup">
+  <input type="hidden" [id]="question.key" class="form-control" [formControlName]="question.key">
+
+  <ng-container [ngSwitch]="question.skin">
+    <ng-container *ngSwitchCase="'switch'">
+      <ng-container *ngFor="let option of question.values">
+        <div (click)="select(option)" class="flex pb-8" style="cursor: pointer;">
+          <div [ngClass]="{'read-only': question.readOnly}" class="fill pr-16">{{option.label || option.value}}</div>
+          <c7z-switch [active]="control.value === option.value" [disabled]="question.readOnly"></c7z-switch>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'button'">
+      <div class="flex" style="flex-wrap: wrap;">
+        <ng-container *ngFor="let option of question.values">
+          <div class="fill">
+            <c7z-button (onClick)="select(option)" [disabled]="question.readOnly" [ngClass]="{'blue': control.value === option.value}" class="raised full-width">{{option.label || option.value}}</c7z-button>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault>
+      <ng-container *ngFor="let option of question.values">
+        <div (click)="select(option)" [ngClass]="{'cursor-not-allowed': question.readOnly}" class="flex pt-8 pb-4" style="cursor: pointer;">
+          <i [ngClass]="{'icon-radio-button-checked': control.value === option.value, 'icon-radio-button-unchecked': control.value !== option.value, 'red': question.error && control.touched, 'read-only': question.readOnly}" class="icon mr-8" style="font-size: 22px;"></i>
+          <span [ngClass]="{'read-only': question.readOnly}">{{option.label || option.value}}</span>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

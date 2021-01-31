@@ -1,0 +1,17 @@
+<div [formGroup]="formGroup">
+  <textarea [c7zFocus]="question.focus" [formControlName]="question.key" [id]="question.key" [readOnly]="question.readOnly" [rows]="rows" [placeholder]="question.placeholder"></textarea>
+</div>
+
+<ng-container *ngIf="question.shortcuts?.length > 0">
+  <div class="mt-12" style="text-align: right;">
+    <div class="mb-4">
+      <label>Raccourcis</label>
+    </div>
+
+    <div>
+      <ng-container *ngFor="let shortcut of question.shortcuts">
+        <c7z-button class="raised ml-4 mb-4" (onClick)="appendText(shortcut.value)">{{shortcut.label}}</c7z-button>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

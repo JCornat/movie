@@ -1,0 +1,13 @@
+<ng-container [formGroup]="formGroup">
+  <input type="text" [placeholder]="question.placeholder" [id]="question.key" [formControlName]="question.key" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" [c7zFocus]="question.focus" [readOnly]="question.readOnly">
+
+  <ng-container *ngIf="results">
+    <div class="c7z-text-section mt-8">Résultats</div>
+
+    <div class="c7z-card">
+      <ng-container *ngFor="let item of results">
+        <div class="row clickable py-6" style="min-height: auto;" (mousedown)="selectOption(item, $event)">{{item}}</div>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-container>
