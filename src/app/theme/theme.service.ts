@@ -50,7 +50,7 @@ export class ThemeService {
   }
 
   public buildTheme(): void {
-    let theme = 'light';
+    let theme = 'dark';
     let customColors = null;
 
     this.setTheme(theme, customColors);

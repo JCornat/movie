@@ -14,11 +14,6 @@
 
 @import "assets/styles/layout/form";
 
-//body {
-//  background-color: #181a1b;
-//  font-family: Arial;
-//}
-
 $width: 250px;
 $height: calc(#{$width} * 1.5);
 
@@ -52,7 +47,7 @@ $height: calc(#{$width} * 1.5);
   }
 
   .content {
-    color: #fff;
+    @include variable(color, rgb(var(--on-background)), #000);
     text-shadow: 0 0 10px #000;
     text-align: center;
 

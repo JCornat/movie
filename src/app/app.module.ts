@@ -24,6 +24,8 @@ import { FieldTimeComponent } from './field/time/time.component';
 import { FieldVideoYoutubeComponent } from './field/video-youtube/video-youtube.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { C7zFocusDirective } from './focus/focus.directive';
+import { MovieAddComponent } from './movie/add/add.component';
+import { MovieUpdateComponent } from './movie/update/update.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { C7zFocusDirective } from './focus/focus.directive';
     FieldTimeComponent,
     C7zFocusDirective,
     FieldVideoYoutubeComponent,
+    MovieAddComponent,
+    MovieUpdateComponent,
   ],
   imports: [
     BrowserModule,
