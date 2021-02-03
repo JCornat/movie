@@ -27,6 +27,7 @@ import { C7zFocusDirective } from './focus/focus.directive';
 import { MovieAddComponent } from './movie/add/add.component';
 import { MovieUpdateComponent } from './movie/update/update.component';
 import { HttpClientModule } from '@angular/common/http';
+import { C7zButtonComponent } from './button/button.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
     FieldVideoYoutubeComponent,
     MovieAddComponent,
     MovieUpdateComponent,
+    C7zButtonComponent,
   ],
   imports: [
     BrowserModule,

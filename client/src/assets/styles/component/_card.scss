@@ -1,0 +1,92 @@
+.c7z-card {
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  @include borderRadius();
+
+  &.form-size {
+    max-width: 390px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &.red {
+    background-color: $red500;
+    color: $white;
+  }
+
+  &.orange {
+    @include variable(background-color, rgb(var(--warning)), #fff);
+    @include variable(color, rgb(var(--on-warning)), #fff);
+  }
+
+  &.yellow {
+    background-color: $yellow500;
+    color: $black;
+  }
+
+  &.blue-grey {
+    background-color: $blueGrey500;
+    color: $black;
+  }
+
+  &.green {
+    background: linear-gradient(to right, $green500, $green300);
+  }
+
+  &.teal {
+    background: linear-gradient(to top right, $teal500, $teal300);
+  }
+
+  &.cyan {
+    background: linear-gradient(to top right, $cyan500, $cyan300);
+  }
+
+  &.light-blue {
+    background: linear-gradient(to top right, $lightBlue500, $lightBlue300);
+  }
+
+  &.blue {
+    background: linear-gradient(to top right, $blue500, $blue300);
+  }
+
+  &.indigo {
+    background: linear-gradient(to top right, $indigo500, $indigo300);
+    color: $white;
+  }
+
+  &.deep-purple {
+    background: linear-gradient(to top right, $deepPurple500, $deepPurple300);
+    color: $white;
+  }
+
+  &.purple {
+    background: linear-gradient(to top right, $purple500, $purple300);
+    color: $white;
+  }
+
+  &.green {
+    color: $white;
+    background: transparent;
+    background-color: $green500;
+
+    .c7z-text-section {
+      color: $white;
+    }
+  }
+
+  .big-icon {
+    text-align: center;
+    margin-bottom: 8px;
+
+    i {
+      font-size: 80px;
+      line-height: 1;
+    }
+
+    .c7z-text-section {
+      text-align: center;
+      font-size: 18px;
+    }
+  }
+}

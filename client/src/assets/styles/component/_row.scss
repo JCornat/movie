@@ -1,0 +1,59 @@
+
+.c7z-card, .c7z-table, .dialog, .c7z-grid-table {
+  .row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    min-height: 40px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 8px 16px;
+
+    .fill {
+      flex: 1;
+    }
+
+    .float-right {
+      position: relative;
+      opacity: 0.1;
+      left: 4px;
+      width: 12px;
+      color: $black;
+      line-height: 0;
+
+      .icon {
+        font-size: 20px;
+      }
+    }
+
+    &.h50 {
+      min-height: 48px;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+
+    &.flex-line {
+      .fill-length {
+        white-space: normal;
+      }
+    }
+
+    &.clickable {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $grey50;
+
+        .float-right {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    &.selected {
+      background-color: $grey50;
+    }
+  }
+}

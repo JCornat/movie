@@ -13,6 +13,13 @@
 @import "assets/styles/base/base";
 
 @import "assets/styles/layout/form";
+@import "assets/styles/component/button";
+@import "assets/styles/component/card";
+@import "assets/styles/component/row";
+@import "assets/font/icon";
+
+@include build-margin();
+@include build-padding();
 
 $width: 250px;
 $height: calc(#{$width} * 1.5);

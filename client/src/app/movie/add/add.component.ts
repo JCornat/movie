@@ -9,16 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./add.component.scss']
 })
 export class MovieAddComponent implements OnInit {
-  public questions: Question[] = [
-    {key: '_id', type: 'text', label: 'id', hide: true},
-    {key: 'title', type: 'text', label: 'title'},
-    {key: 'year', type: 'number', label: 'year'},
-    {key: 'backgroundImage', type: 'text', label: 'image'},
-    {key: 'rating', type: 'number', label: 'rating'},
-  ];
+  public questions: Question[];
 
-  public values: any;
-  public formData: any;
+  public values: { [key: string]: any };
+  public formData: FormData;
 
   constructor(
     public movieService: MovieService,
@@ -28,7 +22,22 @@ export class MovieAddComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    //
+    this.init();
+  }
+
+  public init(): void {
+    const values: Question['values'] = [
+      {value: 'todo', label: 'A voir'},
+    ];
+
+    this.questions = [
+      {key: '_id', type: 'text', label: 'id', hide: true},
+      {key: 'title', type: 'text', label: 'Titre'},
+      {key: 'year', type: 'number', label: 'Année'},
+      {key: 'backgroundImage', type: 'file', label: 'Poster (300x450)', content: 'http://localhost:3000/api/file'},
+      {key: 'rating', type: 'number', label: 'Note'},
+      {key: 'tags', type: 'checkbox', label: 'Tags', values},
+    ];
   }
 
   public onValid(data): void {

@@ -27,6 +27,7 @@ export class MovieService {
 
   public async pullAll(): Promise<any[]> {
     const data: any = await this.http.get(`http://localhost:3000/api/movie`).toPromise();
+    console.log('data', data.data);
     return data.data;
   }
 

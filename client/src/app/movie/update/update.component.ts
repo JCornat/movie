@@ -22,10 +22,13 @@ export class MovieUpdateComponent extends MovieAddComponent implements OnInit {
   public async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.paramMap.get('id');
     this.values = await this.movieService.pullOne(this.id);
+
+    this.init();
   }
 
   public async remove(): Promise<void> {
     await this.movieService.delete(this.id);
+    this.router.navigate(['/']);
   }
 
   public async update(data): Promise<void> {

@@ -6,7 +6,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./item.component.scss']
 })
 export class ItemComponent implements OnInit {
-  @Input() public data: { id: number, title: string, rating: number, year: number, backgroundImage: string };
+  @Input() public data: { _id: string, title: string, rating: number, year: number, backgroundImage: string };
 
   constructor() { }
 

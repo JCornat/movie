@@ -1,0 +1,340 @@
+button {
+  &.disabled, &[disabled] {
+    color: $disabled !important;
+    background-color: rgba(0, 0, 0, 0.12) !important;
+    cursor: not-allowed;
+  }
+}
+
+.c7z-button {
+  font-family: $fontFamily;
+  border: none;
+  margin: 0;
+  color: inherit;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: $buttonHeight;
+  line-height: $buttonHeight;
+  font-size: $buttonSize;
+  font-weight: $buttonWeight;
+  outline: none;
+  transition-delay: 0s;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  cursor: pointer;
+  font-style: inherit;
+  font-variant: inherit;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  transition: background-color $transitionDuration $transitionCurve;
+  background-color: transparent;
+  @include borderRadius();
+
+  .icon {
+    position: relative;
+    top: 5px;
+
+    &.margin-left {
+      margin-left: 8px;
+    }
+
+    &.margin-right {
+      margin-right: 8px;
+    }
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+
+  &.no-padding {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &.extra-small-horizontal-padding {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  &.small-horizontal-padding {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  &.medium-horizontal-padding {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  &.form-size {
+    width: 100%;
+    max-width: 390px;
+  }
+
+  &.full-width {
+    width: 100%;
+  }
+
+  &.minimal-border-radius {
+    border-radius: 2px;
+  }
+
+  &.no-border-radius {
+    border-radius: 0;
+  }
+
+  &.uppercase {
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    @include variable(background-color, rgb(var(--surface)), #fff);
+  }
+
+  &.raised {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    @include buttonRaisedColor($white, $grey100, $black);
+
+    &.red {
+      @include buttonRaisedColor($red500, $red600);
+    }
+
+    &.pink {
+      @include buttonRaisedColor($pink500, $pink600);
+    }
+
+    &.purple {
+      @include buttonRaisedColor($purple500, $purple600);
+    }
+
+    &.deep-purple {
+      @include buttonRaisedColor($deepPurple500, $deepPurple600);
+    }
+
+    &.indigo {
+      @include buttonRaisedColor($indigo500, $indigo600);
+    }
+
+    &.blue {
+      @include buttonRaisedColor($blue500, $blue600);
+    }
+
+    &.light-blue {
+      @include buttonRaisedColor($lightBlue500, $lightBlue600);
+    }
+
+    &.cyan {
+      @include buttonRaisedColor($cyan500, $cyan600);
+    }
+
+    &.teal {
+      @include buttonRaisedColor($teal500, $teal600);
+    }
+
+    &.green {
+      @include buttonRaisedColor($green500, $green600);
+    }
+
+    &.light-green {
+      @include buttonRaisedColor($lightGreen500, $lightGreen600);
+    }
+
+    &.lime {
+      @include buttonRaisedColor($lime500, $lime600, $black);
+    }
+
+    &.yellow {
+      @include buttonRaisedColor($yellow500, $yellow600, $black);
+    }
+
+    &.amber {
+      @include buttonRaisedColor($amber500, $amber600, $black);
+    }
+
+    &.orange {
+      @include buttonRaisedColor($orange500, $orange600);
+    }
+
+    &.deep-orange {
+      @include buttonRaisedColor($deepOrange500, $deepOrange600);
+    }
+
+    &.brown {
+      @include buttonRaisedColor($brown500, $brown600);
+    }
+
+    &.grey {
+      @include buttonRaisedColor($grey500, $grey600);
+    }
+
+    &.blue-grey {
+      @include buttonRaisedColor($blueGrey500, $blueGrey600);
+    }
+  }
+
+  &.secondary {
+    border: 1px solid rgba($black, 0.5)
+  }
+
+  &.white {
+    @include buttonFlatColor($white);
+
+    &.secondary {
+      border: 1px solid rgba($white, 0.5)
+    }
+  }
+
+  &.red {
+    @include buttonFlatColor($red500);
+
+    &.secondary {
+      border: 1px solid rgba($red500, 0.5)
+    }
+  }
+
+  &.pink {
+    @include buttonFlatColor($pink500);
+
+    &.secondary {
+      border: 1px solid rgba($pink500, 0.5)
+    }
+  }
+
+  &.purple {
+    @include buttonFlatColor($purple500);
+
+    &.secondary {
+      border: 1px solid rgba($purple500, 0.5)
+    }
+  }
+
+  &.deep-purple {
+    @include buttonFlatColor($deepPurple500);
+
+    &.secondary {
+      border: 1px solid rgba($deepPurple500, 0.5)
+    }
+  }
+
+  &.indigo {
+    @include buttonFlatColor($indigo500);
+
+    &.secondary {
+      border: 1px solid rgba($indigo500, 0.5)
+    }
+  }
+
+  &.blue {
+    @include buttonFlatColor($blue500);
+
+    &.secondary {
+      border: 1px solid rgba($blue500, 0.5)
+    }
+  }
+
+  &.light-blue {
+    @include buttonFlatColor($lightBlue500);
+
+    &.secondary {
+      border: 1px solid rgba($lightBlue500, 0.5)
+    }
+  }
+
+  &.cyan {
+    @include buttonFlatColor($cyan500);
+
+    &.secondary {
+      border: 1px solid rgba($cyan500, 0.5)
+    }
+  }
+
+  &.teal {
+    @include buttonFlatColor($teal500);
+
+    &.secondary {
+      border: 1px solid rgba($teal500, 0.5)
+    }
+  }
+
+  &.green {
+    @include buttonFlatColor($green500);
+
+    &.secondary {
+      border: 1px solid rgba($green500, 0.5)
+    }
+  }
+
+  &.light-green {
+    @include buttonFlatColor($lightGreen500);
+
+    &.secondary {
+      border: 1px solid rgba($lightGreen500, 0.5)
+    }
+  }
+
+  &.lime {
+    @include buttonFlatColor($lime500);
+
+    &.secondary {
+      border: 1px solid rgba($lime500, 0.5)
+    }
+  }
+
+  &.yellow {
+    @include buttonFlatColor($yellow500);
+
+    &.secondary {
+      border: 1px solid rgba($yellow500, 0.5)
+    }
+  }
+
+  &.amber {
+    @include buttonFlatColor($amber500);
+
+    &.secondary {
+      border: 1px solid rgba($amber500, 0.5)
+    }
+  }
+
+  &.orange {
+    @include buttonFlatColor($orange500);
+
+    &.secondary {
+      border: 1px solid rgba($orange500, 0.5)
+    }
+  }
+
+  &.deep-orange {
+    @include buttonFlatColor($deepOrange500);
+
+    &.secondary {
+      border: 1px solid rgba($deepOrange500, 0.5)
+    }
+  }
+
+  &.brown {
+    @include buttonFlatColor($brown500);
+
+    &.secondary {
+      border: 1px solid rgba($brown500, 0.5)
+    }
+  }
+
+  &.grey {
+    @include buttonFlatColor($grey500);
+
+    &.secondary {
+      border: 1px solid rgba($grey500, 0.5)
+    }
+  }
+
+  &.blue-grey {
+    @include buttonFlatColor($blueGrey500);
+
+    &.secondary {
+      border: 1px solid rgba($blueGrey500, 0.5)
+    }
+  }
+}

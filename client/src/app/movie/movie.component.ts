@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit {
-  public movies: { id: number, title: string, rating: number, year: number, backgroundImage: string }[];
+  public movies: { _id: string, title: string, rating: number, year: number, backgroundImage: string }[];
 
   constructor(
     public movieService: MovieService,
@@ -27,5 +27,9 @@ export class MovieComponent implements OnInit {
 
   public detail(data): void {
     this.router.navigate(['/update', data._id]);
+  }
+
+  public navigateAdd(): void {
+    this.router.navigate(['/add']);
   }
 }
