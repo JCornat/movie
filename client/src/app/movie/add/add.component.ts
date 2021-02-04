@@ -12,7 +12,7 @@ export class MovieAddComponent implements OnInit {
   public questions: Question[];
 
   public values: { [key: string]: any };
-  public formData: FormData;
+  public formData: { [key: string]: any };
 
   constructor(
     public movieService: MovieService,

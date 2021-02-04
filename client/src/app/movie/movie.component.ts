@@ -32,4 +32,8 @@ export class MovieComponent implements OnInit {
   public navigateAdd(): void {
     this.router.navigate(['/add']);
   }
+
+  public navigateSearch(): void {
+    this.router.navigate(['/search']);
+  }
 }

@@ -28,6 +28,8 @@ import { MovieAddComponent } from './movie/add/add.component';
 import { MovieUpdateComponent } from './movie/update/update.component';
 import { HttpClientModule } from '@angular/common/http';
 import { C7zButtonComponent } from './button/button.component';
+import { MovieSearchComponent } from './movie/search/search.component';
+import { MovieImportComponent } from './movie/import/import.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { C7zButtonComponent } from './button/button.component';
     MovieAddComponent,
     MovieUpdateComponent,
     C7zButtonComponent,
+    MovieSearchComponent,
+    MovieImportComponent,
   ],
   imports: [
     BrowserModule,

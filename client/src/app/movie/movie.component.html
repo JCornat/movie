@@ -1,7 +1,8 @@
+<c7z-button (onClick)="navigateAdd()">Ajouter</c7z-button>
+<c7z-button (onClick)="navigateSearch()">Rechercher</c7z-button>
+
 <div class="movies">
     <ng-container *ngFor="let item of movies">
         <movie-item [data]="item" (click)="detail(item)"></movie-item>
     </ng-container>
 </div>
-
-<c7z-button (onClick)="navigateAdd()"></c7z-button>

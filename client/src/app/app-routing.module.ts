@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MovieComponent } from './movie/movie.component';
 import { MovieAddComponent } from './movie/add/add.component';
 import { MovieUpdateComponent } from './movie/update/update.component';
+import { MovieSearchComponent } from './movie/search/search.component';
+import { MovieImportComponent } from './movie/import/import.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,14 @@ const routes: Routes = [
   {
     path: 'update/:id',
     component: MovieUpdateComponent,
+  },
+  {
+    path: 'import/:id',
+    component: MovieImportComponent,
+  },
+  {
+    path: 'search',
+    component: MovieSearchComponent,
   },
 ];
 
