@@ -28,7 +28,6 @@ $height: calc(#{$width} * 1.5);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
   grid-gap: 16px;
-  align-items: center;
   padding: 16px;
 }
 
@@ -59,14 +58,14 @@ $height: calc(#{$width} * 1.5);
     text-align: center;
 
     .title {
-      font-size: 20px;
+      font-size: 16px;
       margin-bottom: 6px;
       opacity: 0.9;
     }
 
     .year {
-      font-size: 15px;
-      opacity: 0.7;
+      font-size: 12px;
+      opacity: 0.6;
     }
   }
 }
