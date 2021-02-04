@@ -1,0 +1,18 @@
+<div style="max-width: 500px">
+    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
+    <c7z-button class="raised blue" (onClick)="onSubmit()">Rechercher</c7z-button>
+
+    <ng-container *ngIf="results?.length === 0">
+        Aucun résultat
+    </ng-container>
+
+    <ng-container *ngIf="results?.length > 0">
+        <div class="c7z-card">
+
+        <ng-container *ngFor="let result of results">
+            <div class="row" (click)="select(result)">{{result.title}}</div>
+        </ng-container>
+        </div>
+    </ng-container>
+</div>
+
