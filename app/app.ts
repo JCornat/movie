@@ -10,6 +10,7 @@ import * as Config from './config/config';
 import * as SendFileAsyncMiddleware from './middleware/send-file-async';
 import * as FileController from './controller/file';
 import * as MovieController from './controller/movie';
+import * as WebsiteController from './controller/website';
 import * as MovieModel from './model/movie';
 
 export const app = express();
@@ -25,6 +26,7 @@ async function init() {
 
   app.use(FileController.router);
   app.use(MovieController.router);
+  app.use(WebsiteController.router);
 
   app.use(ErrorMiddleware.handle);
 
