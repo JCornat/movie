@@ -120,7 +120,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   }
 
   public subscribeResize(): void {
-    this.resizeSubscriber = this.screenService.resizeObservable.subscribe(() => {
+    this.resizeSubscriber = this.screenService.widthResizeObservable.subscribe(() => {
       if (Global.isEmpty(this.categories)) {
         return;
       }
