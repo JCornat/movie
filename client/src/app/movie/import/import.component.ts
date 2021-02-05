@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MovieAddComponent } from '../add/add.component';
 import { MovieService } from '../movie.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { MOVIEDB_API_KEY } from '../../config/config';
 
 @Component({
   selector: 'movie-import',
@@ -15,7 +13,6 @@ export class MovieImportComponent extends MovieAddComponent implements OnInit {
   public posterImage: string;
 
   constructor(
-    public http: HttpClient,
     public movieService: MovieService,
     public router: Router,
     public route: ActivatedRoute,
@@ -35,7 +32,7 @@ export class MovieImportComponent extends MovieAddComponent implements OnInit {
       throw new Error('ID incorrect');
     }
 
-    const data: any = await this.http.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${MOVIEDB_API_KEY}`).toPromise();
+    const data: any = await this.movieService.importOne(id);
     this.posterImage = `https://image.tmdb.org/t/p/w300${data.poster_path}`;
 
     return {

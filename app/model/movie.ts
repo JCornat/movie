@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import * as path from 'path';
+import * as request from 'request';
 import { v4 as UUID } from 'uuid';
 
 import { MONGO } from '../config/config';
@@ -15,7 +16,7 @@ export async function init() {
   collection = MongoConnector.request({pool: mongoPool, databaseName: 'app', collectionName: 'movie'});
 }
 
-export async function getAll(options: any): Promise<any> {
+export async function getAll(): Promise<any> {
   const data = await collection.find().toArray();
   return data;
 }
@@ -55,4 +56,36 @@ export async function update(options: any): Promise<any> {
   delete options._id;
   await collection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: options});
   return id;
+}
+
+export function search(title: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const options = {
+      url: `https://api.themoviedb.org/3/search/movie?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
+    };
+
+    request.get(options, (error, response, body) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(JSON.parse(body));
+    });
+  });
+}
+
+export function importOne(id: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const options = {
+      url: `https://api.themoviedb.org/3/movie/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
+    };
+
+    request.get(options, (error, response, body) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve(JSON.parse(body));
+    });
+  });
 }

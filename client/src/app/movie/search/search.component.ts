@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { MovieService } from '../movie.service';
 import { Router } from '@angular/router';
 import { Question } from '../../question/question';
-import { MOVIEDB_API_KEY } from '../../config/config';
 
 @Component({
   selector: 'movie-search',
@@ -18,7 +16,6 @@ export class MovieSearchComponent implements OnInit {
   public formData: { [key: string]: any };
 
   constructor(
-    public http: HttpClient,
     public movieService: MovieService,
     public router: Router,
   ) {
@@ -40,8 +37,7 @@ export class MovieSearchComponent implements OnInit {
   }
 
   public async search(title: string): Promise<any> {
-    const data: any = await this.http.get(`https://api.themoviedb.org/3/search/movie?api_key=${MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`).toPromise();
-    console.log(data);
+    const data: any = await this.movieService.search(title);
     this.results = data.results;
   }
 

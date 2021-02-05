@@ -7,12 +7,15 @@ export const router = Router();
 
 router.get('/api/movie', async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const search = req.query.search;
-    const options = {
-      pattern: search
-    };
+    const search = (req.query.search) ? req.query.search + '' : null;
 
-    const data = await Movie.getAll(options);
+    let data;
+    if (search) {
+      data = await Movie.search(search);
+    } else {
+      data = await Movie.getAll();
+    }
+
     res.send({data});
   } catch (error) {
     return next(error);
@@ -27,6 +30,17 @@ router.get('/api/movie/:id', async (req: Request, res: C7zResponse, next: any) =
     };
 
     const data = await Movie.getOne(options);
+    res.send({data});
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/api/movie/:id/import', async (req: Request, res: C7zResponse, next: any) => {
+  try {
+    const id = req.params.id;
+
+    const data = await Movie.importOne(id);
     res.send({data});
   } catch (error) {
     return next(error);
