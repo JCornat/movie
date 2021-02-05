@@ -34,6 +34,7 @@ export class MovieAddComponent implements OnInit {
       {key: '_id', type: 'text', label: 'id', hide: true},
       {key: 'title', type: 'text', label: 'Titre'},
       {key: 'year', type: 'number', label: 'Année'},
+      {key: 'url', type: 'text', label: 'URL du Poster'},
       {key: 'backgroundImage', type: 'file', label: 'Poster (300x450)', content: 'http://localhost:3000/api/file'},
       {key: 'rating', type: 'number', label: 'Note'},
       {key: 'tags', type: 'checkbox', label: 'Tags', values},

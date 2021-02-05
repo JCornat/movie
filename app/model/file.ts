@@ -7,6 +7,7 @@ import { UPLOAD_MAX_SIZE } from '../config/config';
 import * as Config from '../config/config';
 import * as Global from '../model/global';
 import { Request } from 'express';
+import * as request from 'request';
 
 export async function buildUpload(req: Request): Promise<string> {
   if (Global.isEmpty(Config.UPLOAD_PATH)) {
@@ -60,6 +61,25 @@ export function upload(req: Request): Promise<{ fieldName: string, originalFilen
     });
 
     form.parse(req);
+  });
+}
+
+export function download(source: string, destination: any): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const options = {
+      url: source,
+      encoding: null,
+    };
+
+    request.get(options, (error, response, body) => {
+      if (error) {
+        return reject(error);
+      }
+
+      const buffer = Buffer.from(body, 'utf8');
+      fs.writeFileSync(destination, buffer);
+      resolve();
+    });
   });
 }
 
