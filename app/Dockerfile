@@ -9,13 +9,13 @@ RUN npm install -g typescript
 WORKDIR /src
 
 # Add dependencies files
-ADD package.json .
-ADD package-lock.json .
+ADD app/package.json .
+ADD app/package-lock.json .
 
 # Install dependencies
 RUN npm install
 
-ADD tsconfig.json .
+ADD app/tsconfig.json .
 
 # Compile files and launch server
 CMD tsc && \
