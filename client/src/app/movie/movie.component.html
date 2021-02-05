@@ -1,8 +1,27 @@
 <c7z-button (onClick)="navigateAdd()">Ajouter</c7z-button>
 <c7z-button (onClick)="navigateSearch()">Rechercher</c7z-button>
 
-<div class="movies">
-    <ng-container *ngFor="let item of movies">
-        <movie-item [data]="item" (click)="detail(item)"></movie-item>
-    </ng-container>
-</div>
+<ng-container *ngFor="let item of movies">
+    <h2 class="ml-16 mt-32" style="font-size: 25px; font-weight: 700;">{{item.label}}</h2>
+
+    <div class="movies">
+        <ng-container *ngFor="let movie of item.list; index as i">
+            <ng-container *ngIf="i < item.limit">
+                <movie-item [data]="movie" (click)="detail(movie)"></movie-item>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="item.limit < item.list.length">
+            <div class="movie blur" (click)="increaseLimit(item)" style="cursor: pointer;">
+                <div class="poster-container">
+                    <div class="poster" [style.backgroundImage]="'url(' + item.list[item.limit].backgroundImage + ')'"></div>
+                </div>
+
+                <div class="content">
+                    <div class="title" style="font-size: 20px; font-weight: 600;">Still {{item.list.length - item.limit}} movies</div>
+                    <div class="year" style="font-size: 16px; font-weight: 400;">See more</div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</ng-container>
