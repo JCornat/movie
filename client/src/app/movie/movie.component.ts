@@ -1,27 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieService } from './movie.service';
 import { Router } from '@angular/router';
 import { Category } from './category';
 import { Movie } from './movie';
 import * as Global from '../global/global';
+import { ScreenService } from '../screen/screen.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss']
 })
-export class MovieComponent implements OnInit {
+export class MovieComponent implements OnInit, OnDestroy {
   public categories: Category[];
+  public resizeSubscriber: Subscription;
 
   constructor(
     public movieService: MovieService,
     public router: Router,
+    public screenService: ScreenService,
   ) {
     //
   }
 
   public ngOnInit(): void {
+    this.subscribeResize();
     this.pullAll();
+  }
+
+  public ngOnDestroy(): void {
+    this.resizeSubscriber.unsubscribe();
   }
 
   public async pullAll(): Promise<void> {
@@ -30,12 +39,13 @@ export class MovieComponent implements OnInit {
   }
 
   public processCategories(data: Movie[]): Category[] {
-    const favourites: Category = {label: 'Favourites', limit: 19, orderBy: 'random', movies: []};
-    const exceptional: Category = {label: 'Excellents', limit: 19, orderBy: 'random', movies: []};
-    const good: Category = {label: 'Goods', limit: 9, orderBy: 'random', movies: []};
-    const mediocre: Category = {label: 'Mediocres', limit: 9, orderBy: 'random', movies: []};
-    const bad: Category = {label: 'Bads', limit: 9, orderBy: 'random', movies: []};
-    const todo: Category = {label: 'Todos', limit: 19, orderBy: 'random', movies: []};
+    const limit = this.getLimitByScreenSize();
+    const favourites: Category = {label: 'Favourites', limit, orderBy: 'random', movies: []};
+    const exceptional: Category = {label: 'Excellents', limit, orderBy: 'random', movies: []};
+    const good: Category = {label: 'Goods', limit, orderBy: 'random', movies: []};
+    const mediocre: Category = {label: 'Mediocres', limit, orderBy: 'random', movies: []};
+    const bad: Category = {label: 'Bads', limit, orderBy: 'random', movies: []};
+    const todo: Category = {label: 'Todos', limit, orderBy: 'random', movies: []};
 
     for (const datum of data) {
       if (!datum.rating) {
@@ -79,8 +89,22 @@ export class MovieComponent implements OnInit {
     }
   }
 
+  public getLimitByScreenSize(): number {
+    if (this.screenService.isMobile()) {
+      return 5;
+    } else if (this.screenService.isTablet()) {
+      return 8;
+    } else if (this.screenService.isLaptop()) {
+      return 8;
+    } else if (this.screenService.isDesktop()) {
+      return 11;
+    } else if (this.screenService.isWidescreen()) {
+      return 17;
+    }
+  }
+
   public increaseLimit(item: Category): void {
-    item.limit += 50;
+    item.limit += 25;
   }
 
   public sort(item: Category, type: string): void {
@@ -93,5 +117,17 @@ export class MovieComponent implements OnInit {
 
     const key = (type === 'alphabetic') ? 'title' : 'year';
     item.movies = Global.sort({data: item.movies, key});
+  }
+
+  public subscribeResize(): void {
+    this.resizeSubscriber = this.screenService.resizeObservable.subscribe(() => {
+      if (Global.isEmpty(this.categories)) {
+        return;
+      }
+
+      for (const category of this.categories) {
+        category.limit = this.getLimitByScreenSize();
+      }
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './theme/theme.service';
+import { ScreenService } from './screen/screen.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,9 @@ export class AppComponent {
 
   constructor(
     private themeService: ThemeService,
+    private screenService: ScreenService,
   ) {
     this.themeService.init();
+    this.screenService.init();
   }
-
 }
