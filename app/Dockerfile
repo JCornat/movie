@@ -19,4 +19,4 @@ ADD tsconfig.json .
 
 # Compile files and launch server
 CMD tsc && \
-    node app/app.js
+    node app.js

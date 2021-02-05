@@ -11,10 +11,18 @@ services:
         depends_on:
             - database
         volumes:
-            - ./app:/src/app
-            - ./tsconfig.json:/src/tsconfig.json
-            - ./package.json:/src/package.json
-            - ./package-lock.json:/src/package-lock.json
+            - ./app/class:/src/class
+            - ./app/config:/src/config
+            - ./app/connector:/src/connector
+            - ./app/controller:/src/controller
+            - ./app/middleware:/src/middleware
+            - ./app/model:/src/model
+            - ./app/public:/src/public
+            - ./app/www:/src/www
+            - ./app/app.ts:/src/app.ts
+            - ./app/package.json:/src/package.json
+            - ./app/package-lock.json:/src/package-lock.json
+            - ./app/tsconfig.json:/src/tsconfig.json
         environment:
             - TZ=Europe/Paris
     database:
