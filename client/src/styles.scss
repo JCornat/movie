@@ -21,12 +21,26 @@
 @include build-margin();
 @include build-padding();
 
-$width: 250px;
-$height: calc(#{$width} * 1.5);
+:root {
+  --movie-width: 250px;
+  --movie-height: calc(var(--movie-width) * 1.5);
+}
+
+@media (max-width: $minMedium) {
+  :root {
+    --movie-width: 200px;
+  }
+}
+
+@media (max-width: $minSmall) {
+  :root {
+    --movie-width: 150px;
+  }
+}
 
 .movies {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax($width, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--movie-width), 1fr));
   grid-gap: 16px;
   padding: 16px;
 }
@@ -43,7 +57,7 @@ $height: calc(#{$width} * 1.5);
     overflow: hidden;
 
     .poster {
-      height: $height;
+      height: var(--movie-height);
       width: 100%;
       background-position: center;
       background-repeat: no-repeat;

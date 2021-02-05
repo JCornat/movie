@@ -30,12 +30,12 @@ export class MovieComponent implements OnInit {
   }
 
   public processCategories(data: Movie[]): Category[] {
-    const favourites: Category = {label: 'Favourites', limit: 20, orderBy: 'random', movies: []};
-    const exceptional: Category = {label: 'Excellents', limit: 20, orderBy: 'random', movies: []};
-    const good: Category = {label: 'Goods', limit: 10, orderBy: 'random', movies: []};
-    const mediocre: Category = {label: 'Mediocres', limit: 10, orderBy: 'random', movies: []};
-    const bad: Category = {label: 'Bads', limit: 10, orderBy: 'random', movies: []};
-    const todo: Category = {label: 'Todos', limit: 20, orderBy: 'random', movies: []};
+    const favourites: Category = {label: 'Favourites', limit: 19, orderBy: 'random', movies: []};
+    const exceptional: Category = {label: 'Excellents', limit: 19, orderBy: 'random', movies: []};
+    const good: Category = {label: 'Goods', limit: 9, orderBy: 'random', movies: []};
+    const mediocre: Category = {label: 'Mediocres', limit: 9, orderBy: 'random', movies: []};
+    const bad: Category = {label: 'Bads', limit: 9, orderBy: 'random', movies: []};
+    const todo: Category = {label: 'Todos', limit: 19, orderBy: 'random', movies: []};
 
     for (const datum of data) {
       if (!datum.rating) {
