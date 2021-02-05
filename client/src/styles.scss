@@ -87,3 +87,27 @@ $height: calc(#{$width} * 1.5);
     }
   }
 }
+
+.thin {
+  font-weight: $thin;
+}
+
+.light {
+  font-weight: $light;
+}
+
+.regular {
+  font-weight: $regular;
+}
+
+.medium {
+  font-weight: $medium;
+}
+
+.bold {
+  font-weight: $bold;
+}
+
+.weightBlack {
+  font-weight: $weightBlack;
+}

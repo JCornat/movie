@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Movie } from './movie';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class MovieService {
     //
   }
 
-  public async pullAll(): Promise<{ _id: string, title: string, rating: number, year: number, backgroundImage: string }[]> {
+  public async pullAll(): Promise<Movie[]> {
     const data: any = await this.http.get(`http://localhost:3000/api/movie`).toPromise();
     return data.data;
   }

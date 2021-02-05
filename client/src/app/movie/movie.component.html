@@ -1,24 +1,34 @@
 <c7z-button (onClick)="navigateAdd()">Ajouter</c7z-button>
 <c7z-button (onClick)="navigateSearch()">Rechercher</c7z-button>
 
-<ng-container *ngFor="let item of movies">
-    <h2 class="ml-16 mt-32" style="font-size: 25px; font-weight: 700;">{{item.label}}</h2>
+<ng-container *ngFor="let category of categories">
+    <div class="mx-16 mt-32 flex" style="align-items: baseline;">
+        <div class="bold" style="font-size: 25px;">{{category.label}}</div>
+        <div class="fill"></div>
+        <div style="font-size: 16px;">
+            <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'random', 'opacity-8': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</span>
+            <span class="mx-4 opacity-5">/</span>
+            <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'alphabetic', 'opacity-8': category.orderBy !== 'alphabetic'}" (click)="sort(category, 'alphabetic')">A-Z</span>
+            <span class="mx-4 opacity-5">/</span>
+            <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'chronologic', 'opacity-8': category.orderBy !== 'chronologic'}" (click)="sort(category, 'chronologic')">Year</span>
+        </div>
+    </div>
 
     <div class="movies">
-        <ng-container *ngFor="let movie of item.list; index as i">
-            <ng-container *ngIf="i < item.limit">
+        <ng-container *ngFor="let movie of category.movies; index as i">
+            <ng-container *ngIf="i < category.limit">
                 <movie-item [data]="movie" (click)="detail(movie)"></movie-item>
             </ng-container>
         </ng-container>
 
-        <ng-container *ngIf="item.limit < item.list.length">
-            <div class="movie blur" (click)="increaseLimit(item)" style="cursor: pointer;">
+        <ng-container *ngIf="category.limit < category.movies.length">
+            <div class="movie blur" (click)="increaseLimit(category)" style="cursor: pointer;">
                 <div class="poster-container">
-                    <div class="poster" [style.backgroundImage]="'url(' + item.list[item.limit].backgroundImage + ')'"></div>
+                    <div class="poster" [style.backgroundImage]="'url(' + category.movies[category.limit].backgroundImage + ')'"></div>
                 </div>
 
                 <div class="content">
-                    <div class="title" style="font-size: 20px; font-weight: 600;">Still {{item.list.length - item.limit}} movies</div>
+                    <div class="title" style="font-size: 20px; font-weight: 600;">Still {{category.movies.length - category.limit}} movies</div>
                     <div class="year" style="font-size: 16px; font-weight: 400;">See more</div>
                 </div>
             </div>
