@@ -29,18 +29,6 @@ export class MovieComponent implements OnInit {
     this.categories = this.processCategories(movies);
   }
 
-  public detail(data): void {
-    this.router.navigate(['/update', data._id]);
-  }
-
-  public navigateAdd(): void {
-    this.router.navigate(['/add']);
-  }
-
-  public navigateSearch(): void {
-    this.router.navigate(['/search']);
-  }
-
   public processCategories(data: Movie[]): Category[] {
     const favourites: Category = {label: 'Favourites', limit: 20, orderBy: 'random', movies: []};
     const exceptional: Category = {label: 'Excellents', limit: 20, orderBy: 'random', movies: []};
