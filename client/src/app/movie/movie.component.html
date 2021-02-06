@@ -2,6 +2,10 @@
     <div style="max-width: 400px; width: 100%;">
         <dynamic-form-section [questions]="questions" (onValid)="onValid($event)"></dynamic-form-section>
     </div>
+
+    <div class="ml-8">
+        <c7z-button class="secondary grey" icon="add"></c7z-button>
+    </div>
 </div>
 
 <ng-container *ngFor="let category of displayList">

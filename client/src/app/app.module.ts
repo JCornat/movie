@@ -30,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { C7zButtonComponent } from './button/button.component';
 import { MovieSearchComponent } from './movie/search/search.component';
 import { MovieImportComponent } from './movie/import/import.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { MovieImportComponent } from './movie/import/import.component';
     C7zButtonComponent,
     MovieSearchComponent,
     MovieImportComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

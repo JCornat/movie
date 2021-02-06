@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ThemeService } from './theme/theme.service';
 import { ScreenService } from './screen/screen.service';
+import { TokenService } from './token/token.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,12 @@ export class AppComponent {
   title = 'movie';
 
   constructor(
-    private themeService: ThemeService,
     private screenService: ScreenService,
+    private themeService: ThemeService,
+    private tokenService: TokenService,
   ) {
-    this.themeService.init();
     this.screenService.init();
+    this.themeService.init();
+    this.tokenService.init();
   }
 }

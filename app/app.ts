@@ -8,6 +8,7 @@ import * as SecurityMiddleware from './middleware/security';
 
 import * as Config from './config/config';
 import * as SendFileAsyncMiddleware from './middleware/send-file-async';
+import * as AuthenticationController from './controller/authentication';
 import * as FileController from './controller/file';
 import * as MovieController from './controller/movie';
 import * as WebsiteController from './controller/website';
@@ -24,6 +25,7 @@ async function init() {
   app.use(AssetMiddleware.app);
   app.use(SendFileAsyncMiddleware.app);
 
+  app.use(AuthenticationController.router);
   app.use(FileController.router);
   app.use(MovieController.router);
   app.use(WebsiteController.router);

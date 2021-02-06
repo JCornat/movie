@@ -5,11 +5,16 @@ import { MovieAddComponent } from './movie/add/add.component';
 import { MovieUpdateComponent } from './movie/update/update.component';
 import { MovieSearchComponent } from './movie/search/search.component';
 import { MovieImportComponent } from './movie/import/import.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MovieComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'add',

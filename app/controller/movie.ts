@@ -1,16 +1,20 @@
 import { Request, Router } from 'express';
 
 import { C7zResponse } from '../class/response';
+import * as Authentication from '../model/authentication';
 import * as Movie from '../model/movie';
+import * as Token from '../model/token';
 
 export const router = Router();
 
 router.get('/api/movie', async (req: Request, res: C7zResponse, next: any) => {
   try {
     const search = (req.query.search) ? req.query.search + '' : null;
+    const token = Token.getAccessToken(req);
 
     let data;
     if (search) {
+      Token.verify(token);
       data = await Movie.search(search);
     } else {
       data = await Movie.getAll();
@@ -22,7 +26,7 @@ router.get('/api/movie', async (req: Request, res: C7zResponse, next: any) => {
   }
 });
 
-router.get('/api/movie/:id', async (req: Request, res: C7zResponse, next: any) => {
+router.get('/api/movie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
     const options = {
@@ -36,7 +40,7 @@ router.get('/api/movie/:id', async (req: Request, res: C7zResponse, next: any) =
   }
 });
 
-router.get('/api/movie/:id/import', async (req: Request, res: C7zResponse, next: any) => {
+router.get('/api/movie/:id/import', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
 
@@ -47,7 +51,7 @@ router.get('/api/movie/:id/import', async (req: Request, res: C7zResponse, next:
   }
 });
 
-router.put('/api/movie/:id', async (req: Request, res: C7zResponse, next: any) => {
+router.put('/api/movie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
     const body = req.body;
@@ -63,7 +67,7 @@ router.put('/api/movie/:id', async (req: Request, res: C7zResponse, next: any) =
   }
 });
 
-router.post('/api/movie', async (req: Request, res: C7zResponse, next: any) => {
+router.post('/api/movie', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const body = req.body;
 
@@ -74,7 +78,7 @@ router.post('/api/movie', async (req: Request, res: C7zResponse, next: any) => {
   }
 });
 
-router.delete('/api/movie/:id', async (req: Request, res: C7zResponse, next: any) => {
+router.delete('/api/movie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
     const options = {
