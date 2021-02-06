@@ -1,0 +1,5 @@
+<div style="max-width: 500px">
+    <dynamic-form-section [questions]="questions" (onValid)="onValid($event)" (onError)="onError($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
+</div>
+
+<c7z-button class="raised blue" (onClick)="onSubmit()">Connexion</c7z-button>
