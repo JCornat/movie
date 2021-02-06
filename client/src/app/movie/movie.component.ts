@@ -6,6 +6,7 @@ import { Movie } from './movie';
 import * as Global from '../global/global';
 import { ScreenService } from '../screen/screen.service';
 import { Subscription } from 'rxjs';
+import { Question } from '../question/question';
 
 @Component({
   selector: 'app-movie',
@@ -13,8 +14,13 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit, OnDestroy {
+  public questions: Question[];
+  public displayList: Category[];
   public categories: Category[];
+  public searchCategories: Category[];
   public resizeSubscriber: Subscription;
+  public formData: { [key: string]: any };
+  public movies: Movie[];
 
   constructor(
     public movieService: MovieService,
@@ -26,6 +32,7 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.subscribeResize();
+    this.buildQuestions();
     this.pullAll();
   }
 
@@ -34,11 +41,16 @@ export class MovieComponent implements OnInit, OnDestroy {
   }
 
   public async pullAll(): Promise<void> {
-    const movies = await this.movieService.pullAll();
-    this.categories = this.processCategories(movies);
+    this.movies = await this.movieService.pullAll();
+    this.categories = this.processCategories(this.movies);
+    this.processDisplayList();
   }
 
-  public processCategories(data: Movie[]): Category[] {
+  public processDisplayList(): void {
+    this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
+  }
+
+  public processCategories(data: Movie[], search?: string): Category[] {
     const limit = this.getLimitByScreenSize();
     const favourites: Category = {label: 'Favourites', limit, orderBy: 'random', movies: []};
     const exceptional: Category = {label: 'Excellents', limit, orderBy: 'random', movies: []};
@@ -48,6 +60,12 @@ export class MovieComponent implements OnInit, OnDestroy {
     const todo: Category = {label: 'Todos', limit, orderBy: 'random', movies: []};
 
     for (const datum of data) {
+      if (search) {
+        if (!(datum.year + '').includes(search) && !(datum.title.toLowerCase()).includes(search.toLowerCase())) {
+          continue;
+        }
+      }
+
       if (!datum.rating) {
         todo.movies.push(datum);
       } else if (datum.rating >= 5) {
@@ -129,5 +147,17 @@ export class MovieComponent implements OnInit, OnDestroy {
         category.limit = this.getLimitByScreenSize();
       }
     });
+  }
+
+  public buildQuestions(): void {
+    this.questions = [
+      {key: 'search', type: 'text', placeholder: 'Search', marginBottom: 0},
+    ];
+  }
+
+  public onValid(data): void {
+    this.formData = data;
+    this.searchCategories = this.processCategories(this.movies, data.search);
+    this.processDisplayList();
   }
 }

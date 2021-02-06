@@ -166,6 +166,9 @@ export class DynamicFormSectionComponent implements OnInit {
       }
     }
 
+    const a = '';
+    const b = a
+
     if (!hasDifference) {
       return;
     }
