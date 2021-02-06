@@ -3,9 +3,11 @@
         <dynamic-form-section [questions]="questions" (onValid)="onValid($event)"></dynamic-form-section>
     </div>
 
-    <div class="ml-8">
-        <c7z-button class="secondary grey" icon="add"></c7z-button>
-    </div>
+    <ng-container *ngIf="isLogged">
+        <div class="ml-8">
+            <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>
+        </div>
+    </ng-container>
 </div>
 
 <ng-container *ngFor="let category of displayList">
@@ -25,7 +27,7 @@
         <div class="movies">
             <ng-container *ngFor="let movie of category.movies; index as i">
                 <ng-container *ngIf="i < category.limit">
-                    <movie-item [data]="movie"></movie-item>
+                    <movie-item [data]="movie" (click)="navigateUpdate(movie)"></movie-item>
                 </ng-container>
             </ng-container>
 

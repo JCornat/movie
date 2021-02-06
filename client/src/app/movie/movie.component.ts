@@ -7,6 +7,7 @@ import * as Global from '../global/global';
 import { ScreenService } from '../screen/screen.service';
 import { Subscription } from 'rxjs';
 import { Question } from '../question/question';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-movie',
@@ -21,8 +22,10 @@ export class MovieComponent implements OnInit, OnDestroy {
   public resizeSubscriber: Subscription;
   public formData: { [key: string]: any };
   public movies: Movie[];
+  public isLogged: boolean;
 
   constructor(
+    public authenticationService: AuthenticationService,
     public movieService: MovieService,
     public router: Router,
     public screenService: ScreenService,
@@ -31,6 +34,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.isLogged = this.authenticationService.isLogged();
     this.subscribeResize();
     this.buildQuestions();
     this.pullAll();
@@ -159,5 +163,17 @@ export class MovieComponent implements OnInit, OnDestroy {
     this.formData = data;
     this.searchCategories = this.processCategories(this.movies, data.search);
     this.processDisplayList();
+  }
+
+  public navigateSearch(): void {
+    this.router.navigate(['/search']);
+  }
+
+  public navigateUpdate(movie: Movie): void {
+    if (!this.isLogged) {
+      return;
+    }
+
+    this.router.navigate(['/update', movie._id]);
   }
 }

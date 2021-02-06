@@ -4,6 +4,7 @@ import * as Encryption from './encryption';
 import * as Token from './token';
 import { C7zResponse } from '../class/response';
 import { Request } from 'express';
+import { v4 as UUID } from 'uuid';
 
 export async function login(options: {login: string, password: string}): Promise<{ token: string, refresh: string }> {
   if (Global.isEmpty(options?.login) || Global.isEmpty(options.password)) {
@@ -20,9 +21,12 @@ export async function login(options: {login: string, password: string}): Promise
     throw new Error('Authentication failed');
   }
 
+  const refresh = UUID();
+  Token.addRefresh(refresh);
+
   return {
     token: Token.sign({name: 'Administrator'}),
-    refresh: 'a',
+    refresh,
   };
 }
 

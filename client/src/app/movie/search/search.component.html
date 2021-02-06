@@ -1,6 +1,13 @@
-<div style="max-width: 500px">
-    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
-    <c7z-button class="raised blue" (onClick)="onSubmit()">Rechercher</c7z-button>
+<div style="max-width: 800px">
+    <div class="flex" style="align-items: end;">
+        <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
+        <div class="ml-8">
+            <c7z-button class="secondary blue" icon="search" (onClick)="onSubmit()">Rechercher</c7z-button>
+        </div>
+        <div class="ml-8">
+            <c7z-button class="secondary blue" icon="add" (onClick)="navigateAdd()">Ajouter manuellement</c7z-button>
+        </div>
+    </div>
 
     <ng-container *ngIf="results?.length === 0">
         Aucun résultat
@@ -10,7 +17,7 @@
         <div class="c7z-card">
 
         <ng-container *ngFor="let result of results">
-            <div class="row" (click)="select(result)">{{result.title}}</div>
+            <div class="row" (click)="select(result)">{{result.title}} ({{result.year}})</div>
         </ng-container>
         </div>
     </ng-container>

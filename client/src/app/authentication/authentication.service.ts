@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MOVIE_URL } from '../config/config';
+
 import { RequestService } from '../request/request.service';
 import { Request } from '../request/request';
 import { TokenService } from '../token/token.service';
+import * as Global from '../global/global';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthenticationService {
 
   public async login(options: {login: string, password: string, stayLogged: boolean}): Promise<void> {
     const optionsQuery: Request = {
-      url: `${MOVIE_URL}/api/login`,
+      url: `/api/login`,
       header: {
         disableAuthentication: true,
       },
@@ -36,5 +37,9 @@ export class AuthenticationService {
 
     this.tokenService.setToken(data.token);
     this.tokenService.setRefreshToken(data.refresh);
+  }
+
+  public isLogged(): boolean {
+    return Global.isPopulated(this.tokenService.getToken());
   }
 }

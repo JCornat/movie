@@ -28,7 +28,7 @@ export class MovieSearchComponent implements OnInit {
 
   public init(): void {
     this.questions = [
-      {key: 'search', type: 'text', label: 'Titre', required: true},
+      {key: 'search', type: 'text', label: 'Titre', required: true, marginBottom: 0},
     ];
   }
 
@@ -38,7 +38,17 @@ export class MovieSearchComponent implements OnInit {
 
   public async search(title: string): Promise<any> {
     const data: any = await this.movieService.search(title);
-    this.results = data.results;
+    const results = [];
+    for (const result of data.results) {
+      const item = {
+        ...result,
+        year: (result.release_date.split('-'))?.[0],
+      };
+
+      results.push(item);
+    }
+
+    this.results = results;
   }
 
   public select(result: any): void {
@@ -51,5 +61,9 @@ export class MovieSearchComponent implements OnInit {
     }
 
     this.search(this.formData.search);
+  }
+
+  public navigateAdd(): void {
+    this.router.navigate(['/add']);
   }
 }

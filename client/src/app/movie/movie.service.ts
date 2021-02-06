@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Movie } from './movie';
-import { MOVIE_URL } from '../config/config';
 import { RequestService } from '../request/request.service';
 import { Request } from '../request/request';
 
@@ -16,7 +15,7 @@ export class MovieService {
 
   public async pullAll(): Promise<Movie[]> {
     const optionsQuery: Request = {
-      url: `${MOVIE_URL}/api/movie`,
+      url: `/api/movie`,
       header: {
         disableAuthentication: true,
       },
@@ -28,7 +27,7 @@ export class MovieService {
 
   public async pullOne(id: string): Promise<any> {
     const optionsQuery = {
-      url: `${MOVIE_URL}/api/movie/${id}`,
+      url: `/api/movie/${id}`,
     };
 
     const data: any = await this.requestService.get(optionsQuery).toPromise();
@@ -37,7 +36,7 @@ export class MovieService {
 
   public async search(title: string): Promise<any> {
     const optionsQuery = {
-      url: `${MOVIE_URL}/api/movie?search=${title}`,
+      url: `/api/movie?search=${title}`,
     };
 
     const data: any = await this.requestService.get(optionsQuery).toPromise();
@@ -46,7 +45,7 @@ export class MovieService {
 
   public async importOne(id: string): Promise<any> {
     const optionsQuery = {
-      url: `${MOVIE_URL}/api/movie/${id}/import`,
+      url: `/api/movie/${id}/import`,
     };
 
     const data: any = await this.requestService.get(optionsQuery).toPromise();
@@ -55,7 +54,7 @@ export class MovieService {
 
   public async update(options: any): Promise<void> {
     const optionsQuery = {
-      url: `${MOVIE_URL}/api/movie/${options._id}`,
+      url: `/api/movie/${options._id}`,
     };
 
     await this.requestService.put(optionsQuery).toPromise();
@@ -63,7 +62,7 @@ export class MovieService {
 
   public async add(options): Promise<void> {
     const optionsQuery = {
-      url: `${MOVIE_URL}/api/movie`,
+      url: `/api/movie`,
     };
 
     await this.requestService.post(optionsQuery).toPromise();
@@ -71,7 +70,7 @@ export class MovieService {
 
   public async delete(id): Promise<void> {
     const optionsQuery = {
-      url: `${MOVIE_URL}/api/movie/${id}`,
+      url: `/api/movie/${id}`,
     };
 
     await this.requestService.delete(optionsQuery).toPromise();
