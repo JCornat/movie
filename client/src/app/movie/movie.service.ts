@@ -55,6 +55,9 @@ export class MovieService {
   public async update(options: any): Promise<void> {
     const optionsQuery = {
       url: `/api/movie/${options._id}`,
+      body: {
+        ...options,
+      },
     };
 
     await this.requestService.put(optionsQuery).toPromise();
@@ -63,6 +66,9 @@ export class MovieService {
   public async add(options): Promise<void> {
     const optionsQuery = {
       url: `/api/movie`,
+      body: {
+        ...options,
+      },
     };
 
     await this.requestService.post(optionsQuery).toPromise();
