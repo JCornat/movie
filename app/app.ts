@@ -11,8 +11,10 @@ import * as SendFileAsyncMiddleware from './middleware/send-file-async';
 import * as AuthenticationController from './controller/authentication';
 import * as FileController from './controller/file';
 import * as MovieController from './controller/movie';
+import * as SerieController from './controller/serie';
 import * as WebsiteController from './controller/website';
 import * as MovieModel from './model/movie';
+import * as SerieModel from './model/serie';
 
 export const app = express();
 const server = http.createServer(app);
@@ -28,14 +30,16 @@ async function init() {
   app.use(AuthenticationController.router);
   app.use(FileController.router);
   app.use(MovieController.router);
+  app.use(SerieController.router);
   app.use(WebsiteController.router);
 
   app.use(ErrorMiddleware.handle);
+
+  await MovieModel.init();
+  await SerieModel.init();
 
   server.listen(Config.PORT);
   console.log(`Server running in ${Config.MODE} mode on port ${Config.PORT} on address ${Config.URL}`);
 
   app.emit('initialized');
-
-  await MovieModel.init();
 }

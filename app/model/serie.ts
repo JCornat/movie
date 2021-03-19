@@ -6,7 +6,7 @@ import * as Config from '../config/config';
 import * as File from './file';
 import { Media } from '../class/media';
 
-export interface Movie {
+export interface Serie {
   _id?: string;
   title: string;
   year: number;
@@ -18,14 +18,14 @@ export interface Movie {
 let media: Media;
 
 export async function init() {
-  media = new Media('movie');
+  media = new Media('serie');
 }
 
-export async function getAll(): Promise<Movie[]> {
+export async function getAll(): Promise<Serie[]> {
   return media.getAll();
 }
 
-export async function getOne(options: { id: string }): Promise<Movie> {
+export async function getOne(options: { id: string }): Promise<Serie> {
   return media.getOne(options);
 }
 
@@ -38,7 +38,7 @@ export async function add(options: { title: string, year: number, url: string, b
     options.backgroundImage = `${Config.URL}/upload/${filename}`;
   }
 
-  const insertValue: Movie = {
+  const insertValue: Serie = {
     title: options.title,
     year: options.year,
     backgroundImage: options.backgroundImage,
@@ -53,14 +53,14 @@ export async function remove(options: { id: string }): Promise<void> {
   await media.remove(options);
 }
 
-export async function update(options: Movie): Promise<string> {
+export async function update(options: Serie): Promise<string> {
   return await media.update(options);
 }
 
 export function search(title: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const options = {
-      url: `https://api.themoviedb.org/3/search/movie?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
+      url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
     };
 
     request.get(options, (error, response, body) => {
@@ -76,7 +76,7 @@ export function search(title: string): Promise<void> {
 export function importOne(id: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const options = {
-      url: `https://api.themoviedb.org/3/movie/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
+      url: `https://api.themoviedb.org/3/tv/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
     };
 
     request.get(options, (error, response, body) => {
