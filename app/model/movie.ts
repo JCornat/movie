@@ -1,32 +1,35 @@
-import { MongoClient, ObjectId } from 'mongodb';
 import * as path from 'path';
 import * as request from 'request';
 import { v4 as UUID } from 'uuid';
 
-import { MONGO } from '../config/config';
-import * as MongoConnector from '../connector/mongo';
 import * as Config from '../config/config';
 import * as File from './file';
+import { Media } from '../class/media';
 
-let mongoPool: MongoClient;
-let collection;
+export interface Movie {
+  _id?: string;
+  title: string;
+  year: number;
+  backgroundImage: string;
+  rating: number;
+  tags: string[];
+}
+
+let media: Media;
 
 export async function init() {
-  mongoPool = await MongoConnector.createPool(MONGO);
-  collection = MongoConnector.request({pool: mongoPool, databaseName: 'app', collectionName: 'movie'});
+  media = new Media('movie');
 }
 
-export async function getAll(): Promise<any> {
-  const data = await collection.find().toArray();
-  return data;
+export async function getAll(): Promise<Movie[]> {
+  return media.getAll();
 }
 
-export async function getOne(options: any): Promise<any> {
-  const data = await collection.findOne({_id: new ObjectId(options.id)});
-  return data;
+export async function getOne(options: { id: string }): Promise<Movie> {
+  return media.getOne(options);
 }
 
-export async function add(options: any): Promise<any> {
+export async function add(options: { title: string, year: number, url: string, backgroundImage: string, rating: number, tags: string[] }): Promise<string> {
   if (options.url) {
     const extensionName = path.extname(options.url).toLowerCase();
     const filename = `${UUID()}${extensionName}`;
@@ -35,7 +38,7 @@ export async function add(options: any): Promise<any> {
     options.backgroundImage = `${Config.URL}/upload/${filename}`;
   }
 
-  const insertValue = {
+  const insertValue: Movie = {
     title: options.title,
     year: options.year,
     backgroundImage: options.backgroundImage,
@@ -43,19 +46,15 @@ export async function add(options: any): Promise<any> {
     tags: options.tags,
   };
 
-  const data = await collection.insertOne(insertValue);
-  return data.insertId;
+  return await media.add(insertValue);
 }
 
-export async function remove(options: any): Promise<any> {
-  await collection.findOneAndDelete({_id: new ObjectId(options.id)});
+export async function remove(options: { id: string }): Promise<void> {
+  await media.remove(options);
 }
 
-export async function update(options: any): Promise<any> {
-  const id = options._id;
-  delete options._id;
-  await collection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: options});
-  return id;
+export async function update(options: Movie): Promise<string> {
+  return await media.update(options);
 }
 
 export function search(title: string): Promise<void> {
