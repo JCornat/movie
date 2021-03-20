@@ -10,7 +10,7 @@ import { Question } from '../../question/question';
 })
 export class MovieSearchComponent implements OnInit {
   public questions: Question[];
-  public results: any[];
+  public results: { title: string, year: number, backgroundImage: string }[];
 
   public values: { [key: string]: any };
   public formData: { [key: string]: any };
@@ -37,18 +37,7 @@ export class MovieSearchComponent implements OnInit {
   }
 
   public async search(title: string): Promise<any> {
-    const data: any = await this.movieService.search(title);
-    const results = [];
-    for (const result of data.results) {
-      const item = {
-        ...result,
-        year: (result.release_date.split('-'))?.[0],
-      };
-
-      results.push(item);
-    }
-
-    this.results = results;
+    this.results = await this.movieService.search(title);
   }
 
   public select(result: any): void {

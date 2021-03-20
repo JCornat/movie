@@ -34,7 +34,7 @@ export class MovieService {
     return data.data;
   }
 
-  public async search(title: string): Promise<any> {
+  public async search(title: string): Promise<{ title: string, year: number, backgroundImage: string }[]> {
     const optionsQuery = {
       url: `/api/movie?search=${title}`,
     };
@@ -43,7 +43,7 @@ export class MovieService {
     return data.data;
   }
 
-  public async importOne(id: string): Promise<any> {
+  public async importOne(id: string): Promise<{ title: string, year: number, backgroundImage: string }> {
     const optionsQuery = {
       url: `/api/movie/${id}/import`,
     };

@@ -32,13 +32,13 @@ export class MovieImportComponent extends MovieAddComponent implements OnInit {
       throw new Error('ID incorrect');
     }
 
-    const data: any = await this.movieService.importOne(id);
-    this.posterImage = `https://image.tmdb.org/t/p/w300${data.poster_path}`;
+    const data = await this.movieService.importOne(id);
+    this.posterImage = data.backgroundImage;
 
     return {
       title: data.title,
-      year: (data.release_date.split('-'))?.[0],
-      url: this.posterImage,
+      year: data.year,
+      url: data.backgroundImage,
     };
   }
 

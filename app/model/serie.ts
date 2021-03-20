@@ -57,7 +57,7 @@ export async function update(options: Serie): Promise<string> {
   return await media.update(options);
 }
 
-export function search(title: string): Promise<void> {
+export function search(title: string): Promise<{ title: string, year: number, backgroundImage: string }[]> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
@@ -68,12 +68,28 @@ export function search(title: string): Promise<void> {
         return reject(error);
       }
 
-      resolve(JSON.parse(body));
+      const res = processSearch(JSON.parse(body));
+      resolve(res);
     });
   });
 }
 
-export function importOne(id: string): Promise<void> {
+function processSearch(data: any[]): { title: string, year: number, backgroundImage: string }[] {
+  const res = [];
+  for (const datum of data) {
+    const tmp = {
+      title: datum.name,
+      year: (datum.release_date.split('-'))?.[0],
+      backgroundImage: `https://image.tmdb.org/t/p/w300${datum.cover.image_id}`,
+    };
+
+    res.push(tmp);
+  }
+
+  return res;
+}
+
+export function importOne(id: string): Promise<{ title: string, year: number, backgroundImage: string }> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/tv/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
@@ -84,7 +100,8 @@ export function importOne(id: string): Promise<void> {
         return reject(error);
       }
 
-      resolve(JSON.parse(body));
+      const res = processSearch([JSON.parse(body)]);
+      resolve(res[0]);
     });
   });
 }
