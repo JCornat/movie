@@ -15,6 +15,7 @@ import * as SerieController from './controller/serie';
 import * as WebsiteController from './controller/website';
 import * as MovieModel from './model/movie';
 import * as SerieModel from './model/serie';
+import * as GameModel from './model/game';
 
 export const app = express();
 const server = http.createServer(app);
@@ -37,6 +38,7 @@ async function init() {
 
   await MovieModel.init();
   await SerieModel.init();
+  await GameModel.init();
 
   server.listen(Config.PORT);
   console.log(`Server running in ${Config.MODE} mode on port ${Config.PORT} on address ${Config.URL}`);
