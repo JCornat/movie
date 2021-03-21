@@ -31,6 +31,12 @@ import { C7zButtonComponent } from './button/button.component';
 import { MovieSearchComponent } from './movie/search/search.component';
 import { MovieImportComponent } from './movie/import/import.component';
 import { LoginComponent } from './login/login.component';
+import { SerieAddComponent } from './serie/add/add.component';
+import { SerieComponent } from './serie/serie.component';
+import { SerieImportComponent } from './serie/import/import.component';
+import { SerieItemComponent } from './serie/item/item.component';
+import { SerieSearchComponent } from './serie/search/search.component';
+import { SerieUpdateComponent } from './serie/update/update.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +67,12 @@ import { LoginComponent } from './login/login.component';
     MovieUpdateComponent,
     C7zButtonComponent,
     LoginComponent,
+    SerieComponent,
+    SerieAddComponent,
+    SerieImportComponent,
+    SerieItemComponent,
+    SerieSearchComponent,
+    SerieUpdateComponent,
   ],
   imports: [
     BrowserModule,
