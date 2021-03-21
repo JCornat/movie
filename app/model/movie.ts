@@ -69,7 +69,7 @@ export function search(title: string): Promise<{ title: string, year: number, ba
         return reject(error);
       }
 
-      const res = processSearch(JSON.parse(body));
+      const res = processSearch(JSON.parse(body).results);
       resolve(res);
     });
   });
@@ -81,7 +81,7 @@ function processSearch(data: any[]): { title: string, year: number, backgroundIm
     const tmp = {
       title: datum.name,
       year: (datum.release_date.split('-'))?.[0],
-      backgroundImage: `https://image.tmdb.org/t/p/w300${datum.cover.image_id}`,
+      backgroundImage: `https://image.tmdb.org/t/p/w300${datum.poster_path}`,
     };
 
     res.push(tmp);

@@ -27,8 +27,5 @@ export abstract class MediumUpdateComponent extends MediumAddComponent implement
 
   public abstract update(data): Promise<void>;
 
-  public async onSubmit(): Promise<void> {
-    await this.update(this.formData);
-    this.router.navigate(['/']);
-  }
+  public abstract onSubmit(): Promise<void>;
 }

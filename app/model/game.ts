@@ -59,7 +59,7 @@ export async function update(options: Game): Promise<string> {
   return await media.update(options);
 }
 
-export function search(title: string): Promise<void> {
+export function search(title: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }[]> {
   return new Promise(async (resolve, reject) => {
     try {
       await checkBearer();
@@ -90,13 +90,15 @@ export function search(title: string): Promise<void> {
   });
 }
 
-function processSearch(data: any[]): any {
+function processSearch(data: any[]): { id: number, title: string, year: number, backgroundImage: string }[] {
   const res = [];
   for (const datum of data) {
+    const backgroundImage = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
     const tmp = {
+      id: datum.id,
       title: datum.name,
       year: moment(datum.first_release_date, 'X').format('YYYY'),
-      backgroundImage: `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg`,
+      backgroundImage,
     };
 
     res.push(tmp);
@@ -105,7 +107,7 @@ function processSearch(data: any[]): any {
   return res;
 }
 
-export function importOne(id: string): Promise<void> {
+export function importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
   return new Promise(async (resolve, reject) => {
     try {
       await checkBearer();
@@ -131,7 +133,7 @@ export function importOne(id: string): Promise<void> {
       }
 
       const res = processSearch(JSON.parse(body));
-      resolve(res);
+      resolve(res[0]);
     });
   });
 }

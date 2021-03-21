@@ -10,6 +10,7 @@ import * as Config from './config/config';
 import * as SendFileAsyncMiddleware from './middleware/send-file-async';
 import * as AuthenticationController from './controller/authentication';
 import * as FileController from './controller/file';
+import * as GameController from './controller/game';
 import * as MovieController from './controller/movie';
 import * as SerieController from './controller/serie';
 import * as WebsiteController from './controller/website';
@@ -30,6 +31,7 @@ async function init() {
 
   app.use(AuthenticationController.router);
   app.use(FileController.router);
+  app.use(GameController.router);
   app.use(MovieController.router);
   app.use(SerieController.router);
   app.use(WebsiteController.router);

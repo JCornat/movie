@@ -68,19 +68,20 @@ export function search(title: string): Promise<{ title: string, year: number, ba
         return reject(error);
       }
 
-      const res = processSearch(JSON.parse(body));
+      const res = processSearch(JSON.parse(body).results);
       resolve(res);
     });
   });
 }
 
-function processSearch(data: any[]): { title: string, year: number, backgroundImage: string }[] {
+function processSearch(data: any[]): { id: number, title: string, year: number, backgroundImage: string }[] {
   const res = [];
   for (const datum of data) {
     const tmp = {
+      id: datum.id,
       title: datum.name,
-      year: (datum.release_date.split('-'))?.[0],
-      backgroundImage: `https://image.tmdb.org/t/p/w300${datum.cover.image_id}`,
+      year: (datum.first_air_date.split('-'))?.[0],
+      backgroundImage: `https://image.tmdb.org/t/p/w300${datum.poster_path}`,
     };
 
     res.push(tmp);
@@ -89,7 +90,7 @@ function processSearch(data: any[]): { title: string, year: number, backgroundIm
   return res;
 }
 
-export function importOne(id: string): Promise<{ title: string, year: number, backgroundImage: string }> {
+export function importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/tv/${id}?api_key=${Config.MOVIEDB_API_KEY}`,

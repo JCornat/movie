@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MovieService } from './movie.service';
+import { GameService } from './game.service';
 import { Router } from '@angular/router';
 import { Category } from './category';
-import { Movie } from './movie';
+import { Game } from './game';
 import * as Global from '../global/global';
 import { ScreenService } from '../screen/screen.service';
 import { Subscription } from 'rxjs';
@@ -10,22 +10,22 @@ import { Question } from '../question/question';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
-  selector: 'app-movie',
-  templateUrl: './movie.component.html',
+  selector: 'app-game',
+  templateUrl: './game.component.html',
 })
-export class MovieComponent implements OnInit, OnDestroy {
+export class GameComponent implements OnInit, OnDestroy {
   public questions: Question[];
   public displayList: Category[];
   public categories: Category[];
   public searchCategories: Category[];
   public resizeSubscriber: Subscription;
   public formData: { [key: string]: any };
-  public movies: Movie[];
+  public games: Game[];
   public isLogged: boolean;
 
   constructor(
     public authenticationService: AuthenticationService,
-    public movieService: MovieService,
+    public gameService: GameService,
     public router: Router,
     public screenService: ScreenService,
   ) {
@@ -44,8 +44,8 @@ export class MovieComponent implements OnInit, OnDestroy {
   }
 
   public async pullAll(): Promise<void> {
-    this.movies = await this.movieService.pullAll();
-    this.categories = this.processCategories(this.movies);
+    this.games = await this.gameService.pullAll();
+    this.categories = this.processCategories(this.games);
     this.processDisplayList();
   }
 
@@ -53,14 +53,14 @@ export class MovieComponent implements OnInit, OnDestroy {
     this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
   }
 
-  public processCategories(data: Movie[], search?: string): Category[] {
+  public processCategories(data: Game[], search?: string): Category[] {
     const limit = this.getLimitByScreenSize();
-    const favourites: Category = {label: 'Favourites', limit, orderBy: 'random', movies: []};
-    const exceptional: Category = {label: 'Excellents', limit, orderBy: 'random', movies: []};
-    const good: Category = {label: 'Goods', limit, orderBy: 'random', movies: []};
-    const mediocre: Category = {label: 'Mediocres', limit, orderBy: 'random', movies: []};
-    const bad: Category = {label: 'Bads', limit, orderBy: 'random', movies: []};
-    const todo: Category = {label: 'Todos', limit, orderBy: 'random', movies: []};
+    const favourites: Category = {label: 'Favourites', limit, orderBy: 'random', games: []};
+    const exceptional: Category = {label: 'Excellents', limit, orderBy: 'random', games: []};
+    const good: Category = {label: 'Goods', limit, orderBy: 'random', games: []};
+    const mediocre: Category = {label: 'Mediocres', limit, orderBy: 'random', games: []};
+    const bad: Category = {label: 'Bads', limit, orderBy: 'random', games: []};
+    const todo: Category = {label: 'Todos', limit, orderBy: 'random', games: []};
 
     for (const datum of data) {
       if (search) {
@@ -70,28 +70,28 @@ export class MovieComponent implements OnInit, OnDestroy {
       }
 
       if (!datum.rating) {
-        todo.movies.push(datum);
+        todo.games.push(datum);
       } else if (datum.rating >= 5) {
-        favourites.movies.push(datum);
+        favourites.games.push(datum);
       } else if (datum.rating >= 4) {
-        exceptional.movies.push(datum);
+        exceptional.games.push(datum);
       } else if (datum.rating >= 3) {
-        good.movies.push(datum);
+        good.games.push(datum);
       } else if (datum.rating >= 2) {
-        mediocre.movies.push(datum);
+        mediocre.games.push(datum);
       } else if (datum.rating >= 0) {
-        bad.movies.push(datum);
+        bad.games.push(datum);
       } else {
         console.error('rating not supported', datum);
       }
     }
 
-    this.shuffle(favourites.movies);
-    this.shuffle(exceptional.movies);
-    this.shuffle(good.movies);
-    this.shuffle(mediocre.movies);
-    this.shuffle(bad.movies);
-    this.shuffle(todo.movies);
+    this.shuffle(favourites.games);
+    this.shuffle(exceptional.games);
+    this.shuffle(good.games);
+    this.shuffle(mediocre.games);
+    this.shuffle(bad.games);
+    this.shuffle(todo.games);
 
     return [
       favourites,
@@ -132,12 +132,12 @@ export class MovieComponent implements OnInit, OnDestroy {
     item.orderBy = type;
 
     if (type === 'random') {
-      this.shuffle(item.movies);
+      this.shuffle(item.games);
       return;
     }
 
     const key = (type === 'alphabetic') ? 'title' : 'year';
-    item.movies = Global.sort({data: item.movies, key});
+    item.games = Global.sort({data: item.games, key});
   }
 
   public subscribeResize(): void {
@@ -160,19 +160,19 @@ export class MovieComponent implements OnInit, OnDestroy {
 
   public onValid(data): void {
     this.formData = data;
-    this.searchCategories = this.processCategories(this.movies, data.search);
+    this.searchCategories = this.processCategories(this.games, data.search);
     this.processDisplayList();
   }
 
   public navigateSearch(): void {
-    this.router.navigate(['/movie/search']);
+    this.router.navigate(['/game/search']);
   }
 
-  public navigateUpdate(movie: Movie): void {
+  public navigateUpdate(game: Game): void {
     if (!this.isLogged) {
       return;
     }
 
-    this.router.navigate(['/movie/update', movie._id]);
+    this.router.navigate(['/game/update', game._id]);
   }
 }

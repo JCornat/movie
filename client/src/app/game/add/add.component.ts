@@ -2,28 +2,28 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Question } from '../../question/question';
-import { MovieService } from '../movie.service';
+import { GameService } from '../game.service';
 import { MediumAddComponent } from '../../medium/add/add.component';
 
 @Component({
-  selector: 'media-add',
+  selector: 'game-add',
   templateUrl: '../../medium/add/add.component.html',
 })
-export class MovieAddComponent extends MediumAddComponent {
+export class GameAddComponent extends MediumAddComponent {
   public questions: Question[];
 
   public values: { [key: string]: any };
   public formData: { [key: string]: any };
 
   constructor(
-    public movieService: MovieService,
+    public gameService: GameService,
     public router: Router,
   ) {
     super();
   }
 
   public async onSubmit(): Promise<void> {
-    await this.movieService.add(this.formData);
-    this.router.navigate(['/movie']);
+    await this.gameService.add(this.formData);
+    this.router.navigate(['/game']);
   }
 }

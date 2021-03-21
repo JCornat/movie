@@ -25,10 +25,15 @@ export class MovieUpdateComponent extends MediumUpdateComponent {
 
   public async remove(): Promise<void> {
     await this.movieService.delete(this.id);
-    this.router.navigate(['/']);
+    this.router.navigate(['/movie']);
   }
 
   public async update(data): Promise<void> {
     await this.movieService.update(data);
+  }
+
+  public async onSubmit(): Promise<void> {
+    await this.update(this.formData);
+    this.router.navigate(['/movie']);
   }
 }

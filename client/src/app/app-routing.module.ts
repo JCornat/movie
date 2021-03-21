@@ -11,6 +11,11 @@ import { SerieAddComponent } from './serie/add/add.component';
 import { SerieUpdateComponent } from './serie/update/update.component';
 import { SerieImportComponent } from './serie/import/import.component';
 import { SerieSearchComponent } from './serie/search/search.component';
+import { GameAddComponent } from './game/add/add.component';
+import { GameComponent } from './game/game.component';
+import { GameUpdateComponent } from './game/update/update.component';
+import { GameImportComponent } from './game/import/import.component';
+import { GameSearchComponent } from './game/search/search.component';
 
 const routes: Routes = [
   {
@@ -70,6 +75,32 @@ const routes: Routes = [
       {
         path: 'search',
         component: SerieSearchComponent,
+      },
+    ],
+  },
+  {
+    path: 'game',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: GameComponent,
+      },
+      {
+        path: 'add',
+        component: GameAddComponent,
+      },
+      {
+        path: 'update/:id',
+        component: GameUpdateComponent,
+      },
+      {
+        path: 'import/:id',
+        component: GameImportComponent,
+      },
+      {
+        path: 'search',
+        component: GameSearchComponent,
       },
     ],
   },

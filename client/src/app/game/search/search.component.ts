@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MovieService } from '../movie.service';
+import { GameService } from '../game.service';
 import { Question } from '../../question/question';
 import { MediumSearchComponent } from '../../medium/search/search.component';
 
 @Component({
-  selector: 'movie-search',
+  selector: 'game-search',
   templateUrl: '../../medium/search/search.component.html',
 })
-export class MovieSearchComponent extends MediumSearchComponent {
+export class GameSearchComponent extends MediumSearchComponent {
   public questions: Question[];
   public results: { title: string, year: number, backgroundImage: string }[];
 
@@ -17,21 +17,21 @@ export class MovieSearchComponent extends MediumSearchComponent {
   public formData: { [key: string]: any };
 
   constructor(
-    public movieService: MovieService,
+    public gameService: GameService,
     public router: Router,
   ) {
     super();
   }
 
   public async search(title: string): Promise<any> {
-    this.results = await this.movieService.search(title);
+    this.results = await this.gameService.search(title);
   }
 
   public select(result: any): void {
-    this.router.navigate(['/movie/import', result.id]);
+    this.router.navigate(['/game/import', result.id]);
   }
 
   public navigateAdd(): void {
-    this.router.navigate(['/movie/add']);
+    this.router.navigate(['/game/add']);
   }
 }

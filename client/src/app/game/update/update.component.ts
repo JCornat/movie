@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { SerieService } from '../serie.service';
+import { GameService } from '../game.service';
 import { MediumUpdateComponent } from '../../medium/update/update.component';
 
 @Component({
-  selector: 'serie-update',
+  selector: 'game-update',
   templateUrl: '../../medium/update/update.component.html',
 })
-export class SerieUpdateComponent extends MediumUpdateComponent {
+export class GameUpdateComponent extends MediumUpdateComponent {
   public id: string;
 
   constructor(
-    public serieService: SerieService,
+    public gameService: GameService,
     public router: Router,
     public route: ActivatedRoute,
   ) {
@@ -20,20 +20,20 @@ export class SerieUpdateComponent extends MediumUpdateComponent {
   }
 
   public async pullOne(id: string): Promise<void> {
-    this.values = await this.serieService.pullOne(this.id);
+    this.values = await this.gameService.pullOne(this.id);
   }
 
   public async remove(): Promise<void> {
-    await this.serieService.delete(this.id);
-    this.router.navigate(['/serie']);
+    await this.gameService.delete(this.id);
+    this.router.navigate(['/game']);
   }
 
   public async update(data): Promise<void> {
-    await this.serieService.update(data);
+    await this.gameService.update(data);
   }
 
   public async onSubmit(): Promise<void> {
     await this.update(this.formData);
-    this.router.navigate(['/serie']);
+    this.router.navigate(['/game']);
   }
 }

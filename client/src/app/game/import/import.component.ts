@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MovieService } from '../movie.service';
+import { GameService } from '../game.service';
 import { MediumImportComponent } from '../../medium/import/import.component';
 
 @Component({
-  selector: 'movie-import',
+  selector: 'game-import',
   templateUrl: '../../medium/import/import.component.html',
 })
-export class MovieImportComponent extends MediumImportComponent implements OnInit {
+export class GameImportComponent extends MediumImportComponent implements OnInit {
   public id: string;
   public posterImage: string;
 
   constructor(
-    public movieService: MovieService,
+    public gameService: GameService,
     public router: Router,
     public route: ActivatedRoute,
   ) {
@@ -25,7 +25,7 @@ export class MovieImportComponent extends MediumImportComponent implements OnIni
       throw new Error('ID incorrect');
     }
 
-    const data = await this.movieService.importOne(id);
+    const data = await this.gameService.importOne(id);
     this.posterImage = data.backgroundImage;
 
     return {
@@ -36,7 +36,7 @@ export class MovieImportComponent extends MediumImportComponent implements OnIni
   }
 
   public async onSubmit(): Promise<void> {
-    await this.movieService.add(this.formData);
-    this.router.navigate(['/movie/search']);
+    await this.gameService.add(this.formData);
+    this.router.navigate(['/game/search']);
   }
 }

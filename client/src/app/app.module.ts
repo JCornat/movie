@@ -37,6 +37,12 @@ import { SerieImportComponent } from './serie/import/import.component';
 import { SerieItemComponent } from './serie/item/item.component';
 import { SerieSearchComponent } from './serie/search/search.component';
 import { SerieUpdateComponent } from './serie/update/update.component';
+import { GameComponent } from './game/game.component';
+import { GameAddComponent } from './game/add/add.component';
+import { GameImportComponent } from './game/import/import.component';
+import { GameItemComponent } from './game/item/item.component';
+import { GameSearchComponent } from './game/search/search.component';
+import { GameUpdateComponent } from './game/update/update.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +79,12 @@ import { SerieUpdateComponent } from './serie/update/update.component';
     SerieItemComponent,
     SerieSearchComponent,
     SerieUpdateComponent,
+    GameComponent,
+    GameAddComponent,
+    GameImportComponent,
+    GameItemComponent,
+    GameSearchComponent,
+    GameUpdateComponent,
   ],
   imports: [
     BrowserModule,
