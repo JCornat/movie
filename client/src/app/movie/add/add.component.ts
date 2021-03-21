@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 
 import { Question } from '../../question/question';
 import { MovieService } from '../movie.service';
-import { MediaAddComponent } from '../../media/add/add.component';
+import { MediumAddComponent } from '../../medium/add/add.component';
 
 @Component({
   selector: 'media-add',
-  templateUrl: '../../media/add/add.component.html',
+  templateUrl: '../../medium/add/add.component.html',
 })
-export class MovieAddComponent extends MediaAddComponent {
+export class MovieAddComponent extends MediumAddComponent {
   public questions: Question[];
 
   public values: { [key: string]: any };

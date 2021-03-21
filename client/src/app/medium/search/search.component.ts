@@ -3,7 +3,7 @@ import { Directive, OnInit } from '@angular/core';
 import { Question } from '../../question/question';
 
 @Directive()
-export abstract class MediaSearchComponent implements OnInit {
+export abstract class MediumSearchComponent implements OnInit {
   public questions: Question[];
   public results: { title: string, year: number, backgroundImage: string }[];
 

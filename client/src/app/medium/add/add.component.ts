@@ -3,7 +3,7 @@ import { Directive, OnInit } from '@angular/core';
 import { Question } from '../../question/question';
 
 @Directive()
-export abstract class MediaAddComponent implements OnInit {
+export abstract class MediumAddComponent implements OnInit {
   public questions: Question[];
 
   public values: { [key: string]: any };
