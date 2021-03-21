@@ -58,7 +58,7 @@ export async function update(options: Movie): Promise<string> {
   return await media.update(options);
 }
 
-export function search(title: string): Promise<{ title: string, year: number, backgroundImage: string }[]> {
+export function search(title: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }[]> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/search/movie?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
@@ -75,11 +75,12 @@ export function search(title: string): Promise<{ title: string, year: number, ba
   });
 }
 
-function processSearch(data: any[]): { title: string, year: number, backgroundImage: string }[] {
+function processSearch(data: any[]): { id: number, title: string, year: number, backgroundImage: string }[] {
   const res = [];
   for (const datum of data) {
     const tmp = {
-      title: datum.name,
+      id: datum.id,
+      title: datum.title,
       year: (datum.release_date.split('-'))?.[0],
       backgroundImage: `https://image.tmdb.org/t/p/w300${datum.poster_path}`,
     };
@@ -90,7 +91,7 @@ function processSearch(data: any[]): { title: string, year: number, backgroundIm
   return res;
 }
 
-export function importOne(id: string): Promise<{ title: string, year: number, backgroundImage: string }> {
+export function importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/movie/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
