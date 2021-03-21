@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Question } from '../../question/question';
-import { MovieService } from '../movie.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Question } from '../../question/question';
+import { MovieService } from '../movie.service';
+import { MediaAddComponent } from '../../media/add/add.component';
+
 @Component({
-  selector: 'movie-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
+  selector: 'media-add',
+  templateUrl: '../../media/add/add.component.html',
 })
-export class MovieAddComponent implements OnInit {
+export class MovieAddComponent extends MediaAddComponent {
   public questions: Question[];
 
   public values: { [key: string]: any };
@@ -18,31 +19,7 @@ export class MovieAddComponent implements OnInit {
     public movieService: MovieService,
     public router: Router,
   ) {
-    //
-  }
-
-  public ngOnInit(): void {
-    this.init();
-  }
-
-  public init(): void {
-    const values: Question['values'] = [
-      {value: 'todo', label: 'A voir'},
-    ];
-
-    this.questions = [
-      {key: '_id', type: 'text', label: 'id', hide: true},
-      {key: 'title', type: 'text', label: 'Titre'},
-      {key: 'year', type: 'number', label: 'Année'},
-      {key: 'url', type: 'text', label: 'URL du Poster'},
-      {key: 'backgroundImage', type: 'file', label: 'Poster (300x450)', content: 'http://localhost:3000/api/file'},
-      {key: 'rating', type: 'number', label: 'Note'},
-      {key: 'tags', type: 'checkbox', label: 'Tags', values},
-    ];
-  }
-
-  public onValid(data): void {
-    this.formData = data;
+    super();
   }
 
   public async onSubmit(): Promise<void> {

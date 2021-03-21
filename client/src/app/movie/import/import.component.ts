@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieAddComponent } from '../add/add.component';
-import { MovieService } from '../movie.service';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { MovieService } from '../movie.service';
+import { MediaImportComponent } from '../../media/import/import.component';
 
 @Component({
   selector: 'movie-import',
-  templateUrl: './import.component.html',
-  styleUrls: ['./import.component.scss']
+  templateUrl: '../../media/import/import.component.html',
 })
-export class MovieImportComponent extends MovieAddComponent implements OnInit {
+export class MovieImportComponent extends MediaImportComponent implements OnInit {
   public id: string;
   public posterImage: string;
 
@@ -17,14 +17,7 @@ export class MovieImportComponent extends MovieAddComponent implements OnInit {
     public router: Router,
     public route: ActivatedRoute,
   ) {
-    super(movieService, router);
-  }
-
-  public async ngOnInit(): Promise<void> {
-    this.id = this.route.snapshot.paramMap.get('id');
-
-    this.init();
-    this.values = await this.pullOne(this.id);
+    super(route, router);
   }
 
   public async pullOne(id: string): Promise<any> {

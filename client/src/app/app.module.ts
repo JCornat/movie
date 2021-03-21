@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MovieComponent } from './movie/movie.component';
-import { ItemComponent } from './movie/item/item.component';
+import { MovieItemComponent } from './movie/item/item.component';
 import { DynamicFormGroupComponent } from './dynamic-form/group/group.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 import { DynamicFormSectionComponent } from './dynamic-form/section/section.component';
@@ -35,8 +35,6 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MovieComponent,
-    ItemComponent,
     DynamicFormGroupComponent,
     DynamicFormComponent,
     DynamicFormSectionComponent,
@@ -55,11 +53,13 @@ import { LoginComponent } from './login/login.component';
     FieldTimeComponent,
     C7zFocusDirective,
     FieldVideoYoutubeComponent,
+    MovieComponent,
     MovieAddComponent,
+    MovieImportComponent,
+    MovieItemComponent,
+    MovieSearchComponent,
     MovieUpdateComponent,
     C7zButtonComponent,
-    MovieSearchComponent,
-    MovieImportComponent,
     LoginComponent,
   ],
   imports: [

@@ -12,7 +12,6 @@ import { AuthenticationService } from '../authentication/authentication.service'
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
-  styleUrls: ['./movie.component.scss']
 })
 export class MovieComponent implements OnInit, OnDestroy {
   public questions: Question[];

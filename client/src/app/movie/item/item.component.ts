@@ -1,16 +1,14 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MediaItemComponent } from '../../media/item/item.component';
 
 @Component({
   selector: 'movie-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss']
+  templateUrl: '../../media/item/item.component.html',
 })
-export class ItemComponent implements OnInit {
+export class MovieItemComponent extends MediaItemComponent {
   @Input() public data: { _id: string, title: string, rating: number, year: number, backgroundImage: string };
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
+    super();
   }
-
 }
