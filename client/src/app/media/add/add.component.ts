@@ -1,8 +1,8 @@
-import { OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Directive, OnInit } from '@angular/core';
 
 import { Question } from '../../question/question';
 
+@Directive()
 export abstract class MediaAddComponent implements OnInit {
   public questions: Question[];
 

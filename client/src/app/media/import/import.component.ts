@@ -1,8 +1,9 @@
-import { OnInit } from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaAddComponent } from '../add/add.component';
 
+@Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
   public id: string;
   public posterImage: string;
