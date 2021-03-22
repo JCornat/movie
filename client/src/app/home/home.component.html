@@ -1,0 +1,16 @@
+<ng-container *ngFor="let medium of media">
+  <div class="presentation" (click)="selectMedium(medium)">
+    <div class="text">
+      <div class="title">{{medium.title}}</div>
+      <div class="description">{{medium.description}}</div>
+    </div>
+
+    <div class="background">
+      <ng-container *ngIf="medium.data?.length > 0">
+        <ng-container *ngFor="let datum of medium.data">
+          <div class="poster" [style.backgroundImage]="'url(' + datum.backgroundImage + ')'"></div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

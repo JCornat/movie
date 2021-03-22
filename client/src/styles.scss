@@ -24,6 +24,9 @@
 :root {
   --movie-width: 250px;
   --movie-height: calc(var(--movie-width) * 1.5);
+
+  --presentation-medium-width: 200px;
+  --presentation-medium-height: calc(var(--presentation-medium-width) * 1.5);
 }
 
 @media (max-width: $minMedium) {
@@ -35,6 +38,58 @@
 @media (max-width: $minSmall) {
   :root {
     --movie-width: 150px;
+  }
+}
+
+.presentation {
+  height: calc(var(--presentation-medium-height) * 2);
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: rgb(18, 18, 18);
+  background: linear-gradient(90deg, rgba(18, 18, 18, 1) 25%, rgba(18, 18, 18, 0.7) 50%, rgba(18, 18, 18, 0.1) 100%);
+  margin-bottom: 16px;
+  overflow: hidden;
+
+  .text {
+    padding-left: 100px;
+
+    .title {
+      text-shadow: 0 0 5px rgb(0, 212, 252, 0.8);
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -1;
+    }
+
+    .description {
+      opacity: 0.5;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .background {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--presentation-medium-width), 1fr));
+
+    .poster {
+      height: var(--presentation-medium-height);
+      width: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      &:before {
+        content: "";
+      }
+    }
   }
 }
 

@@ -16,11 +16,12 @@ import { GameComponent } from './game/game.component';
 import { GameUpdateComponent } from './game/update/update.component';
 import { GameImportComponent } from './game/import/import.component';
 import { GameSearchComponent } from './game/search/search.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: MovieComponent,
+    component: HomeComponent,
   },
   {
     path: 'login',

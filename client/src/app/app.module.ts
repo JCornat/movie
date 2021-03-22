@@ -43,6 +43,7 @@ import { GameImportComponent } from './game/import/import.component';
 import { GameItemComponent } from './game/item/item.component';
 import { GameSearchComponent } from './game/search/search.component';
 import { GameUpdateComponent } from './game/update/update.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { GameUpdateComponent } from './game/update/update.component';
     GameItemComponent,
     GameSearchComponent,
     GameUpdateComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
