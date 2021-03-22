@@ -127,6 +127,6 @@ export class HomeComponent implements OnInit {
       return 0;
     });
 
-    return media.splice(0, 10);
+    return media.splice(0, 25);
   }
 }
