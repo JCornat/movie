@@ -75,25 +75,19 @@ export class HomeComponent implements OnInit {
     this.media = [
       {
         title: 'Movies',
-        description: `
-          
-        `,
+        description: `Keep track of my favourites movies.`,
         url: '/movie',
         data: this.movies,
       },
       {
         title: 'Series',
-        description: `
-          
-        `,
+        description: `Follow my preferred series.`,
         url: '/serie',
         data: this.series,
       },
       {
         title: 'Games',
-        description: `
-          
-        `,
+        description: `Explore my dearest games.`,
         url: '/game',
         data: this.games,
       },
