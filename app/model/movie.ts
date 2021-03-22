@@ -78,11 +78,13 @@ export function search(title: string): Promise<{ id: number, title: string, year
 function processSearch(data: any[]): { id: number, title: string, year: number, backgroundImage: string }[] {
   const res = [];
   for (const datum of data) {
+    const year = (datum.release_date) ? (datum.release_date.split('-'))?.[0] : '';
+    const backgroundImage = (datum.poster_path) ? `https://image.tmdb.org/t/p/w300${datum.poster_path}` : '';
     const tmp = {
       id: datum.id,
       title: datum.title,
-      year: (datum.release_date.split('-'))?.[0],
-      backgroundImage: `https://image.tmdb.org/t/p/w300${datum.poster_path}`,
+      year,
+      backgroundImage,
     };
 
     res.push(tmp);

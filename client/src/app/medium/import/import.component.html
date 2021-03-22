@@ -4,4 +4,5 @@
     <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
 </div>
 
+<div *ngIf="errorAdd" style="color: red; margin-bottom: 16px;">{{errorAdd}}</div>
 <c7z-button class="raised blue" (onClick)="onSubmit()">Enregistrer</c7z-button>

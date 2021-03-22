@@ -32,7 +32,7 @@
             </ng-container>
 
             <ng-container *ngIf="category.limit < category.games.length">
-                <div class="game blur" (click)="increaseLimit(category)" style="cursor: pointer;">
+                <div class="medium blur" (click)="increaseLimit(category)" style="cursor: pointer;">
                     <div class="poster-container">
                         <div class="poster" [style.backgroundImage]="'url(' + category.games[category.limit].backgroundImage + ')'"></div>
                     </div>

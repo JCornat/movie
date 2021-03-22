@@ -9,9 +9,6 @@ import { MediumImportComponent } from '../../medium/import/import.component';
   templateUrl: '../../medium/import/import.component.html',
 })
 export class GameImportComponent extends MediumImportComponent implements OnInit {
-  public id: string;
-  public posterImage: string;
-
   constructor(
     public gameService: GameService,
     public router: Router,
@@ -36,7 +33,20 @@ export class GameImportComponent extends MediumImportComponent implements OnInit
   }
 
   public async onSubmit(): Promise<void> {
-    await this.gameService.add(this.formData);
-    this.router.navigate(['/game/search']);
+    if (this.loadingAdd) {
+      return;
+    }
+
+    this.errorAdd = null;
+    this.loadingAdd = true;
+
+    try {
+      await this.gameService.add(this.formData);
+      this.router.navigate(['/game/search']);
+    } catch (error) {
+      this.errorAdd = error;
+    } finally {
+      this.loadingAdd = false;
+    }
   }
 }

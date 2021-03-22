@@ -7,6 +7,8 @@ import { MediumAddComponent } from '../add/add.component';
 export abstract class MediumImportComponent extends MediumAddComponent implements OnInit {
   public id: string;
   public posterImage: string;
+  public loadingAdd: boolean;
+  public errorAdd: string;
 
   constructor(
     public route: ActivatedRoute,

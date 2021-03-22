@@ -94,10 +94,11 @@ function processSearch(data: any[]): { id: number, title: string, year: number, 
   const res = [];
   for (const datum of data) {
     const backgroundImage = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
+    const year = (datum.first_release_date) ? moment(datum.first_release_date, 'X').format('YYYY') : '';
     const tmp = {
       id: datum.id,
       title: datum.name,
-      year: moment(datum.first_release_date, 'X').format('YYYY'),
+      year,
       backgroundImage,
     };
 

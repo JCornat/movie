@@ -9,9 +9,6 @@ import { MediumImportComponent } from '../../medium/import/import.component';
   templateUrl: '../../medium/import/import.component.html',
 })
 export class SerieImportComponent extends MediumImportComponent implements OnInit {
-  public id: string;
-  public posterImage: string;
-
   constructor(
     public serieService: SerieService,
     public router: Router,
@@ -36,7 +33,20 @@ export class SerieImportComponent extends MediumImportComponent implements OnIni
   }
 
   public async onSubmit(): Promise<void> {
-    await this.serieService.add(this.formData);
-    this.router.navigate(['/serie/search']);
+    if (this.loadingAdd) {
+      return;
+    }
+
+    this.errorAdd = null;
+    this.loadingAdd = true;
+
+    try {
+      await this.serieService.add(this.formData);
+      this.router.navigate(['/serie/search']);
+    } catch (error) {
+      this.errorAdd = error;
+    } finally {
+      this.loadingAdd = false;
+    }
   }
 }
