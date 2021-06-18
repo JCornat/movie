@@ -23,15 +23,27 @@ export class GameSearchComponent extends MediumSearchComponent {
     super();
   }
 
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
   public async search(title: string): Promise<any> {
     this.results = await this.gameService.search(title);
   }
 
-  public select(result: any): void {
-    this.router.navigate(['/game/import', result.id]);
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigateBack(): void {
+    this.router.navigate(['/game']);
   }
 
   public navigateAdd(): void {
     this.router.navigate(['/game/add']);
+  }
+
+  public navigateImport(id: string): void {
+    this.router.navigate(['/game/import', id]);
   }
 }

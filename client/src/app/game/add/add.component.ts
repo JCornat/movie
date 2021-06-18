@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Question } from '../../question/question';
 import { GameService } from '../game.service';
 import { MediumAddComponent } from '../../medium/add/add.component';
 
@@ -10,11 +9,6 @@ import { MediumAddComponent } from '../../medium/add/add.component';
   templateUrl: '../../medium/add/add.component.html',
 })
 export class GameAddComponent extends MediumAddComponent {
-  public questions: Question[];
-
-  public values: { [key: string]: any };
-  public formData: { [key: string]: any };
-
   constructor(
     public gameService: GameService,
     public router: Router,
@@ -22,8 +16,19 @@ export class GameAddComponent extends MediumAddComponent {
     super();
   }
 
-  public async onSubmit(): Promise<void> {
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
+  public async add(): Promise<void> {
     await this.gameService.add(this.formData);
+  }
+
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigateBack(): void {
     this.router.navigate(['/game']);
   }
 }

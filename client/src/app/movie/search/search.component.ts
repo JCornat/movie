@@ -23,15 +23,27 @@ export class MovieSearchComponent extends MediumSearchComponent {
     super();
   }
 
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
   public async search(title: string): Promise<any> {
     this.results = await this.movieService.search(title);
   }
 
-  public select(result: any): void {
-    this.router.navigate(['/movie/import', result.id]);
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigateBack(): void {
+    this.router.navigate(['/movie']);
   }
 
   public navigateAdd(): void {
     this.router.navigate(['/movie/add']);
+  }
+
+  public navigateImport(id: string): void {
+    this.router.navigate(['/movie/import', id]);
   }
 }

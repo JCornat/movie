@@ -1,24 +1,26 @@
+<c7z-button class="secondary mb-16" icon="arrow-back" (onClick)="navigateBack()">Retour</c7z-button>
+
 <div style="max-width: 800px">
-    <div class="flex" style="align-items: end;">
-        <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
-        <div class="ml-8">
-            <c7z-button class="secondary blue" icon="search" (onClick)="onSubmit()">Rechercher</c7z-button>
-        </div>
-        <div class="ml-8">
-            <c7z-button class="secondary blue" icon="add" (onClick)="navigateAdd()">Ajouter manuellement</c7z-button>
-        </div>
+  <div class="flex" style="align-items: end;">
+    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
+    <div class="ml-8">
+      <c7z-button class="secondary blue" icon="search" (onClick)="onSubmit()">Rechercher</c7z-button>
     </div>
+    <div class="ml-8">
+      <c7z-button class="secondary blue" icon="add" (onClick)="navigateAdd()">Ajouter manuellement</c7z-button>
+    </div>
+  </div>
 
-    <ng-container *ngIf="results?.length === 0">
-        Aucun résultat
-    </ng-container>
+  <ng-container *ngIf="results?.length === 0">
+    Aucun résultat
+  </ng-container>
 
-    <ng-container *ngIf="results?.length > 0">
-        <div class="c7z-card">
+  <ng-container *ngIf="results?.length > 0">
+    <div class="c7z-card">
 
-        <ng-container *ngFor="let result of results">
-            <div class="row" (click)="select(result)">{{result.title}} ({{result.year}})</div>
-        </ng-container>
-        </div>
-    </ng-container>
+      <ng-container *ngFor="let result of results">
+        <div class="row" (click)="select(result)">{{result.title}} ({{result.year}})</div>
+      </ng-container>
+    </div>
+  </ng-container>
 </div>

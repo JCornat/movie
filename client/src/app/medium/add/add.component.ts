@@ -4,6 +4,9 @@ import { Question } from '../../question/question';
 
 @Directive()
 export abstract class MediumAddComponent implements OnInit {
+  public loading: boolean;
+  public error: string;
+
   public questions: Question[];
 
   public values: { [key: string]: any };
@@ -33,9 +36,40 @@ export abstract class MediumAddComponent implements OnInit {
     ];
   }
 
+  /*-----------------------*\
+           Template
+  \*-----------------------*/
+
   public onValid(data): void {
     this.formData = data;
   }
 
-  abstract onSubmit(): Promise<void>;
+  public async onSubmit(): Promise<void> {
+    if (this.loading) {
+      return;
+    }
+
+    this.error = null;
+    this.loading = true;
+
+    try {
+      await this.add();
+      this.navigateBack();
+    } catch (error) {
+      this.error = error;
+      this.loading = false;
+    }
+  }
+
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
+  public abstract add(): Promise<void>;
+
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public abstract navigateBack(): void;
 }

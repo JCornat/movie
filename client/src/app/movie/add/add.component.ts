@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Question } from '../../question/question';
 import { MovieService } from '../movie.service';
 import { MediumAddComponent } from '../../medium/add/add.component';
 
@@ -10,11 +9,6 @@ import { MediumAddComponent } from '../../medium/add/add.component';
   templateUrl: '../../medium/add/add.component.html',
 })
 export class MovieAddComponent extends MediumAddComponent {
-  public questions: Question[];
-
-  public values: { [key: string]: any };
-  public formData: { [key: string]: any };
-
   constructor(
     public movieService: MovieService,
     public router: Router,
@@ -22,8 +16,19 @@ export class MovieAddComponent extends MediumAddComponent {
     super();
   }
 
-  public async onSubmit(): Promise<void> {
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
+  public async add(): Promise<void> {
     await this.movieService.add(this.formData);
+  }
+
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigateBack(): void {
     this.router.navigate(['/movie']);
   }
 }

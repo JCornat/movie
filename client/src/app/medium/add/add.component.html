@@ -1,5 +1,13 @@
+<c7z-button class="secondary mb-16" icon="arrow-back" (onClick)="navigateBack()">Retour</c7z-button>
+
 <div style="max-width: 500px">
-    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
+  <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>
 </div>
 
-<c7z-button class="raised blue" (onClick)="onSubmit()">Enregistrer</c7z-button>
+<ng-container *ngIf="error">
+  <p style="color: red;">{{error}}</p>
+</ng-container>
+
+<c7z-button class="raised blue" (onClick)="onSubmit()" [icon]="(loading) ? 'sync' : 'save'" [spin]="loading">
+  <ng-container *ngIf="!loading">Enregistrer</ng-container>
+</c7z-button>

@@ -19,21 +19,28 @@ export class GameUpdateComponent extends MediumUpdateComponent {
     super(route, router);
   }
 
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
   public async pullOne(id: string): Promise<void> {
     this.values = await this.gameService.pullOne(this.id);
   }
 
   public async remove(): Promise<void> {
     await this.gameService.delete(this.id);
-    this.router.navigate(['/game']);
+    this.navigateBack();
   }
 
   public async update(data): Promise<void> {
     await this.gameService.update(data);
   }
 
-  public async onSubmit(): Promise<void> {
-    await this.update(this.formData);
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigateBack(): void {
     this.router.navigate(['/game']);
   }
 }

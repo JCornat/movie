@@ -21,11 +21,38 @@ export abstract class MediumUpdateComponent extends MediumAddComponent implement
     this.init();
   }
 
+  /*-----------------------*\
+           Template
+  \*-----------------------*/
+
+  public async onSubmit(): Promise<void> {
+    if (this.loading) {
+      return;
+    }
+
+    this.error = null;
+    this.loading = true;
+
+    try {
+      await this.update(this.formData);
+      this.navigateBack();
+    } catch (error) {
+      this.error = error;
+      this.loading = false;
+    }
+  }
+
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
+  public async add(): Promise<void> {
+    //
+  }
+
   public abstract pullOne(id: string): Promise<void>;
 
   public abstract remove(): Promise<void>;
 
   public abstract update(data): Promise<void>;
-
-  public abstract onSubmit(): Promise<void>;
 }

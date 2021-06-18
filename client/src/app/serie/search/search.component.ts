@@ -23,15 +23,27 @@ export class SerieSearchComponent extends MediumSearchComponent {
     super();
   }
 
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
   public async search(title: string): Promise<any> {
     this.results = await this.serieService.search(title);
   }
 
-  public select(result: any): void {
-    this.router.navigate(['/serie/import', result.id]);
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigateBack(): void {
+    this.router.navigate(['/serie']);
   }
 
   public navigateAdd(): void {
     this.router.navigate(['/serie/add']);
+  }
+
+  public navigateImport(id: string): void {
+    this.router.navigate(['/serie/import', id]);
   }
 }

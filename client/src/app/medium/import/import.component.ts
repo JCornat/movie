@@ -24,7 +24,9 @@ export abstract class MediumImportComponent extends MediumAddComponent implement
     this.values = await this.pullOne(this.id);
   }
 
-  public abstract pullOne(id: string): Promise<{ title: string, year: number, url: string }>;
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
 
-  public abstract onSubmit(): Promise<void>;
+  public abstract pullOne(id: string): Promise<{ title: string, year: number, url: string }>;
 }

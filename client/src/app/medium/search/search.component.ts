@@ -24,13 +24,19 @@ export abstract class MediumSearchComponent implements OnInit {
     ];
   }
 
+  /*-----------------------*\
+           Template
+  \*-----------------------*/
+
   public onValid(data): void {
     this.formData = data;
   }
 
   public abstract search(title: string): Promise<void>;
 
-  public abstract select(result: any): void;
+  public select(result: any): void {
+    this.navigateImport(result.id);
+  }
 
   public async onSubmit(): Promise<void> {
     if (!this.formData) {
@@ -40,5 +46,13 @@ export abstract class MediumSearchComponent implements OnInit {
     this.search(this.formData.search);
   }
 
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public abstract navigateBack(): void;
+
   public abstract navigateAdd(): void;
+
+  public abstract navigateImport(id: string): void;
 }

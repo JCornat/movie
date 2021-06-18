@@ -17,6 +17,14 @@ export class MovieImportComponent extends MediumImportComponent implements OnIni
     super(route, router);
   }
 
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
+  public async add(): Promise<void> {
+    await this.movieService.add(this.formData);
+  }
+
   public async pullOne(id: string): Promise<any> {
     if (!id) {
       throw new Error('ID incorrect');
@@ -32,21 +40,11 @@ export class MovieImportComponent extends MediumImportComponent implements OnIni
     };
   }
 
-  public async onSubmit(): Promise<void> {
-    if (this.loadingAdd) {
-      return;
-    }
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
 
-    this.errorAdd = null;
-    this.loadingAdd = true;
-
-    try {
-      await this.movieService.add(this.formData);
-      this.router.navigate(['/movie/search']);
-    } catch (error) {
-      this.errorAdd = error;
-    } finally {
-      this.loadingAdd = false;
-    }
+  public navigateBack(): void {
+    this.router.navigate(['/movie/search']);
   }
 }
