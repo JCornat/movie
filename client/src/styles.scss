@@ -5,11 +5,49 @@ $maxMedium: 991px;
 $minMedium: 768px;
 $maxSmall: 767px;
 $minSmall: 544px;
+$grey200: #EEEEEE;
 $maxExtraSmall: 543px;
+$grey800: #424242;
+$blue500: #2196F3;
+$green500: #4CAF50;
+$deepPurple500: #673AB7;
+$transitionDuration: 0.2s;
+$transitionCurve: cubic-bezier(0.4, 0, 0.2, 1);
+$smallIconSize: 18px;
+$normalIconSize: 24px;
+$mediumIconSize: 36px;
+$bigIconSize: 48px;
+$biggerIconSize: 56px;
+
+$fontPath: '../../font' !default;
+$generatedFontPath: '../generated' !default;
+$imagePath: '../../image' !default;
+
 
 @mixin variable($property, $variable, $fallback) {
   #{$property}: $fallback;
   #{$property}: $variable;
+}
+
+@mixin borderRadius($radius: 8px) {
+  border-radius: $radius;
+}
+
+@mixin borderRadiusBottom($radius: 8px) {
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin borderRadiusTop($radius: 8px) {
+  border-top-left-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+
+@mixin text-ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @import 'assets/styles/variable';
@@ -17,6 +55,7 @@ $maxExtraSmall: 543px;
 @import 'assets/styles/base';
 @import 'assets/styles/box';
 @import 'assets/styles/flex';
+@import 'assets/styles/form';
 
 @include build-margin();
 @include build-padding();
@@ -140,7 +179,7 @@ $maxExtraSmall: 543px;
 
   .poster-container {
     border-radius: 8px;
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.12);;
     margin-bottom: 12px;
     overflow: hidden;
 

@@ -1,6 +1,20 @@
+
+<ng-container *ngIf="links && links.length > 0">
+<div style="font-size: 16px;">
+  <ng-container *ngFor="let link of links; index as i">
+  <span style="cursor: pointer;" [ngClass]="{'bold': link === 'random', 'opacity-8': link !== 'random'}" (click)="navigate(link.path)">{{link.label}}</span>
+  <span class="mx-4 opacity-5" *ngIf="i < links.length - 1">/</span>
+  </ng-container>
+</div>
+</ng-container>
+
 <div class="mx-16 mt-16 flex" style="justify-content: end;">
   <div style="max-width: 400px; width: 100%;">
-<!--    <dynamic-form-section [questions]="questions" (onValid)="onValid($event)"></dynamic-form-section>-->
+    <div class="c7z-input-container">
+      <form [formGroup]="profileForm">
+        <input type="text" formControlName="search" placeholder="Search">
+      </form>
+    </div>
   </div>
 
   <ng-container *ngIf="isLogged">
@@ -12,8 +26,8 @@
 
 <ng-container *ngFor="let category of displayList">
   <ng-container *ngIf="category.games && category.games.length > 0">
-    <div class="mx-16 mt-32 flex" style="align-items: baseline;">
-      <div class="bold" style="font-size: 25px;">{{category.label}}</div>
+    <div class="mx-16 flex" style="align-items: baseline;">
+      <div class="bold" style="font-size: 25px; margin-right: 8px;">{{category.label}}</div>
       <div class="fill"></div>
       <div style="font-size: 16px;">
         <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'random', 'opacity-8': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</span>
@@ -24,7 +38,7 @@
       </div>
     </div>
 
-    <div class="media">
+    <div class="media" style="margin-bottom: 64px;">
       <ng-container *ngFor="let game of category.games; index as i">
         <ng-container *ngIf="i < category.limit">
           <game-item [data]="game" (click)="navigateUpdate(game)"></game-item>
@@ -38,8 +52,7 @@
           </div>
 
           <div class="content">
-            <div class="title" style="font-size: 20px; font-weight: 600;">Still {{category.games.length - category.limit}} games</div>
-            <div class="year" style="font-size: 16px; font-weight: 400;">See more</div>
+            <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.games.length - category.limit}} more</div>
           </div>
         </div>
       </ng-container>

@@ -5,8 +5,8 @@ import { GameAddComponent } from '@app/game/add/add.component';
 import { GameImportComponent } from '@app/game/import/import.component';
 import { GameItemComponent } from '@app/game/item/item.component';
 import { GameRoutingModule } from '@app/game/game-routing.module';
-import { GameSearchComponent } from '@app/game/search/search.component';
 import { GameUpdateComponent } from '@app/game/update/update.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +14,11 @@ import { GameUpdateComponent } from '@app/game/update/update.component';
     GameAddComponent,
     GameImportComponent,
     GameItemComponent,
-    GameSearchComponent,
     GameUpdateComponent,
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     GameRoutingModule,
   ]
 })

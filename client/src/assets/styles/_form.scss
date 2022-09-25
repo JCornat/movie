@@ -1,0 +1,310 @@
+.c7z-input-container {
+  padding-bottom: 20px;
+  max-width: 390px;
+  display: block;
+  position: relative;
+
+  .label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    opacity: 0.8;
+    cursor: inherit;
+    font-weight: 300;
+    @include variable(color, rgb(var(--on-surface)), #fff);
+  }
+
+  input[type=text], input[type=email], input[type=date], input[type=time], input[type=password], input[type=number], input[type=tel] {
+    font-size: $bodySize;
+    font-weight: $regular;
+    line-height: 20px;
+    margin: 0;
+    max-width: 100%;
+    outline: 0;
+    padding: 7px;
+    transition: border-color 0.2s;
+    vertical-align: middle;
+    height: 36px;
+    max-height: 36px;
+    width: 100%;
+    border-width: 1px;
+    border-style: solid;
+    @include variable(background-color, rgb(var(--surface)), #fff);
+    @include variable(color, rgb(var(--on-surface)), #fff);
+    @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
+    @include borderRadius();
+
+    &:focus, &:active {
+      border-bottom-width: 2px;
+      @include variable(border-bottom-color, rgb(var(--primary)), #fff);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-bottom-width: 2px;
+      @include variable(border-bottom-color, rgb(var(--error)), #fff);
+    }
+
+    &[disabled] {
+      color: rgba(0, 0, 0, 0.36);
+      background-color: $grey200;
+    }
+
+    &[readonly] {
+      cursor: not-allowed;
+      color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  textarea {
+    font-size: $bodySize;
+    font-weight: $regular;
+    line-height: 20px;
+    margin: 0;
+    max-width: 100%;
+    outline: 0;
+    padding: 7px;
+    transition: border-color .2s;
+    width: 100%;
+    resize: none;
+    font-family: $fontFamily;
+    border-width: 1px;
+    border-style: solid;
+    @include variable(background-color, rgb(var(--surface)), #fff);
+    @include variable(color, rgb(var(--on-surface)), #fff);
+    @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
+    @include borderRadius();
+
+    &:focus, &:active {
+      border-bottom-width: 2px;
+      @include variable(border-bottom-color, rgb(var(--primary)), #fff);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-bottom-width: 2px;
+      @include variable(border-bottom-color, rgb(var(--error)), #fff);
+    }
+
+    &[disabled] {
+      color: rgba(0, 0, 0, 0.36);
+      background-color: #eee;
+    }
+
+    &.resizable {
+      resize: vertical;
+    }
+
+    &[readonly] {
+      cursor: not-allowed;
+      color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  select {
+    cursor: pointer;
+    font-size: $bodySize;
+    font-weight: $regular;
+    line-height: 20px;
+    margin: 0;
+    max-width: 100%;
+    outline: 0;
+    padding: 7px;
+    width: 100%;
+    border-width: 1px;
+    border-style: solid;
+    @include variable(background-color, rgb(var(--surface)), #fff);
+    @include variable(color, rgb(var(--on-surface)), #fff);
+    @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
+    @include borderRadius();
+
+    &.ng-invalid.ng-touched {
+      border-bottom-width: 2px;
+      @include variable(border-bottom-color, rgb(var(--error)), #fff);
+    }
+  }
+
+  &.full-width {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  &.no-padding {
+    padding: 0;
+  }
+}
+
+.checkbox-container, .radio-container {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  height: 36px;
+  margin-bottom: 0;
+  line-height: 36px;
+  opacity: 1;
+  background-color: transparent;
+  transition: background-color $transitionDuration $transitionCurve;
+  font-weight: $regular;
+  font-size: $bodySize;
+  @include text-ellipsis();
+  display: flex;
+  align-items: center;
+
+  input[type=checkbox], input[type=radio] {
+    display: none;
+  }
+
+  i.icon {
+    height: $normalIconSize;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  &.disabled {
+    cursor: default;
+  }
+
+  &.ng-invalid.ng-touched {
+    i.icon {
+      @include variable(color, rgb(var(--error)), #fff);
+    }
+  }
+}
+
+dynamic-form-group {
+  .grid {
+    padding: 0;
+    justify-content: start;
+
+    dynamic-form-question {
+      padding: 0;
+    }
+  }
+}
+
+.c7z-form-container {
+  display: flex;
+  justify-content: center;
+
+  @media only screen and (max-width: $maxExtraSmall) {
+    display: block;
+  }
+}
+
+.c7z-section-navbar {
+  flex: 1;
+  width: 100%;
+  max-width: 175px;
+
+  .c7z-card {
+    overflow: hidden;
+
+    .row {
+      min-height: 50px;
+      padding-right: 12px;
+      padding-bottom: 12px;
+      padding-left: 12px;
+      border-bottom: none;
+    }
+
+    .c7z-progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      @include borderRadiusBottom();
+    }
+  }
+
+  @media only screen and (min-width: $minSmall) {
+    height: 70vh;
+    max-height: 70vh;
+    overflow-y: auto;
+    margin-right: 8px;
+
+    .c7z-card {
+      margin-bottom: 8px;
+    }
+  }
+
+  @media only screen and (max-width: $maxExtraSmall) {
+    display: flex;
+    overflow-x: auto;
+    width: 100vw;
+    max-width: 100vw;
+    padding: 8px 16px 8px 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-bottom: 8px;
+
+    .c7z-card {
+      height: 56px;
+      margin-right: 8px;
+      min-width: 150px;
+      max-width: 150px;
+    }
+  }
+}
+
+.c7z-form {
+  position: relative;
+  flex: 3;
+  max-width: 600px;
+
+  .c7z-card {
+    .header {
+      & > .section {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        background-color: $grey800;
+        color: #fff;
+        margin-right: -20px;
+        margin-bottom: 24px;
+        margin-left: -20px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        @include borderRadiusTop();
+
+        .row {
+          border-bottom: none;
+          min-height: auto;
+        }
+
+        .title {
+          font-size: 20px;
+          padding: 0;
+          font-weight: $medium;
+          opacity: 1;
+        }
+
+        .pagination {
+          opacity: 0.7;
+        }
+
+        .description {
+          opacity: 0.7;
+        }
+
+        &.green {
+          background-color: $green500;
+        }
+
+        &.blue {
+          background-color: $blue500;
+        }
+
+        &.purple {
+          background-color: $deepPurple500;
+        }
+      }
+    }
+  }
+}
+
+field-file {
+  .preview {
+    height: 500px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}
