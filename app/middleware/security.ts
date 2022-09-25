@@ -1,6 +1,6 @@
 import * as cors from 'cors';
 import * as express from 'express';
-import * as helmet from 'helmet';
+import helmet from 'helmet';
 
 export const app = express();
 

@@ -17,11 +17,14 @@ import * as WebsiteController from './controller/website';
 import * as MovieModel from './model/movie';
 import * as SerieModel from './model/serie';
 import * as GameModel from './model/game';
+import * as path from 'path';
+import { convert } from './model/image';
 
 export const app = express();
 const server = http.createServer(app);
 
-init();
+// init();
+convert(path.join(__dirname, 'a.jpg'), path.join(__dirname, 'c.avif'), null, 375);
 
 async function init() {
   app.use(SecurityMiddleware.app);

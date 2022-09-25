@@ -1,0 +1,95 @@
+@mixin build-margin() {
+  $sizes: 0 1 2 4 6 8 12 16 20 24 32;
+
+  @each $i in $sizes {
+    .m-#{$i} {
+      margin: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mb-#{$i} {
+      margin-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mt-#{$i} {
+      margin-top: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .ml-#{$i} {
+      margin-left: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mr-#{$i} {
+      margin-right: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .my-#{$i} {
+      margin-top: #{$i}px;
+      margin-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .mx-#{$i} {
+      margin-left: #{$i}px;
+      margin-right: #{$i}px;
+    }
+  }
+}
+
+@mixin build-padding() {
+  $sizes: 0 1 2 4 6 8 12 16 20 24 32;
+
+  @each $i in $sizes {
+    .p-#{$i} {
+      padding: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pb-#{$i} {
+      padding-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pt-#{$i} {
+      padding-top: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pl-#{$i} {
+      padding-left: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .pr-#{$i} {
+      padding-right: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .py-#{$i} {
+      padding-top: #{$i}px;
+      padding-bottom: #{$i}px;
+    }
+  }
+
+  @each $i in $sizes {
+    .px-#{$i} {
+      padding-left: #{$i}px;
+      padding-right: #{$i}px;
+    }
+  }
+}

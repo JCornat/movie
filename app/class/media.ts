@@ -1,18 +1,18 @@
-import { Collection, MongoClient, ObjectId } from 'mongodb';
+// import { Collection, MongoClient, ObjectId } from 'mongodb';
 
-import { MONGO } from '../config/config';
-import * as MongoConnector from '../connector/mongo';
+// import { MONGO } from '../config/config';
+// import * as MongoConnector from '../connector/mongo';
 
 export class Media {
-  public collection: Collection<any>;
+  public collection: any;
 
   constructor(collectionName: string) {
     this.init(collectionName);
   }
 
   async init(collectionName: string): Promise<void> {
-    const mongoPool: MongoClient = await MongoConnector.createPool(MONGO);
-    this.collection = MongoConnector.request({pool: mongoPool, databaseName: 'app', collectionName});
+    // const mongoPool: any = await MongoConnector.createPool({});
+    // this.collection = MongoConnector.request({pool: mongoPool, databaseName: 'app', collectionName});
   }
 
   async getAll<T>(): Promise<T[]> {
@@ -21,7 +21,7 @@ export class Media {
   }
 
   async getOne<T>(options: { id: string }): Promise<T> {
-    const data = await this.collection.findOne({_id: new ObjectId(options.id)});
+    const data = await this.collection.findOne({_id: new Error(options.id)});
     return data;
   }
 
@@ -31,7 +31,7 @@ export class Media {
   }
 
   async remove(options: { id: string }): Promise<void> {
-    await this.collection.findOneAndDelete({_id: new ObjectId(options.id)});
+    await this.collection.findOneAndDelete({_id: new Error(options.id)});
   }
 
   async update<T>(options: T): Promise<string> {
@@ -41,7 +41,7 @@ export class Media {
 
     const id = (options as any)._id;
     delete (options as any)._id;
-    await this.collection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: options});
+    await this.collection.findOneAndUpdate({_id: new Error(id)}, {$set: options});
     return id;
   }
 }
