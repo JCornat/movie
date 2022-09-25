@@ -1,25 +1,16 @@
-@import 'assets/styles/abstract/color';
-@import 'assets/styles/abstract/font';
-@import 'assets/styles/abstract/screen';
-@import 'assets/styles/abstract/shadow';
-@import 'assets/styles/abstract/icon';
-@import 'assets/styles/abstract/variables';
-@import 'assets/styles/abstract/functions';
-@import 'assets/styles/abstract/flex';
-@import 'assets/styles/abstract/mixins';
-@import 'assets/styles/abstract/animations';
+$minExtraLarge: 1200px;
+$maxLarge: 1199px;
+$minLarge: 992px;
+$maxMedium: 991px;
+$minMedium: 768px;
+$maxSmall: 767px;
+$minSmall: 544px;
+$maxExtraSmall: 543px;
 
-@import "assets/styles/base/reset";
-@import "assets/styles/base/base";
-
-@import "assets/styles/layout/form";
-@import "assets/styles/component/button";
-@import "assets/styles/component/card";
-@import "assets/styles/component/row";
-@import "assets/font/icon";
-
-@include build-margin();
-@include build-padding();
+@mixin variable($property, $variable, $fallback) {
+  #{$property}: $fallback;
+  #{$property}: $variable;
+}
 
 :root {
   --movie-width: 250px;
@@ -27,20 +18,6 @@
 
   --presentation-medium-width: 200px;
   --presentation-medium-height: calc(var(--presentation-medium-width) * 1.5);
-}
-
-@media (max-width: $minMedium) {
-  :root {
-    --movie-width: 200px;
-    --presentation-medium-width: 175px;
-  }
-}
-
-@media (max-width: $minSmall) {
-  :root {
-    --movie-width: 150px;
-    --presentation-medium-width: 125px;
-  }
 }
 
 .presentation {
@@ -188,28 +165,4 @@
       text-shadow: 0 2px 2px #000;
     }
   }
-}
-
-.thin {
-  font-weight: $thin;
-}
-
-.light {
-  font-weight: $light;
-}
-
-.regular {
-  font-weight: $regular;
-}
-
-.medium {
-  font-weight: $medium;
-}
-
-.bold {
-  font-weight: $bold;
-}
-
-.weightBlack {
-  font-weight: $weightBlack;
 }

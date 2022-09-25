@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from '../request/request.service';
-import { Request } from '../request/request';
+import { RequestService } from '@shared/request/request.service';
+import { Request } from '@shared/request/request';
 import { Serie } from './serie';
 
 @Injectable({
@@ -63,7 +63,7 @@ export class SerieService {
     await this.requestService.put(optionsQuery).toPromise();
   }
 
-  public async add(options): Promise<void> {
+  public async add(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
       url: `/api/serie`,
       body: {
@@ -74,7 +74,7 @@ export class SerieService {
     await this.requestService.post(optionsQuery).toPromise();
   }
 
-  public async delete(id): Promise<void> {
+  public async delete(id: string): Promise<void> {
     const optionsQuery = {
       url: `/api/serie/${id}`,
     };

@@ -7,7 +7,7 @@
     </div>
 
     <div class="background">
-      <ng-container *ngIf="medium.data?.length > 0">
+      <ng-container *ngIf="medium.data.length > 0">
         <ng-container *ngFor="let datum of medium.data">
           <div class="poster" [style.backgroundImage]="'url(' + datum.backgroundImage + ')'"></div>
         </ng-container>

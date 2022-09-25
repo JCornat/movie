@@ -1,16 +1,14 @@
 import { Directive, OnInit } from '@angular/core';
 
-import { Question } from '../../question/question';
-
 @Directive()
 export abstract class MediumAddComponent implements OnInit {
-  public loading: boolean;
-  public error: string;
+  public loading!: boolean;
+  public error!: string | null;
 
-  public questions: Question[];
+  public questions!: any[];
 
-  public values: { [key: string]: any };
-  public formData: { [key: string]: any };
+  public values!: { [key: string]: any };
+  public formData!: { [key: string]: any };
 
   constructor() {
     //
@@ -21,7 +19,7 @@ export abstract class MediumAddComponent implements OnInit {
   }
 
   public init(): void {
-    const values: Question['values'] = [
+    const values: any['values'] = [
       {value: 'todo', label: 'A voir'},
     ];
 
@@ -40,7 +38,7 @@ export abstract class MediumAddComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public onValid(data): void {
+  public onValid(data: { [key: string]: any }): void {
     this.formData = data;
   }
 
@@ -56,7 +54,7 @@ export abstract class MediumAddComponent implements OnInit {
       await this.add();
       this.navigateBack();
     } catch (error) {
-      this.error = error;
+      this.error = error as string;
       this.loading = false;
     }
   }

@@ -9,12 +9,10 @@ import { MediumUpdateComponent } from '../../medium/update/update.component';
   templateUrl: '../../medium/update/update.component.html',
 })
 export class GameUpdateComponent extends MediumUpdateComponent {
-  public id: string;
-
   constructor(
     public gameService: GameService,
-    public router: Router,
-    public route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
   ) {
     super(route, router);
   }
@@ -32,7 +30,7 @@ export class GameUpdateComponent extends MediumUpdateComponent {
     this.navigateBack();
   }
 
-  public async update(data): Promise<void> {
+  public async update(data: { [key: string]: any }): Promise<void> {
     await this.gameService.update(data);
   }
 

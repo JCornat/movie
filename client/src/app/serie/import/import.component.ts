@@ -11,8 +11,8 @@ import { MediumImportComponent } from '../../medium/import/import.component';
 export class SerieImportComponent extends MediumImportComponent implements OnInit {
   constructor(
     public serieService: SerieService,
-    public router: Router,
-    public route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
   ) {
     super(route, router);
   }

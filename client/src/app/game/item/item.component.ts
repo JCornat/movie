@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+
+import { Game } from '@app/game/game';
 import { MediumItemComponent } from '../../medium/item/item.component';
 
 @Component({
@@ -6,7 +8,7 @@ import { MediumItemComponent } from '../../medium/item/item.component';
   templateUrl: '../../medium/item/item.component.html',
 })
 export class GameItemComponent extends MediumItemComponent {
-  @Input() public data: { _id: string, title: string, rating: number, year: number, backgroundImage: string };
+  @Input() public override data!: Game;
 
   constructor() {
     super();

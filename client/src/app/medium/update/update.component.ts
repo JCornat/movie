@@ -1,11 +1,11 @@
-import { Directive, OnInit } from '@angular/core';
+import { Directive, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediumAddComponent } from '../add/add.component';
 
-@Directive()
+@Injectable()
 export abstract class MediumUpdateComponent extends MediumAddComponent implements OnInit {
-  public id: string;
+  public id!: string;
 
   constructor(
     public route: ActivatedRoute,
@@ -14,8 +14,8 @@ export abstract class MediumUpdateComponent extends MediumAddComponent implement
     super();
   }
 
-  public async ngOnInit(): Promise<void> {
-    this.id = this.route.snapshot.paramMap.get('id');
+  public override async ngOnInit(): Promise<void> {
+    this.id = this.route.snapshot.paramMap.get('id') || '';
     await this.pullOne(this.id);
 
     this.init();
@@ -25,7 +25,7 @@ export abstract class MediumUpdateComponent extends MediumAddComponent implement
            Template
   \*-----------------------*/
 
-  public async onSubmit(): Promise<void> {
+  public override async onSubmit(): Promise<void> {
     if (this.loading) {
       return;
     }
@@ -37,7 +37,7 @@ export abstract class MediumUpdateComponent extends MediumAddComponent implement
       await this.update(this.formData);
       this.navigateBack();
     } catch (error) {
-      this.error = error;
+      this.error = error as string;
       this.loading = false;
     }
   }
@@ -54,5 +54,5 @@ export abstract class MediumUpdateComponent extends MediumAddComponent implement
 
   public abstract remove(): Promise<void>;
 
-  public abstract update(data): Promise<void>;
+  public abstract update(data: { [key: string]: any }): Promise<void>;
 }

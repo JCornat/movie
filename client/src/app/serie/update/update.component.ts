@@ -9,12 +9,10 @@ import { MediumUpdateComponent } from '../../medium/update/update.component';
   templateUrl: '../../medium/update/update.component.html',
 })
 export class SerieUpdateComponent extends MediumUpdateComponent {
-  public id: string;
-
   constructor(
     public serieService: SerieService,
-    public router: Router,
-    public route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
   ) {
     super(route, router);
   }
@@ -32,7 +30,7 @@ export class SerieUpdateComponent extends MediumUpdateComponent {
     this.navigateBack();
   }
 
-  public async update(data): Promise<void> {
+  public async update(data: { [key: string]: any }): Promise<void> {
     await this.serieService.update(data);
   }
 

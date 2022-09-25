@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SerieService } from '../serie.service';
-import { Question } from '../../question/question';
 import { MediumSearchComponent } from '../../medium/search/search.component';
 
 @Component({
@@ -10,12 +9,6 @@ import { MediumSearchComponent } from '../../medium/search/search.component';
   templateUrl: '../../medium/search/search.component.html',
 })
 export class SerieSearchComponent extends MediumSearchComponent {
-  public questions: Question[];
-  public results: { title: string, year: number, backgroundImage: string }[];
-
-  public values: { [key: string]: any };
-  public formData: { [key: string]: any };
-
   constructor(
     public serieService: SerieService,
     public router: Router,
