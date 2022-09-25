@@ -5,7 +5,6 @@ import { v4 as UUID } from 'uuid';
 import * as Config from '../config/config';
 import * as File from './file';
 import { Media } from '../class/media';
-import * as moment from 'moment';
 
 export interface Movie {
   _id?: string;

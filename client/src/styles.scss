@@ -12,12 +12,35 @@ $maxExtraSmall: 543px;
   #{$property}: $variable;
 }
 
+@import 'assets/styles/variable';
+@import 'assets/styles/reset';
+@import 'assets/styles/base';
+@import 'assets/styles/box';
+@import 'assets/styles/flex';
+
+@include build-margin();
+@include build-padding();
+
 :root {
   --movie-width: 250px;
   --movie-height: calc(var(--movie-width) * 1.5);
 
   --presentation-medium-width: 200px;
   --presentation-medium-height: calc(var(--presentation-medium-width) * 1.5);
+}
+
+@media (max-width: $minMedium) {
+  :root {
+    --movie-width: 200px;
+    --presentation-medium-width: 175px;
+  }
+}
+
+@media (max-width: $minSmall) {
+  :root {
+    --movie-width: 150px;
+    --presentation-medium-width: 125px;
+  }
 }
 
 .presentation {
@@ -164,5 +187,35 @@ $maxExtraSmall: 543px;
       top: 40%;
       text-shadow: 0 2px 2px #000;
     }
+  }
+}
+
+.thin {
+  font-weight: $thin;
+}
+
+.light {
+  font-weight: $light;
+}
+
+.regular {
+  font-weight: $regular;
+}
+
+.medium {
+  font-weight: $medium;
+}
+
+.bold {
+  font-weight: $bold;
+}
+
+.weightBlack {
+  font-weight: $weightBlack;
+}
+
+@for $i from 0 through 10 {
+  .opacity-#{$i} {
+    opacity: ($i / 10);
   }
 }
