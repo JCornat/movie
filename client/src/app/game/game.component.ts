@@ -6,6 +6,7 @@ import { Game } from './game';
 import * as Global from '@shared/global/global';
 import { ScreenService } from '@shared/screen/screen.service';
 import { Subscription } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 // import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
@@ -21,6 +22,8 @@ export class GameComponent implements OnInit, OnDestroy {
   public formData!: { [key: string]: any };
   public games!: Game[];
   public isLogged!: boolean;
+  public profileForm!: FormGroup;
+  public links!: any[];
 
   constructor(
     // public authenticationService: AuthenticationService,
@@ -36,6 +39,20 @@ export class GameComponent implements OnInit, OnDestroy {
     this.subscribeResize();
     this.buildQuestions();
     this.pullAll();
+
+    this.links = [
+      {label: 'Movies', path: '/movie'},
+      {label: 'Series', path: '/serie'},
+      {label: 'Games', path: '/game'},
+    ]
+
+    this.profileForm = new FormGroup({
+      search: new FormControl(''),
+    });
+
+    this.profileForm.valueChanges.subscribe((data) => {
+      this.onValid(data)
+    })
   }
 
   public ngOnDestroy(): void {
@@ -163,8 +180,8 @@ export class GameComponent implements OnInit, OnDestroy {
     this.processDisplayList();
   }
 
-  public navigateSearch(): void {
-    this.router.navigate(['/game/search']);
+  public navigate(path: string): void {
+    this.router.navigate([path]);
   }
 
   public navigateUpdate(game: Game): void {
@@ -172,6 +189,6 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/game/update', game._id]);
+    this.router.navigate(['/game', game._id, 'update']);
   }
 }
