@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Question } from '../question/question';
-import { AuthenticationService } from '../authentication/authentication.service';
+// import { AuthenticationService } from '../authentication/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,11 +8,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public questions: Question[];
-  public formData: { [key: string]: any };
+  public questions!: any[];
+  public formData!: { [key: string]: any } | null;
 
   constructor(
-    public authenticationService: AuthenticationService,
+    // public authenticationService: AuthenticationService,
     public router: Router,
   ) {
     //
@@ -45,11 +44,11 @@ export class LoginComponent implements OnInit {
     ];
   }
 
-  public onError(data): void {
+  public onError(data: { [key: string]: any }): void {
     this.formData = null;
   }
 
-  public onValid(data): void {
+  public onValid(data: { [key: string]: any }): void {
     this.formData = data;
   }
 
@@ -59,12 +58,12 @@ export class LoginComponent implements OnInit {
 
   public async onSubmit(): Promise<void> {
     const options = {
-      login: this.formData.login,
-      password: this.formData.password,
-      stayLogged: (this.formData.stayLogged === 'true'),
+      login: this.formData!.login,
+      password: this.formData!.password,
+      stayLogged: (this.formData!.stayLogged === 'true'),
     };
 
-    await this.authenticationService.login(options);
+    // await this.authenticationService.login(options);
     this.navigateHome();
   }
 }

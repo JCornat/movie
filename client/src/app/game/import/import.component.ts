@@ -11,8 +11,8 @@ import { MediumImportComponent } from '../../medium/import/import.component';
 export class GameImportComponent extends MediumImportComponent implements OnInit {
   constructor(
     public gameService: GameService,
-    public router: Router,
-    public route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
   ) {
     super(route, router);
   }

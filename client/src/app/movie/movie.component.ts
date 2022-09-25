@@ -3,28 +3,26 @@ import { MovieService } from './movie.service';
 import { Router } from '@angular/router';
 import { Category } from './category';
 import { Movie } from './movie';
-import * as Global from '../global/global';
-import { ScreenService } from '../screen/screen.service';
+import * as Global from '@shared/global/global';
+import { ScreenService } from '@shared/screen/screen.service';
 import { Subscription } from 'rxjs';
-import { Question } from '../question/question';
-import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-movie',
   templateUrl: './movie.component.html',
 })
 export class MovieComponent implements OnInit, OnDestroy {
-  public questions: Question[];
-  public displayList: Category[];
-  public categories: Category[];
-  public searchCategories: Category[];
-  public resizeSubscriber: Subscription;
-  public formData: { [key: string]: any };
-  public movies: Movie[];
-  public isLogged: boolean;
+  public questions!: any[];
+  public displayList!: Category[];
+  public categories!: Category[];
+  public searchCategories!: Category[];
+  public resizeSubscriber!: Subscription;
+  public formData!: { [key: string]: any };
+  public movies!: Movie[];
+  public isLogged!: boolean;
 
   constructor(
-    public authenticationService: AuthenticationService,
+    // public authenticationService: AuthenticationService,
     public movieService: MovieService,
     public router: Router,
     public screenService: ScreenService,
@@ -33,7 +31,7 @@ export class MovieComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.isLogged = this.authenticationService.isLogged();
+    // this.isLogged = this.authenticationService.isLogged();
     this.subscribeResize();
     this.buildQuestions();
     this.pullAll();
@@ -103,7 +101,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public shuffle(array): void {
+  public shuffle(array: unknown[]): void {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -119,7 +117,7 @@ export class MovieComponent implements OnInit, OnDestroy {
       return 8;
     } else if (this.screenService.isDesktop()) {
       return 11;
-    } else if (this.screenService.isWidescreen()) {
+    } else {
       return 17;
     }
   }
@@ -158,7 +156,7 @@ export class MovieComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public onValid(data): void {
+  public onValid(data: { [key: string]: any }): void {
     this.formData = data;
     this.searchCategories = this.processCategories(this.movies, data.search);
     this.processDisplayList();

@@ -1,14 +1,12 @@
 import { Directive, OnInit } from '@angular/core';
 
-import { Question } from '../../question/question';
-
 @Directive()
 export abstract class MediumSearchComponent implements OnInit {
-  public questions: Question[];
-  public results: { title: string, year: number, backgroundImage: string }[];
+  public questions!: any[];
+  public results: { title: string, year: number, backgroundImage: string }[] = [];
 
-  public values: { [key: string]: any };
-  public formData: { [key: string]: any };
+  public values!: { [key: string]: any };
+  public formData!: { [key: string]: any };
 
   constructor() {
     //
@@ -28,7 +26,7 @@ export abstract class MediumSearchComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public onValid(data): void {
+  public onValid(data: { [key: string]: any }): void {
     this.formData = data;
   }
 

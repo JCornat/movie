@@ -1,17 +1,17 @@
 <div class="mx-16 mt-16 flex" style="justify-content: end;">
   <div style="max-width: 400px; width: 100%;">
-    <dynamic-form-section [questions]="questions" (onValid)="onValid($event)"></dynamic-form-section>
+<!--    <dynamic-form-section [questions]="questions" (onValid)="onValid($event)"></dynamic-form-section>-->
   </div>
 
   <ng-container *ngIf="isLogged">
     <div class="ml-8">
-      <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>
+<!--      <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>-->
     </div>
   </ng-container>
 </div>
 
 <ng-container *ngFor="let category of displayList">
-  <ng-container *ngIf="category.games?.length > 0">
+  <ng-container *ngIf="category.games && category.games.length > 0">
     <div class="mx-16 mt-32 flex" style="align-items: baseline;">
       <div class="bold" style="font-size: 25px;">{{category.label}}</div>
       <div class="fill"></div>

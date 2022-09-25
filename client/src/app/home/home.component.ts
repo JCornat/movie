@@ -9,10 +9,10 @@ import { GameService } from '../game/game.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  public media: { title: string, description: string, url: string, data: any[] }[];
-  public movies: any[];
-  public series: any[];
-  public games: any[];
+  public media!: { title: string, description: string, url: string, data: any[] }[];
+  public movies!: any[];
+  public series!: any[];
+  public games!: any[];
 
   constructor(
     public gameService: GameService,
