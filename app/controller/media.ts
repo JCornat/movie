@@ -9,7 +9,7 @@ import * as Token from '@model/token';
 
 export const router = Router();
 
-function getMedia(media): any {
+function getMedia(media: string): any {
   switch (media) {
     case 'game':
       return Game;
@@ -24,7 +24,7 @@ function getMedia(media): any {
 
 router.get('/api/:media(game|movie|serie)', async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const media = getMedia(req.query.media);
+    const media = getMedia(req.params.media);
     const search = (req.query.search) ? req.query.search + '' : null;
     const token = Token.getAccessToken(req);
 
@@ -44,7 +44,7 @@ router.get('/api/:media(game|movie|serie)', async (req: Request, res: C7zRespons
 
 router.get('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const media = getMedia(req.query.media);
+    const media = getMedia(req.params.media);
     const id = req.params.id;
 
     const data = await media.getOne(id);
@@ -56,7 +56,7 @@ router.get('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async
 
 router.get('/api/:media(game|movie|serie)/:id/import', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const media = getMedia(req.query.media);
+    const media = getMedia(req.params.media);
     const id = req.params.id;
 
     const data = await media.importOne(id);
@@ -68,7 +68,7 @@ router.get('/api/:media(game|movie|serie)/:id/import', Authentication.isLogged()
 
 router.put('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const media = getMedia(req.query.media);
+    const media = getMedia(req.params.media);
     const id = req.params.id;
     const body = req.body;
     const options = {
@@ -85,7 +85,7 @@ router.put('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async
 
 router.post('/api/:media(game|movie|serie)', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const media = getMedia(req.query.media);
+    const media = getMedia(req.params.media);
     const body = req.body;
 
     const data = await media.add(body);
@@ -97,7 +97,7 @@ router.post('/api/:media(game|movie|serie)', Authentication.isLogged(), async (r
 
 router.delete('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const media = getMedia(req.query.media);
+    const media = getMedia(req.params.media);
     const id = req.params.id;
 
     await media.remove(id);

@@ -1,20 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2020",
     "noImplicitAny": false,
-    "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "lib": [
-      "dom",
-      "es2015",
-      "es2016",
-      "es2017",
-      "es2018",
-      "es2019",
-      "es2020",
       "esnext"
     ],
     "typeRoots": [
