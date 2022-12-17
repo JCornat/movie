@@ -1,11 +1,11 @@
+import { v4 as UUID } from 'uuid';
+import * as moment from 'moment';
 import * as path from 'path';
 import * as request from 'request';
-import * as moment from 'moment';
-import { v4 as UUID } from 'uuid';
 
+import { Store } from './store';
 import * as Config from '../config/config';
-import * as File from './file';
-import { Media } from '../class/media';
+import * as Http from './http';
 
 export interface Game {
   _id?: string;
@@ -16,19 +16,19 @@ export interface Game {
   tags: string;
 }
 
-let media: Media;
+let store: Store<Game>;
 let bearer: string;
 
 export async function init() {
-  media = new Media('game');
+  store = new Store('game');
 }
 
-export async function getAll(): Promise<Game[]> {
-  return media.getAll();
+export function getAll(): Game[] {
+  return store.getAll();
 }
 
-export async function getOne(options: { id: string }): Promise<Game> {
-  return media.getOne(options);
+export function getOne(id: string): Game {
+  return store.getOne(id);
 }
 
 export async function add(options: { title: string, year: number, url: string, backgroundImage: string, rating: number, tags: string }): Promise<string> {
@@ -36,7 +36,7 @@ export async function add(options: { title: string, year: number, url: string, b
     const extensionName = path.extname(options.url).toLowerCase();
     const filename = `${UUID()}${extensionName}`;
     const url = path.join(Config.UPLOAD_PATH, filename);
-    await File.download(options.url, url);
+    await Http.download(options.url, url);
     options.backgroundImage = `${Config.URL}/upload/${filename}`;
   }
 
@@ -48,15 +48,15 @@ export async function add(options: { title: string, year: number, url: string, b
     tags: options.tags,
   };
 
-  return await media.add(insertValue);
+  return store.add(insertValue);
 }
 
-export async function remove(options: { id: string }): Promise<void> {
-  await media.remove(options);
+export async function remove(id: string): Promise<void> {
+  await store.remove(id);
 }
 
-export async function update(options: Game): Promise<string> {
-  return await media.update(options);
+export async function update(id: string, data: Game): Promise<void> {
+  await store.update(id, data);
 }
 
 export function search(title: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }[]> {

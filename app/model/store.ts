@@ -4,8 +4,8 @@ import * as File from './file';
 import * as Global from './global';
 import * as Random from './random';
 
-export class Store {
-  public collection: { [key: string]: any };
+export class Store<T> {
+  public collection: T;
   public name: string;
   public filePath: string;
 
@@ -26,10 +26,10 @@ export class Store {
       data = Global.arrayToObject(tmp, 'id');
     }
 
-    this.apply(data);
+    this.apply(data as T);
   }
 
-  apply(data: { [key: string]: any }): void {
+  apply(data: T): void {
     this.collection = data;
   }
 
@@ -38,11 +38,11 @@ export class Store {
     await File.write(this.filePath, JSON.stringify(scenes));
   }
 
-  getAll(): { [key: string]: any }[] {
+  getAll(): T[] {
     return Object.values(this.collection);
   }
 
-  getOne(id: string): { [key: string]: any } {
+  getOne(id: string): T {
     const res = this.collection[id];
     if (Global.isEmpty(res)) {
       throw {status: 500, method: 'Store.getOne', message: `Media not found`};
@@ -51,7 +51,7 @@ export class Store {
     return res;
   }
 
-  async add(data: { [key: string]: any }): Promise<string> {
+  async add(data: T): Promise<string> {
     const id = Random.generate();
     this.collection[id] = {
       ...data,
@@ -62,7 +62,7 @@ export class Store {
     return id;
   }
 
-  async update(id: string, data: { [key: string]: any }): Promise<void> {
+  async update(id: string, data: T): Promise<void> {
     const item = this.getOne(id);
     this.collection[id] = {
       ...data,
