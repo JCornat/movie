@@ -73,7 +73,7 @@ router.put('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async
     const body = req.body;
     const options = {
       ...body,
-      _id: id,
+      id,
     };
 
     const data = await media.update(id, options);
