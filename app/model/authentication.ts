@@ -1,10 +1,11 @@
-import { ADMINISTRATOR_LOGIN, ADMINISTRATOR_PASSWORD } from '../config/config';
-import * as Global from './global';
-import * as Encryption from './encryption';
-import * as Token from './token';
-import { C7zResponse } from '../class/response';
 import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
+
+import { ADMINISTRATOR_LOGIN, ADMINISTRATOR_PASSWORD } from '@config/config';
+import { C7zResponse } from '@class/response';
+import * as Encryption from './encryption';
+import * as Global from './global';
+import * as Token from './token';
 
 export async function login(options: {login: string, password: string}): Promise<{ token: string, refresh: string }> {
   if (Global.isEmpty(options?.login) || Global.isEmpty(options.password)) {

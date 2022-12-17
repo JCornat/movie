@@ -2,8 +2,8 @@ import { v4 as UUID } from 'uuid';
 import * as path from 'path';
 import * as request from 'request';
 
-import { Store } from './store';
-import * as Config from '../config/config';
+import { Store } from '@class/store';
+import * as Config from '@config/config';
 import * as Http from './http';
 
 export interface Movie {

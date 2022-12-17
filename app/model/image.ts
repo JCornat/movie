@@ -1,7 +1,7 @@
 import * as imagemagick from 'imagemagick';
 import * as fs from 'fs';
 
-import * as Global from '../model/global';
+import * as Global from './global';
 
 export const IMAGE_EXTENSIONS = [
   '.bmp',

@@ -1,6 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 
-import { TOKEN_EXPIRATION, TOKEN_SIGNATURE } from '../config/config';
+import { TOKEN_EXPIRATION, TOKEN_SIGNATURE } from '@config/config';
 import * as Global from './global';
 
 const refreshTokens: string[] = [];

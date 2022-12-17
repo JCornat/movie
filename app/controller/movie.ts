@@ -29,11 +29,8 @@ router.get('/api/movie', async (req: Request, res: C7zResponse, next: any) => {
 router.get('/api/movie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
-    const options = {
-      id,
-    };
 
-    const data = await Movie.getOne(options);
+    const data = await Movie.getOne(id);
     res.send({data});
   } catch (error) {
     return next(error);
@@ -60,7 +57,7 @@ router.put('/api/movie/:id', Authentication.isLogged(), async (req: Request, res
       _id: id,
     };
 
-    const data = await Movie.update(options);
+    const data = await Movie.update(id, options);
     res.send({data});
   } catch (error) {
     return next(error);
@@ -81,11 +78,8 @@ router.post('/api/movie', Authentication.isLogged(), async (req: Request, res: C
 router.delete('/api/movie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
-    const options = {
-      id,
-    };
 
-    await Movie.remove(options);
+    await Movie.remove(id);
     res.send({status: 200});
   } catch (error) {
     return next(error);

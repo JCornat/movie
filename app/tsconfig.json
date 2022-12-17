@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es5",
     "noImplicitAny": false,
+    "experimentalDecorators": true,
     "sourceMap": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "lib": [
@@ -19,6 +20,17 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "paths": {
+      "@class/*": [
+        "class/*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@model/*": [
+        "model/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"
