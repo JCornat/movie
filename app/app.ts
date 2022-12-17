@@ -10,21 +10,16 @@ import * as Config from './config/config';
 import * as SendFileAsyncMiddleware from './middleware/send-file-async';
 import * as AuthenticationController from './controller/authentication';
 import * as FileController from './controller/file';
-import * as GameController from './controller/game';
-import * as MovieController from './controller/movie';
-import * as SerieController from './controller/serie';
+import * as MediaController from './controller/media';
 import * as WebsiteController from './controller/website';
 import * as MovieModel from './model/movie';
 import * as SerieModel from './model/serie';
 import * as GameModel from './model/game';
-import * as path from 'path';
-import { convert } from './model/image';
 
 export const app = express();
 const server = http.createServer(app);
 
-// init();
-convert(path.join(__dirname, 'a.jpg'), path.join(__dirname, 'c.avif'), null, 375);
+init();
 
 async function init() {
   app.use(SecurityMiddleware.app);
@@ -32,18 +27,17 @@ async function init() {
   app.use(AssetMiddleware.app);
   app.use(SendFileAsyncMiddleware.app);
 
-  app.use(AuthenticationController.router);
-  app.use(FileController.router);
-  app.use(GameController.router);
-  app.use(MovieController.router);
-  app.use(SerieController.router);
-  app.use(WebsiteController.router);
-
-  app.use(ErrorMiddleware.handle);
-
+  // Init models to load data in memory
   await MovieModel.init();
   await SerieModel.init();
   await GameModel.init();
+
+  app.use(AuthenticationController.router);
+  app.use(FileController.router);
+  app.use(MediaController.router);
+  app.use(WebsiteController.router);
+
+  app.use(ErrorMiddleware.handle);
 
   server.listen(Config.PORT);
   console.log(`Server running in ${Config.MODE} mode on port ${Config.PORT} on address ${Config.URL}`);

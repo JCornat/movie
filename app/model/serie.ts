@@ -19,6 +19,7 @@ let store: Store<Serie>;
 
 export async function init() {
   store = new Store('serie');
+  await store.init();
 }
 
 export function getAll(): Serie[] {

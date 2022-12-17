@@ -19,6 +19,7 @@ let store: Store<Movie>;
 
 export async function init() {
   store = new Store('movie');
+  await store.init();
 }
 
 export function getAll(): Movie[] {
