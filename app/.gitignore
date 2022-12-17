@@ -3,4 +3,5 @@ node_modules
 *.js
 *.js.map
 
-config/config.ts
+config/*
+!config/*.default

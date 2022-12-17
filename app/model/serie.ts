@@ -7,7 +7,7 @@ import * as Config from '@config/config';
 import * as Http from './http';
 
 export interface Serie {
-  _id?: string;
+  id?: string;
   title: string;
   year: number;
   backgroundImage: string;
@@ -17,7 +17,7 @@ export interface Serie {
 
 let store: Store<Serie>;
 
-export async function init() {
+export async function init(): Promise<void> {
   store = new Store('serie');
   await store.init();
 }

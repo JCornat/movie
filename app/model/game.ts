@@ -8,7 +8,7 @@ import * as Config from '@config/config';
 import * as Http from './http';
 
 export interface Game {
-  _id?: string;
+  id?: string;
   title: string;
   year: number;
   backgroundImage: string;
@@ -19,7 +19,7 @@ export interface Game {
 let store: Store<Game>;
 let bearer: string;
 
-export async function init() {
+export async function init(): Promise<void> {
   store = new Store('game');
   await store.init();
 }
