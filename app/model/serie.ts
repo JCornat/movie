@@ -3,8 +3,8 @@ import * as request from 'request';
 import { v4 as UUID } from 'uuid';
 
 import * as Config from '../config/config';
-import * as File from './file';
-import { Media } from '../class/media';
+import * as Http from './http';
+import { Store } from './store';
 
 export interface Serie {
   _id?: string;
@@ -15,18 +15,18 @@ export interface Serie {
   tags: string;
 }
 
-let media: Media;
+let store: Store<Serie>;
 
 export async function init() {
-  media = new Media('serie');
+  store = new Store('serie');
 }
 
-export async function getAll(): Promise<Serie[]> {
-  return media.getAll();
+export function getAll(): Serie[] {
+  return store.getAll();
 }
 
-export async function getOne(options: { id: string }): Promise<Serie> {
-  return media.getOne(options);
+export function getOne(id: string): Serie {
+  return store.getOne(id);
 }
 
 export async function add(options: { title: string, year: number, url: string, backgroundImage: string, rating: number, tags: string }): Promise<string> {
@@ -34,7 +34,7 @@ export async function add(options: { title: string, year: number, url: string, b
     const extensionName = path.extname(options.url).toLowerCase();
     const filename = `${UUID()}${extensionName}`;
     const url = path.join(Config.UPLOAD_PATH, filename);
-    await File.download(options.url, url);
+    await Http.download(options.url, url);
     options.backgroundImage = `${Config.URL}/upload/${filename}`;
   }
 
@@ -46,15 +46,15 @@ export async function add(options: { title: string, year: number, url: string, b
     tags: options.tags,
   };
 
-  return await media.add(insertValue);
+  return store.add(insertValue);
 }
 
-export async function remove(options: { id: string }): Promise<void> {
-  await media.remove(options);
+export async function remove(id: string): Promise<void> {
+  await store.remove(id);
 }
 
-export async function update(options: Serie): Promise<string> {
-  return await media.update(options);
+export async function update(id: string, data: Serie): Promise<void> {
+  await store.update(id, data);
 }
 
 export function search(title: string): Promise<{ title: string, year: number, backgroundImage: string }[]> {
