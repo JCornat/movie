@@ -3,8 +3,8 @@ import * as moment from 'moment';
 import * as path from 'path';
 import * as request from 'request';
 
-import { Store } from './store';
-import * as Config from '../config/config';
+import { Store } from '@class/store';
+import * as Config from '@config/config';
 import * as Http from './http';
 
 export interface Game {

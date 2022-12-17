@@ -1,8 +1,8 @@
 import * as path from 'path';
 
-import * as File from './file';
-import * as Global from './global';
-import * as Random from './random';
+import * as File from '@model/file';
+import * as Global from '@model/global';
+import * as Random from '@model/random';
 
 export class Store<T> {
   public collection: T;

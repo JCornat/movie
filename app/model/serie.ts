@@ -1,10 +1,10 @@
+import { v4 as UUID } from 'uuid';
 import * as path from 'path';
 import * as request from 'request';
-import { v4 as UUID } from 'uuid';
 
-import * as Config from '../config/config';
+import { Store } from '@class/store';
+import * as Config from '@config/config';
 import * as Http from './http';
-import { Store } from './store';
 
 export interface Serie {
   _id?: string;

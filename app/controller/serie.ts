@@ -29,11 +29,8 @@ router.get('/api/serie', async (req: Request, res: C7zResponse, next: any) => {
 router.get('/api/serie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
-    const options = {
-      id,
-    };
 
-    const data = await Serie.getOne(options);
+    const data = await Serie.getOne(id);
     res.send({data});
   } catch (error) {
     return next(error);
@@ -60,7 +57,7 @@ router.put('/api/serie/:id', Authentication.isLogged(), async (req: Request, res
       _id: id,
     };
 
-    const data = await Serie.update(options);
+    const data = await Serie.update(id, options);
     res.send({data});
   } catch (error) {
     return next(error);
@@ -81,11 +78,8 @@ router.post('/api/serie', Authentication.isLogged(), async (req: Request, res: C
 router.delete('/api/serie/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
-    const options = {
-      id,
-    };
 
-    await Serie.remove(options);
+    await Serie.remove(id);
     res.send({status: 200});
   } catch (error) {
     return next(error);

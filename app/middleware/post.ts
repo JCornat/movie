@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-import { UPLOAD_MAX_SIZE } from '../config/config';
+import { UPLOAD_MAX_SIZE } from '@config/config';
 
 export const app = express();
 

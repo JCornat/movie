@@ -29,11 +29,8 @@ router.get('/api/game', async (req: Request, res: C7zResponse, next: any) => {
 router.get('/api/game/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
-    const options = {
-      id,
-    };
 
-    const data = await Game.getOne(options);
+    const data = await Game.getOne(id);
     res.send({data});
   } catch (error) {
     return next(error);
@@ -60,7 +57,7 @@ router.put('/api/game/:id', Authentication.isLogged(), async (req: Request, res:
       _id: id,
     };
 
-    const data = await Game.update(options);
+    const data = await Game.update(id, options);
     res.send({data});
   } catch (error) {
     return next(error);
@@ -81,11 +78,8 @@ router.post('/api/game', Authentication.isLogged(), async (req: Request, res: C7
 router.delete('/api/game/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
   try {
     const id = req.params.id;
-    const options = {
-      id,
-    };
 
-    await Game.remove(options);
+    await Game.remove(id);
     res.send({status: 200});
   } catch (error) {
     return next(error);

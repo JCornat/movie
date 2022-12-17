@@ -5,9 +5,9 @@ import * as fsPromises from 'fs/promises';
 import * as multiparty from 'multiparty';
 import * as path from 'path';
 
-import { UPLOAD_MAX_SIZE } from '../config/config';
-import * as Config from '../config/config';
-import * as Global from '../model/global';
+import { UPLOAD_MAX_SIZE } from '@config/config';
+import * as Config from '@config/config';
+import * as Global from './global';
 
 export async function read(sourcePath: string): Promise<any> {
   return fsPromises.readFile(sourcePath, {encoding: 'utf8'});
