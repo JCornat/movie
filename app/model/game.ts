@@ -21,6 +21,7 @@ let bearer: string;
 
 export async function init() {
   store = new Store('game');
+  await store.init();
 }
 
 export function getAll(): Game[] {
