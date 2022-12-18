@@ -47,7 +47,7 @@ export async function add(options: { title: string, year: number, url: string, b
     tags: options.tags,
   };
 
-  return await store.add(insertValue);
+  return store.add(insertValue);
 }
 
 export async function remove(id: string): Promise<void> {

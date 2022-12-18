@@ -33,7 +33,7 @@ export function verify(token: string, options: any = {}): any {
   }
 }
 
-export function handleError(errorName: string) {
+export function handleError(errorName: string): null {
   switch (errorName) {
     case 'TokenExpiredError':
       throw {status: 401, message: 'TokenExpiredError'};

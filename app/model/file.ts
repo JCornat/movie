@@ -26,7 +26,6 @@ export async function write(filePath: string, data: any, options?: any): Promise
   await fsPromises.writeFile(filePath, data, options);
 }
 
-
 export async function buildUpload(req: Request): Promise<string> {
   if (Global.isEmpty(Config.UPLOAD_PATH)) {
     throw {status: 400, message: `Répertoire de dépôt non configuré`};
@@ -65,7 +64,7 @@ export function upload(req: Request): Promise<{ fieldName: string, originalFilen
 
     const form = new multiparty.Form(multipartyOptions);
 
-    form.on('file', async (name, file) => {
+    form.on('file', (name, file) => {
       resolve(file);
     });
 

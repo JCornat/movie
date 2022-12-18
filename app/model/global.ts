@@ -213,7 +213,7 @@ export function arrayToObject(data: any, ...keys: string[]): { [key: string]: an
 }
 
 /**
- * Remove every accents from string
+ * Remove every accent from string
  */
 export function removeAccent(data: string): string {
   if (isEmpty(data)) {
@@ -254,7 +254,7 @@ export function getNestedObjectKey(object: any, ...keys: string[]): any {
   return nested;
 }
 
-export function getEnumKeyByValue(data: any, value: any) {
+export function getEnumKeyByValue(data: any, value: any): any {
   let res;
 
   const keys = Object.keys(data);
@@ -302,7 +302,7 @@ export function sort(options: { data: any[], key?: string, keys?: string[], desc
   return res;
 }
 
-export function get(data, stringPath) {
+export function get(data: { [key: string]: any }, stringPath: string): any {
   stringPath = stringPath.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
   stringPath = stringPath.replace(/^\./, ''); // strip a leading dot
 
