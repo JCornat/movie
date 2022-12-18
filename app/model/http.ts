@@ -4,19 +4,19 @@ import * as Request from 'request';
 import * as Global from './global';
 
 export async function get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
-  return await build('get', url, form, options);
+  return build('get', url, form, options);
 }
 
 export async function post(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-  return await build('post', url, form, options);
+  return build('post', url, form, options);
 }
 
 export async function put(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-  return await build('put', url, form, options);
+  return build('put', url, form, options);
 }
 
 export async function del(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
-  return await build('delete', url, form, options);
+  return build('delete', url, form, options);
 }
 
 export async function download(url: string, destinationPath: string): Promise<void> {

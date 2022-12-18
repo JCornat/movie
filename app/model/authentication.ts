@@ -7,7 +7,7 @@ import * as Encryption from './encryption';
 import * as Global from './global';
 import * as Token from './token';
 
-export async function login(options: {login: string, password: string}): Promise<{ token: string, refresh: string }> {
+export async function login(options: { login: string, password: string }): Promise<{ token: string, refresh: string }> {
   if (Global.isEmpty(options?.login) || Global.isEmpty(options.password)) {
     throw new Error('Invalid parameters');
   }
