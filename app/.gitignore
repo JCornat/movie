@@ -5,3 +5,6 @@ node_modules
 
 config/*
 !config/*.default
+
+public/image/*
+!public/image/.gitkeep

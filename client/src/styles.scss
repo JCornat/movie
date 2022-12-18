@@ -184,6 +184,7 @@ $imagePath: '../../image' !default;
     overflow: hidden;
 
     .poster {
+      display: block;
       height: var(--movie-height);
       width: 100%;
       background-position: center;
@@ -255,6 +256,6 @@ $imagePath: '../../image' !default;
 
 @for $i from 0 through 10 {
   .opacity-#{$i} {
-    opacity: ($i / 10);
+    opacity: calc($i / 10);
   }
 }

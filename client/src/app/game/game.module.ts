@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { GameComponent } from '@app/game/game.component';
 import { GameAddComponent } from '@app/game/add/add.component';
 import { GameImportComponent } from '@app/game/import/import.component';
@@ -20,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     GameRoutingModule,
+    NgOptimizedImage,
   ]
 })
 export class GameModule {

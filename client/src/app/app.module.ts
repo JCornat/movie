@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from '@app/login/login.component';
 import { HomeComponent } from '@app/home/home.component';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HomeComponent } from '@app/home/home.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    NgOptimizedImage,
   ],
   providers: [],
   bootstrap: [AppComponent]

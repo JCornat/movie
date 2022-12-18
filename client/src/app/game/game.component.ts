@@ -189,6 +189,6 @@ export class GameComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/game', game._id, 'update']);
+    this.router.navigate(['/game', game.id, 'update']);
   }
 }

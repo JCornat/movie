@@ -97,17 +97,17 @@ export async function merge(filenames: string[], destinationPath: string): Promi
   });
 }
 
-export async function downloadAndConvert(sourceUrl: string, destinationExtension: string): Promise<string> {
-  const extensionName = path.extname(sourceUrl).toLowerCase();
-  const basename = UUID();
-  const tmpFilename = `${basename}${extensionName}`;
-  const destinationTmpPath = path.join(Config.UPLOAD_PATH, tmpFilename);
-  await Http.download(sourceUrl, destinationTmpPath);
+export async function downloadAndConvert(options: { sourceUrl: string, destinationBasename: string, extensions: string[] }): Promise<string> {
+  const extensionName = path.extname(options.sourceUrl).toLowerCase();
+  const originalFilename = `${options.destinationBasename}${extensionName}`;
+  const destinationTmpPath = path.join(Config.UPLOAD_PATH, originalFilename);
+  await Http.download(options.sourceUrl, destinationTmpPath);
 
-  const destinationFilename = `${basename}.${destinationExtension}`;
-  const destinationPath = path.join(Config.UPLOAD_PATH, destinationFilename);
-  await convert(destinationTmpPath, destinationPath, null, 375);
-  await File.remove(destinationTmpPath);
+  for (const extension of options.extensions) {
+    const destinationFilename = `${options.destinationBasename}.${extension}`;
+    const destinationPath = path.join(Config.UPLOAD_PATH, destinationFilename);
+    await convert(destinationTmpPath, destinationPath, null, 375);
+  }
 
-  return destinationFilename;
+  return options.destinationBasename;
 }
