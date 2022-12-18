@@ -1,11 +1,9 @@
-import { v4 as UUID } from 'uuid';
 import * as moment from 'moment';
-import * as path from 'path';
 import * as request from 'request';
 
 import { Store } from '@class/store';
 import * as Config from '@config/config';
-import * as Http from './http';
+import * as Image from './image';
 
 export interface Game {
   id?: string;
@@ -34,11 +32,8 @@ export function getOne(id: string): Game {
 
 export async function add(options: { title: string, year: number, url: string, backgroundImage: string, rating: number, tags: string }): Promise<string> {
   if (options.url) {
-    const extensionName = path.extname(options.url).toLowerCase();
-    const filename = `${UUID()}${extensionName}`;
-    const url = path.join(Config.UPLOAD_PATH, filename);
-    await Http.download(options.url, url);
-    options.backgroundImage = `${Config.URL}/upload/${filename}`;
+    const destinationFilename = await Image.downloadAndConvert(options.url, 'avif');
+    options.backgroundImage = `${Config.URL}/upload/${destinationFilename}`;
   }
 
   const insertValue: Game = {
