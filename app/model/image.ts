@@ -1,7 +1,12 @@
-import * as imagemagick from 'imagemagick';
+import { v4 as UUID } from 'uuid';
 import * as fs from 'fs';
+import * as imagemagick from 'imagemagick';
+import * as path from 'path';
 
+import * as Config from '@config/config';
+import * as File from '@model/file';
 import * as Global from './global';
+import * as Http from '@model/http';
 
 export const IMAGE_EXTENSIONS = [
   '.bmp',
@@ -90,4 +95,19 @@ export async function merge(filenames: string[], destinationPath: string): Promi
       resolve();
     });
   });
+}
+
+export async function downloadAndConvert(sourceUrl: string, destinationExtension: string): Promise<string> {
+  const extensionName = path.extname(sourceUrl).toLowerCase();
+  const basename = UUID();
+  const tmpFilename = `${basename}${extensionName}`;
+  const destinationTmpPath = path.join(Config.UPLOAD_PATH, tmpFilename);
+  await Http.download(sourceUrl, destinationTmpPath);
+
+  const destinationFilename = `${basename}.${destinationExtension}`;
+  const destinationPath = path.join(Config.UPLOAD_PATH, destinationFilename);
+  await convert(destinationTmpPath, destinationPath, null, 375);
+  await File.remove(destinationTmpPath);
+
+  return destinationFilename;
 }

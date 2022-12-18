@@ -22,6 +22,10 @@ export async function move(sourcePath: string, destinationPath: string): Promise
   await fsPromises.unlink(sourcePath);
 }
 
+export async function remove(sourcePath: string): Promise<void> {
+  await fsPromises.unlink(sourcePath);
+}
+
 export async function write(filePath: string, data: any, options?: any): Promise<void> {
   await fsPromises.writeFile(filePath, data, options);
 }
@@ -49,7 +53,7 @@ export async function buildUpload(req: Request): Promise<string> {
     await move(file.path, url);
   } catch (error) {
     console.error('File.buildUpload', 'move', error);
-    throw {status: 500, message: `Sauvergarde de l'image échouée`};
+    throw {status: 500, message: `Sauvergarde du fichier échouée`};
   }
 
   return `${Config.URL}/upload/${filename}`;
