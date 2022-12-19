@@ -23,7 +23,7 @@ export function getOne(id: string): Serie {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, rating: number | 'todo', backgroundImage?: string, url?: string, [key: string]: any }): Promise<string> {
+export async function add(options: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<string> {
   return store.add(options);
 }
 
@@ -35,7 +35,7 @@ export async function update(id: string, data: Serie): Promise<void> {
   await store.update(id, data);
 }
 
-export function search(title: string): Promise<{ title: string, year: number, backgroundImage: string }[]> {
+export function search(title: string): Promise<{ title: string, year: number, posterPath: string }[]> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
@@ -52,16 +52,16 @@ export function search(title: string): Promise<{ title: string, year: number, ba
   });
 }
 
-function processSearch(data: any[]): { id: number, title: string, year: number, backgroundImage: string }[] {
+function processSearch(data: any[]): { id: number, title: string, year: number, posterPath: string }[] {
   const res = [];
   for (const datum of data) {
     const year = (datum.first_air_date) ? (datum.first_air_date.split('-'))?.[0] : '';
-    const backgroundImage = (datum.poster_path) ? `https://image.tmdb.org/t/p/w300${datum.poster_path}` : '';
+    const posterPath = (datum.poster_path) ? `https://image.tmdb.org/t/p/w300${datum.poster_path}` : '';
     const tmp = {
       id: datum.id,
       title: datum.name,
       year,
-      backgroundImage,
+      posterPath,
     };
 
     res.push(tmp);
@@ -70,7 +70,7 @@ function processSearch(data: any[]): { id: number, title: string, year: number, 
   return res;
 }
 
-export function importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
+export function importOne(id: string): Promise<{ id: number, title: string, year: number, posterPath: string }> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/tv/${id}?api_key=${Config.MOVIEDB_API_KEY}`,

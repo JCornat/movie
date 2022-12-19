@@ -25,7 +25,7 @@ export function getOne(id: string): Game {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, rating: number | 'todo', backgroundImage?: string, url?: string, [key: string]: any }): Promise<string> {
+export async function add(options: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<string> {
   return store.add(options);
 }
 
@@ -37,7 +37,7 @@ export async function update(id: string, data: Game): Promise<void> {
   await store.update(id, data);
 }
 
-export function search(title: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }[]> {
+export function search(title: string): Promise<{ id: number, title: string, year: number, posterPath: string }[]> {
   return new Promise(async (resolve, reject) => {
     try {
       await checkBearer();
@@ -68,16 +68,16 @@ export function search(title: string): Promise<{ id: number, title: string, year
   });
 }
 
-function processSearch(data: any[]): { id: number, title: string, year: number, backgroundImage: string }[] {
+function processSearch(data: any[]): { id: number, title: string, year: number, posterPath: string }[] {
   const res = [];
   for (const datum of data) {
-    const backgroundImage = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
+    const posterPath = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
     const year = (datum.first_release_date) ? moment(datum.first_release_date, 'X').format('YYYY') : '';
     const tmp = {
       id: datum.id,
       title: datum.name,
       year,
-      backgroundImage,
+      posterPath,
     };
 
     res.push(tmp);
@@ -86,7 +86,7 @@ function processSearch(data: any[]): { id: number, title: string, year: number, 
   return res;
 }
 
-export function importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
+export function importOne(id: string): Promise<{ id: number, title: string, year: number, posterPath: string }> {
   return new Promise(async (resolve, reject) => {
     try {
       await checkBearer();
