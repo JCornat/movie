@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
-import { MediumImportComponent } from '../../medium/import/import.component';
+import { MediaImportComponent } from '../../media/import/import.component';
 
 @Component({
   selector: 'movie-import',
-  templateUrl: '../../medium/import/import.component.html',
+  templateUrl: '../../media/import/import.component.html',
 })
-export class MovieImportComponent extends MediumImportComponent implements OnInit {
+export class MovieImportComponent extends MediaImportComponent implements OnInit {
   constructor(
     public movieService: MovieService,
     public router: Router,

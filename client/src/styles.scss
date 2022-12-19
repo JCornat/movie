@@ -15,7 +15,7 @@ $transitionDuration: 0.2s;
 $transitionCurve: cubic-bezier(0.4, 0, 0.2, 1);
 $smallIconSize: 18px;
 $normalIconSize: 24px;
-$mediumIconSize: 36px;
+$mediaIconSize: 36px;
 $bigIconSize: 48px;
 $biggerIconSize: 56px;
 
@@ -64,27 +64,27 @@ $imagePath: '../../image' !default;
   --movie-width: 250px;
   --movie-height: calc(var(--movie-width) * 1.5);
 
-  --presentation-medium-width: 200px;
-  --presentation-medium-height: calc(var(--presentation-medium-width) * 1.5);
+  --presentation-media-width: 200px;
+  --presentation-media-height: calc(var(--presentation-media-width) * 1.5);
 }
 
 @media (max-width: $minMedium) {
   :root {
     --movie-width: 200px;
-    --presentation-medium-width: 175px;
+    --presentation-media-width: 175px;
   }
 }
 
 @media (max-width: $minSmall) {
   :root {
     --movie-width: 150px;
-    --presentation-medium-width: 125px;
+    --presentation-media-width: 125px;
   }
 }
 
 .presentation {
   cursor: pointer;
-  height: calc(var(--presentation-medium-height) * 2);
+  height: calc(var(--presentation-media-height) * 2);
   display: flex;
   align-items: center;
   position: relative;
@@ -132,10 +132,10 @@ $imagePath: '../../image' !default;
     bottom: 0;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(var(--presentation-medium-width), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(var(--presentation-media-width), 1fr));
 
     .poster {
-      height: var(--presentation-medium-height);
+      height: var(--presentation-media-height);
       width: 100%;
       background-position: center;
       background-repeat: no-repeat;
@@ -165,14 +165,14 @@ $imagePath: '../../image' !default;
   }
 }
 
-.media {
+.media-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--movie-width), 1fr));
   grid-gap: 16px;
   padding: 16px;
 }
 
-.medium {
+.media {
   position: relative;
   display: block;
   width: 100%;
@@ -246,7 +246,7 @@ $imagePath: '../../image' !default;
   font-weight: $regular;
 }
 
-.medium {
+.media {
   font-weight: $medium;
 }
 

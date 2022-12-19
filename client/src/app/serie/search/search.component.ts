@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SerieService } from '../serie.service';
-import { MediumSearchComponent } from '../../medium/search/search.component';
+import { MediaSearchComponent } from '../../media/search/search.component';
 
 @Component({
   selector: 'serie-search',
-  templateUrl: '../../medium/search/search.component.html',
+  templateUrl: '../../media/search/search.component.html',
 })
-export class SerieSearchComponent extends MediumSearchComponent {
+export class SerieSearchComponent extends MediaSearchComponent {
   constructor(
     public serieService: SerieService,
     public router: Router,

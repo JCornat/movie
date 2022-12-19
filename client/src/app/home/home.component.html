@@ -1,14 +1,14 @@
-<ng-container *ngFor="let medium of media">
-  <div class="presentation" (click)="selectMedium(medium)">
+<ng-container *ngFor="let item of mediaList">
+  <div class="presentation" (click)="selectMedia(item)">
     <div class="text">
-      <div class="title">{{medium.title}}</div>
-      <div class="description">{{medium.description}}</div>
+      <div class="title">{{item.title}}</div>
+      <div class="description">{{item.description}}</div>
       <div class="more">See more <i class="icon icon-chevron-right"></i></div>
     </div>
 
     <div class="background">
-      <ng-container *ngIf="medium.data.length > 0">
-        <ng-container *ngFor="let datum of medium.data">
+      <ng-container *ngIf="item.data.length > 0">
+        <ng-container *ngFor="let datum of item.data">
           <div class="poster" [style.backgroundImage]="'url(' + datum.backgroundImage + ')'"></div>
         </ng-container>
       </ng-container>

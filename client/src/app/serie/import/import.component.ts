@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SerieService } from '../serie.service';
-import { MediumImportComponent } from '../../medium/import/import.component';
+import { MediaImportComponent } from '../../media/import/import.component';
 
 @Component({
   selector: 'serie-import',
-  templateUrl: '../../medium/import/import.component.html',
+  templateUrl: '../../media/import/import.component.html',
 })
-export class SerieImportComponent extends MediumImportComponent implements OnInit {
+export class SerieImportComponent extends MediaImportComponent implements OnInit {
   constructor(
     public serieService: SerieService,
     public override router: Router,

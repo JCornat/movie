@@ -9,7 +9,7 @@ import { GameService } from '../game/game.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  public media!: { title: string, description: string, url: string, data: any[] }[];
+  public mediaList!: { title: string, description: string, url: string, data: any[] }[];
   public movies!: any[];
   public series!: any[];
   public games!: any[];
@@ -41,8 +41,8 @@ export class HomeComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public selectMedium(medium: { title: string, url: string }): void {
-    this.router.navigate([medium.url]);
+  public selectMedia(media: { title: string, url: string }): void {
+    this.router.navigate([media.url]);
   }
 
   /*-----------------------*\
@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
   \*-----------------------*/
 
   public updateMedia(): void {
-    this.media = [
+    this.mediaList = [
       {
         title: 'Movies',
         description: `Keep track of my favourites movies.`,

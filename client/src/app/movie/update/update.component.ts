@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
-import { MediumUpdateComponent } from '../../medium/update/update.component';
+import { MediaUpdateComponent } from '../../media/update/update.component';
 
 @Component({
   selector: 'movie-update',
-  templateUrl: '../../medium/update/update.component.html',
+  templateUrl: '../../media/update/update.component.html',
 })
-export class MovieUpdateComponent extends MediumUpdateComponent {
+export class MovieUpdateComponent extends MediaUpdateComponent {
   public id: string;
 
   constructor(

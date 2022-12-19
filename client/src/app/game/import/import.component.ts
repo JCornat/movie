@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { GameService } from '../game.service';
-import { MediumImportComponent } from '../../medium/import/import.component';
+import { MediaImportComponent } from '../../media/import/import.component';
 
 @Component({
   selector: 'game-import',
-  templateUrl: '../../medium/import/import.component.html',
+  templateUrl: '../../media/import/import.component.html',
 })
-export class GameImportComponent extends MediumImportComponent implements OnInit {
+export class GameImportComponent extends MediaImportComponent implements OnInit {
   constructor(
     public gameService: GameService,
     public override router: Router,

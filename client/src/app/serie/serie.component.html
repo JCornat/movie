@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="media">
+    <div class="media-container">
       <ng-container *ngFor="let serie of category.series; index as i">
         <ng-container *ngIf="i < category.limit">
           <serie-item [data]="serie" (click)="navigateUpdate(serie)"></serie-item>
@@ -32,7 +32,7 @@
       </ng-container>
 
       <ng-container *ngIf="category.limit < category.series.length">
-        <div class="medium blur" (click)="increaseLimit(category)" style="cursor: pointer;">
+        <div class="media blur" (click)="increaseLimit(category)" style="cursor: pointer;">
           <div class="poster-container">
             <div class="poster" [style.backgroundImage]="'url(' + category.series[category.limit].backgroundImage + ')'"></div>
           </div>
