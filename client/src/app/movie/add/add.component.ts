@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
-import { MediumAddComponent } from '../../medium/add/add.component';
+import { MediaAddComponent } from '../../media/add/add.component';
 
 @Component({
   selector: 'media-add',
-  templateUrl: '../../medium/add/add.component.html',
+  templateUrl: '../../media/add/add.component.html',
 })
-export class MovieAddComponent extends MediumAddComponent {
+export class MovieAddComponent extends MediaAddComponent {
   constructor(
     public movieService: MovieService,
     public router: Router,

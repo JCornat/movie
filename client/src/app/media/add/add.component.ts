@@ -1,7 +1,7 @@
 import { Directive, OnInit } from '@angular/core';
 
 @Directive()
-export abstract class MediumAddComponent implements OnInit {
+export abstract class MediaAddComponent implements OnInit {
   public loading!: boolean;
   public error!: string | null;
 

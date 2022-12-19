@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit } from '@angular/core';
 
 @Directive()
-export abstract class MediumItemComponent implements OnInit {
+export abstract class MediaItemComponent implements OnInit {
   @Input() public data: any;
 
   constructor() {

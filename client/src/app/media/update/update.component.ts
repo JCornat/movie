@@ -1,10 +1,10 @@
 import { Directive, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { MediumAddComponent } from '../add/add.component';
+import { MediaAddComponent } from '../add/add.component';
 
 @Injectable()
-export abstract class MediumUpdateComponent extends MediumAddComponent implements OnInit {
+export abstract class MediaUpdateComponent extends MediaAddComponent implements OnInit {
   public id!: string;
 
   constructor(

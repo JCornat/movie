@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
 import { Question } from '../../question/question';
-import { MediumSearchComponent } from '../../medium/search/search.component';
+import { MediaSearchComponent } from '../../media/search/search.component';
 
 @Component({
   selector: 'movie-search',
-  templateUrl: '../../medium/search/search.component.html',
+  templateUrl: '../../media/search/search.component.html',
 })
-export class MovieSearchComponent extends MediumSearchComponent {
+export class MovieSearchComponent extends MediaSearchComponent {
   public questions: Question[];
   public results: { title: string, year: number, backgroundImage: string }[];
 

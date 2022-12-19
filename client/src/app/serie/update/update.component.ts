@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SerieService } from '../serie.service';
-import { MediumUpdateComponent } from '../../medium/update/update.component';
+import { MediaUpdateComponent } from '../../media/update/update.component';
 
 @Component({
   selector: 'serie-update',
-  templateUrl: '../../medium/update/update.component.html',
+  templateUrl: '../../media/update/update.component.html',
 })
-export class SerieUpdateComponent extends MediumUpdateComponent {
+export class SerieUpdateComponent extends MediaUpdateComponent {
   constructor(
     public serieService: SerieService,
     public override router: Router,
