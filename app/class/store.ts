@@ -2,15 +2,13 @@ import * as path from 'path';
 
 import * as File from '@model/file';
 import * as Global from '@model/global';
-import * as Random from '@model/random';
 import * as Image from '@model/image';
-import * as Config from '@config/config';
+import * as Random from '@model/random';
 
 export interface Media {
   id: string;
   title: string;
   year: number;
-  backgroundImage: string;
   rating: number | 'todo';
 }
 
@@ -61,13 +59,12 @@ export class Store<T> {
     return res;
   }
 
-  async add(data: { title: string, year: number, rating: number | 'todo', backgroundImage?: string, url?: string, [key: string]: any }): Promise<string> {
+  async add(data: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<string> {
     const id = Random.generate();
 
-    if (data.url) {
-      const destinationFilename = await Image.downloadAndConvert({sourceUrl: data.url, destinationBasename: id, extensions: ['webp', 'jpg']});
-      data.backgroundImage = `${Config.URL}/upload/${destinationFilename}`;
-      delete data.url;
+    if (data.posterPath) {
+      await Image.downloadAndConvert({sourceUrl: data.posterPath, basename: id, extensions: ['webp', 'jpg']});
+      delete data.posterPath;
     }
 
     this.collection[id] = {
@@ -79,8 +76,14 @@ export class Store<T> {
     return id;
   }
 
-  async update(id: string, data: T): Promise<void> {
+  async update(id: string, data: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<void> {
     const item = this.getOne(id);
+
+    if (data.posterPath) {
+      await Image.downloadAndConvert({sourceUrl: data.posterPath, basename: id, extensions: ['webp', 'jpg']});
+      delete data.posterPath;
+    }
+
     this.collection[id] = {
       ...data,
       ...item,
@@ -93,6 +96,7 @@ export class Store<T> {
   async remove(id: string): Promise<void> {
     this.getOne(id); // Get one to check if existing
     delete this.collection[id];
+    await Image.remove({basename: id, extensions: ['webp', 'jpg']});
     await this.save();
   }
 }

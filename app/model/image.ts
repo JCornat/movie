@@ -1,11 +1,10 @@
-import { v4 as UUID } from 'uuid';
 import * as fs from 'fs';
 import * as imagemagick from 'imagemagick';
 import * as path from 'path';
 
 import * as Config from '@config/config';
 import * as File from '@model/file';
-import * as Global from './global';
+import * as Global from '@model/global';
 import * as Http from '@model/http';
 
 export const IMAGE_EXTENSIONS = [
@@ -97,17 +96,30 @@ export async function merge(filenames: string[], destinationPath: string): Promi
   });
 }
 
-export async function downloadAndConvert(options: { sourceUrl: string, destinationBasename: string, extensions: string[] }): Promise<string> {
+export async function downloadAndConvert(options: { sourceUrl: string, basename: string, extensions: string[] }): Promise<string> {
   const extensionName = path.extname(options.sourceUrl).toLowerCase();
-  const originalFilename = `${options.destinationBasename}${extensionName}`;
+  const originalFilename = `${options.basename}${extensionName}`;
   const destinationTmpPath = path.join(Config.UPLOAD_PATH, originalFilename);
   await Http.download(options.sourceUrl, destinationTmpPath);
 
   for (const extension of options.extensions) {
-    const destinationFilename = `${options.destinationBasename}.${extension}`;
-    const destinationPath = path.join(Config.UPLOAD_PATH, destinationFilename);
+    const filename = `${options.basename}.${extension}`;
+    const destinationPath = path.join(Config.UPLOAD_PATH, filename);
     await convert(destinationTmpPath, destinationPath, null, 375);
   }
 
-  return options.destinationBasename;
+  return options.basename;
+}
+
+export async function remove(options: { basename: string, extensions: string[] }): Promise<void> {
+  for (const extension of options.extensions) {
+    const filename = `${options.basename}.${extension}`;
+    const destinationPath = path.join(Config.UPLOAD_PATH, filename);
+
+    try {
+      await File.remove(destinationPath);
+    } catch {
+      // Ignore if remove fail
+    }
+  }
 }
