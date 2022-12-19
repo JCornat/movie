@@ -1,16 +1,11 @@
 import * as request from 'request';
 
-import { Store } from '@class/store';
+import { Media, Store } from '@class/store';
 import * as Config from '@config/config';
-import * as Image from '@model/image';
 
-export interface Movie {
-  id?: string;
-  title: string;
-  year: number;
-  backgroundImage: string;
-  rating: number;
-  tags: string;
+// tslint:disable-next-line:no-empty-interface
+export interface Movie extends Media {
+  //
 }
 
 let store: Store<Movie>;
@@ -28,21 +23,8 @@ export function getOne(id: string): Movie {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, url: string, backgroundImage: string, rating: number, tags: string }): Promise<string> {
-  if (options.url) {
-    const destinationFilename = await Image.downloadAndConvert(options.url, 'avif');
-    options.backgroundImage = `${Config.URL}/upload/${destinationFilename}`;
-  }
-
-  const insertValue: Movie = {
-    title: options.title,
-    year: options.year,
-    backgroundImage: options.backgroundImage,
-    rating: options.rating,
-    tags: options.tags,
-  };
-
-  return store.add(insertValue);
+export async function add(options: { title: string, year: number, rating: number | 'todo', backgroundImage?: string, url?: string, [key: string]: any }): Promise<string> {
+  return store.add(options);
 }
 
 export async function remove(id: string): Promise<void> {

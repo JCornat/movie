@@ -3,6 +3,16 @@ import * as path from 'path';
 import * as File from '@model/file';
 import * as Global from '@model/global';
 import * as Random from '@model/random';
+import * as Image from '@model/image';
+import * as Config from '@config/config';
+
+export interface Media {
+  id: string;
+  title: string;
+  year: number;
+  backgroundImage: string;
+  rating: number | 'todo';
+}
 
 export class Store<T> {
   public collection: T;
@@ -51,8 +61,15 @@ export class Store<T> {
     return res;
   }
 
-  async add(data: T): Promise<string> {
+  async add(data: { title: string, year: number, rating: number | 'todo', backgroundImage?: string, url?: string, [key: string]: any }): Promise<string> {
     const id = Random.generate();
+
+    if (data.url) {
+      const destinationFilename = await Image.downloadAndConvert({sourceUrl: data.url, destinationBasename: id, extensions: ['webp', 'jpg']});
+      data.backgroundImage = `${Config.URL}/upload/${destinationFilename}`;
+      delete data.url;
+    }
+
     this.collection[id] = {
       ...data,
       id,
