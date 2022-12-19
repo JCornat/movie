@@ -1,17 +1,12 @@
 import * as moment from 'moment';
 import * as request from 'request';
 
-import { Store } from '@class/store';
+import { Store, Media } from '@class/store';
 import * as Config from '@config/config';
-import * as Image from './image';
 
-export interface Game {
-  id?: string;
-  title: string;
-  year: number;
-  backgroundImage: string;
-  rating: number;
-  tags: string;
+// tslint:disable-next-line:no-empty-interface
+export interface Game extends Media {
+  //
 }
 
 let store: Store<Game>;
@@ -30,21 +25,8 @@ export function getOne(id: string): Game {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, url: string, backgroundImage: string, rating: number, tags: string }): Promise<string> {
-  if (options.url) {
-    const destinationFilename = await Image.downloadAndConvert(options.url, 'avif');
-    options.backgroundImage = `${Config.URL}/upload/${destinationFilename}`;
-  }
-
-  const insertValue: Game = {
-    title: options.title,
-    year: options.year,
-    backgroundImage: options.backgroundImage,
-    rating: options.rating,
-    tags: options.tags,
-  };
-
-  return store.add(insertValue);
+export async function add(options: { title: string, year: number, rating: number | 'todo', backgroundImage?: string, url?: string, [key: string]: any }): Promise<string> {
+  return store.add(options);
 }
 
 export async function remove(id: string): Promise<void> {
