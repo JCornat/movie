@@ -41,7 +41,7 @@
     <div class="media-container" style="margin-bottom: 64px;">
       <ng-container *ngFor="let game of category.games; index as i">
         <ng-container *ngIf="i < category.limit">
-          <game-item [data]="game" (click)="navigateUpdate(game)"></game-item>
+          <media-item [data]="game" (click)="navigateUpdate(game)"></media-item>
         </ng-container>
       </ng-container>
 
