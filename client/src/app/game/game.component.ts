@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { GameService } from './game.service';
 import { Router } from '@angular/router';
 import { Category } from './category';
@@ -11,7 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-game',
-  templateUrl: './game.component.html',
+  templateUrl: '../media/media.component.html',
 })
 export class GameComponent implements OnInit, OnDestroy {
   public questions!: any[];
@@ -41,6 +41,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.pullAll();
 
     this.links = [
+      {label: 'Home', path: '/'},
       {label: 'Movies', path: '/movie'},
       {label: 'Series', path: '/serie'},
       {label: 'Games', path: '/game'},
@@ -52,7 +53,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
     this.profileForm.valueChanges.subscribe((data) => {
       this.onValid(data)
-    })
+    });
   }
 
   public ngOnDestroy(): void {

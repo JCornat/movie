@@ -1,7 +1,10 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Component, Directive, Input, OnInit } from '@angular/core';
 
-@Directive()
-export abstract class MediaItemComponent implements OnInit {
+@Component({
+  selector: 'media-item',
+  templateUrl: './item.component.html',
+})
+export class MediaItemComponent implements OnInit {
   @Input() public data: any;
 
   constructor() {
