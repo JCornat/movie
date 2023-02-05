@@ -9,7 +9,12 @@
     <div class="background">
       <ng-container *ngIf="item.data.length > 0">
         <ng-container *ngFor="let datum of item.data">
-          <div class="poster" [style.backgroundImage]="'url(' + datum.backgroundImage + ')'"></div>
+          <div class="poster">
+            <picture>
+              <source [srcset]="'http://localhost:3000/upload/' + datum.id + '.webp'" type="image/webp">
+              <img [ngSrc]="'http://localhost:3000/upload/' + datum.id + '.jpg'" alt="Description" fill="true">
+            </picture>
+          </div>
         </ng-container>
       </ng-container>
     </div>

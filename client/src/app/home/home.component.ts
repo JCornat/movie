@@ -3,16 +3,20 @@ import { Router } from '@angular/router';
 import { MovieService } from '../movie/movie.service';
 import { SerieService } from '../serie/serie.service';
 import { GameService } from '../game/game.service';
+import { Movie } from '@app/movie/movie';
+import { Serie } from '@app/serie/serie';
+import { Game } from '@app/game/game';
+import { Media } from '@app/media/media';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  public mediaList!: { title: string, description: string, url: string, data: any[] }[];
-  public movies!: any[];
-  public series!: any[];
-  public games!: any[];
+  public mediaList!: { title: string, description: string, url: string, data: Media[] }[];
+  public movies!: Movie[];
+  public series!: Serie[];
+  public games!: Game[];
 
   constructor(
     public gameService: GameService,
@@ -98,13 +102,13 @@ export class HomeComponent implements OnInit {
            Process
   \*-----------------------*/
 
-  public processMedia(media: any[]): any[] {
+  public processMedia(media: Media[]): Media[] {
     media.sort((a, b) => {
-      if (a.rating === '') {
+      if (a.rating + '' === '') {
         return -1;
       }
 
-      if (b.rating === '') {
+      if (b.rating + '' === '') {
         return -1;
       }
 

@@ -1,58 +1,59 @@
-
-<ng-container *ngIf="links && links.length > 0">
-<div style="font-size: 16px;">
-  <ng-container *ngFor="let link of links; index as i">
-  <span style="cursor: pointer;" [ngClass]="{'bold': link === 'random', 'opacity-8': link !== 'random'}" (click)="navigate(link.path)">{{link.label}}</span>
-  <span class="mx-4 opacity-5" *ngIf="i < links.length - 1">/</span>
+<div class="mx-16 mt-16">
+  <ng-container *ngIf="links && links.length > 0">
+  <div class="mb-12 flex">
+    <ng-container *ngFor="let link of links; index as i">
+      <div class="bold cursor-pointer pr-16" style="cursor: pointer;" [ngClass]="{'opacity-3': link.label !== 'Games'}" (click)="navigate(link.path)">{{link.label}}</div>
+    </ng-container>
+  </div>
   </ng-container>
-</div>
-</ng-container>
 
-<div class="mx-16 mt-16 flex" style="justify-content: end;">
-  <div style="max-width: 400px; width: 100%;">
-    <div class="c7z-input-container">
+  <div class="flex" style="justify-content: end;">
+    <div class="c7z-input-container fill">
       <form [formGroup]="profileForm">
         <input type="text" formControlName="search" placeholder="Search">
       </form>
     </div>
-  </div>
 
-  <ng-container *ngIf="isLogged">
-    <div class="ml-8">
-<!--      <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>-->
-    </div>
-  </ng-container>
+    <ng-container *ngIf="isLogged">
+      <div class="ml-8">
+  <!--      <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>-->
+      </div>
+    </ng-container>
+  </div>
 </div>
 
 <ng-container *ngFor="let category of displayList">
-  <ng-container *ngIf="category.games && category.games.length > 0">
+  <ng-container *ngIf="category.media && category.media.length > 0">
     <div class="mx-16 flex" style="align-items: baseline;">
-      <div class="bold" style="font-size: 25px; margin-right: 8px;">{{category.label}}</div>
+      <div class="bold text-xl mr-8">{{category.label}}</div>
       <div class="fill"></div>
-      <div style="font-size: 16px;">
-        <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'random', 'opacity-8': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</span>
-        <span class="mx-4 opacity-5">/</span>
-        <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'alphabetic', 'opacity-8': category.orderBy !== 'alphabetic'}" (click)="sort(category, 'alphabetic')">A-Z</span>
-        <span class="mx-4 opacity-5">/</span>
-        <span style="cursor: pointer;" [ngClass]="{'bold': category.orderBy === 'chronologic', 'opacity-8': category.orderBy !== 'chronologic'}" (click)="sort(category, 'chronologic')">Year</span>
+      <div class="flex">
+        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</div>
+        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'alphabetic'}" (click)="sort(category, 'alphabetic')">A-Z</div>
+        <div class="bold cursor-pointer" [ngClass]="{'opacity-3': category.orderBy !== 'chronologic'}" (click)="sort(category, 'chronologic')">Year</div>
       </div>
     </div>
 
     <div class="media-container" style="margin-bottom: 64px;">
-      <ng-container *ngFor="let game of category.games; index as i">
+      <ng-container *ngFor="let game of category.media; index as i">
         <ng-container *ngIf="i < category.limit">
           <media-item [data]="game" (click)="navigateUpdate(game)"></media-item>
         </ng-container>
       </ng-container>
 
-      <ng-container *ngIf="category.limit < category.games.length">
-        <div class="media blur" (click)="increaseLimit(category)" style="cursor: pointer;">
+      <ng-container *ngIf="category.limit < category.media.length">
+        <div class="media blur cursor-pointer" (click)="increaseLimit(category)">
           <div class="poster-container">
-            <div class="poster" [style.backgroundImage]="'url(' + category.games[category.limit].backgroundImage + ')'"></div>
+            <div class="poster">
+              <picture>
+                <source [srcset]="'http://localhost:3000/upload/' + category.media[category.limit].id + '.webp'" type="image/webp">
+                <img [ngSrc]="'http://localhost:3000/upload/' + category.media[category.limit].id + '.jpg'" alt="Description" fill="true">
+              </picture>
+            </div>
           </div>
 
           <div class="content">
-            <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.games.length - category.limit}} more</div>
+            <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.media.length - category.limit}} more</div>
           </div>
         </div>
       </ng-container>
