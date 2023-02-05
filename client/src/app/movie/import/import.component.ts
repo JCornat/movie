@@ -11,8 +11,8 @@ import { MediaImportComponent } from '../../media/import/import.component';
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
   constructor(
     public movieService: MovieService,
-    public router: Router,
-    public route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
   ) {
     super(route, router);
   }

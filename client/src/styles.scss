@@ -61,8 +61,7 @@ $imagePath: '../../image' !default;
 @include build-padding();
 
 :root {
-  --movie-width: 250px;
-  --movie-height: calc(var(--movie-width) * 1.5);
+  --movie-width: 200px;
 
   --presentation-media-width: 200px;
   --presentation-media-height: calc(var(--presentation-media-width) * 1.5);
@@ -70,16 +69,20 @@ $imagePath: '../../image' !default;
 
 @media (max-width: $minMedium) {
   :root {
-    --movie-width: 200px;
+    --movie-width: 180px;
     --presentation-media-width: 175px;
   }
 }
 
 @media (max-width: $minSmall) {
   :root {
-    --movie-width: 150px;
+    --movie-width: 160px;
     --presentation-media-width: 125px;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .presentation {
@@ -185,8 +188,8 @@ $imagePath: '../../image' !default;
 
     .poster {
       display: block;
-      height: var(--movie-height);
       width: 100%;
+      aspect-ratio: 2/3;
 
       &:before {
         content: "";
@@ -197,6 +200,10 @@ $imagePath: '../../image' !default;
         position: relative;
         width: 100%;
         height: 100%;
+
+        img {
+          object-fit: cover;
+        }
       }
     }
   }
@@ -205,17 +212,6 @@ $imagePath: '../../image' !default;
     @include variable(color, rgb(var(--on-background)), #000);
     text-shadow: 0 0 10px #000;
     text-align: center;
-
-    .title {
-      font-size: 16px;
-      margin-bottom: 6px;
-      opacity: 0.9;
-    }
-
-    .year {
-      font-size: 12px;
-      opacity: 0.6;
-    }
   }
 
   &.blur {
@@ -252,6 +248,22 @@ $imagePath: '../../image' !default;
 
 .bold {
   font-weight: $bold;
+}
+
+.text-sm {
+  font-size: $captionSize;
+}
+
+.text-base {
+  font-size: $bodySize;
+}
+
+.text-lg {
+  font-size: $subheadingSize;
+}
+
+.text-xl {
+  font-size: 25px;
 }
 
 .weightBlack {

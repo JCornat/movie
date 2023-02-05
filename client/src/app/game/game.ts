@@ -1,7 +1,5 @@
-export interface Game {
-  id: string;
-  title: string;
-  rating: number;
-  year: number;
-  backgroundImage: string;
+import { Media } from '@app/media/media';
+
+export interface Game extends Media {
+  //
 }
