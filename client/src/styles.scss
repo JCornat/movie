@@ -275,3 +275,51 @@ $imagePath: '../../image' !default;
     opacity: calc($i / 10);
   }
 }
+
+.navigation {
+  display: flex;
+  align-items: baseline;
+  margin: 16px;
+
+  .link {
+    display: flex;
+  }
+
+  .search {
+    display: flex;
+    justify-content: end;
+    flex: 1;
+
+    input {
+      vertical-align: middle;
+      height: 36px;
+      max-height: 36px;
+      border-width: 1px;
+      border-style: solid;
+      padding-left: 16px;
+      transition: width $transitionDuration $transitionCurve;
+      width: 100%;
+      font-size: $bodySize;
+      @include variable(background-color, rgb(var(--surface)), #fff);
+      @include variable(color, rgba(var(--on-surface), 0.5), #fff);
+      @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
+      @include borderRadius();
+    }
+  }
+
+  @media (max-width: $minMedium) {
+    flex-direction: column;
+
+    .link {
+      margin-bottom: 12px;
+    }
+
+    .search {
+      width: 100%;
+
+      form {
+        display: contents;
+      }
+    }
+  }
+}

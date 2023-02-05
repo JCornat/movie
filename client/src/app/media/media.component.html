@@ -1,22 +1,18 @@
-<div class="mx-16 mt-16">
-  <ng-container *ngIf="links && links.length > 0">
-  <div class="mb-12 flex">
+<div class="navigation">
+  <div class="link">
     <ng-container *ngFor="let link of links; index as i">
       <div class="bold cursor-pointer pr-16" style="cursor: pointer;" [ngClass]="{'opacity-3': link.label !== 'Games'}" (click)="navigate(link.path)">{{link.label}}</div>
     </ng-container>
   </div>
-  </ng-container>
 
-  <div class="flex" style="justify-content: end;">
-    <div class="c7z-input-container fill">
-      <form [formGroup]="profileForm">
-        <input type="text" formControlName="search" placeholder="Search">
-      </form>
-    </div>
+  <div class="search">
+    <form [formGroup]="profileForm">
+      <input type="text" formControlName="search" placeholder="Search">
+    </form>
 
     <ng-container *ngIf="isLogged">
       <div class="ml-8">
-  <!--      <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>-->
+        <!--      <c7z-button class="secondary grey" icon="add" (onClick)="navigateSearch()"></c7z-button>-->
       </div>
     </ng-container>
   </div>
