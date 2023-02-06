@@ -1,24 +1,27 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SerieSearchComponent } from '@app/serie/search/search.component';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SerieAddComponent } from '@app/serie/add/add.component';
 import { SerieImportComponent } from '@app/serie/import/import.component';
-import { SerieItemComponent } from '@app/serie/item/item.component';
 import { SerieUpdateComponent } from '@app/serie/update/update.component';
 import { SerieComponent } from '@app/serie/serie.component';
+import { MediaModule } from '@app/media/media.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SerieRoutingModule } from '@app/serie/serie-routing.module';
 
 @NgModule({
   declarations: [
     SerieComponent,
     SerieAddComponent,
     SerieImportComponent,
-    SerieItemComponent,
-    SerieSearchComponent,
     SerieUpdateComponent,
   ],
   imports: [
-    CommonModule
-  ]
+    MediaModule,
+    CommonModule,
+    ReactiveFormsModule,
+    SerieRoutingModule,
+    NgOptimizedImage,
+  ],
 })
 export class SerieModule {
   //

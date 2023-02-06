@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from './game.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Game } from './game';
 import { ScreenService } from '@shared/screen/screen.service';
 import { MediaComponent } from "@app/media/media.component";
