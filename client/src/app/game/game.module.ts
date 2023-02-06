@@ -21,7 +21,7 @@ import { MediaModule } from "@app/media/media.module";
     ReactiveFormsModule,
     GameRoutingModule,
     NgOptimizedImage,
-  ]
+  ],
 })
 export class GameModule {
   //

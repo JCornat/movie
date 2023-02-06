@@ -20,12 +20,12 @@ const routes: Routes = [
   {
     path: 'movie',
     title: 'Movies',
-    loadChildren: () => import('./game/game.module').then(m => m.GameModule)
+    loadChildren: () => import('./movie/movie.module').then(m => m.MovieModule)
   },
   {
     path: 'serie',
     title: 'Series',
-    loadChildren: () => import('./game/game.module').then(m => m.GameModule)
+    loadChildren: () => import('./serie/serie.module').then(m => m.SerieModule)
   },
 ];
 

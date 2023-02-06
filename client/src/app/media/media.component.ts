@@ -1,5 +1,5 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 import { ScreenService } from '@shared/screen/screen.service';
 import { Subscription } from 'rxjs';
@@ -36,11 +36,12 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.subscribeResize();
     this.pullAll();
 
+    const url = this.router.url;
     this.links = [
       {label: 'Home', path: '/'},
-      {label: 'Movies', path: '/movie'},
-      {label: 'Series', path: '/serie'},
-      {label: 'Games', path: '/game'},
+      {label: 'Movies', path: '/movie', active: url.startsWith('/movie')},
+      {label: 'Series', path: '/serie', active: url.startsWith('/serie')},
+      {label: 'Games', path: '/game', active: url.startsWith('/game')},
     ]
 
     this.profileForm = new FormGroup({

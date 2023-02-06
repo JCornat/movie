@@ -9,12 +9,10 @@ import { MediaUpdateComponent } from '../../media/update/update.component';
   templateUrl: '../../media/update/update.component.html',
 })
 export class MovieUpdateComponent extends MediaUpdateComponent {
-  public id: string;
-
   constructor(
     public movieService: MovieService,
-    public router: Router,
-    public route: ActivatedRoute,
+    public override router: Router,
+    public override route: ActivatedRoute,
   ) {
     super(route, router);
   }
@@ -32,7 +30,7 @@ export class MovieUpdateComponent extends MediaUpdateComponent {
     this.navigateBack();
   }
 
-  public async update(data): Promise<void> {
+  public async update(data: { [key: string]: any }): Promise<void> {
     await this.movieService.update(data);
   }
 
