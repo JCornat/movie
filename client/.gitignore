@@ -43,3 +43,5 @@ Thumbs.db
 
 src/app/shared/config/*
 !src/app/shared/config/*.default
+
+src/assets/styles/generated
