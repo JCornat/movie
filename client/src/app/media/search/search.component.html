@@ -1,26 +1,45 @@
-<!--<c7z-button class="secondary mb-16" icon="arrow-back" (onClick)="navigateBack()">Retour</c7z-button>-->
-SEARCH
-<div style="max-width: 800px">
-  <div class="flex" style="align-items: end;">
-<!--    <dynamic-form-section [questions]="questions" [values]="values" (onValid)="onValid($event)" (onSubmit)="onSubmit()"></dynamic-form-section>-->
-    <div class="ml-8">
-<!--      <c7z-button class="secondary blue" icon="search" (onClick)="onSubmit()">Rechercher</c7z-button>-->
-    </div>
-    <div class="ml-8">
-<!--      <c7z-button class="secondary blue" icon="add" (onClick)="navigateAdd()">Ajouter manuellement</c7z-button>-->
-    </div>
+<div class="mx-16 mt-16">
+  <div class="mb-32">
+    <button (click)="navigateBack()">
+      <i class="icon icon-arrow-back pr-8"></i> Back
+    </button>
   </div>
 
-  <ng-container *ngIf="!results || results.length === 0">
-    Aucun résultat
-  </ng-container>
+  <div class="bold text-xl mb-16">Search a new {{type}}</div>
 
-  <ng-container *ngIf="results && results.length > 0">
-    <div class="c7z-card">
+  <div>
+    <div class="flex mb-24" style="align-items: end;">
+      <form [formGroup]="searchForm">
+        <div style="position:relative;">
+          <input type="text" formControlName="search" placeholder="Search"/>
+        </div>
+      </form>
 
-      <ng-container *ngFor="let result of results">
-        <div class="row" (click)="select(result)">{{result.title}} ({{result.year}})</div>
-      </ng-container>
+      <div class="ml-8">
+        <button (click)="navigateAdd()">
+          <i class="icon icon-search pr-8"></i> Search
+        </button>
+      </div>
+
+      <div class="ml-8">
+        <button (click)="navigateAdd()">
+          <i class="icon icon-add pr-8"></i> Add manually
+        </button>
+      </div>
     </div>
-  </ng-container>
+
+    <div class="bold text-lg mb-16">Results</div>
+    <!--  <ng-container *ngIf="!results || results.length === 0">-->
+    <!--    Aucun résultat-->
+    <!--  </ng-container>-->
+
+    <!--  <ng-container *ngIf="results && results.length > 0">-->
+    <!--    <div class="c7z-card">-->
+
+    <!--      <ng-container *ngFor="let result of results">-->
+    <!--        <div class="row" (click)="select(result)">{{result.title}} ({{result.year}})</div>-->
+    <!--      </ng-container>-->
+    <!--    </div>-->
+    <!--  </ng-container>-->
+  </div>
 </div>

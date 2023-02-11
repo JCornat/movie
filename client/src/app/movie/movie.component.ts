@@ -25,26 +25,6 @@ export class MovieComponent extends MediaComponent {
   }
 
   /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public override navigateUpdate(movie: Movie): void {
-    if (!this.isLogged) {
-      return;
-    }
-
-    this.router.navigate(['/movie', movie.id, 'update']);
-  }
-
-  public override navigateSearch(game: Game): void {
-    if (!this.isLogged) {
-      return;
-    }
-
-    this.router.navigate(['/movie', 'search']);
-  }
-
-  /*-----------------------*\
            Service
   \*-----------------------*/
 

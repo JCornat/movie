@@ -6,17 +6,19 @@
   </div>
 
   <div class="search">
-    <form [formGroup]="profileForm">
+    <form [formGroup]="searchForm">
       <input type="text" formControlName="search" placeholder="Search"/>
       <i class="icon icon-search"></i>
     </form>
-
-    <ng-container *ngIf="isLogged">
-      <div class="ml-8">
-        <button class="secondary grey" icon="add" (click)="navigateSearch()"></button>
-      </div>
-    </ng-container>
   </div>
+
+  <ng-container *ngIf="isLogged">
+    <div class="ml-8">
+      <button (click)="navigateSearch()">
+        <i class="icon icon-add"></i>
+      </button>
+    </div>
+  </ng-container>
 </div>
 
 <ng-container *ngFor="let category of displayList">

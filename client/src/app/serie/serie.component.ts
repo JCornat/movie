@@ -25,26 +25,6 @@ export class SerieComponent extends MediaComponent {
   }
 
   /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public override navigateUpdate(serie: Serie): void {
-    if (!this.isLogged) {
-      return;
-    }
-
-    this.router.navigate(['/serie', serie.id, 'update']);
-  }
-
-  public override navigateSearch(game: Game): void {
-    if (!this.isLogged) {
-      return;
-    }
-
-    this.router.navigate(['/serie', 'search']);
-  }
-
-  /*-----------------------*\
            Service
   \*-----------------------*/
 

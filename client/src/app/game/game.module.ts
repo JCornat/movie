@@ -7,6 +7,7 @@ import { GameRoutingModule } from '@app/game/game-routing.module';
 import { GameUpdateComponent } from '@app/game/update/update.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MediaModule } from "@app/media/media.module";
+import { GameSearchComponent } from '@app/game/search/search.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MediaModule } from "@app/media/media.module";
     GameAddComponent,
     GameImportComponent,
     GameUpdateComponent,
+    GameSearchComponent,
   ],
   imports: [
     MediaModule,
