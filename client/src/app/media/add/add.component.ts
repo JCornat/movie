@@ -8,12 +8,12 @@ export abstract class MediaAddComponent implements OnInit {
   public loading!: boolean;
   public error!: string | null;
 
-  public questions!: any[];
-
+  public id!: string;
   public mediaForm!: FormGroup;
   public values!: { [key: string]: any };
   public formData!: { [key: string]: any };
   public type!: 'movie' | 'serie' | 'game';
+  public ratings!: { value: string, label: string }[];
 
   constructor(
     public route: ActivatedRoute,
@@ -29,20 +29,6 @@ export abstract class MediaAddComponent implements OnInit {
   public init(): void {
     this.buildType();
     this.buildForm();
-
-    const values: any['values'] = [
-      {value: 'todo', label: 'A voir'},
-    ];
-
-    this.questions = [
-      {key: '_id', type: 'text', label: 'id', hide: true},
-      {key: 'title', type: 'text', label: 'Titre'},
-      {key: 'year', type: 'number', label: 'Année'},
-      {key: 'url', type: 'text', label: 'URL du Poster'},
-      {key: 'backgroundImage', type: 'file', label: 'Poster (300x450)', content: 'http://localhost:3000/api/file'},
-      {key: 'rating', type: 'number', label: 'Note'},
-      {key: 'tags', type: 'checkbox', label: 'Tags', values},
-    ];
   }
 
   /*-----------------------*\
@@ -81,7 +67,7 @@ export abstract class MediaAddComponent implements OnInit {
   \*-----------------------*/
 
   public navigateBack(): void {
-    this.router.navigate([`/${this.type}`]);
+    this.router.navigate([`/${this.type}`, 'search']);
   }
 
   /*-----------------------*\
@@ -100,6 +86,16 @@ export abstract class MediaAddComponent implements OnInit {
   }
 
   public buildForm(): void {
+    this.ratings = [
+      {value: '6', label: 'Favourite'},
+      {value: '5', label: 'Wonderful'},
+      {value: '4', label: 'Great'},
+      {value: '3', label: 'Good'},
+      {value: '2', label: 'Mediocre'},
+      {value: '1', label: 'Bad'},
+      {value: 'todo', label: 'Todo'},
+    ];
+
     this.mediaForm = new FormGroup({
       title: new FormControl(''),
       year: new FormControl(''),

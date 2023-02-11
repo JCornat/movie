@@ -1,28 +1,40 @@
 <div class="mx-16 mt-16">
-  <div class="mb-32">
+  <div class="mb-16">
     <button (click)="navigateBack()">
       <i class="icon icon-arrow-back pr-8"></i> Back
     </button>
   </div>
 
-  <div class="bold text-xl mb-16">Add a new {{type}}</div>
+  <ng-container *ngIf="!id">
+    <div class="bold text-xl mb-16">Add a new {{type}}</div>
+  </ng-container>
+
+  <ng-container *ngIf="id">
+    <div class="bold text-xl mb-16">Update a {{type}}</div>
+  </ng-container>
 
   <div style="max-width: 500px">
     <form [formGroup]="mediaForm">
-      <div class="mb-8" style="position: relative;">
+      <div class="bold mb-8">Title</div>
+      <div class="mb-16" style="position: relative;">
         <input type="text" formControlName="title" placeholder="Title"/>
       </div>
 
-      <div class="mb-8" style="position: relative;">
-        <input type="text" formControlName="year" placeholder="Year"/>
+      <div class="bold mb-8">Year</div>
+      <div class="mb-16" style="position: relative;">
+        <input type="number" formControlName="year" placeholder="Year"/>
       </div>
 
-      <div class="mb-8" style="position: relative;">
+      <div class="bold mb-8">Url</div>
+      <div class="mb-16" style="position: relative;">
         <input type="text" formControlName="url" placeholder="Url"/>
       </div>
 
-      <div class="mb-8" style="position: relative;">
-        <input type="text" formControlName="rating" placeholder="Rating"/>
+      <div class="bold mb-8">Rating</div>
+      <div class="mb-16" style="position: relative;">
+        <select formControlName="rating">
+          <option *ngFor="let rating of ratings" [ngValue]="rating.value">{{rating.label}}</option>
+        </select>
       </div>
     </form>
   </div>
@@ -31,7 +43,13 @@
     <p style="color: red;">{{error}}</p>
   </ng-container>
 
-  <!--<c7z-button class="raised blue" (onClick)="onSubmit()" [icon]="(loading) ? 'sync' : 'save'" [spin]="loading">-->
-  <!--  <ng-container *ngIf="!loading">Enregistrer</ng-container>-->
-  <!--</c7z-button>-->
+  <ng-container *ngIf="id">
+    <button (click)="navigateBack()">
+      <i class="icon icon-add pr-8"></i> Remove
+    </button>
+  </ng-container>
+
+  <button (click)="navigateBack()">
+    <i class="icon icon-add pr-8"></i> Save
+  </button>
 </div>

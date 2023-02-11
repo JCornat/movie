@@ -315,7 +315,7 @@ $imagePath: '../../image' !default;
 form {
   display: contents;
 
-  input {
+  input, select {
     vertical-align: middle;
     height: 36px;
     max-height: 36px;

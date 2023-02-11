@@ -6,7 +6,7 @@ import { MediaUpdateComponent } from '../../media/update/update.component';
 
 @Component({
   selector: 'game-update',
-  templateUrl: '../../media/update/update.component.html',
+  templateUrl: '../../media/add/add.component.html',
 })
 export class GameUpdateComponent extends MediaUpdateComponent {
   constructor(
