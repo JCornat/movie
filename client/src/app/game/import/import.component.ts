@@ -39,12 +39,4 @@ export class GameImportComponent extends MediaImportComponent implements OnInit 
       url: data.backgroundImage,
     };
   }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public navigateBack(): void {
-    this.router.navigate(['/game/search']);
-  }
 }

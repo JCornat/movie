@@ -39,12 +39,4 @@ export class SerieImportComponent extends MediaImportComponent implements OnInit
       url: data.backgroundImage,
     };
   }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public navigateBack(): void {
-    this.router.navigate(['/serie/search']);
-  }
 }
