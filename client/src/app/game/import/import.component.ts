@@ -6,7 +6,7 @@ import { MediaImportComponent } from '../../media/import/import.component';
 
 @Component({
   selector: 'game-import',
-  templateUrl: '../../media/import/import.component.html',
+  templateUrl: '../../media/add/add.component.html',
 })
 export class GameImportComponent extends MediaImportComponent implements OnInit {
   constructor(

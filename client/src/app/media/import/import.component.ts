@@ -6,7 +6,6 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
-  public id!: string | null;
   public posterImage!: string;
   public loadingAdd!: boolean;
   public errorAdd!: string;

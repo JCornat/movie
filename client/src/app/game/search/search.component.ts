@@ -22,6 +22,6 @@ export class GameSearchComponent extends MediaSearchComponent {
   \*-----------------------*/
 
   public override async search(title: string): Promise<void> {
-    console.log('ok')
+    this.searchResults = await this.gameService.search(title);
   }
 }

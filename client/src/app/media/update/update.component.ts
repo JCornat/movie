@@ -5,8 +5,6 @@ import { MediaAddComponent } from '../add/add.component';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent implements OnInit {
-  public id!: string;
-
   constructor(
     public override route: ActivatedRoute,
     public override router: Router,
