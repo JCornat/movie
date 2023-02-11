@@ -24,26 +24,6 @@ export class GameComponent extends MediaComponent {
   }
 
   /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public override navigateUpdate(game: Game): void {
-    if (!this.isLogged) {
-      return;
-    }
-
-    this.router.navigate(['/game', game.id, 'update']);
-  }
-
-  public override navigateSearch(): void {
-    if (!this.isLogged) {
-      return;
-    }
-
-    this.router.navigate(['/game', 'search']);
-  }
-
-  /*-----------------------*\
            Service
   \*-----------------------*/
 

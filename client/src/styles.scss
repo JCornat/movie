@@ -279,7 +279,7 @@ $imagePath: '../../image' !default;
 
 .navigation {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   margin: 16px;
 
   .link {
@@ -291,36 +291,6 @@ $imagePath: '../../image' !default;
     justify-content: end;
     flex: 1;
     position: relative;
-
-    form {
-      display: contents;
-
-      input {
-        vertical-align: middle;
-        height: 36px;
-        max-height: 36px;
-        border-width: 1px;
-        border-style: solid;
-        padding-left: 16px;
-        transition: width $transitionDuration $transitionCurve;
-        width: 100%;
-        outline: 0;
-        max-width: 400px;
-        font-size: $bodySize;
-        background: transparent;
-        @include variable(color, rgba(var(--on-surface), 0.8), #fff);
-        @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
-        @include borderRadius();
-      }
-
-      i {
-        position: absolute;
-        right: 12px;
-        pointer-events: none;
-        line-height: 36px;
-        @include variable(color, rgba(var(--on-surface), 0.8), #fff);
-      }
-    }
   }
 
   @media (max-width: $minMedium) {
@@ -340,4 +310,54 @@ $imagePath: '../../image' !default;
       }
     }
   }
+}
+
+form {
+  display: contents;
+
+  input {
+    vertical-align: middle;
+    height: 36px;
+    max-height: 36px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 0;
+    padding-left: 16px;
+    transition: width $transitionDuration $transitionCurve;
+    width: 100%;
+    outline: 0;
+    max-width: 400px;
+    font-size: $bodySize;
+    background: transparent;
+    @include variable(color, rgba(var(--on-surface), 0.8), #fff);
+    @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
+    @include borderRadius();
+  }
+
+  i.icon {
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    line-height: 36px;
+    @include variable(color, rgba(var(--on-surface), 0.8), #fff);
+  }
+}
+
+button {
+  font-size: $bodySize;
+  background: transparent;
+  @include variable(color, rgba(var(--on-surface), 0.8), #fff);
+  @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
+  @include borderRadius();
+  outline: 0;
+  height: 36px;
+  max-height: 36px;
+  min-width: 38px;
+  border-width: 1px;
+  border-style: solid;
+  padding-left: 12px;
+  padding-right: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
 }

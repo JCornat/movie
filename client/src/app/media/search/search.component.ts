@@ -1,14 +1,19 @@
 import { Directive, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
-  public questions!: any[];
-  public results: { title: string, year: number, backgroundImage: string }[] = [];
-
   public values!: { [key: string]: any };
   public formData!: { [key: string]: any };
+  public searchForm!: FormGroup;
+  public type!: 'movie' | 'serie' | 'game';
 
-  constructor() {
+  constructor(
+    public route: ActivatedRoute,
+    public router: Router,
+  ) {
     //
   }
 
@@ -17,9 +22,8 @@ export abstract class MediaSearchComponent implements OnInit {
   }
 
   public init(): void {
-    this.questions = [
-      {key: 'search', type: 'text', label: 'Titre', required: true, marginBottom: 0},
-    ];
+    this.buildType();
+    this.buildForm();
   }
 
   /*-----------------------*\
@@ -48,9 +52,46 @@ export abstract class MediaSearchComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  public abstract navigateBack(): void;
+  // public abstract navigateBack(): void;
 
-  public abstract navigateAdd(): void;
+  // public abstract navigateAdd(): void;
 
-  public abstract navigateImport(id: string): void;
+  // public abstract navigateImport(id: string): void;
+
+  public navigateBack(): void {
+    this.router.navigate([`/${this.type}`]);
+  }
+
+  public navigateAdd(): void {
+    this.router.navigate([`/${this.type}`, 'add']);
+  }
+
+  public navigateImport(id: string): void {
+    this.router.navigate([`/${this.type}`, 'import']);
+  }
+
+  /*-----------------------*\
+           Method
+  \*-----------------------*/
+
+  public buildType(): void {
+    const regex = /^\/(\w+)/;
+    const regexResult = regex.exec(this.router.url);
+    const type = regexResult?.[1];
+    if (Global.isEmpty(type)) {
+      throw {status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown`};
+    }
+
+    this.type = type as 'movie' | 'serie' | 'game';
+  }
+
+  public buildForm(): void {
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
+    });
+
+    this.searchForm.valueChanges.subscribe((data) => {
+      this.onValid(data)
+    });
+  }
 }

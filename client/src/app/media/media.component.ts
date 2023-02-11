@@ -20,8 +20,9 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   public formData!: { [key: string]: any };
   public media!: Media[];
   public isLogged!: boolean;
-  public profileForm!: FormGroup;
+  public searchForm!: FormGroup;
   public links!: any[];
+  public type!: 'movie' | 'serie' | 'game';
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -34,6 +35,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.isLogged = this.authenticationService.isLogged();
 
+    this.buildType();
     this.buildLinks();
     this.buildForm();
     this.subscribeResize();
@@ -72,9 +74,21 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.router.navigate([path]);
   }
 
-  public abstract navigateUpdate(media: Media): void;
+  public navigateUpdate(media: Media): void {
+    if (!this.isLogged) {
+      return;
+    }
 
-  public abstract navigateSearch(media: Media): void;
+    this.router.navigate([`/${this.type}`, media.id, 'update']);
+  }
+
+  public navigateSearch(): void {
+    if (!this.isLogged) {
+      return;
+    }
+
+    this.router.navigate([`/${this.type}`, 'search']);
+  }
 
   /*-----------------------*\
            Service
@@ -189,22 +203,32 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   public buildForm(): void {
-    this.profileForm = new FormGroup({
+    this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
 
-    this.profileForm.valueChanges.subscribe((data) => {
+    this.searchForm.valueChanges.subscribe((data) => {
       this.onValid(data)
     });
   }
 
   public buildLinks(): void {
-    const url = this.router.url;
     this.links = [
       {label: 'Home', path: '/'},
-      {label: 'Movies', path: '/movie', active: url.startsWith('/movie')},
-      {label: 'Series', path: '/serie', active: url.startsWith('/serie')},
-      {label: 'Games', path: '/game', active: url.startsWith('/game')},
-    ]
+      {label: 'Movies', path: '/movie', active: this.type === 'movie'},
+      {label: 'Series', path: '/serie', active: this.type === 'serie'},
+      {label: 'Games', path: '/game', active: this.type === 'game'},
+    ];
+  }
+
+  public buildType(): void {
+    const regex = /^\/(\w+)/;
+    const regexResult = regex.exec(this.router.url);
+    const type = regexResult?.[1];
+    if (Global.isEmpty(type)) {
+      throw {status: 400, method: 'MediaComponent.buildType', message: `Type unknown`};
+    }
+
+    this.type = type as 'movie' | 'serie' | 'game';
   }
 }
