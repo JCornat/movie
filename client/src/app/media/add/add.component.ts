@@ -1,4 +1,7 @@
 import { Directive, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as Global from '@shared/global/global';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
@@ -7,10 +10,15 @@ export abstract class MediaAddComponent implements OnInit {
 
   public questions!: any[];
 
+  public mediaForm!: FormGroup;
   public values!: { [key: string]: any };
   public formData!: { [key: string]: any };
+  public type!: 'movie' | 'serie' | 'game';
 
-  constructor() {
+  constructor(
+    public route: ActivatedRoute,
+    public router: Router,
+  ) {
     //
   }
 
@@ -19,6 +27,9 @@ export abstract class MediaAddComponent implements OnInit {
   }
 
   public init(): void {
+    this.buildType();
+    this.buildForm();
+
     const values: any['values'] = [
       {value: 'todo', label: 'A voir'},
     ];
@@ -69,5 +80,35 @@ export abstract class MediaAddComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  public abstract navigateBack(): void;
+  public navigateBack(): void {
+    this.router.navigate([`/${this.type}`]);
+  }
+
+  /*-----------------------*\
+           Method
+  \*-----------------------*/
+
+  public buildType(): void {
+    const regex = /^\/(\w+)/;
+    const regexResult = regex.exec(this.router.url);
+    const type = regexResult?.[1];
+    if (Global.isEmpty(type)) {
+      throw {status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown`};
+    }
+
+    this.type = type as 'movie' | 'serie' | 'game';
+  }
+
+  public buildForm(): void {
+    this.mediaForm = new FormGroup({
+      title: new FormControl(''),
+      year: new FormControl(''),
+      url: new FormControl(''),
+      rating: new FormControl(''),
+    });
+
+    this.mediaForm.valueChanges.subscribe((data) => {
+      this.onValid(data)
+    });
+  }
 }

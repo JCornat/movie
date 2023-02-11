@@ -39,12 +39,4 @@ export class MovieImportComponent extends MediaImportComponent implements OnInit
       url: data.backgroundImage,
     };
   }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public navigateBack(): void {
-    this.router.navigate(['/movie/search']);
-  }
 }

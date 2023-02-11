@@ -33,12 +33,4 @@ export class MovieUpdateComponent extends MediaUpdateComponent {
   public async update(data: { [key: string]: any }): Promise<void> {
     await this.movieService.update(data);
   }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public navigateBack(): void {
-    this.router.navigate(['/movie']);
-  }
 }

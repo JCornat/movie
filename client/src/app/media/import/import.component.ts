@@ -12,10 +12,10 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
   public errorAdd!: string;
 
   constructor(
-    public route: ActivatedRoute,
-    public router: Router,
+    public override route: ActivatedRoute,
+    public override router: Router,
   ) {
-    super();
+    super(route, router);
   }
 
   public override async ngOnInit(): Promise<void> {

@@ -8,10 +8,10 @@ export abstract class MediaUpdateComponent extends MediaAddComponent implements 
   public id!: string;
 
   constructor(
-    public route: ActivatedRoute,
-    public router: Router,
+    public override route: ActivatedRoute,
+    public override router: Router,
   ) {
-    super();
+    super(route, router);
   }
 
   public override async ngOnInit(): Promise<void> {

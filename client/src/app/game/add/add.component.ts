@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { GameService } from '../game.service';
 import { MediaAddComponent } from '../../media/add/add.component';
@@ -11,9 +11,10 @@ import { MediaAddComponent } from '../../media/add/add.component';
 export class GameAddComponent extends MediaAddComponent {
   constructor(
     public gameService: GameService,
-    public router: Router,
+    public override route: ActivatedRoute,
+    public override router: Router,
   ) {
-    super();
+    super(route, router);
   }
 
   /*-----------------------*\
@@ -22,13 +23,5 @@ export class GameAddComponent extends MediaAddComponent {
 
   public async add(): Promise<void> {
     await this.gameService.add(this.formData);
-  }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public navigateBack(): void {
-    this.router.navigate(['/game']);
   }
 }

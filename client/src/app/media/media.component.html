@@ -7,18 +7,20 @@
 
   <div class="search">
     <form [formGroup]="searchForm">
-      <input type="text" formControlName="search" placeholder="Search"/>
-      <i class="icon icon-search"></i>
+      <div style="position: relative; width: 100%; text-align: right;">
+        <input type="text" formControlName="search" placeholder="Search"/>
+        <i class="icon icon-search"></i>
+      </div>
     </form>
-  </div>
 
-  <ng-container *ngIf="isLogged">
-    <div class="ml-8">
-      <button (click)="navigateSearch()">
-        <i class="icon icon-add"></i>
-      </button>
-    </div>
-  </ng-container>
+    <ng-container *ngIf="isLogged">
+      <div class="ml-8">
+        <button (click)="navigateSearch()">
+          <i class="icon icon-add"></i>
+        </button>
+      </div>
+    </ng-container>
+  </div>
 </div>
 
 <ng-container *ngFor="let category of displayList">

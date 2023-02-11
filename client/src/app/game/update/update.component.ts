@@ -33,12 +33,4 @@ export class GameUpdateComponent extends MediaUpdateComponent {
   public async update(data: { [key: string]: any }): Promise<void> {
     await this.gameService.update(data);
   }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  public navigateBack(): void {
-    this.router.navigate(['/game']);
-  }
 }
