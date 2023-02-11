@@ -7,9 +7,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Game } from '@app/game/game';
 import { Movie } from '@app/movie/movie';
 import { Serie } from '@app/serie/serie';
-import { Category } from "@app/media/category";
-import { Media } from "@app/media/media";
-// import { AuthenticationService } from '../authentication/authentication.service';
+import { Category } from '@app/media/category';
+import { Media } from '@app/media/media';
+import { AuthenticationService } from '@shared/authentication/authentication.service';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
@@ -24,7 +24,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   public links!: any[];
 
   constructor(
-    // public authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
     public router: Router,
     public screenService: ScreenService,
   ) {
@@ -32,32 +32,59 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    // this.isLogged = this.authenticationService.isLogged();
+    this.isLogged = this.authenticationService.isLogged();
+
+    this.buildLinks();
+    this.buildForm();
     this.subscribeResize();
     this.pullAll();
-
-    const url = this.router.url;
-    this.links = [
-      {label: 'Home', path: '/'},
-      {label: 'Movies', path: '/movie', active: url.startsWith('/movie')},
-      {label: 'Series', path: '/serie', active: url.startsWith('/serie')},
-      {label: 'Games', path: '/game', active: url.startsWith('/game')},
-    ]
-
-    this.profileForm = new FormGroup({
-      search: new FormControl(''),
-    });
-
-    this.profileForm.valueChanges.subscribe((data) => {
-      this.onValid(data)
-    });
   }
 
   public ngOnDestroy(): void {
     this.resizeSubscriber.unsubscribe();
   }
 
+  /*-----------------------*\
+           Template
+  \*-----------------------*/
+
+  public increaseLimit(item: Category): void {
+    item.limit += 25;
+  }
+
+  public sort(item: Category, type: string): void {
+    item.orderBy = type;
+
+    if (type === 'random') {
+      this.shuffle(item.media);
+      return;
+    }
+
+    const key = (type === 'alphabetic') ? 'title' : 'year';
+    item.media = Global.sort({data: item.media, key});
+  }
+
+  /*-----------------------*\
+           Navigation
+  \*-----------------------*/
+
+  public navigate(path: string): void {
+    this.router.navigate([path]);
+  }
+
+  public abstract navigateUpdate(media: Media): void;
+
+  public abstract navigateSearch(media: Media): void;
+
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
   public abstract pullAll(): Promise<void>;
+
+  /*-----------------------*\
+           Process
+  \*-----------------------*/
 
   public processDisplayList(): void {
     this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
@@ -65,8 +92,9 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
   public processCategories(data: (Game | Movie | Serie)[], search?: string): Category[] {
     const limit = this.getLimitByScreenSize();
-    const favourites: Category = {label: 'Favourites', limit, orderBy: 'random', media: []};
-    const exceptional: Category = {label: 'Excellents', limit, orderBy: 'random', media: []};
+    const favourite: Category = {label: 'Favourites', limit, orderBy: 'random', media: []};
+    const wonderful: Category = {label: 'Wonderful', limit, orderBy: 'random', media: []};
+    const great: Category = {label: 'Great', limit, orderBy: 'random', media: []};
     const good: Category = {label: 'Goods', limit, orderBy: 'random', media: []};
     const mediocre: Category = {label: 'Mediocres', limit, orderBy: 'random', media: []};
     const bad: Category = {label: 'Bads', limit, orderBy: 'random', media: []};
@@ -82,9 +110,9 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       if (!datum.rating) {
         todo.media.push(datum);
       } else if (datum.rating >= 5) {
-        favourites.media.push(datum);
+        favourite.media.push(datum);
       } else if (datum.rating >= 4) {
-        exceptional.media.push(datum);
+        wonderful.media.push(datum);
       } else if (datum.rating >= 3) {
         good.media.push(datum);
       } else if (datum.rating >= 2) {
@@ -96,22 +124,42 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.shuffle(favourites.media);
-    this.shuffle(exceptional.media);
+    this.shuffle(favourite.media);
+    this.shuffle(wonderful.media);
     this.shuffle(good.media);
     this.shuffle(mediocre.media);
     this.shuffle(bad.media);
     this.shuffle(todo.media);
 
     return [
-      favourites,
-      exceptional,
+      favourite,
+      wonderful,
       good,
       mediocre,
       bad,
       todo,
     ];
   }
+
+  /*-----------------------*\
+          Subscriber
+  \*-----------------------*/
+
+  public subscribeResize(): void {
+    this.resizeSubscriber = this.screenService.widthResizeObservable.subscribe(() => {
+      if (Global.isEmpty(this.categories)) {
+        return;
+      }
+
+      for (const category of this.categories) {
+        category.limit = this.getLimitByScreenSize();
+      }
+    });
+  }
+
+  /*-----------------------*\
+           Method
+  \*-----------------------*/
 
   public shuffle(array: unknown[]): void {
     for (let i = array.length - 1; i > 0; i--) {
@@ -134,43 +182,29 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     }
   }
 
-  public increaseLimit(item: Category): void {
-    item.limit += 25;
-  }
-
-  public sort(item: Category, type: string): void {
-    item.orderBy = type;
-
-    if (type === 'random') {
-      this.shuffle(item.media);
-      return;
-    }
-
-    const key = (type === 'alphabetic') ? 'title' : 'year';
-    item.media = Global.sort({data: item.media, key});
-  }
-
-  public subscribeResize(): void {
-    this.resizeSubscriber = this.screenService.widthResizeObservable.subscribe(() => {
-      if (Global.isEmpty(this.categories)) {
-        return;
-      }
-
-      for (const category of this.categories) {
-        category.limit = this.getLimitByScreenSize();
-      }
-    });
-  }
-
   public onValid(data: { [key: string]: any }): void {
     this.formData = data;
     this.searchCategories = this.processCategories(this.media, data.search);
     this.processDisplayList();
   }
 
-  public navigate(path: string): void {
-    this.router.navigate([path]);
+  public buildForm(): void {
+    this.profileForm = new FormGroup({
+      search: new FormControl(''),
+    });
+
+    this.profileForm.valueChanges.subscribe((data) => {
+      this.onValid(data)
+    });
   }
 
-  public abstract navigateUpdate(media: Media): void;
+  public buildLinks(): void {
+    const url = this.router.url;
+    this.links = [
+      {label: 'Home', path: '/'},
+      {label: 'Movies', path: '/movie', active: url.startsWith('/movie')},
+      {label: 'Series', path: '/serie', active: url.startsWith('/serie')},
+      {label: 'Games', path: '/game', active: url.startsWith('/game')},
+    ]
+  }
 }
