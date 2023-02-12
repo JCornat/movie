@@ -1,5 +1,33 @@
-<div style="max-width: 500px">
-<!--  <dynamic-form-section [questions]="questions" (onValid)="onValid($event)" (onError)="onError($event)" (onSubmit)="onSubmit()"></dynamic-form-section>-->
-</div>
+<div class="mx-16 mt-16">
+  <div class="mb-16">
+    <button (click)="navigateBack()">
+      <i class="icon icon-arrow-back pr-8"></i> Back
+    </button>
+  </div>
 
-<!--<c7z-button class="raised blue" (onClick)="onSubmit()">Connexion</c7z-button>-->
+  <div class="bold text-xl mb-16">Login</div>
+
+  <div>
+    <form [formGroup]="loginForm">
+      <div class="bold mb-8">Username</div>
+      <div class="mb-16" style="position: relative;">
+        <input type="text" formControlName="username"/>
+      </div>
+
+      <div class="bold mb-8">Password</div>
+      <div class="mb-16" style="position: relative;">
+        <input type="text" formControlName="password"/>
+      </div>
+    </form>
+  </div>
+
+  <ng-container *ngIf="error">
+    <div class="mb-8">
+      <div style="color: red">{{error}}</div>
+    </div>
+  </ng-container>
+
+  <button (click)="onSubmit()">
+    <i class="icon icon-add pr-8"></i> Login
+  </button>
+</div>

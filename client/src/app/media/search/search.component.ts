@@ -54,12 +54,6 @@ export abstract class MediaSearchComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  // public abstract navigateBack(): void;
-
-  // public abstract navigateAdd(): void;
-
-  // public abstract navigateImport(id: string): void;
-
   public navigateBack(): void {
     this.router.navigate([`/${this.type}`]);
   }
@@ -93,7 +87,7 @@ export abstract class MediaSearchComponent implements OnInit {
     });
 
     this.searchForm.valueChanges.subscribe((data) => {
-      this.onValid(data)
+      this.onValid(data);
     });
   }
 }

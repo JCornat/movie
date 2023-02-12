@@ -103,6 +103,7 @@ export class TokenService {
       token = await this.getStoredToken();
     }
 
+    console.log('okt', token);
     return token;
   }
 

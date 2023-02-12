@@ -8,10 +8,10 @@ export const router = Router();
 
 router.post('/api/login', async (req: Request, res: C7zResponse, next: any) => {
   try {
-    const login = req.body.login;
+    const username = req.body.username;
     const password = req.body.password;
     const options = {
-      login,
+      username,
       password,
     };
 

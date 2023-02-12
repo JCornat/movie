@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from '@app/login/login.component';
 import { HomeComponent } from '@app/home/home.component';
 import { NgOptimizedImage } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { NgOptimizedImage } from '@angular/common';
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     NgOptimizedImage,
   ],
