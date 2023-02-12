@@ -1,25 +1,27 @@
 import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
 
-import { ADMINISTRATOR_LOGIN, ADMINISTRATOR_PASSWORD } from '@config/config';
+import { ADMINISTRATOR_USERNAME, ADMINISTRATOR_PASSWORD } from '@config/config';
 import { C7zResponse } from '@class/response';
 import * as Encryption from './encryption';
 import * as Global from './global';
 import * as Token from './token';
 
-export async function login(options: { login: string, password: string }): Promise<{ token: string, refresh: string }> {
-  if (Global.isEmpty(options?.login) || Global.isEmpty(options.password)) {
-    throw new Error('Invalid parameters');
+export async function login(options: { username: string, password: string }): Promise<{ token: string, refresh: string }> {
+  if (Global.isEmpty(options?.username) || Global.isEmpty(options.password)) {
+    throw {status: 400, method: 'Authentication.login', message: 'Invalid parameters'};
   }
 
-  const loginValid = await Encryption.compare(options.login, ADMINISTRATOR_LOGIN);
-  if (!loginValid) {
-    throw new Error('Authentication failed');
+  try {
+    await Encryption.compare(options.username, ADMINISTRATOR_USERNAME);
+  } catch {
+    throw {status: 400, method: 'Authentication.login', message: 'Authentication failed'};
   }
 
-  const passwordValid = await Encryption.compare(options.password, ADMINISTRATOR_PASSWORD);
-  if (!passwordValid) {
-    throw new Error('Authentication failed');
+  try {
+    await Encryption.compare(options.password, ADMINISTRATOR_PASSWORD);
+  } catch {
+    throw {status: 400, method: 'Authentication.login', message: 'Authentication failed'};
   }
 
   const refresh = UUID();
