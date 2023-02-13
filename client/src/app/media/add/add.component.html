@@ -1,4 +1,4 @@
-<div class="mx-16 mt-16">
+<div class="mx-16 mt-16 max-w-936">
   <div class="mb-16">
     <button (click)="navigateBack()">
       <i class="icon icon-arrow-back pr-8"></i> Back
@@ -13,43 +13,55 @@
     <div class="bold text-xl mb-16">Update a {{type}}</div>
   </ng-container>
 
-  <div style="max-width: 500px">
-    <form [formGroup]="mediaForm" (submit)="onSubmit()">
-      <div class="bold mb-8">Title</div>
-      <div class="mb-16" style="position: relative;">
-        <input type="text" formControlName="title" placeholder="Title"/>
-      </div>
-
-      <div class="bold mb-8">Year</div>
-      <div class="mb-16" style="position: relative;">
-        <input type="number" formControlName="year" placeholder="Year"/>
-      </div>
-
-      <div class="bold mb-8">Url</div>
-      <div class="mb-16" style="position: relative;">
-        <input type="text" formControlName="url" placeholder="Url"/>
-      </div>
-
-      <div class="bold mb-8">Rating</div>
-      <div class="mb-16" style="position: relative;">
-        <select formControlName="rating">
-          <option *ngFor="let rating of ratings" [ngValue]="rating.value">{{rating.label}}</option>
-        </select>
-      </div>
-    </form>
-  </div>
+  <ng-container *ngIf="loading">
+    <div class="card mb-16" style="text-align:center;">
+      <i class="icon icon-sync text-xl spin"></i>
+    </div>
+  </ng-container>
 
   <ng-container *ngIf="error">
     <p style="color: red;">{{error}}</p>
   </ng-container>
 
-  <ng-container *ngIf="id">
-    <button (click)="navigateBack()">
-      <i class="icon icon-add pr-8"></i> Remove
-    </button>
-  </ng-container>
+  <ng-container *ngIf="!loading">
+    <div class="card p-20 mb-16">
+      <form [formGroup]="mediaForm" (submit)="onSubmit()">
+        <div class="bold mb-8">Title</div>
+        <div class="mb-16" style="position: relative;">
+          <input type="text" formControlName="title" placeholder="Title"/>
+        </div>
 
-  <button (click)="navigateBack()">
-    <i class="icon icon-add pr-8"></i> Save
-  </button>
+        <div class="bold mb-8">Year</div>
+        <div class="mb-16" style="position: relative;">
+          <input type="number" formControlName="year" placeholder="Year"/>
+        </div>
+
+        <div class="bold mb-8">Url</div>
+        <div class="mb-16" style="position: relative;">
+          <input type="text" formControlName="url" placeholder="Url"/>
+        </div>
+
+        <div class="bold mb-8">Rating</div>
+        <div style="position: relative;">
+          <select formControlName="rating">
+            <option *ngFor="let rating of ratings" [ngValue]="rating.value">{{rating.label}}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="flex">
+      <ng-container *ngIf="id">
+        <button (click)="navigateBack()">
+          <i class="icon icon-remove pr-8"></i> Remove
+        </button>
+      </ng-container>
+
+      <div class="fill"></div>
+
+      <button (click)="onSubmit()">
+        <i class="icon icon-save pr-8"></i> Save
+      </button>
+    </div>
+  </ng-container>
 </div>

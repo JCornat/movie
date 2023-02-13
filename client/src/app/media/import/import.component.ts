@@ -7,8 +7,6 @@ import * as Global from '@shared/global/global';
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
   public posterImage!: string;
-  public loadingAdd!: boolean;
-  public errorAdd!: string;
 
   constructor(
     public override route: ActivatedRoute,
@@ -18,13 +16,13 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
   }
 
   public override async ngOnInit(): Promise<void> {
-    this.id = this.route.snapshot.paramMap.get('id') || '';
-    if (Global.isEmpty(this.id)) {
+    this.importId = this.route.snapshot.paramMap.get('importId') || '';
+    if (Global.isEmpty(this.importId)) {
       return;
     }
 
     this.init();
-    this.values = await this.pullOne(this.id);
+    this.values = await this.pullOne(this.importId);
     this.mediaForm.patchValue(this.values);
   }
 

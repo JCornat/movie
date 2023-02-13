@@ -392,3 +392,79 @@ button {
     }
   }
 }
+
+@-webkit-keyframes spinner {
+  0% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+i {
+  &.icon {
+    line-height: 1;
+
+    &.text-xl {
+      font-size: 100px;
+    }
+  }
+
+  &.spin {
+    animation-duration: 1s;
+    animation-name: spinner;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+    &.ng-animate {
+      animation: none 0s;
+    }
+  }
+}
+
+.max-w-1248 {
+  max-width: 1248px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.max-w-936 {
+  max-width: 936px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.max-w-624 {
+  max-width: 624px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+@media (min-width: $minMedium) {
+  .max-w-1248, .max-w-936, .max-w-624 {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (max-width: $maxSmall) {
+  .max-w-1248, .max-w-936, .max-w-624 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
