@@ -30,7 +30,19 @@ export class GameImportComponent extends MediaImportComponent implements OnInit 
       throw new Error('ID incorrect');
     }
 
-    const data = await this.gameService.importOne(id);
+    this.error = null as any;
+    this.loading = true;
+
+    let data: any;
+
+    try {
+      data = await this.gameService.importOne(id);
+    } catch (error) {
+      this.error = (error as any).message;
+    } finally {
+      this.loading = false;
+    }
+
     this.posterImage = data.posterPath;
 
     return {

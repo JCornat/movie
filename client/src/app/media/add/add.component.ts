@@ -9,6 +9,7 @@ export abstract class MediaAddComponent implements OnInit {
   public error!: string | null;
 
   public id!: string;
+  public importId!: string;
   public mediaForm!: FormGroup;
   public values!: { [key: string]: any };
   public formData!: { [key: string]: any };

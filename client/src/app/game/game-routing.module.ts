@@ -25,7 +25,7 @@ const routes: Routes = [
     component: GameUpdateComponent,
   },
   {
-    path: ':id/import',
+    path: ':importId/import',
     component: GameImportComponent,
   },
 ];
