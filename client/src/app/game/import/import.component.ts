@@ -31,12 +31,12 @@ export class GameImportComponent extends MediaImportComponent implements OnInit 
     }
 
     const data = await this.gameService.importOne(id);
-    this.posterImage = data.backgroundImage;
+    this.posterImage = data.posterPath;
 
     return {
       title: data.title,
       year: data.year,
-      url: data.backgroundImage,
+      url: data.posterPath,
     };
   }
 }
