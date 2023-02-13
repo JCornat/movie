@@ -14,7 +14,7 @@
   </ng-container>
 
   <div style="max-width: 500px">
-    <form [formGroup]="mediaForm">
+    <form [formGroup]="mediaForm" (submit)="onSubmit()">
       <div class="bold mb-8">Title</div>
       <div class="mb-16" style="position: relative;">
         <input type="text" formControlName="title" placeholder="Title"/>

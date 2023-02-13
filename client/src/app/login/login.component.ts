@@ -38,6 +38,11 @@ export class LoginComponent implements OnInit {
     this.formData = data;
   }
 
+  public toggleStayConnected(): void {
+    const stayLogged = this.formData?.stayLogged;
+    this.loginForm.get('stayLogged')?.setValue(!stayLogged)
+  }
+
   public navigateBack(): void {
     this.navigateHome();
   }
@@ -50,7 +55,7 @@ export class LoginComponent implements OnInit {
     const options = {
       username: this.formData.username,
       password: this.formData.password,
-      stayLogged: (this.formData.stayLogged === 'true'),
+      stayLogged: this.formData.stayLogged,
     };
 
     await this.login(options);

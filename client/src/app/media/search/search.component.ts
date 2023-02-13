@@ -63,7 +63,7 @@ export abstract class MediaSearchComponent implements OnInit {
   }
 
   public navigateImport(id: string): void {
-    this.router.navigate([`/${this.type}`, 'import']);
+    this.router.navigate([`/${this.type}`, id, 'import']);
   }
 
   /*-----------------------*\

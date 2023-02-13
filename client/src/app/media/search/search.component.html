@@ -9,7 +9,7 @@
 
   <div>
     <div class="flex mb-24" style="align-items: end;">
-      <form [formGroup]="searchForm">
+      <form [formGroup]="searchForm" (submit)="onSubmit()">
         <div style="position: relative;">
           <input type="text" formControlName="search" placeholder="Search"/>
         </div>
@@ -28,18 +28,18 @@
       </div>
     </div>
 
-    <div class="bold text-lg mb-16">Results</div>
-    <!--  <ng-container *ngIf="!results || results.length === 0">-->
-    <!--    Aucun résultat-->
-    <!--  </ng-container>-->
+    <ng-container *ngIf="searchResults">
+      <div class="bold text-lg mb-16">Results</div>
 
-    <!--  <ng-container *ngIf="results && results.length > 0">-->
-    <!--    <div class="c7z-card">-->
+      <ng-container *ngIf="searchResults.length === 0">
+        No result
+      </ng-container>
 
-    <!--      <ng-container *ngFor="let result of results">-->
-    <!--        <div class="row" (click)="select(result)">{{result.title}} ({{result.year}})</div>-->
-    <!--      </ng-container>-->
-    <!--    </div>-->
-    <!--  </ng-container>-->
+      <ng-container *ngIf="searchResults.length > 0">
+        <ng-container *ngFor="let result of searchResults">
+          <div class="my-8" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
   </div>
 </div>

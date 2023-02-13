@@ -52,7 +52,7 @@ export class AuthenticationService {
     }
 
     await this.tokenService.setToken(data.token);
-    await this.tokenService.setTemporaryToken(data.token);
+    await this.tokenService.setRefreshToken(data.refresh);
 
     return data;
   }

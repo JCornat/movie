@@ -8,7 +8,7 @@
   <div class="bold text-xl mb-16">Login</div>
 
   <div>
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (submit)="onSubmit()">
       <div class="bold mb-8">Username</div>
       <div class="mb-16" style="position: relative;">
         <input type="text" formControlName="username"/>
@@ -17,6 +17,18 @@
       <div class="bold mb-8">Password</div>
       <div class="mb-16" style="position: relative;">
         <input type="text" formControlName="password"/>
+      </div>
+
+      <div class="mb-16 flex" style="position: relative; cursor: pointer;" (click)="toggleStayConnected()">
+        <ng-container *ngIf="formData?.stayLogged">
+          <i class="icon icon-check-box mr-8"></i>
+        </ng-container>
+
+        <ng-container *ngIf="!formData?.stayLogged">
+          <i class="icon icon-check-box-outline-blank mr-8"></i>
+        </ng-container>
+
+        Stay connected
       </div>
     </form>
   </div>
