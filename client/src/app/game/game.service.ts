@@ -43,7 +43,7 @@ export class GameService {
     return data.data;
   }
 
-  public async importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
+  public async importOne(id: string): Promise<{ id: number, title: string, year: number, posterPath: string }> {
     const optionsQuery = {
       url: `/api/game/${id}/import`,
     };

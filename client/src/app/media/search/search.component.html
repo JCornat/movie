@@ -31,15 +31,17 @@
     <ng-container *ngIf="searchResults">
       <div class="bold text-lg mb-16">Results</div>
 
-      <ng-container *ngIf="searchResults.length === 0">
-        No result
-      </ng-container>
-
-      <ng-container *ngIf="searchResults.length > 0">
-        <ng-container *ngFor="let result of searchResults">
-          <div class="my-8" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
+      <div class="card">
+        <ng-container *ngIf="searchResults.length === 0">
+          No result
         </ng-container>
-      </ng-container>
+
+        <ng-container *ngIf="searchResults.length > 0">
+          <ng-container *ngFor="let result of searchResults">
+            <div class="row clickable p-12" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
+          </ng-container>
+        </ng-container>
+      </div>
     </ng-container>
   </div>
 </div>
