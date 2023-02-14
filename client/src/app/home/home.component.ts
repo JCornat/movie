@@ -13,7 +13,7 @@ import { Media } from '@app/media/media';
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  public mediaList!: { title: string, description: string, url: string, data: Media[] }[];
+  public mediaList!: { title: string, description: string, url: string, data: any[] }[];
   public movies!: Movie[];
   public series!: Serie[];
   public games!: Game[];

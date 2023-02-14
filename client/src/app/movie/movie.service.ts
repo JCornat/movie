@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Movie } from './movie';
 import { RequestService } from '@shared/request/request.service';
 import { Request } from '@shared/request/request';
+import { SERVER_URL } from '@shared/config/config';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,15 @@ export class MovieService {
     };
 
     const data: any = await this.requestService.get(optionsQuery).toPromise();
+    return this.processPullAll(data);
+  }
+
+  public processPullAll(data: { data: any[] }): any[] {
+    for (const datum of data.data) {
+      datum.url = `${SERVER_URL}/upload/${datum.id}.jpg`;
+      datum.urlWebp = `${SERVER_URL}/upload/${datum.id}.webp`;
+    }
+
     return data.data;
   }
 
