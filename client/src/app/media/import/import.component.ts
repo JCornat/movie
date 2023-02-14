@@ -3,16 +3,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaAddComponent } from '../add/add.component';
 import * as Global from '@shared/global/global';
+import { RequestService } from '@shared/request/request.service';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
   public posterImage!: string;
 
   constructor(
+    public override requestService: RequestService,
     public override route: ActivatedRoute,
     public override router: Router,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   public override async ngOnInit(): Promise<void> {

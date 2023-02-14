@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
 import { MediaAddComponent } from '../../media/add/add.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'media-add',
@@ -11,10 +12,11 @@ import { MediaAddComponent } from '../../media/add/add.component';
 export class MovieAddComponent extends MediaAddComponent {
   constructor(
     public movieService: MovieService,
+    public override requestService: RequestService,
     public override route: ActivatedRoute,
     public override router: Router,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

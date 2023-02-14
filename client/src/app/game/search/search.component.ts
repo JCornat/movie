@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GameService } from '../game.service';
 import { MediaSearchComponent } from '@app/media/search/search.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'game-search',
@@ -12,10 +13,11 @@ import { MediaSearchComponent } from '@app/media/search/search.component';
 export class GameSearchComponent extends MediaSearchComponent {
   constructor(
     public gameService: GameService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

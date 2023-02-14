@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SERVER_URL } from '@shared/config/config';
+import { RequestService } from '@shared/request/request.service';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
@@ -22,6 +23,7 @@ export abstract class MediaAddComponent implements OnInit {
   public xhr!: XMLHttpRequest;
 
   constructor(
+    public requestService: RequestService,
     public route: ActivatedRoute,
     public router: Router,
   ) {
@@ -122,36 +124,6 @@ export abstract class MediaAddComponent implements OnInit {
     });
   }
 
-  public makeFileRequest(url: string, file: File) {
-    const formData: FormData = new FormData();
-    formData.append('uploads[]', file, file.name);
-
-    this.xhr = new XMLHttpRequest();
-    this.xhr.onreadystatechange = () => {
-      switch (this.xhr.readyState) { // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
-        case 1: // OPEN
-          this.isSending = true;
-          break;
-        case 4: // DONE
-          this.isSending = false;
-          if (this.xhr.status === 200) {
-            this.uploadSuccessful(this.xhr.response);
-          } else {
-            this.uploadError = this.xhr.response;
-          }
-
-          this.xhr = null as any;
-          break;
-        default:
-          break;
-      }
-    };
-
-    this.xhr.open('POST', url, true);
-    // this.xhr.setRequestHeader('X-Access-Token', this.tokenService.getToken());
-    this.xhr.send(formData);
-  }
-
   public uploadSuccessful(data: string): void {
     this.mediaForm.get('url')?.setValue(data);
   }
@@ -165,12 +137,13 @@ export abstract class MediaAddComponent implements OnInit {
     this.inputFile.nativeElement.click();
   }
 
-  public selectedFile(event: any): void {
+  public async selectedFile(event: any): Promise<void> {
     const files = event.target.files;
     if (Global.isEmpty(files)) {
       return;
     }
 
-    this.makeFileRequest(`${SERVER_URL}/api/file`, files[0]);
+    const data = await this.requestService.upload(`${SERVER_URL}/api/file`, files[0]);
+    this.uploadSuccessful(data);
   }
 }

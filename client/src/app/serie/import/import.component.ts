@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SerieService } from '../serie.service';
 import { MediaImportComponent } from '../../media/import/import.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'serie-import',
@@ -10,11 +11,12 @@ import { MediaImportComponent } from '../../media/import/import.component';
 })
 export class SerieImportComponent extends MediaImportComponent implements OnInit {
   constructor(
-    public serieService: SerieService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
+    public serieService: SerieService,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
 import { MediaUpdateComponent } from '../../media/update/update.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'movie-update',
@@ -11,10 +12,11 @@ import { MediaUpdateComponent } from '../../media/update/update.component';
 export class MovieUpdateComponent extends MediaUpdateComponent {
   constructor(
     public movieService: MovieService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\
