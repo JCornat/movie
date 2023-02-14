@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { SerieService } from '../serie.service';
 import { MediaUpdateComponent } from '../../media/update/update.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'serie-update',
@@ -10,11 +11,12 @@ import { MediaUpdateComponent } from '../../media/update/update.component';
 })
 export class SerieUpdateComponent extends MediaUpdateComponent {
   constructor(
-    public serieService: SerieService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
+    public serieService: SerieService,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

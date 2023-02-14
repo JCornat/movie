@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { MovieService } from '../movie.service';
 import { MediaImportComponent } from '../../media/import/import.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'movie-import',
@@ -11,10 +12,11 @@ import { MediaImportComponent } from '../../media/import/import.component';
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
   constructor(
     public movieService: MovieService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

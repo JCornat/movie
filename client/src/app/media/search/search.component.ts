@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 import { Media } from '@app/media/media';
+import { RequestService } from '@shared/request/request.service';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
@@ -13,6 +14,7 @@ export abstract class MediaSearchComponent implements OnInit {
   public searchResults!: { id: number, title: string, year: number, backgroundImage: string }[];
 
   constructor(
+    public requestService: RequestService,
     public route: ActivatedRoute,
     public router: Router,
   ) {

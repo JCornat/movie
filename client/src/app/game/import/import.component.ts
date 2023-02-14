@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GameService } from '../game.service';
 import { MediaImportComponent } from '../../media/import/import.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'game-import',
@@ -12,10 +13,11 @@ import { MediaImportComponent } from '../../media/import/import.component';
 export class GameImportComponent extends MediaImportComponent implements OnInit {
   constructor(
     public gameService: GameService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

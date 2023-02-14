@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { GameService } from '../game.service';
 import { MediaUpdateComponent } from '../../media/update/update.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'game-update',
@@ -12,10 +13,11 @@ import { MediaUpdateComponent } from '../../media/update/update.component';
 export class GameUpdateComponent extends MediaUpdateComponent {
   constructor(
     public gameService: GameService,
+    public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   /*-----------------------*\

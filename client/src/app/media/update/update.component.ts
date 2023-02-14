@@ -3,14 +3,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 
 import { MediaAddComponent } from '../add/add.component';
+import { RequestService } from '@shared/request/request.service';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
   constructor(
+    public override requestService: RequestService,
     public override route: ActivatedRoute,
     public override router: Router,
   ) {
-    super(route, router);
+    super(requestService, route, router);
   }
 
   public override async ngOnInit(): Promise<void> {

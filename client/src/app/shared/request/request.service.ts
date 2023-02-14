@@ -285,6 +285,36 @@ export class RequestService {
     xhr.send();
   }
 
+  public upload(url: string, file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const formData: FormData = new FormData();
+      formData.append('uploads[]', file, file.name);
+
+      let xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        switch (xhr.readyState) { // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+          case 1: // OPEN
+            break;
+          case 4: // DONE
+            if (xhr.status === 200) {
+              resolve(xhr.response);
+            } else {
+              reject(xhr.response);
+            }
+
+            xhr = null as any;
+            break;
+          default:
+            break;
+        }
+      };
+
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('X-Access-Token', this.tokenService.getToken());
+      xhr.send(formData);
+    });
+  }
+
   public getMobileOperatingSystem() {
     const userAgent = navigator.userAgent || navigator.vendor || window['opera'];
 
