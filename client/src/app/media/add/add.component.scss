@@ -1,0 +1,33 @@
+@import 'assets/styles/variable';
+
+.grid-add {
+  display: grid;
+  grid-template-columns: 1fr 250px;
+  grid-gap: 24px;
+  justify-items: center;
+
+  .media-item {
+    width: 250px;
+  }
+}
+
+@media (max-width: $maxSmall) {
+  .grid-add {
+    grid-template-columns: 1fr 200px;
+
+    .media-item {
+      width: 200px;
+    }
+  }
+}
+
+@media (max-width: $maxExtraSmall) {
+  .grid-add {
+    grid-template-columns: 1fr;
+
+    .media-item {
+      width: 100%;
+      max-width: 250px;
+    }
+  }
+}

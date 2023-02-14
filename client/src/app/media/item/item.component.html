@@ -1,9 +1,9 @@
 <div class="media">
   <div class="poster-container">
     <div class="poster">
-      <picture>
-        <source [srcset]="'http://localhost:3000/upload/' + data.id + '.webp'" type="image/webp">
-        <img [ngSrc]="'http://localhost:3000/upload/' + data.id + '.jpg'" alt="Description" fill="true">
+      <picture *ngIf="data.url">
+        <source *ngIf="data.urlWebp" [srcset]="data.urlWebp" type="image/webp">
+        <img [ngSrc]="data.url" alt="Description" fill="true">
       </picture>
     </div>
   </div>

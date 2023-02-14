@@ -11,10 +11,9 @@ export abstract class MediaAddComponent implements OnInit {
   public id!: string;
   public importId!: string;
   public mediaForm!: FormGroup;
-  public values!: { [key: string]: any };
   public formData!: { [key: string]: any };
   public type!: 'movie' | 'serie' | 'game';
-  public ratings!: { value: string, label: string }[];
+  public ratings!: { value: string | number, label: string }[];
 
   constructor(
     public route: ActivatedRoute,
@@ -88,16 +87,17 @@ export abstract class MediaAddComponent implements OnInit {
 
   public buildForm(): void {
     this.ratings = [
-      {value: '6', label: 'Favourite'},
-      {value: '5', label: 'Wonderful'},
-      {value: '4', label: 'Great'},
-      {value: '3', label: 'Good'},
-      {value: '2', label: 'Mediocre'},
-      {value: '1', label: 'Bad'},
+      {value: 6, label: 'Favourite'},
+      {value: 5, label: 'Wonderful'},
+      {value: 4, label: 'Great'},
+      {value: 3, label: 'Good'},
+      {value: 2, label: 'Mediocre'},
+      {value: 1, label: 'Bad'},
       {value: 'todo', label: 'Todo'},
     ];
 
     this.mediaForm = new FormGroup({
+      id: new FormControl(''),
       title: new FormControl(''),
       year: new FormControl(''),
       url: new FormControl(''),

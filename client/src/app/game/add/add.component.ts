@@ -7,6 +7,7 @@ import { MediaAddComponent } from '../../media/add/add.component';
 @Component({
   selector: 'game-add',
   templateUrl: '../../media/add/add.component.html',
+  styleUrls: ['../../media/add/add.component.scss'],
 })
 export class GameAddComponent extends MediaAddComponent {
   constructor(

@@ -1,10 +1,11 @@
 import { Directive, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as Global from '@shared/global/global';
 
 import { MediaAddComponent } from '../add/add.component';
 
 @Injectable()
-export abstract class MediaUpdateComponent extends MediaAddComponent implements OnInit {
+export abstract class MediaUpdateComponent extends MediaAddComponent {
   constructor(
     public override route: ActivatedRoute,
     public override router: Router,
@@ -14,9 +15,14 @@ export abstract class MediaUpdateComponent extends MediaAddComponent implements 
 
   public override async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.paramMap.get('id') || '';
-    await this.pullOne(this.id);
+    if (Global.isEmpty(this.id)) {
+      return;
+    }
 
     this.init();
+
+    const values = await this.pullOne(this.importId);
+    this.mediaForm.patchValue(values);
   }
 
   /*-----------------------*\
@@ -48,7 +54,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent implements 
     //
   }
 
-  public abstract pullOne(id: string): Promise<void>;
+  public abstract pullOne(id: string): Promise<any>;
 
   public abstract remove(): Promise<void>;
 

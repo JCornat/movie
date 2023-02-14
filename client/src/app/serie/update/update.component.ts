@@ -21,8 +21,8 @@ export class SerieUpdateComponent extends MediaUpdateComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<void> {
-    this.values = await this.serieService.pullOne(this.id);
+  public async pullOne(id: string): Promise<any> {
+    return this.serieService.pullOne(this.id);
   }
 
   public async remove(): Promise<void> {

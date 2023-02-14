@@ -7,6 +7,7 @@ import { MediaUpdateComponent } from '../../media/update/update.component';
 @Component({
   selector: 'game-update',
   templateUrl: '../../media/add/add.component.html',
+  styleUrls: ['../../media/add/add.component.scss'],
 })
 export class GameUpdateComponent extends MediaUpdateComponent {
   constructor(
@@ -21,8 +22,8 @@ export class GameUpdateComponent extends MediaUpdateComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<void> {
-    this.values = await this.gameService.pullOne(this.id);
+  public async pullOne(id: string): Promise<any> {
+    return this.gameService.pullOne(this.id);
   }
 
   public async remove(): Promise<void> {
