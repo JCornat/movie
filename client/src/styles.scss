@@ -294,8 +294,7 @@ form {
     max-height: 36px;
     border-width: 1px;
     border-style: solid;
-    padding: 0;
-    padding-left: 16px;
+    padding: 0 8px 0 16px;
     transition: width $transitionDuration $transitionCurve;
     width: 100%;
     outline: 0;

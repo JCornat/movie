@@ -5,6 +5,8 @@
     </button>
   </div>
 
+  <input type="file" style="position: absolute; width: 1px; height: 1px; top: 10px; left: 10px; z-index: -200;" #inputFile (change)="selectedFile($event)">
+
   <ng-container *ngIf="loading">
     <div class="card mb-16" style="text-align:center;">
       <i class="icon icon-sync text-xl spin"></i>
@@ -41,7 +43,17 @@
 
               <div class="bold mb-8">Url</div>
               <div class="mb-16" style="position: relative;">
-                <input type="text" formControlName="url" placeholder="Url"/>
+                <div class="flex">
+                  <div class="fill">
+                    <input type="text" formControlName="url" placeholder="Url"/>
+                  </div>
+
+                  <div class="ml-8">
+                    <button (click)="selectFile($event)">
+                      <i class="icon icon-file-upload"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div class="bold mb-8">Rating</div>
