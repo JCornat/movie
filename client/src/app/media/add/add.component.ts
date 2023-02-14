@@ -1,12 +1,17 @@
-import { Directive, OnInit } from '@angular/core';
+import { Directive, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SERVER_URL } from '@shared/config/config';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
+  @ViewChild('inputFile', {static: false}) public inputFile!: ElementRef;
+
   public loading!: boolean;
+  public isSending!: boolean;
   public error!: string | null;
+  public uploadError!: string | null;
 
   public id!: string;
   public importId!: string;
@@ -14,6 +19,7 @@ export abstract class MediaAddComponent implements OnInit {
   public formData!: { [key: string]: any };
   public type!: 'movie' | 'serie' | 'game';
   public ratings!: { value: string | number, label: string }[];
+  public xhr!: XMLHttpRequest;
 
   constructor(
     public route: ActivatedRoute,
@@ -114,5 +120,57 @@ export abstract class MediaAddComponent implements OnInit {
     this.mediaForm.valueChanges.subscribe((data) => {
       this.onValid(data)
     });
+  }
+
+  public makeFileRequest(url: string, file: File) {
+    const formData: FormData = new FormData();
+    formData.append('uploads[]', file, file.name);
+
+    this.xhr = new XMLHttpRequest();
+    this.xhr.onreadystatechange = () => {
+      switch (this.xhr.readyState) { // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+        case 1: // OPEN
+          this.isSending = true;
+          break;
+        case 4: // DONE
+          this.isSending = false;
+          if (this.xhr.status === 200) {
+            this.uploadSuccessful(this.xhr.response);
+          } else {
+            this.uploadError = this.xhr.response;
+          }
+
+          this.xhr = null as any;
+          break;
+        default:
+          break;
+      }
+    };
+
+    this.xhr.open('POST', url, true);
+    // this.xhr.setRequestHeader('X-Access-Token', this.tokenService.getToken());
+    this.xhr.send(formData);
+  }
+
+  public uploadSuccessful(data: string): void {
+    this.mediaForm.get('url')?.setValue(data);
+  }
+
+  public selectFile(event?: Event): void {
+    if (event instanceof Event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    this.inputFile.nativeElement.click();
+  }
+
+  public selectedFile(event: any): void {
+    const files = event.target.files;
+    if (Global.isEmpty(files)) {
+      return;
+    }
+
+    this.makeFileRequest(`${SERVER_URL}/api/file`, files[0]);
   }
 }
