@@ -1,7 +1,7 @@
 import { Directive, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
@@ -45,13 +45,20 @@ export abstract class MediaAddComponent implements OnInit {
     }
 
     this.error = null;
+
+    if (this.mediaForm.invalid) {
+      this.error = 'Invalid form';
+      return;
+    }
+
     this.loading = true;
 
     try {
-      await this.add();
-      this.navigateBack();
+      // await this.add();
+      // this.navigateBack();
     } catch (error) {
       this.error = error as string;
+    } finally {
       this.loading = false;
     }
   }
@@ -98,10 +105,10 @@ export abstract class MediaAddComponent implements OnInit {
 
     this.mediaForm = new FormGroup({
       id: new FormControl(''),
-      title: new FormControl(''),
-      year: new FormControl(''),
-      url: new FormControl(''),
-      rating: new FormControl(''),
+      title: new FormControl('', [Validators.required]),
+      year: new FormControl('', [Validators.required]),
+      url: new FormControl('', [Validators.required]),
+      rating: new FormControl('', [Validators.required]),
     });
 
     this.mediaForm.valueChanges.subscribe((data) => {
