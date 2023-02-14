@@ -22,8 +22,9 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
     }
 
     this.init();
-    this.values = await this.pullOne(this.importId);
-    this.mediaForm.patchValue(this.values);
+
+    const values = await this.pullOne(this.importId);
+    this.mediaForm.patchValue(values);
   }
 
   /*-----------------------*\

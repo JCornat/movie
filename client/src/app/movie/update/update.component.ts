@@ -21,8 +21,8 @@ export class MovieUpdateComponent extends MediaUpdateComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<void> {
-    this.values = await this.movieService.pullOne(this.id);
+  public async pullOne(id: string): Promise<any> {
+    return this.movieService.pullOne(this.id);
   }
 
   public async remove(): Promise<void> {
