@@ -98,7 +98,7 @@ export class ThemeService {
 
   public setDarkTheme() {
     const color = {
-      'background': '#353540',
+      'background': '#2d333c',
       'on-background': '#ffffff',
       'primary': '#0043b3',
       'on-primary': '#ffffff',
