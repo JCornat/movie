@@ -156,18 +156,38 @@
 
   .poster-container {
     border-radius: 8px;
-    box-shadow: 0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.12);;
+    box-shadow: 0px 7px 8px -4px rgba(0, 0, 0, 0.2), 0px 12px 17px 2px rgba(0, 0, 0, 0.14), 0px 5px 22px 4px rgba(0, 0, 0, 0.12);
     margin-bottom: 12px;
     overflow: hidden;
+    transition: box-shadow 0.4s $transitionCurve, transform 0.4s $transitionCurve;
+    position: relative;
+
+    &:after {
+      content: "";
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      background: linear-gradient(226deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 35%, rgba(255, 255, 255, 0.2) 42%, rgba(255, 255, 255, 0) 60%);
+      transform: rotateX(7deg) rotateY(7deg) translateY(-20%);
+      transition: transform 0.4s $transitionCurve;
+      will-change: transform;
+    }
+
+    &:hover {
+      box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+      transform: rotateX(2deg) rotateY(1deg);
+
+      &:after {
+        transform: translateY(0%);
+      }
+    }
 
     .poster {
       display: block;
       width: 100%;
       aspect-ratio: 2/3;
-
-      &:before {
-        content: "";
-      }
 
       picture {
         display: block;
