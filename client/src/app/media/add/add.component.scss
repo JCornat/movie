@@ -3,7 +3,7 @@
 .grid-add {
   display: grid;
   grid-template-columns: 1fr 250px;
-  grid-gap: 24px;
+  grid-column-gap: 24px;
   justify-items: center;
 
   .media-item {
