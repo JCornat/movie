@@ -332,10 +332,16 @@ form {
     outline: 0;
     max-width: 400px;
     font-size: $bodySize;
-    background: transparent;
+    background-color: rgb(var(--background));
     @include variable(color, rgba(var(--on-surface), 0.8), #fff);
     @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);
     @include borderRadius();
+  }
+
+  select {
+    option {
+      @include variable(background-color, rgba(var(--background), 1), #fff);
+    }
   }
 
   i.icon-search {
