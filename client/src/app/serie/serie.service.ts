@@ -70,7 +70,7 @@ export class SerieService {
 
   public async update(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
-      url: `/api/serie/${options._id}`,
+      url: `/api/serie/${options.id}`,
       body: {
         ...options,
       },

@@ -1,5 +1,6 @@
 import * as path from 'path';
 
+import { URL } from '@config/config';
 import * as File from '@model/file';
 import * as Global from '@model/global';
 import * as Image from '@model/image';
@@ -71,7 +72,7 @@ export class Store<T> {
   async add(data: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<string> {
     const id = Random.generate();
 
-    if (data.posterPath) {
+    if (data.url) {
       await Image.downloadAndConvert({sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg']});
       delete data.posterPath;
     }
@@ -85,17 +86,17 @@ export class Store<T> {
     return id;
   }
 
-  async update(id: string, data: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<void> {
-    const item = this.getOne(id);
+  async update(id: string, data: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<void> {
+    this.getOne(id); // Get one to check if existing
 
-    if (data.posterPath) {
-      await Image.downloadAndConvert({sourceUrl: data.posterPath, basename: id, extensions: ['webp', 'jpg']});
-      delete data.posterPath;
+    if (data.url && !data.url.includes(URL)) { // If url contains server url, no need to download
+      await Image.downloadAndConvert({sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg']});
     }
+
+    delete data.url;
 
     this.collection[id] = {
       ...data,
-      ...item,
       id,
     };
 
@@ -105,6 +106,7 @@ export class Store<T> {
   async remove(id: string): Promise<void> {
     this.getOne(id); // Get one to check if existing
     delete this.collection[id];
+
     await Image.remove({basename: id, extensions: ['webp', 'jpg']});
     await this.save();
   }

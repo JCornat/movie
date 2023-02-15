@@ -70,7 +70,7 @@ export class GameService {
 
   public async update(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
-      url: `/api/game/${options._id}`,
+      url: `/api/game/${options.id}`,
       body: {
         ...options,
       },

@@ -76,8 +76,8 @@ router.put('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async
       id,
     };
 
-    const data = await media.update(id, options);
-    res.send({data});
+    await media.update(id, options);
+    res.send({status: 200});
   } catch (error) {
     return next(error);
   }

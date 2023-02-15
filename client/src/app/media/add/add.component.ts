@@ -61,10 +61,10 @@ export abstract class MediaAddComponent implements OnInit {
     this.loading = true;
 
     try {
-      // await this.add();
-      // this.navigateBack();
+      await this.add();
+      this.navigateBack();
     } catch (error) {
-      this.error = error as string;
+      this.error = (error as any).message;
     } finally {
       this.loading = false;
     }

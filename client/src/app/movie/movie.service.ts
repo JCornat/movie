@@ -70,7 +70,7 @@ export class MovieService {
 
   public async update(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
-      url: `/api/movie/${options._id}`,
+      url: `/api/movie/${options.id}`,
       body: {
         ...options,
       },
