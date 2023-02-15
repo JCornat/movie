@@ -44,7 +44,7 @@ export class MovieService {
     return data.data;
   }
 
-  public async search(title: string): Promise<{ title: string, year: number, backgroundImage: string }[]> {
+  public async search(title: string): Promise<any[]> {
     const optionsQuery = {
       url: `/api/movie?search=${title}`,
     };

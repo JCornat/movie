@@ -9,26 +9,35 @@
 
   <div>
     <div class="flex mb-24" style="align-items: end;">
-      <form [formGroup]="searchForm" (submit)="onSubmit()">
-        <div style="position: relative;">
-          <input type="text" formControlName="search" placeholder="Search"/>
-        </div>
-      </form>
-
-      <div class="ml-8">
-        <button (click)="onSubmit()">
-          <i class="icon icon-search pr-8"></i> Search
-        </button>
+      <div class="fill">
+        <form [formGroup]="searchForm" (submit)="onSubmit()">
+          <div style="position: relative;">
+            <input type="text" formControlName="search" placeholder="Search" style="max-width: none;"/>
+            <i class="icon icon-search"></i>
+          </div>
+        </form>
       </div>
 
-      <div class="ml-8">
+      <div class="ml-16">
         <button (click)="navigateAdd()">
           <i class="icon icon-add pr-8"></i> Add manually
         </button>
       </div>
     </div>
 
-    <ng-container *ngIf="searchResults">
+    <ng-container *ngIf="error">
+      <div class="mb-8">
+        <div style="color: red">{{error}}</div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="loading">
+      <div class="card mb-16" style="text-align: center;">
+        <i class="icon icon-sync text-xl spin"></i>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!loading && searchResults">
       <div class="bold text-lg mb-16">Results</div>
 
       <div class="card">

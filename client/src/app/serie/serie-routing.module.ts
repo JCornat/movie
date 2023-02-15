@@ -4,6 +4,7 @@ import { SerieUpdateComponent } from '@app/serie/update/update.component';
 import { SerieAddComponent } from '@app/serie/add/add.component';
 import { SerieComponent } from '@app/serie/serie.component';
 import { SerieImportComponent } from '@app/serie/import/import.component';
+import { SerieSearchComponent } from '@app/serie/search/search.component';
 
 const routes: Routes = [
   {
@@ -16,11 +17,15 @@ const routes: Routes = [
     component: SerieAddComponent,
   },
   {
+    path: 'search',
+    component: SerieSearchComponent,
+  },
+  {
     path: ':id/update',
     component: SerieUpdateComponent,
   },
   {
-    path: ':id/import',
+    path: ':importId/import',
     component: SerieImportComponent,
   },
 ];

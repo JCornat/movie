@@ -6,7 +6,8 @@ import { SERVER_URL } from '@shared/config/config';
   templateUrl: './item.component.html',
 })
 export class MediaItemComponent implements OnInit {
-  @Input() public data: any;
+  @Input() public data!: { [key: string]: any };
+  @Input() public dynamic!: boolean; // Allow image update
 
   constructor() {
     //

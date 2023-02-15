@@ -12,6 +12,8 @@ export abstract class MediaSearchComponent implements OnInit {
   public searchForm!: FormGroup;
   public type!: 'movie' | 'serie' | 'game';
   public searchResults!: { id: number, title: string, year: number, backgroundImage: string }[];
+  public loading!: boolean;
+  public error!: string;
 
   constructor(
     public requestService: RequestService,
