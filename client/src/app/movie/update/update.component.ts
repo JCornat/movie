@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MovieService } from '../movie.service';
 import { MediaUpdateComponent } from '../../media/update/update.component';
 import { RequestService } from '@shared/request/request.service';
+import { Movie } from '@app/movie/movie';
 
 @Component({
   selector: 'movie-update',
@@ -23,7 +24,7 @@ export class MovieUpdateComponent extends MediaUpdateComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<any> {
+  public async pullOne(id: string): Promise<Movie> {
     return this.movieService.pullOne(this.id);
   }
 

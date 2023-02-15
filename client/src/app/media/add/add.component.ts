@@ -20,7 +20,6 @@ export abstract class MediaAddComponent implements OnInit {
   public formData!: { [key: string]: any };
   public type!: 'movie' | 'serie' | 'game';
   public ratings!: { value: string | number, label: string }[];
-  public xhr!: XMLHttpRequest;
 
   constructor(
     public requestService: RequestService,
@@ -120,7 +119,7 @@ export abstract class MediaAddComponent implements OnInit {
     });
 
     this.mediaForm.valueChanges.subscribe((data) => {
-      this.onValid(data)
+      this.onValid(data);
     });
   }
 

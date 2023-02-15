@@ -3,6 +3,7 @@ import { RequestService } from '@shared/request/request.service';
 import { Request } from '@shared/request/request';
 import { Serie } from './serie';
 import { SERVER_URL } from '@shared/config/config';
+import { ImportMedia } from '@app/media/media';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class SerieService {
     return this.processPullAll(data);
   }
 
-  public processPullAll(data: { data: any[] }): any[] {
+  public processPullAll(data: { data: Serie[] }): Serie[] {
     for (const datum of data.data) {
       datum.url = `${SERVER_URL}/upload/${datum.id}.jpg`;
       datum.urlWebp = `${SERVER_URL}/upload/${datum.id}.webp`;
@@ -35,16 +36,21 @@ export class SerieService {
     return data.data;
   }
 
-  public async pullOne(id: string): Promise<any> {
+  public async pullOne(id: string): Promise<Serie> {
     const optionsQuery = {
       url: `/api/serie/${id}`,
     };
 
     const data: any = await this.requestService.get(optionsQuery).toPromise();
-    return data.data;
+    return this.processPullOne(data.data);
   }
 
-  public async search(title: string): Promise<any[]> {
+  public processPullOne(data: Serie): Serie {
+    const tmp = this.processPullAll({data: [data]})
+    return tmp[0];
+  }
+
+  public async search(title: string): Promise<ImportMedia[]> {
     const optionsQuery = {
       url: `/api/serie?search=${title}`,
     };
@@ -53,7 +59,7 @@ export class SerieService {
     return data.data;
   }
 
-  public async importOne(id: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }> {
+  public async importOne(id: string): Promise<ImportMedia> {
     const optionsQuery = {
       url: `/api/serie/${id}/import`,
     };
@@ -62,7 +68,7 @@ export class SerieService {
     return data.data;
   }
 
-  public async update(options: any): Promise<void> {
+  public async update(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
       url: `/api/serie/${options._id}`,
       body: {
