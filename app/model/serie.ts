@@ -23,7 +23,7 @@ export function getOne(id: string): Serie {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<string> {
+export async function add(options: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<string> {
   return store.add(options);
 }
 

@@ -23,8 +23,17 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
 
     this.init();
 
-    const values = await this.pullOne(this.importId);
-    this.mediaForm.patchValue(values);
+    this.error = null;
+    this.loading = true;
+
+    try {
+      const values = await this.pullOne(this.importId);
+      this.mediaForm.patchValue(values);
+    } catch (error) {
+      this.error = (error as any).message;
+    } finally {
+      this.loading = false;
+    }
   }
 
   /*-----------------------*\
@@ -43,7 +52,8 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
       await this.update(this.formData);
       this.navigateBack();
     } catch (error) {
-      this.error = error as string;
+      this.error = (error as any).message;
+    } finally {
       this.loading = false;
     }
   }
