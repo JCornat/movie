@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../game.service';
 import { MediaUpdateComponent } from '../../media/update/update.component';
 import { RequestService } from '@shared/request/request.service';
+import { Game } from '@app/game/game';
 
 @Component({
   selector: 'game-update',
@@ -24,7 +25,7 @@ export class GameUpdateComponent extends MediaUpdateComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<any> {
+  public async pullOne(id: string): Promise<Game> {
     return this.gameService.pullOne(this.id);
   }
 

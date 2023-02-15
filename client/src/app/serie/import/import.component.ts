@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SerieService } from '../serie.service';
 import { MediaImportComponent } from '../../media/import/import.component';
 import { RequestService } from '@shared/request/request.service';
+import { ImportMedia } from '@app/media/media';
 
 @Component({
   selector: 'serie-import',
@@ -27,18 +28,24 @@ export class SerieImportComponent extends MediaImportComponent implements OnInit
     await this.serieService.add(this.formData);
   }
 
-  public async pullOne(id: string): Promise<any> {
+  public async pullOne(id: string): Promise<ImportMedia> {
     if (!id) {
       throw new Error('ID incorrect');
     }
 
-    const data = await this.serieService.importOne(id);
-    this.posterImage = data.backgroundImage;
+    this.error = null as any;
+    this.loading = true;
 
-    return {
-      title: data.title,
-      year: data.year,
-      url: data.backgroundImage,
-    };
+    let data: any;
+
+    try {
+      data = await this.serieService.importOne(id);
+    } catch (error) {
+      this.error = (error as any).message;
+    } finally {
+      this.loading = false;
+    }
+
+    return data;
   }
 }

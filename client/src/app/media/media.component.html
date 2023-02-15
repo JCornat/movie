@@ -47,8 +47,11 @@
           <div class="poster-container">
             <div class="poster">
               <picture>
-                <source [srcset]="'http://localhost:3000/upload/' + category.media[category.limit].id + '.webp'" type="image/webp">
-                <img [ngSrc]="'http://localhost:3000/upload/' + category.media[category.limit].id + '.jpg'" alt="Description" fill="true">
+                <ng-container *ngIf="category.media[category.limit].urlWebp">
+                  <source [srcset]="category.media[category.limit].urlWebp" type="image/webp">
+                </ng-container>
+
+                <img [ngSrc]="category.media[category.limit].url" alt="Description" fill="true">
               </picture>
             </div>
           </div>

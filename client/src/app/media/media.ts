@@ -3,8 +3,8 @@ export interface Media {
   title: string;
   year: number;
   rating: number | 'todo';
-  url?: string;
-  urlWebp?: string;
+  url: string;
+  urlWebp: string;
 }
 
 export interface ImportMedia {

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GameService } from '../game.service';
 import { MediaImportComponent } from '../../media/import/import.component';
 import { RequestService } from '@shared/request/request.service';
+import { ImportMedia } from '@app/media/media';
 
 @Component({
   selector: 'game-import',
@@ -28,7 +29,7 @@ export class GameImportComponent extends MediaImportComponent implements OnInit 
     await this.gameService.add(this.formData);
   }
 
-  public async pullOne(id: string): Promise<any> {
+  public async pullOne(id: string): Promise<ImportMedia> {
     if (!id) {
       throw new Error('ID incorrect');
     }
@@ -46,12 +47,6 @@ export class GameImportComponent extends MediaImportComponent implements OnInit 
       this.loading = false;
     }
 
-    this.posterImage = data.posterPath;
-
-    return {
-      title: data.title,
-      year: data.year,
-      url: data.posterPath,
-    };
+    return data;
   }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SerieService } from '../serie.service';
 import { MediaUpdateComponent } from '../../media/update/update.component';
 import { RequestService } from '@shared/request/request.service';
+import { Serie } from '@app/serie/serie';
 
 @Component({
   selector: 'serie-update',
@@ -23,7 +24,7 @@ export class SerieUpdateComponent extends MediaUpdateComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<any> {
+  public async pullOne(id: string): Promise<Serie> {
     return this.serieService.pullOne(this.id);
   }
 
