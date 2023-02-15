@@ -10,6 +10,15 @@ export interface Media {
   title: string;
   year: number;
   rating: number | 'todo';
+  url?: string;
+  urlWebp?: string;
+}
+
+export interface ImportMedia {
+  importId: string;
+  title: string;
+  year: number;
+  url: string;
 }
 
 export class Store<T> {
@@ -59,11 +68,11 @@ export class Store<T> {
     return res;
   }
 
-  async add(data: { title: string, year: number, rating: number | 'todo', posterPath?: string, [key: string]: any }): Promise<string> {
+  async add(data: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<string> {
     const id = Random.generate();
 
     if (data.posterPath) {
-      await Image.downloadAndConvert({sourceUrl: data.posterPath, basename: id, extensions: ['webp', 'jpg']});
+      await Image.downloadAndConvert({sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg']});
       delete data.posterPath;
     }
 

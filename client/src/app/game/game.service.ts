@@ -3,6 +3,7 @@ import { RequestService } from '@shared/request/request.service';
 import { Request } from '@shared/request/request';
 import { Game } from './game';
 import { SERVER_URL } from '@shared/config/config';
+import { ImportMedia } from '@app/media/media';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +45,7 @@ export class GameService {
     return data.data;
   }
 
-  public async search(title: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }[]> {
+  public async search(title: string): Promise<ImportMedia[]> {
     const optionsQuery = {
       url: `/api/game?search=${title}`,
     };
@@ -53,7 +54,7 @@ export class GameService {
     return data.data;
   }
 
-  public async importOne(id: string): Promise<{ id: number, title: string, year: number, posterPath: string }> {
+  public async importOne(id: string): Promise<ImportMedia> {
     const optionsQuery = {
       url: `/api/game/${id}/import`,
     };

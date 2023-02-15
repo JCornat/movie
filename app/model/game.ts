@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import * as request from 'request';
 
-import { Store, Media } from '@class/store';
+import { Store, Media, ImportMedia } from '@class/store';
 import * as Config from '@config/config';
 
 // tslint:disable-next-line:no-empty-interface
@@ -37,7 +37,7 @@ export async function update(id: string, data: Game): Promise<void> {
   await store.update(id, data);
 }
 
-export function search(title: string): Promise<{ id: number, title: string, year: number, posterPath: string }[]> {
+export function search(title: string): Promise<ImportMedia[]> {
   return new Promise(async (resolve, reject) => {
     try {
       await checkBearer();
@@ -68,16 +68,16 @@ export function search(title: string): Promise<{ id: number, title: string, year
   });
 }
 
-function processSearch(data: any[]): { id: number, title: string, year: number, posterPath: string }[] {
+function processSearch(data: any[]): ImportMedia[] {
   const res = [];
   for (const datum of data) {
-    const posterPath = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
+    const url = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
     const year = (datum.first_release_date) ? moment(datum.first_release_date, 'X').format('YYYY') : '';
-    const tmp = {
-      id: datum.id,
+    const tmp: ImportMedia = {
+      importId: datum.id + '',
       title: datum.name,
-      year,
-      posterPath,
+      year: +year,
+      url,
     };
 
     res.push(tmp);
@@ -86,7 +86,7 @@ function processSearch(data: any[]): { id: number, title: string, year: number, 
   return res;
 }
 
-export function importOne(id: string): Promise<{ id: number, title: string, year: number, posterPath: string }> {
+export function importOne(id: string): Promise<ImportMedia> {
   return new Promise(async (resolve, reject) => {
     try {
       await checkBearer();
