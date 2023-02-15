@@ -7,12 +7,14 @@ import { SerieComponent } from '@app/serie/serie.component';
 import { MediaModule } from '@app/media/media.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SerieRoutingModule } from '@app/serie/serie-routing.module';
+import { SerieSearchComponent } from '@app/serie/search/search.component';
 
 @NgModule({
   declarations: [
     SerieComponent,
     SerieAddComponent,
     SerieImportComponent,
+    SerieSearchComponent,
     SerieUpdateComponent,
   ],
   imports: [

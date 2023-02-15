@@ -14,8 +14,8 @@ import { GameSearchComponent } from '@app/game/search/search.component';
     GameComponent,
     GameAddComponent,
     GameImportComponent,
-    GameUpdateComponent,
     GameSearchComponent,
+    GameUpdateComponent,
   ],
   imports: [
     MediaModule,

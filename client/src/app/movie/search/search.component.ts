@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { GameService } from '../game.service';
+import { MovieService } from '../movie.service';
 import { MediaSearchComponent } from '@app/media/search/search.component';
 import { RequestService } from '@shared/request/request.service';
 
 @Component({
-  selector: 'game-search',
+  selector: 'movie-search',
   templateUrl: '../../media/search/search.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
 })
-export class GameSearchComponent extends MediaSearchComponent {
+export class MovieSearchComponent extends MediaSearchComponent {
   constructor(
-    public gameService: GameService,
+    public movieService: MovieService,
     public override requestService: RequestService,
     public override router: Router,
     public override route: ActivatedRoute,
@@ -29,7 +29,7 @@ export class GameSearchComponent extends MediaSearchComponent {
     this.loading = true;
 
     try {
-      this.searchResults = await this.gameService.search(title);
+      this.searchResults = await this.movieService.search(title);
     } catch (error) {
       this.error = (error as any).message;
     } finally {

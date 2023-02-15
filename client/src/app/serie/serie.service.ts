@@ -44,7 +44,7 @@ export class SerieService {
     return data.data;
   }
 
-  public async search(title: string): Promise<{ id: number, title: string, year: number, backgroundImage: string }[]> {
+  public async search(title: string): Promise<any[]> {
     const optionsQuery = {
       url: `/api/serie?search=${title}`,
     };

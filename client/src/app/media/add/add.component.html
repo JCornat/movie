@@ -8,7 +8,7 @@
   <input type="file" style="position: absolute; width: 1px; height: 1px; top: 10px; left: 10px; z-index: -200;" #inputFile (change)="selectedFile($event)">
 
   <ng-container *ngIf="loading">
-    <div class="card mb-16" style="text-align:center;">
+    <div class="card mb-16" style="text-align: center;">
       <i class="icon icon-sync text-xl spin"></i>
     </div>
   </ng-container>
@@ -85,9 +85,7 @@
         <div class="media-item">
           <div class="bold text-xl mb-16">Preview</div>
 
-          <ng-container *ngIf="formData">
-            <media-item [data]="formData"></media-item>
-          </ng-container>
+          <media-item [data]="formData" [dynamic]="true"></media-item>
         </div>
       </ng-container>
     </div>

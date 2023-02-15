@@ -7,12 +7,14 @@ import { MovieComponent } from '@app/movie/movie.component';
 import { MediaModule } from '@app/media/media.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MovieRoutingModule } from '@app/movie/movie-routing.module';
+import { MovieSearchComponent } from '@app/movie/search/search.component';
 
 @NgModule({
   declarations: [
     MovieComponent,
     MovieAddComponent,
     MovieImportComponent,
+    MovieSearchComponent,
     MovieUpdateComponent,
   ],
   imports: [
