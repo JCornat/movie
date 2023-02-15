@@ -4,8 +4,8 @@
       <ng-container *ngIf="data.url">
         <ng-container *ngIf="!dynamic">
           <picture>
-            <ng-container *ngIf="data.urlWebp">
-              <source [srcset]="data.urlWebp" type="image/webp">
+            <ng-container *ngIf="data['urlWebp']">
+              <source [srcset]="data['urlWebp']" type="image/webp">
             </ng-container>
 
             <img [ngSrc]="data.url" [alt]="data.title" fill="true">

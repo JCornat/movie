@@ -1,6 +1,6 @@
 import * as request from 'request';
 
-import { Media, Store } from '@class/store';
+import { ImportMedia, Media, Store } from '@class/store';
 import * as Config from '@config/config';
 
 // tslint:disable-next-line:no-empty-interface
@@ -35,7 +35,7 @@ export async function update(id: string, data: Movie): Promise<void> {
   await store.update(id, data);
 }
 
-export function search(title: string): Promise<{ id: number, title: string, year: number, posterPath: string }[]> {
+export function search(title: string): Promise<ImportMedia[]> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/search/movie?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
@@ -52,16 +52,16 @@ export function search(title: string): Promise<{ id: number, title: string, year
   });
 }
 
-function processSearch(data: any[]): { id: number, title: string, year: number, posterPath: string }[] {
+function processSearch(data: any[]): ImportMedia[] {
   const res = [];
   for (const datum of data) {
     const year = (datum.release_date) ? (datum.release_date.split('-'))?.[0] : '';
-    const posterPath = (datum.poster_path) ? `https://image.tmdb.org/t/p/w300${datum.poster_path}` : '';
+    const url = (datum.poster_path) ? `https://image.tmdb.org/t/p/w300${datum.poster_path}` : '';
     const tmp = {
-      id: datum.id,
+      importId: datum.id + '',
       title: datum.title,
-      year,
-      posterPath,
+      year: +year,
+      url,
     };
 
     res.push(tmp);
@@ -70,7 +70,7 @@ function processSearch(data: any[]): { id: number, title: string, year: number, 
   return res;
 }
 
-export function importOne(id: string): Promise<{ id: number, title: string, year: number, posterPath: string }> {
+export function importOne(id: string): Promise<ImportMedia> {
   return new Promise((resolve, reject) => {
     const options = {
       url: `https://api.themoviedb.org/3/movie/${id}?api_key=${Config.MOVIEDB_API_KEY}`,

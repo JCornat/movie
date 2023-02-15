@@ -2,7 +2,7 @@ import { Directive, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Global from '@shared/global/global';
-import { Media } from '@app/media/media';
+import { ImportMedia } from '@app/media/media';
 import { RequestService } from '@shared/request/request.service';
 
 @Directive()
@@ -11,7 +11,7 @@ export abstract class MediaSearchComponent implements OnInit {
   public formData!: { [key: string]: any };
   public searchForm!: FormGroup;
   public type!: 'movie' | 'serie' | 'game';
-  public searchResults!: { id: number, title: string, year: number, backgroundImage: string }[];
+  public searchResults!: ImportMedia[];
   public loading!: boolean;
   public error!: string;
 
@@ -42,8 +42,8 @@ export abstract class MediaSearchComponent implements OnInit {
 
   public abstract search(title: string): Promise<void>;
 
-  public select(result: any): void {
-    this.navigateImport(result.id);
+  public select(result: ImportMedia): void {
+    this.navigateImport(result.importId);
   }
 
   public async onSubmit(): Promise<void> {
@@ -66,8 +66,8 @@ export abstract class MediaSearchComponent implements OnInit {
     this.router.navigate([`/${this.type}`, 'add']);
   }
 
-  public navigateImport(id: string): void {
-    this.router.navigate([`/${this.type}`, id, 'import']);
+  public navigateImport(importId: string): void {
+    this.router.navigate([`/${this.type}`, importId, 'import']);
   }
 
   /*-----------------------*\
