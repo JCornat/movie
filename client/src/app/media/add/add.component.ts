@@ -4,18 +4,16 @@ import * as Global from '@shared/global/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SERVER_URL } from '@shared/config/config';
 import { RequestService } from '@shared/request/request.service';
+import { RATINGS } from '@app/media/rating';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
   @ViewChild('inputFile', {static: false}) public inputFile!: ElementRef;
 
-  public loading!: boolean;
-  public isSending!: boolean;
-  public error!: string | null;
-  public uploadError!: string | null;
-
   public id!: string;
   public importId!: string;
+  public loading!: boolean;
+  public error!: string | null;
   public mediaForm!: FormGroup;
   public formData!: { [key: string]: any };
   public type!: 'movie' | 'serie' | 'game';
@@ -100,15 +98,7 @@ export abstract class MediaAddComponent implements OnInit {
   }
 
   public buildForm(): void {
-    this.ratings = [
-      {value: 6, label: 'Favourite'},
-      {value: 5, label: 'Wonderful'},
-      {value: 4, label: 'Great'},
-      {value: 3, label: 'Good'},
-      {value: 2, label: 'Mediocre'},
-      {value: 1, label: 'Bad'},
-      {value: 'todo', label: 'Todo'},
-    ];
+    this.ratings = Global.clone(RATINGS);
 
     this.mediaForm = new FormGroup({
       id: new FormControl(''),
