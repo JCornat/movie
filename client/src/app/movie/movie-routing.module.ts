@@ -4,7 +4,7 @@ import { MovieUpdateComponent } from '@app/movie/update/update.component';
 import { MovieAddComponent } from '@app/movie/add/add.component';
 import { MovieComponent } from '@app/movie/movie.component';
 import { MovieSearchComponent } from '@app/movie/search/search.component';
-import { SerieImportComponent } from '@app/serie/import/import.component';
+import { MovieImportComponent } from '@app/movie/import/import.component';
 
 const routes: Routes = [
   {
@@ -26,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: ':importId/import',
-    component: SerieImportComponent,
+    component: MovieImportComponent,
   },
 ];
 

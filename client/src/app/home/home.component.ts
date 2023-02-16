@@ -104,14 +104,6 @@ export class HomeComponent implements OnInit {
 
   public processMedia(media: Media[]): Media[] {
     media.sort((a, b) => {
-      if (a.rating + '' === '') {
-        return -1;
-      }
-
-      if (b.rating + '' === '') {
-        return -1;
-      }
-
       if (a.rating > b.rating) {
         return -1;
       }
@@ -120,17 +112,18 @@ export class HomeComponent implements OnInit {
         return 1;
       }
 
-      if (a.title > b.title) {
-        return 1;
-      }
-
-      if (a.title < b.title) {
-        return -1;
-      }
-
       return 0;
     });
 
-    return media.splice(0, 25);
+    const limit = media.splice(0, 50); // Take first 50
+    this.shuffle(limit);
+    return limit.splice(0, 25); // Display first 25
+  }
+
+  public shuffle(array: unknown[]): void {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
 }

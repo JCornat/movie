@@ -1,15 +1,13 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 import { ScreenService } from '@shared/screen/screen.service';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Game } from '@app/game/game';
-import { Movie } from '@app/movie/movie';
-import { Serie } from '@app/serie/serie';
 import { Category } from '@app/media/category';
 import { Media } from '@app/media/media';
 import { AuthenticationService } from '@shared/authentication/authentication.service';
+import { RATINGS } from '@app/media/rating';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
@@ -104,15 +102,21 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
   }
 
-  public processCategories(data: (Game | Movie | Serie)[], search?: string): Category[] {
+  public processCategories(data: Media[], search?: string): Category[] {
     const limit = this.getLimitByScreenSize();
-    const favourite: Category = {label: 'Favourites', limit, orderBy: 'random', media: []};
-    const wonderful: Category = {label: 'Wonderful', limit, orderBy: 'random', media: []};
-    const great: Category = {label: 'Great', limit, orderBy: 'random', media: []};
-    const good: Category = {label: 'Goods', limit, orderBy: 'random', media: []};
-    const mediocre: Category = {label: 'Mediocres', limit, orderBy: 'random', media: []};
-    const bad: Category = {label: 'Bads', limit, orderBy: 'random', media: []};
-    const todo: Category = {label: 'Todos', limit, orderBy: 'random', media: []};
+
+    const ratingsObj: { [key: string | number]: { label: string, value: string | number, limit: number, orderBy: string, media: Media[] } } = {};
+    for (const rating of RATINGS) {
+      const tmp = {
+        label: rating.label,
+        value: rating.value,
+        limit,
+        orderBy: 'random',
+        media: [],
+      };
+
+      ratingsObj[rating.value] = tmp;
+    }
 
     for (const datum of data) {
       if (search) {
@@ -121,38 +125,23 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
         }
       }
 
-      if (datum.rating === 'todo') {
-        todo.media.push(datum);
-      } else if (datum.rating >= 5) {
-        favourite.media.push(datum);
-      } else if (datum.rating >= 4) {
-        wonderful.media.push(datum);
-      } else if (datum.rating >= 3) {
-        good.media.push(datum);
-      } else if (datum.rating >= 2) {
-        mediocre.media.push(datum);
-      } else if (datum.rating >= 0) {
-        bad.media.push(datum);
-      } else {
-        console.error('rating not supported', datum);
+      let rating = ratingsObj[datum.rating];
+      if (!rating) {
+        rating = ratingsObj['todo'];
       }
+
+      rating.media.push(datum);
     }
 
-    this.shuffle(favourite.media);
-    this.shuffle(wonderful.media);
-    this.shuffle(good.media);
-    this.shuffle(mediocre.media);
-    this.shuffle(bad.media);
-    this.shuffle(todo.media);
+    const res = [];
+    for (const rating of RATINGS) {
+      let tmp = ratingsObj[rating.value];
+      this.shuffle(tmp.media);
 
-    return [
-      favourite,
-      wonderful,
-      good,
-      mediocre,
-      bad,
-      todo,
-    ];
+      res.push(tmp);
+    }
+
+    return res;
   }
 
   /*-----------------------*\
