@@ -121,7 +121,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
         }
       }
 
-      if (!datum.rating) {
+      if (datum.rating === 'todo') {
         todo.media.push(datum);
       } else if (datum.rating >= 5) {
         favourite.media.push(datum);
