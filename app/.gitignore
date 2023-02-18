@@ -8,3 +8,6 @@ config/*
 
 public/image/*
 !public/image/.gitkeep
+
+www/*
+!www/*.gitkeep
