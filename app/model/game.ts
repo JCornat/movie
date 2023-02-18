@@ -3,6 +3,7 @@ import * as request from 'request';
 
 import { Store, Media, ImportMedia } from '@class/store';
 import * as Config from '@config/config';
+import * as Global from '@model/global';
 
 // tslint:disable-next-line:no-empty-interface
 export interface Game extends Media {
@@ -70,6 +71,10 @@ export function search(title: string): Promise<ImportMedia[]> {
 
 function processSearch(data: any[]): ImportMedia[] {
   const res = [];
+  if (Global.isEmpty(data)) {
+    return res;
+  }
+
   for (const datum of data) {
     const url = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
     const year = (datum.first_release_date) ? moment(datum.first_release_date, 'X').format('YYYY') : '';

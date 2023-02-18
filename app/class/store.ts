@@ -74,8 +74,9 @@ export class Store<T> {
 
     if (data.url) {
       await Image.downloadAndConvert({sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg']});
-      delete data.posterPath;
     }
+
+    delete data.url;
 
     this.collection[id] = {
       ...data,
