@@ -24,7 +24,7 @@ export class SerieImportComponent extends MediaImportComponent implements OnInit
            Service
   \*-----------------------*/
 
-  public async add(): Promise<void> {
+  public override async add(): Promise<void> {
     await this.serieService.add(this.formData);
   }
 

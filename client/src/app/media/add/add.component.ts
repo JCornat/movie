@@ -72,7 +72,13 @@ export abstract class MediaAddComponent implements OnInit {
            Service
   \*-----------------------*/
 
-  public abstract add(): Promise<void>;
+  public async add(): Promise<void> {
+    //
+  }
+
+  public async remove(): Promise<void> {
+    //
+  }
 
   /*-----------------------*\
            Navigation

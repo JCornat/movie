@@ -29,7 +29,7 @@ export class GameUpdateComponent extends MediaUpdateComponent {
     return this.gameService.pullOne(this.id);
   }
 
-  public async remove(): Promise<void> {
+  public override async remove(): Promise<void> {
     await this.gameService.delete(this.id);
     this.navigateBack();
   }

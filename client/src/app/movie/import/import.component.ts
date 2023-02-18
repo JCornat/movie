@@ -24,7 +24,7 @@ export class MovieImportComponent extends MediaImportComponent implements OnInit
            Service
   \*-----------------------*/
 
-  public async add(): Promise<void> {
+  public override async add(): Promise<void> {
     await this.movieService.add(this.formData);
   }
 

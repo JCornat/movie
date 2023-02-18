@@ -28,7 +28,7 @@ export class MovieUpdateComponent extends MediaUpdateComponent {
     return this.movieService.pullOne(this.id);
   }
 
-  public async remove(): Promise<void> {
+  public override async remove(): Promise<void> {
     await this.movieService.delete(this.id);
     this.navigateBack();
   }
