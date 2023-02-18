@@ -62,13 +62,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
            Service
   \*-----------------------*/
 
-  public async add(): Promise<void> {
-    //
-  }
-
   public abstract pullOne(id: string): Promise<any>;
-
-  public abstract remove(): Promise<void>;
 
   public abstract update(data: { [key: string]: any }): Promise<void>;
 }

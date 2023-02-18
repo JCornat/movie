@@ -23,7 +23,7 @@ export class SerieAddComponent extends MediaAddComponent {
            Service
   \*-----------------------*/
 
-  public async add(): Promise<void> {
+  public override async add(): Promise<void> {
     await this.serieService.add(this.formData);
   }
 }

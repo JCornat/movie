@@ -23,7 +23,7 @@ export class MovieAddComponent extends MediaAddComponent {
            Service
   \*-----------------------*/
 
-  public async add(): Promise<void> {
+  public override async add(): Promise<void> {
     await this.movieService.add(this.formData);
   }
 }

@@ -28,7 +28,7 @@ export class SerieUpdateComponent extends MediaUpdateComponent {
     return this.serieService.pullOne(this.id);
   }
 
-  public async remove(): Promise<void> {
+  public override async remove(): Promise<void> {
     await this.serieService.delete(this.id);
     this.navigateBack();
   }
