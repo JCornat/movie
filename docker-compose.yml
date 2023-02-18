@@ -8,8 +8,6 @@ services:
                 - image=${WEB_IMAGE}
         container_name: ${WEB_CONTAINER_NAME}
         restart: always
-        depends_on:
-            - database
         volumes:
             - ./app/class:/src/class
             - ./app/config:/src/config
@@ -27,5 +25,4 @@ services:
             - TZ=Europe/Paris
 networks:
     default:
-        external:
-            name: main
+        name: main
