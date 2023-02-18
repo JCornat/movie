@@ -2,6 +2,7 @@ import * as request from 'request';
 
 import { ImportMedia, Media, Store } from '@class/store';
 import * as Config from '@config/config';
+import * as Global from './global';
 
 // tslint:disable-next-line:no-empty-interface
 export interface Movie extends Media {
@@ -54,6 +55,10 @@ export function search(title: string): Promise<ImportMedia[]> {
 
 function processSearch(data: any[]): ImportMedia[] {
   const res = [];
+  if (Global.isEmpty(data)) {
+    return res;
+  }
+
   for (const datum of data) {
     const year = (datum.release_date) ? (datum.release_date.split('-'))?.[0] : '';
     const url = (datum.poster_path) ? `https://image.tmdb.org/t/p/w300${datum.poster_path}` : '';
