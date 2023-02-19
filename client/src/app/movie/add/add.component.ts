@@ -8,6 +8,7 @@ import { RequestService } from '@shared/request/request.service';
 @Component({
   selector: 'media-add',
   templateUrl: '../../media/add/add.component.html',
+  styleUrls: ['../../media/add/add.component.scss'],
 })
 export class MovieAddComponent extends MediaAddComponent {
   constructor(

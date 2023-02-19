@@ -9,6 +9,7 @@ import { ImportMedia } from '@app/media/media';
 @Component({
   selector: 'movie-import',
   templateUrl: '../../media/add/add.component.html',
+  styleUrls: ['../../media/add/add.component.scss'],
 })
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
   constructor(
