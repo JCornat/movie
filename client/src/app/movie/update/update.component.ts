@@ -9,6 +9,7 @@ import { Movie } from '@app/movie/movie';
 @Component({
   selector: 'movie-update',
   templateUrl: '../../media/add/add.component.html',
+  styleUrls: ['../../media/add/add.component.scss'],
 })
 export class MovieUpdateComponent extends MediaUpdateComponent {
   constructor(

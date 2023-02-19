@@ -9,6 +9,7 @@ import { Serie } from '@app/serie/serie';
 @Component({
   selector: 'serie-update',
   templateUrl: '../../media/add/add.component.html',
+  styleUrls: ['../../media/add/add.component.scss'],
 })
 export class SerieUpdateComponent extends MediaUpdateComponent {
   constructor(
