@@ -6,11 +6,13 @@ import * as Global from '@model/global';
 import * as Image from '@model/image';
 import * as Random from '@model/random';
 
+export type Rating = 'todo' | 'progress' | 'done';
+
 export interface Media {
   id: string;
   title: string;
   year: number;
-  rating: number | 'todo';
+  rating: Rating;
   url?: string;
   urlWebp?: string;
 }
@@ -69,7 +71,7 @@ export class Store<T> {
     return res;
   }
 
-  async add(data: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<string> {
+  async add(data: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
     const id = Random.generate();
 
     if (data.url) {
@@ -87,7 +89,7 @@ export class Store<T> {
     return id;
   }
 
-  async update(id: string, data: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<void> {
+  async update(id: string, data: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<void> {
     this.getOne(id); // Get one to check if existing
 
     if (data.url && !data.url.includes(URL)) { // If url contains server url, no need to download

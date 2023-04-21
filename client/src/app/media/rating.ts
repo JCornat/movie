@@ -5,5 +5,6 @@ export const RATINGS = Object.freeze([
   {value: 3, label: 'Good'},
   {value: 2, label: 'Mediocre'},
   {value: 1, label: 'Bad'},
+  {value: 'progress', label: 'In progress'},
   {value: 'todo', label: 'Todo'},
 ]);

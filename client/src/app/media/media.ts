@@ -1,8 +1,10 @@
+export type Rating = 'todo' | 'progress' | 'done';
+
 export interface Media {
   id: string;
   title: string;
   year: number;
-  rating: number | 'todo';
+  rating: Rating;
   url: string;
   urlWebp: string;
 }
