@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import * as request from 'request';
 
-import { Store, Media, ImportMedia } from '@class/store';
+import { Store, Media, ImportMedia, Rating } from '@class/store';
 import * as Config from '@config/config';
 import * as Global from '@model/global';
 
@@ -26,7 +26,7 @@ export function getOne(id: string): Game {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<string> {
+export async function add(options: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
   return store.add(options);
 }
 

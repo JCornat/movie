@@ -1,6 +1,6 @@
 import * as request from 'request';
 
-import { ImportMedia, Media, Store } from '@class/store';
+import { ImportMedia, Media, Rating, Store } from '@class/store';
 import * as Config from '@config/config';
 import * as Global from './global';
 
@@ -24,7 +24,7 @@ export function getOne(id: string): Movie {
   return store.getOne(id);
 }
 
-export async function add(options: { title: string, year: number, rating: number | 'todo', url?: string, [key: string]: any }): Promise<string> {
+export async function add(options: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
   return store.add(options);
 }
 
