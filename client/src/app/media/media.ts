@@ -1,4 +1,4 @@
-export type Rating = 'todo' | 'progress' | 'done';
+export type Rating = number | 'todo' | 'progress';
 
 export interface Media {
   id: string;
