@@ -6,7 +6,7 @@ import * as Global from '@model/global';
 import * as Image from '@model/image';
 import * as Random from '@model/random';
 
-export type Rating = 'todo' | 'progress' | 'done';
+export type Rating = number | 'todo' | 'progress';
 
 export interface Media {
   id: string;
