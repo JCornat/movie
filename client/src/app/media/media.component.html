@@ -26,7 +26,7 @@
 <ng-container *ngFor="let category of displayList">
   <ng-container *ngIf="category.media && category.media.length > 0">
     <div class="mx-16 flex" style="align-items: baseline;">
-      <div class="bold text-xl mr-8">{{category.label}}</div>
+      <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>
       <div class="fill"></div>
       <div class="flex">
         <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</div>
