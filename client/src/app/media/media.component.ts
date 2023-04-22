@@ -49,7 +49,8 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   \*-----------------------*/
 
   public increaseLimit(item: Category): void {
-    item.limit += 25;
+    const newLimit = this.getLimitByScreenSize();
+    item.limit += newLimit * 4;
   }
 
   public sort(item: Category, type: string): void {
@@ -155,7 +156,12 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       }
 
       for (const category of this.categories) {
-        category.limit = this.getLimitByScreenSize();
+        const newLimit = this.getLimitByScreenSize();
+        if (newLimit < category.limit) { // Do not decrease limit when screen is resized
+          continue;
+        }
+
+        category.limit = newLimit;
       }
     });
   }
