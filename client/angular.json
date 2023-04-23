@@ -77,7 +77,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "www/"
+              "deployUrl": "www/"
             },
             "development": {
               "buildOptimizer": false,
