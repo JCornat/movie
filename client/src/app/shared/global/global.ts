@@ -38,7 +38,7 @@ export function extract(data: any[], property: string | number | string[] | numb
     return [];
   }
 
-  const res = {};
+  const res: { [key: string | number]: any } = {};
   for (const item of data) {
     if (Array.isArray(property)) {
       if (isEmpty(item)) {
@@ -199,8 +199,7 @@ export function arrayToObject(data: any, ...keys: string[]): any {
     throw new Error('Argument type unexpected');
   }
 
-  const res = {};
-
+  const res: { [key: string]: any } = {};
   for (const item of data) {
     const tmp = [];
     for (const tmpKey of keys) {
