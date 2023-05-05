@@ -1,16 +1,27 @@
 import { Component } from '@angular/core';
-import { SerieService } from './serie.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Serie } from './serie';
-import { ScreenService } from '@shared/screen/screen.service';
-import { MediaComponent } from "@app/media/media.component";
+import { NgFor, NgClass, NgIf, NgOptimizedImage } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { AuthenticationService } from '@shared/authentication/authentication.service';
-import { Game } from '@app/game/game';
-// import { AuthenticationService } from '../authentication/authentication.service';
+import { MediaComponent } from '@app/media/media.component';
+import { MediaItemComponent } from '@app/media/item/item.component';
+import { ScreenService } from '@shared/screen/screen.service';
+import { Serie } from '@app/serie/serie';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'app-serie',
   templateUrl: '../media/media.component.html',
+  standalone: true,
+  imports: [
+    MediaItemComponent,
+    NgClass,
+    NgFor,
+    NgIf,
+    NgOptimizedImage,
+    ReactiveFormsModule,
+  ],
 })
 export class SerieComponent extends MediaComponent {
   public override media!: Serie[];

@@ -1,15 +1,25 @@
-import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { SerieService } from '../serie.service';
-import { MediaUpdateComponent } from '../../media/update/update.component';
+import { MediaItemComponent } from '@app/media/item/item.component';
+import { MediaUpdateComponent } from '@app/media/update/update.component';
 import { RequestService } from '@shared/request/request.service';
 import { Serie } from '@app/serie/serie';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'serie-update',
   templateUrl: '../../media/add/add.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
+  standalone: true,
+  imports: [
+    MediaItemComponent,
+    NgFor,
+    NgIf,
+    ReactiveFormsModule,
+  ],
 })
 export class SerieUpdateComponent extends MediaUpdateComponent {
   constructor(

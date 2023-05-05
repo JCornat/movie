@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { MovieService } from '../movie.service';
-import { MediaImportComponent } from '../../media/import/import.component';
-import { RequestService } from '@shared/request/request.service';
 import { ImportMedia } from '@app/media/media';
+import { MediaImportComponent } from '@app/media/import/import.component';
+import { MediaItemComponent } from '@app/media/item/item.component';
+import { MovieService } from '@app/movie/movie.service';
+import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'movie-import',
   templateUrl: '../../media/add/add.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
+  standalone: true,
+  imports: [
+    MediaItemComponent,
+    NgFor,
+    NgIf,
+    ReactiveFormsModule,
+  ],
 })
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
   constructor(

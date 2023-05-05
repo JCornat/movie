@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { MovieUpdateComponent } from '@app/movie/update/update.component';
 import { MovieAddComponent } from '@app/movie/add/add.component';
 import { MovieComponent } from '@app/movie/movie.component';
 import { MovieSearchComponent } from '@app/movie/search/search.component';
 import { MovieImportComponent } from '@app/movie/import/import.component';
 
-const routes: Routes = [
+export const MOVIE_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -29,11 +28,3 @@ const routes: Routes = [
     component: MovieImportComponent,
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class MovieRoutingModule {
-  //
-}
