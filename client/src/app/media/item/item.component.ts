@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SERVER_URL } from '@shared/config/config';
-import { ImportMedia, Media } from '@app/media/media';
+import { Media } from '@app/media/media';
 import * as Global from '@shared/global/global';
 
 @Component({
@@ -8,7 +8,7 @@ import * as Global from '@shared/global/global';
   templateUrl: './item.component.html',
 })
 export class MediaItemComponent implements OnInit {
-  @Input() public data!: Media | ImportMedia;
+  @Input() public data!: { [key: string]: any };
   @Input() public dynamic!: boolean; // Allow image update
 
   constructor() {
@@ -16,7 +16,7 @@ export class MediaItemComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    if (Global.isPopulated(this.data['id'])) { // For Media item
+    if (Global.isPopulated((this.data as Media).id)) { // For Media item
       const data = this.data as Media;
       data.url = `${SERVER_URL}/upload/${data.id}.jpg`;
       data.urlWebp = `${SERVER_URL}/upload/${data.id}.webp`;

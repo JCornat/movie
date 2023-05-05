@@ -92,7 +92,9 @@ export class RequestService {
     }
 
     const params: any[] = [];
-    const requestOptions: { [key: string]: any } = {
+    const requestOptions: {
+      [key: string]: any
+    } = {
       headers: this.getHeaders(header),
       params: null,
       reportProgress: null,
@@ -256,8 +258,8 @@ export class RequestService {
 
     xhr.onload = () => {
       const blob = new Blob([xhr.response], {type: 'application/pdf'});
-      if (navigator['msSaveOrOpenBlob']) {
-        navigator['msSaveOrOpenBlob'](blob, fileName || name);
+      if ((navigator as any).msSaveOrOpenBlob) {
+        (navigator as any).msSaveOrOpenBlob(blob, fileName || name);
       } else {
         const element: any = document.createElement('a');
         element.style.position = 'absolute';
@@ -316,7 +318,7 @@ export class RequestService {
   }
 
   public getMobileOperatingSystem() {
-    const userAgent = navigator.userAgent || navigator.vendor || window['opera'];
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
 
     // Windows Phone must come first because its UA also contains "Android"
     if (/windows phone/i.test(userAgent)) {
@@ -328,7 +330,7 @@ export class RequestService {
     }
 
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window['MSStream']) {
+    if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream) {
       return 'iOS';
     }
 

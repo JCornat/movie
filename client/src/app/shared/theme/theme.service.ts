@@ -139,7 +139,7 @@ export class ThemeService {
   }
 
   public getColors(options: { convertToHex?: boolean } = {}): { [key: string]: string } {
-    const res = {};
+    const res: { [key: string]: string } = {};
 
     for (const colorName of this.colorNames) {
       const value = document.documentElement.style.getPropertyValue(`--${colorName}`);
