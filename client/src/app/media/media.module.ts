@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { MediaItemComponent } from "@app/media/item/item.component";
+import { NgModule } from '@angular/core';
+
+import { MediaItemComponent } from '@app/media/item/item.component';
 
 @NgModule({
-  declarations: [
-    MediaItemComponent,
-  ],
   exports: [
     MediaItemComponent,
   ],
   imports: [
     CommonModule,
+    MediaItemComponent,
     NgOptimizedImage,
   ],
 })
-export class MediaModule { }
+export class MediaModule {
+  //
+}

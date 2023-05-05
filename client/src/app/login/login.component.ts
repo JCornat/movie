@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
-import { FormControl, FormGroup } from '@angular/forms';
 import * as Global from '@shared/global/global';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    ReactiveFormsModule,
+  ],
 })
 export class LoginComponent implements OnInit {
-  public questions!: any[];
   public formData!: { [key: string]: any };
   public loginForm!: FormGroup;
   public error!: string;

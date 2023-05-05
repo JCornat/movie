@@ -1,11 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SERVER_URL } from '@shared/config/config';
+import { NgIf, NgOptimizedImage } from '@angular/common';
+
 import { Media } from '@app/media/media';
+import { SERVER_URL } from '@shared/config/config';
 import * as Global from '@shared/global/global';
 
 @Component({
   selector: 'media-item',
   templateUrl: './item.component.html',
+  standalone: true,
+  imports: [
+    NgIf,
+    NgOptimizedImage,
+  ],
 })
 export class MediaItemComponent implements OnInit {
   @Input() public data!: { [key: string]: any };

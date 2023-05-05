@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '@app/login/login.component';
+
 import { HomeComponent } from '@app/home/home.component';
 
 const routes: Routes = [
@@ -10,22 +10,22 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    loadComponent: () => import('./login/login.component').then(m => m.LoginComponent),
   },
   {
     path: 'game',
     title: 'Games',
-    loadChildren: () => import('./game/game.module').then(m => m.GameModule)
+    loadChildren: () => import('./game/routes').then(m => m.GAME_ROUTES)
   },
   {
     path: 'movie',
     title: 'Movies',
-    loadChildren: () => import('./movie/movie.module').then(m => m.MovieModule)
+    loadChildren: () => import('./movie/routes').then(m => m.MOVIE_ROUTES)
   },
   {
     path: 'serie',
     title: 'Series',
-    loadChildren: () => import('./serie/serie.module').then(m => m.SerieModule)
+    loadChildren: () => import('./serie/routes').then(m => m.SERIE_ROUTES)
   },
 ];
 

@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { MovieService } from '../movie.service';
 import { MediaSearchComponent } from '@app/media/search/search.component';
+import { MovieService } from '@app/movie/movie.service';
 import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'movie-search',
   templateUrl: '../../media/search/search.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    ReactiveFormsModule,
+  ],
 })
 export class MovieSearchComponent extends MediaSearchComponent {
   constructor(

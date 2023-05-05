@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { NgIf, NgFor } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { GameService } from '../game.service';
+import { GameService } from '@app/game/game.service';
 import { MediaSearchComponent } from '@app/media/search/search.component';
 import { RequestService } from '@shared/request/request.service';
 
@@ -9,6 +11,12 @@ import { RequestService } from '@shared/request/request.service';
   selector: 'game-search',
   templateUrl: '../../media/search/search.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    ReactiveFormsModule,
+  ],
 })
 export class GameSearchComponent extends MediaSearchComponent {
   constructor(

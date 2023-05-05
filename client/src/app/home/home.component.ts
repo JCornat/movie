@@ -1,16 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
-import { MovieService } from '../movie/movie.service';
-import { SerieService } from '../serie/serie.service';
-import { GameService } from '../game/game.service';
-import { Movie } from '@app/movie/movie';
-import { Serie } from '@app/serie/serie';
+
 import { Game } from '@app/game/game';
+import { GameService } from '@app/game/game.service';
 import { Media } from '@app/media/media';
+import { Movie } from '@app/movie/movie';
+import { MovieService } from '@app/movie/movie.service';
+import { Serie } from '@app/serie/serie';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    NgOptimizedImage,
+  ],
 })
 export class HomeComponent implements OnInit {
   public mediaList!: { title: string, description: string, url: string, data: any[] }[];
