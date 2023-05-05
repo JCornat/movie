@@ -10,6 +10,7 @@ const blacklist = [
   '\/public\/',
   '\/upload\/',
   '\/assets\/',
+  '\/robots\.txt',
 ];
 
 const regexp = new RegExp(`^(?!${blacklist.join('|')}).*`);
@@ -18,6 +19,15 @@ router.get(regexp, async (req: Request, res: C7zResponse, next: any) => {
     const filePath = path.join(__dirname, '..', 'www', 'index.html');
     await res.sendFileAsync(filePath);
   } catch (error) {
-    console.error(error);
+    return next({status: 404, message: 'File not found'});
+  }
+});
+
+router.get('/robots.txt', async (req: Request, res: C7zResponse, next: any) => {
+  try {
+    const filePath = path.join(__dirname, '..', 'public', 'robots.txt');
+    await res.sendFileAsync(filePath);
+  } catch (error) {
+    return next({status: 404, message: 'File not found'});
   }
 });
