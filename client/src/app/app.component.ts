@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { RequestService } from '@shared/request/request.service';
-import { SERVER_URL } from '@shared/config/config';
 import { ThemeService } from '@shared/theme/theme.service';
 import { AuthenticationService } from '@shared/authentication/authentication.service';
+import * as Config from '@shared/config/config';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +18,17 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private themeService: ThemeService,
     private requestService: RequestService,
+    private titleService: Title,
+    private metaTagService: Meta,
   ) {
     //
   }
 
   public ngOnInit(): void {
-    this.requestService.currentServer = SERVER_URL;
+    this.requestService.currentServer = Config.SERVER_URL;
     this.authenticationService.init();
     this.themeService.init();
+    this.titleService.setTitle(Config.TITLE);
+    this.metaTagService.addTags(Config.META_TAGS);
   }
 }
