@@ -79,7 +79,7 @@ export class RequestService {
       }));
   }
 
-  private requestBuilder(options: Request) {
+  private requestBuilder(options: Request): any {
     const timeoutValue = this.getTimeout(options.header);
     const method = options.method;
     const body = options.body;
@@ -165,19 +165,6 @@ export class RequestService {
     this.injector.get(Router).navigate(route);
   }
 
-  public async reloadToken(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      return this.refreshToken()
-        .pipe(flatMap((res) => {
-          this.tokenService.setToken(res.token);
-          resolve();
-          return res;
-        }), catchError((error): any => {
-          reject(error);
-        }));
-    });
-  }
-
   public refreshToken(): Observable<any> {
     const refresh = this.tokenService.getRefreshToken();
     if (!refresh) {
@@ -199,7 +186,7 @@ export class RequestService {
     let headers: any = new HttpHeaders();
 
     if (!data?.disableAuthentication) { // If authentication is not disabled (enabled by default), get token
-      const token = this.tokenService.getToken() || this.tokenService.getTemporaryToken();
+      const token = this.tokenService.getToken();
       if (!token && !data?.optionalAuthentication) { // If there is no token, and authentication is not optional (not optional by default), cancel request
         throw new Error('Authentification requise');
       }
@@ -317,7 +304,7 @@ export class RequestService {
     });
   }
 
-  public getMobileOperatingSystem() {
+  public getMobileOperatingSystem(): string {
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
 
     // Windows Phone must come first because its UA also contains "Android"

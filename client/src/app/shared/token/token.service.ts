@@ -17,10 +17,6 @@ export class TokenService {
   private refreshTokenSubject = new Subject<any>();
   public refreshTokenObservable = this.refreshTokenSubject.asObservable();
 
-  private _temporaryToken: any;
-  private temporaryTokenSubject = new Subject<any>();
-  public temporaryTokenObservable = this.temporaryTokenSubject.asObservable();
-
   constructor(
     public route: ActivatedRoute,
     public storageService: StorageService,
@@ -65,31 +61,12 @@ export class TokenService {
     }
   }
 
-  public getTemporaryToken(): string {
-    return this._temporaryToken;
-  }
-
-  public setTemporaryToken(data: any): void {
-    this._temporaryToken = data;
-    this.temporaryTokenSubject.next(this._temporaryToken);
-  }
-
   public hasToken(): boolean {
     const data = this.getToken();
     return !!data;
   }
 
-  public hasTemporaryToken(): boolean {
-    try {
-      const data = this.getTemporaryToken();
-      return !!data;
-    } catch {
-      return false;
-    }
-  }
-
   public async reset(): Promise<any> {
-    this.setTemporaryToken(null);
     await this.setToken();
     await this.setRefreshToken();
 
@@ -153,9 +130,8 @@ export class TokenService {
     await this.storageService.removeItem('refresh-token');
   }
 
-  public decode(options: { temporary?: boolean } = {}): any {
-    const token = (options.temporary) ? this.getTemporaryToken() : this.getToken();
-
+  public decode(): any {
+    const token = this.getToken();
     if (!token) {
       return null;
     }

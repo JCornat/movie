@@ -65,7 +65,7 @@ export class ThemeService {
     }
   }
 
-  public setLightTheme() {
+  public setLightTheme(): void {
     const color = {
       'background': '#eceff1',
       'on-background': '#000000',
@@ -96,7 +96,7 @@ export class ThemeService {
     this.applyColors(color, {convertToRgb: true});
   }
 
-  public setDarkTheme() {
+  public setDarkTheme(): void {
     const color = {
       'background': '#2d333c',
       'on-background': '#ffffff',
