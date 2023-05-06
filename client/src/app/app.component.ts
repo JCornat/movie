@@ -18,7 +18,6 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private themeService: ThemeService,
     private requestService: RequestService,
-    private titleService: Title,
     private metaTagService: Meta,
   ) {
     //
@@ -28,7 +27,6 @@ export class AppComponent implements OnInit {
     this.requestService.currentServer = Config.SERVER_URL;
     this.authenticationService.init();
     this.themeService.init();
-    this.titleService.setTitle(Config.TITLE);
     this.metaTagService.addTags(Config.META_TAGS);
   }
 }
