@@ -1,4 +1,4 @@
-import { Directive, OnDestroy, OnInit } from '@angular/core';
+import { computed, Directive, effect, OnDestroy, OnInit, Signal, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import * as Global from '@shared/global/global';
 import { ScreenService } from '@shared/screen/screen.service';
@@ -17,10 +17,13 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   public resizeSubscriber!: Subscription;
   public formData!: { [key: string]: any };
   public media!: Media[];
-  public isLogged!: boolean;
   public searchForm!: FormGroup;
   public links!: any[];
   public type!: 'movie' | 'serie' | 'game';
+
+  public isLogged: Signal<boolean> = computed(() => {
+    return this.authenticationService.isLogged();
+  });
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -31,8 +34,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.isLogged = this.authenticationService.isLogged();
-
     this.buildType();
     this.buildLinks();
     this.buildForm();
@@ -74,7 +75,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   public navigateUpdate(media: Media): void {
-    if (!this.isLogged) {
+    if (!this.isLogged()) {
       return;
     }
 
@@ -82,7 +83,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   public navigateSearch(): void {
-    if (!this.isLogged) {
+    if (!this.isLogged()) {
       return;
     }
 
@@ -136,7 +137,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
     const res = [];
     for (const rating of RATINGS) {
-      let tmp = ratingsObj[rating.value];
+      const tmp = ratingsObj[rating.value];
       this.shuffle(tmp.media);
 
       res.push(tmp);
@@ -203,7 +204,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     });
 
     this.searchForm.valueChanges.subscribe((data) => {
-      this.onValid(data)
+      this.onValid(data);
     });
   }
 

@@ -46,7 +46,7 @@ export class GameService {
   }
 
   public processPullOne(data: Game): Game {
-    const tmp = this.processPullAll({data: [data]})
+    const tmp = this.processPullAll({data: [data]});
     return tmp[0];
   }
 

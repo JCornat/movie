@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -17,6 +17,7 @@ export class ScreenService {
 
   private widthResizeSubject = new Subject<number>();
   public widthResizeObservable = this.widthResizeSubject.asObservable();
+  public widthSignal = signal(0);
 
   public previousHeight!: number;
   public currentHeight!: number;
@@ -65,6 +66,7 @@ export class ScreenService {
 
     if (this.previousWidth !== this.currentWidth) {
       this.widthResizeSubject.next(window.innerWidth);
+      this.widthSignal.set(window.innerWidth);
     }
   }
 
