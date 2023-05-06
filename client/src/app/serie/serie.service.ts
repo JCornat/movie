@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from '@shared/request/request.service';
-import { Request } from '@shared/request/request';
-import { Serie } from './serie';
-import { SERVER_URL } from '@shared/config/config';
+import { lastValueFrom } from 'rxjs';
+
 import { ImportMedia } from '@app/media/media';
+import { Request } from '@shared/request/request';
+import { RequestService } from '@shared/request/request.service';
+import { SERVER_URL } from '@shared/config/config';
+import { Serie } from './serie';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,7 @@ export class SerieService {
       },
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return this.processPullAll(data);
   }
 
@@ -41,12 +43,12 @@ export class SerieService {
       url: `/api/serie/${id}`,
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return this.processPullOne(data.data);
   }
 
   public processPullOne(data: Serie): Serie {
-    const tmp = this.processPullAll({data: [data]})
+    const tmp = this.processPullAll({data: [data]});
     return tmp[0];
   }
 
@@ -55,7 +57,7 @@ export class SerieService {
       url: `/api/serie?search=${title}`,
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return data.data;
   }
 
@@ -64,7 +66,7 @@ export class SerieService {
       url: `/api/serie/${id}/import`,
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return data.data;
   }
 
@@ -76,7 +78,7 @@ export class SerieService {
       },
     };
 
-    await this.requestService.put(optionsQuery).toPromise();
+    await lastValueFrom(this.requestService.put(optionsQuery));
   }
 
   public async add(options: { [key: string]: any }): Promise<void> {
@@ -87,7 +89,7 @@ export class SerieService {
       },
     };
 
-    await this.requestService.post(optionsQuery).toPromise();
+    await lastValueFrom(this.requestService.post(optionsQuery));
   }
 
   public async delete(id: string): Promise<void> {
@@ -95,6 +97,6 @@ export class SerieService {
       url: `/api/serie/${id}`,
     };
 
-    await this.requestService.delete(optionsQuery).toPromise();
+    await lastValueFrom(this.requestService.delete(optionsQuery));
   }
 }
