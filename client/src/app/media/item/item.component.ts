@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 import { Media } from '@app/media/media';
 import { SERVER_URL } from '@shared/config/config';
@@ -10,7 +10,7 @@ import * as Global from '@shared/global/global';
   templateUrl: './item.component.html',
   standalone: true,
   imports: [
-    NgIf,
+    CommonModule,
     NgOptimizedImage,
   ],
 })

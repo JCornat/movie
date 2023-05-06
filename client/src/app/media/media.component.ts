@@ -1,4 +1,4 @@
-import { computed, Directive, OnDestroy, OnInit, Signal } from '@angular/core';
+import { computed, Directive, OnDestroy, OnInit, signal, Signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';

@@ -20,6 +20,7 @@ export class AuthenticationService {
 
   public init(): void {
     this.tokenService.init();
+
     this.isLogged = computed(() => {
       return this.tokenService.hasToken();
     });
