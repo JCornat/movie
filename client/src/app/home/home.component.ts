@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Game } from '@app/game/game';
@@ -15,8 +15,7 @@ import { SerieService } from '@app/serie/serie.service';
   templateUrl: './home.component.html',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
+    CommonModule,
     NgOptimizedImage,
   ],
 })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgFor, NgClass, NgIf, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -15,10 +15,8 @@ import { SerieService } from '@app/serie/serie.service';
   templateUrl: '../media/media.component.html',
   standalone: true,
   imports: [
+    CommonModule,
     MediaItemComponent,
-    NgClass,
-    NgFor,
-    NgIf,
     NgOptimizedImage,
     ReactiveFormsModule,
   ],

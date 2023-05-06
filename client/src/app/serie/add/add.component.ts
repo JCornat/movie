@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { NgIf, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
@@ -14,9 +14,8 @@ import { SerieService } from '@app/serie/serie.service';
   styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     MediaItemComponent,
-    NgFor,
-    NgIf,
     ReactiveFormsModule,
   ],
 })
