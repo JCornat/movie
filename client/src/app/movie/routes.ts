@@ -1,11 +1,11 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 import { MovieUpdateComponent } from '@app/movie/update/update.component';
 import { MovieAddComponent } from '@app/movie/add/add.component';
 import { MovieComponent } from '@app/movie/movie.component';
 import { MovieSearchComponent } from '@app/movie/search/search.component';
 import { MovieImportComponent } from '@app/movie/import/import.component';
 
-export const MOVIE_ROUTES: Routes = [
+export default [
   {
     path: '',
     pathMatch: 'full',
@@ -27,4 +27,4 @@ export const MOVIE_ROUTES: Routes = [
     path: ':importId/import',
     component: MovieImportComponent,
   },
-];
+] as Route[];
