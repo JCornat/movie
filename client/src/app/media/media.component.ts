@@ -143,8 +143,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     const res = [];
     for (const rating of RATINGS) {
       const tmp = ratingsObj[rating.value];
-      this.shuffle(tmp.media);
-
       res.push(tmp);
     }
 

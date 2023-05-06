@@ -41,6 +41,8 @@ export class SerieComponent extends MediaComponent {
 
   public async pullAll(): Promise<void> {
     this.media = await this.serieService.pullAll();
+    this.shuffle(this.media);
+
     this.categories = this.processCategories(this.media);
     this.processDisplayList();
   }
