@@ -8,19 +8,19 @@ export class StorageService {
     //
   }
 
-  public async clear(): Promise<any> {
-    return localStorage.clear();
+  public clear(): void {
+    localStorage.clear();
   }
 
-  public async getItem(key: string): Promise<any> {
+  public getItem(key: string): string | null {
     return localStorage.getItem(key);
   }
 
-  public async setItem(key: string, value: string): Promise<any> {
+  public setItem(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
-  public async removeItem(key: string): Promise<any> {
+  public removeItem(key: string): void {
     localStorage.removeItem(key);
   }
 }

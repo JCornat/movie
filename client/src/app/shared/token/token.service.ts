@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import jwtDecode from 'jwt-decode';
+
+import * as Global from '@shared/global/global';
 
 import { StorageService } from '@shared/storage/storage.service';
 
@@ -9,13 +10,9 @@ import { StorageService } from '@shared/storage/storage.service';
   providedIn: 'root',
 })
 export class TokenService {
-  private _token: any;
-  private tokenSubject = new Subject<any>();
-  public tokenObservable = this.tokenSubject.asObservable();
-
-  private _refreshToken: any;
-  private refreshTokenSubject = new Subject<any>();
-  public refreshTokenObservable = this.refreshTokenSubject.asObservable();
+  private _token!: string | null;
+  private _refreshToken!: string | null;
+  public hasToken: WritableSignal<boolean> = signal(false);
 
   constructor(
     public route: ActivatedRoute,
@@ -24,114 +21,110 @@ export class TokenService {
     //
   }
 
-  public async init(): Promise<void> {
-    this._token = await this.retrieveToken();
-    this._refreshToken = await this.retrieveRefreshToken();
+  public init(): void {
+    this.initToken();
+    this.initRefreshToken();
   }
 
   /*-----------------------*\
         Getter / Setter
   \*-----------------------*/
 
-  public getToken(): string {
+  get token(): string | null {
     return this._token;
   }
 
-  public async setToken(data?: string): Promise<void> {
-    this._token = data;
-    this.tokenSubject.next(this._token);
+  set token(value: string | null) {
+    this._token = value;
+    this.hasToken.set(Global.isPopulated(value));
 
-    const stayLogged = await this.getStayLogged();
-    if (stayLogged) {
-      await this.setStoredToken(this._token);
+    const shouldSave = this.getStayLogged();
+    if (shouldSave && value) {
+      this.storeToken(value);
     }
   }
 
-  public getRefreshToken(): string {
+  get refreshToken(): string | null {
     return this._refreshToken;
   }
 
-  public async setRefreshToken(data?: string): Promise<void> {
-    this._refreshToken = data;
-    this.refreshTokenSubject.next(this._refreshToken);
+  set refreshToken(value: string | null) {
+    this._refreshToken = value;
 
-    const shouldSave = await this.getStayLogged();
-    if (shouldSave) {
-      await this.storeRefreshToken(this._refreshToken);
+    const shouldSave = this.getStayLogged();
+    if (shouldSave && value) {
+      this.storeRefreshToken(value);
     }
   }
 
-  public hasToken(): boolean {
-    const data = this.getToken();
-    return !!data;
+  /*-----------------------*\
+           Method
+  \*-----------------------*/
+
+  public reset(): void {
+    this.removeStoredToken();
+    this.removeStoredRefreshToken();
   }
 
-  public async reset(): Promise<any> {
-    await this.setToken();
-    await this.setRefreshToken();
-
-    await this.storageService.clear();
-  }
-
-  public async retrieveToken(): Promise<string | null> {
+  public initToken(): void {
     let token = this._token;
 
     if (!token) {
-      token = await this.getStoredToken();
+      token = this.getStoredToken() as string;
     }
 
-    return token;
+    this.token = token;
   }
 
-  public async retrieveRefreshToken(): Promise<string | null> {
+  public initRefreshToken(): void {
     let refresh = this._refreshToken;
 
     if (!refresh) {
-      refresh = await this.getStoreRefreshToken();
+      refresh = this.getStoreRefreshToken() as string;
     }
 
-    return refresh;
+    this.refreshToken = refresh;
   }
 
-  public async getStayLogged(): Promise<boolean> {
-    const tmp = await this.storageService.getItem('stay-logged');
-    return !!tmp;
+  public getStayLogged(): boolean {
+    const tmp = this.storageService.getItem('stay-logged');
+    return (tmp === 'true');
   }
 
-  public async setStayLogged(value: string): Promise<any> {
-    await this.storageService.setItem('stay-logged', value);
+  public setStayLogged(value: string): void {
+    this.storageService.setItem('stay-logged', value);
   }
 
-  public async removeStayLogged(): Promise<any> {
-    await this.storageService.removeItem('stay-logged');
+  public removeStayLogged(): void {
+    this.storageService.removeItem('stay-logged');
   }
 
-  public async getStoredToken(): Promise<string> {
-    return await this.storageService.getItem('token');
+  public getStoredToken(): string | null {
+    return this.storageService.getItem('token');
   }
 
-  public async setStoredToken(value: string): Promise<any> {
-    await this.storageService.setItem('token', value);
+  public storeToken(value: string): void {
+    this.storageService.setItem('token', value);
   }
 
-  public async removeStoredToken(): Promise<any> {
-    await this.storageService.removeItem('token');
+  public removeStoredToken(): void {
+    this.storageService.removeItem('token');
   }
 
-  public async getStoreRefreshToken(): Promise<string> {
+  public getStoreRefreshToken(): string | null {
     return this.storageService.getItem('refresh-token');
   }
 
-  public async storeRefreshToken(value: string): Promise<any> {
-    await this.storageService.setItem('refresh-token', value);
+  public storeRefreshToken(value: string): void {
+    this.storageService.setItem('refresh-token', value);
   }
 
-  public async removeStoredRefreshToken(): Promise<any> {
-    await this.storageService.removeItem('refresh-token');
+  public removeStoredRefreshToken(): void {
+    this.storageService.removeItem('refresh-token');
   }
 
   public decode(): any {
-    const token = this.getToken();
+    const token = this.token;
     if (!token) {
       return null;
     }
