@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { RequestService } from '@shared/request/request.service';
-import { Request } from '@shared/request/request';
+import { lastValueFrom } from 'rxjs';
+
 import { Game } from './game';
-import { SERVER_URL } from '@shared/config/config';
 import { ImportMedia } from '@app/media/media';
+import { Request } from '@shared/request/request';
+import { RequestService } from '@shared/request/request.service';
+import { SERVER_URL } from '@shared/config/config';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,7 @@ export class GameService {
       },
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return this.processPullAll(data);
   }
 
@@ -41,7 +43,7 @@ export class GameService {
       url: `/api/game/${id}`,
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return this.processPullOne(data.data);
   }
 
@@ -55,7 +57,7 @@ export class GameService {
       url: `/api/game?search=${title}`,
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return data.data;
   }
 
@@ -64,7 +66,7 @@ export class GameService {
       url: `/api/game/${id}/import`,
     };
 
-    const data: any = await this.requestService.get(optionsQuery).toPromise();
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
     return data.data;
   }
 
@@ -76,7 +78,7 @@ export class GameService {
       },
     };
 
-    await this.requestService.put(optionsQuery).toPromise();
+    await lastValueFrom(this.requestService.put(optionsQuery));
   }
 
   public async add(options: { [key: string]: any }): Promise<void> {
@@ -87,7 +89,7 @@ export class GameService {
       },
     };
 
-    await this.requestService.post(optionsQuery).toPromise();
+    await lastValueFrom(this.requestService.post(optionsQuery));
   }
 
   public async delete(id: string): Promise<void> {
@@ -95,6 +97,6 @@ export class GameService {
       url: `/api/game/${id}`,
     };
 
-    await this.requestService.delete(optionsQuery).toPromise();
+    await lastValueFrom(this.requestService.delete(optionsQuery));
   }
 }

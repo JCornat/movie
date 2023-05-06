@@ -1,13 +1,14 @@
-import { computed, Directive, effect, OnDestroy, OnInit, Signal, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import * as Global from '@shared/global/global';
-import { ScreenService } from '@shared/screen/screen.service';
-import { Subscription } from 'rxjs';
+import { computed, Directive, OnDestroy, OnInit, Signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { Category } from '@app/media/category';
 import { Media } from '@app/media/media';
-import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { RATINGS } from '@app/media/rating';
+import { ScreenService } from '@shared/screen/screen.service';
+import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
@@ -64,6 +65,10 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
     const key = (type === 'alphabetic') ? 'title' : 'year';
     item.media = Global.sort({data: item.media, key});
+  }
+
+  public trackByFn(index: number, data: Category): string {
+    return data.label;
   }
 
   /*-----------------------*\
