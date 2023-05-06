@@ -16,17 +16,17 @@ const routes: Routes = [
   },
   {
     path: 'game',
-    loadChildren: () => import('./game/routes').then(m => m.GAME_ROUTES),
+    loadChildren: () => import('./game/routes'),
     title: `${Config.TITLE} - Games`,
   },
   {
     path: 'movie',
-    loadChildren: () => import('./movie/routes').then(m => m.MOVIE_ROUTES),
+    loadChildren: () => import('./movie/routes'),
     title: `${Config.TITLE} - Movies`,
   },
   {
     path: 'serie',
-    loadChildren: () => import('./serie/routes').then(m => m.SERIE_ROUTES),
+    loadChildren: () => import('./serie/routes'),
     title: `${Config.TITLE} - Series`,
   },
 ];
