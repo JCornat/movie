@@ -1,4 +1,4 @@
-import { computed, Directive, OnDestroy, OnInit, signal, Signal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, OnInit, Signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -21,18 +21,13 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   public searchForm!: FormGroup;
   public links!: any[];
   public type!: 'movie' | 'serie' | 'game';
+  public authenticationService = inject(AuthenticationService);
+  public router = inject(Router);
+  public screenService = inject(ScreenService);
 
   public isLogged: Signal<boolean> = computed(() => {
     return this.authenticationService.isLogged();
   });
-
-  constructor(
-    public authenticationService: AuthenticationService,
-    public router: Router,
-    public screenService: ScreenService,
-  ) {
-    //
-  }
 
   public ngOnInit(): void {
     this.buildType();

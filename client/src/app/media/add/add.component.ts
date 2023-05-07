@@ -1,10 +1,11 @@
-import { Directive, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Directive, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as Global from '@shared/global/global';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SERVER_URL } from '@shared/config/config';
-import { RequestService } from '@shared/request/request.service';
+
 import { RATINGS } from '@app/media/rating';
+import { RequestService } from '@shared/request/request.service';
+import { SERVER_URL } from '@shared/config/config';
+import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
@@ -18,14 +19,9 @@ export abstract class MediaAddComponent implements OnInit {
   public formData!: { [key: string]: any };
   public type!: 'movie' | 'serie' | 'game';
   public ratings!: { value: string | number, label: string }[];
-
-  constructor(
-    public requestService: RequestService,
-    public route: ActivatedRoute,
-    public router: Router,
-  ) {
-    //
-  }
+  public requestService = inject(RequestService);
+  public route = inject(ActivatedRoute);
+  public router = inject(Router);
 
   public ngOnInit(): void {
     this.init();

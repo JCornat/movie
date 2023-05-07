@@ -1,9 +1,10 @@
-import { Directive, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as Global from '@shared/global/global';
+import { Directive, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+
 import { ImportMedia } from '@app/media/media';
 import { RequestService } from '@shared/request/request.service';
+import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
@@ -14,14 +15,9 @@ export abstract class MediaSearchComponent implements OnInit {
   public searchResults!: ImportMedia[];
   public loading!: boolean;
   public error!: string;
-
-  constructor(
-    public requestService: RequestService,
-    public route: ActivatedRoute,
-    public router: Router,
-  ) {
-    //
-  }
+  public requestService = inject(RequestService);
+  public route = inject(ActivatedRoute);
+  public router = inject(Router);
 
   public ngOnInit(): void {
     this.init();

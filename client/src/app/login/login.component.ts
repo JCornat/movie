@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -19,13 +19,8 @@ export class LoginComponent implements OnInit {
   public formData!: { [key: string]: any };
   public loginForm!: FormGroup;
   public error!: string;
-
-  constructor(
-    public authenticationService: AuthenticationService,
-    public router: Router,
-  ) {
-    //
-  }
+  public authenticationService = inject(AuthenticationService);
+  public router = inject(Router);
 
   public ngOnInit(): void {
     this.init();
@@ -45,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   public toggleStayConnected(): void {
     const stayLogged = this.formData?.stayLogged;
-    this.loginForm.get('stayLogged')?.setValue(!stayLogged)
+    this.loginForm.get('stayLogged')?.setValue(!stayLogged);
   }
 
   public navigateBack(): void {
@@ -81,7 +76,7 @@ export class LoginComponent implements OnInit {
 
   public async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
     try {
-      await this.authenticationService.login(options)
+      await this.authenticationService.login(options);
     } catch (error) {
       this.error = (error as any).message;
       throw error;

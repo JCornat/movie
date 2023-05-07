@@ -1,5 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -7,7 +6,6 @@ import { GameService } from '@app/game/game.service';
 import { ImportMedia } from '@app/media/media';
 import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'game-import',
@@ -21,14 +19,7 @@ import { RequestService } from '@shared/request/request.service';
   ],
 })
 export class GameImportComponent extends MediaImportComponent implements OnInit {
-  constructor(
-    public gameService: GameService,
-    public override requestService: RequestService,
-    public override router: Router,
-    public override route: ActivatedRoute,
-  ) {
-    super(requestService, route, router);
-  }
+  public gameService = inject(GameService);
 
   /*-----------------------*\
            Service

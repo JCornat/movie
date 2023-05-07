@@ -18,10 +18,6 @@ export class MediaItemComponent implements OnInit {
   @Input() public data!: { [key: string]: any };
   @Input() public dynamic!: boolean; // Allow image update
 
-  constructor() {
-    //
-  }
-
   public ngOnInit(): void {
     if (Global.isPopulated((this.data as Media).id)) { // For Media item
       const data = this.data as Media;

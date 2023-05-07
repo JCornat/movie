@@ -1,10 +1,8 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { MediaSearchComponent } from '@app/media/search/search.component';
-import { RequestService } from '@shared/request/request.service';
 import { SerieService } from '@app/serie/serie.service';
 
 @Component({
@@ -18,14 +16,7 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieSearchComponent extends MediaSearchComponent {
-  constructor(
-    public serieService: SerieService,
-    public override requestService: RequestService,
-    public override router: Router,
-    public override route: ActivatedRoute,
-  ) {
-    super(requestService, route, router);
-  }
+  public serieService = inject(SerieService);
 
   /*-----------------------*\
            Service

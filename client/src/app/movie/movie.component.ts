@@ -1,14 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
-import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
-import { ScreenService } from '@shared/screen/screen.service';
 
 @Component({
   selector: 'app-movie',
@@ -23,15 +20,7 @@ import { ScreenService } from '@shared/screen/screen.service';
 })
 export class MovieComponent extends MediaComponent {
   public override media!: Movie[];
-
-  constructor(
-    public override authenticationService: AuthenticationService,
-    public movieService: MovieService,
-    public override router: Router,
-    public override screenService: ScreenService,
-  ) {
-    super(authenticationService, router, screenService);
-  }
+  public movieService = inject(MovieService);
 
   /*-----------------------*\
            Service

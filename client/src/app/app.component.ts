@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 
 import { RequestService } from '@shared/request/request.service';
@@ -14,14 +14,10 @@ import * as Config from '@shared/config/config';
   styles: []
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private authenticationService: AuthenticationService,
-    private themeService: ThemeService,
-    private requestService: RequestService,
-    private metaTagService: Meta,
-  ) {
-    //
-  }
+  private authenticationService = inject(AuthenticationService);
+  private themeService = inject(ThemeService);
+  private requestService = inject(RequestService);
+  private metaTagService = inject(Meta);
 
   public ngOnInit(): void {
     this.requestService.currentServer = Config.SERVER_URL;
