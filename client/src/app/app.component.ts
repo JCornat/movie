@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   private requestService = inject(RequestService);
   private metaTagService = inject(Meta);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.requestService.currentServer = Config.SERVER_URL;
     this.themeService.init();
     this.metaTagService.addTags(Config.META_TAGS);

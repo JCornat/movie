@@ -19,6 +19,6 @@ import { MovieService } from '@app/movie/movie.service';
   ],
 })
 export class MovieComponent extends MediaComponent {
-  public override media!: Movie[];
-  public override mediaService = inject(MovieService);
+  override media!: Movie[];
+  override mediaService = inject(MovieService);
 }

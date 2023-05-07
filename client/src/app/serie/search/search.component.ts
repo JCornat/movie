@@ -16,5 +16,5 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieSearchComponent extends MediaSearchComponent {
-  public mediaService = inject(SerieService);
+  mediaService = inject(SerieService);
 }

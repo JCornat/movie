@@ -6,7 +6,7 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
-  public override async ngOnInit(): Promise<void> {
+  override async ngOnInit(): Promise<void> {
     this.importId = this.route.snapshot.paramMap.get('importId') || '';
     if (Global.isEmpty(this.importId)) {
       return;
@@ -22,7 +22,7 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<ImportMedia> {
+  async pullOne(id: string): Promise<ImportMedia> {
     if (!id) {
       throw new Error('ID incorrect');
     }

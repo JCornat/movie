@@ -12,13 +12,13 @@ import { Request } from './request';
   providedIn: 'root',
 })
 export class RequestService {
-  public currentServer!: string;
-  public timeout: number = 50000;
+  currentServer!: string;
+  timeout: number = 50000;
   private http = inject(HttpClient);
   private injector = inject(Injector);
   private tokenService = inject(TokenService);
 
-  public get(options: Request): Observable<any> {
+  get(options: Request): Observable<any> {
     const requestOptions = {
       method: 'get',
       ...options,
@@ -30,7 +30,7 @@ export class RequestService {
       }));
   }
 
-  public post(options: Request): Observable<any> {
+  post(options: Request): Observable<any> {
     const requestOptions = {
       method: 'post',
       ...options,
@@ -50,7 +50,7 @@ export class RequestService {
       }));
   }
 
-  public put(options: Request): Observable<any> {
+  put(options: Request): Observable<any> {
     const requestOptions = {
       method: 'put',
       ...options,
@@ -62,7 +62,7 @@ export class RequestService {
       }));
   }
 
-  public delete(options: Request): Observable<any> {
+  delete(options: Request): Observable<any> {
     const requestOptions = {
       method: 'delete',
       ...options,
@@ -155,12 +155,12 @@ export class RequestService {
     throw new Error(message || error.error || error.message || error);
   }
 
-  public navigateLogout(): void {
+  navigateLogout(): void {
     const route = ['/logout'];
     this.injector.get(Router).navigate(route);
   }
 
-  public refreshToken(): Observable<any> {
+  refreshToken(): Observable<any> {
     const refresh = this.tokenService.refreshToken;
     if (!refresh) {
       this.navigateLogout();
@@ -231,7 +231,7 @@ export class RequestService {
     return params;
   }
 
-  public download(url: string, fileName?: string): void {
+  download(url: string, fileName?: string): void {
     const xhr = new XMLHttpRequest();
 
     xhr.onloadstart = () => {
@@ -269,7 +269,7 @@ export class RequestService {
     xhr.send();
   }
 
-  public upload(url: string, file: File): Promise<string> {
+  upload(url: string, file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const formData: FormData = new FormData();
       formData.append('uploads[]', file, file.name);
@@ -302,7 +302,7 @@ export class RequestService {
     });
   }
 
-  public getMobileOperatingSystem(): string {
+  getMobileOperatingSystem(): string {
     const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
 
     // Windows Phone must come first because its UA also contains "Android"

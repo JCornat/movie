@@ -16,5 +16,5 @@ import { MovieService } from '@app/movie/movie.service';
   ],
 })
 export class MovieSearchComponent extends MediaSearchComponent {
-  public mediaService = inject(MovieService);
+  mediaService = inject(MovieService);
 }

@@ -16,5 +16,5 @@ import { MediaSearchComponent } from '@app/media/search/search.component';
   ],
 })
 export class GameSearchComponent extends MediaSearchComponent {
-  public mediaService = inject(GameService);
+  mediaService = inject(GameService);
 }

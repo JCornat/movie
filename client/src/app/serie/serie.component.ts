@@ -19,6 +19,6 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieComponent extends MediaComponent {
-  public override media!: Serie[];
-  public override mediaService = inject(SerieService);
+  override media!: Serie[];
+  override mediaService = inject(SerieService);
 }

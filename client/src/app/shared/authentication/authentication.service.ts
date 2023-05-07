@@ -9,7 +9,7 @@ import { Request } from '@shared/request/request';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  public isLogged: Signal<boolean> = signal(false);
+  isLogged: Signal<boolean> = signal(false);
   private requestService = inject(RequestService);
   private tokenService = inject(TokenService);
 
@@ -17,7 +17,7 @@ export class AuthenticationService {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.tokenService.init();
 
     this.isLogged = computed(() => {
@@ -29,7 +29,7 @@ export class AuthenticationService {
            Service
   \*-----------------------*/
 
-  public async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
+  async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/login`,
       header: {
@@ -59,7 +59,7 @@ export class AuthenticationService {
     this.tokenService.refreshToken = data.refresh;
   }
 
-  public logout(): void {
+  logout(): void {
     this.tokenService.reset();
   }
 }

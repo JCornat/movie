@@ -6,7 +6,7 @@ import { MediaAddComponent } from '../add/add.component';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
-  public override async ngOnInit(): Promise<void> {
+  override async ngOnInit(): Promise<void> {
     this.id = this.route.snapshot.paramMap.get('id') || '';
     if (Global.isEmpty(this.id)) {
       return;
@@ -31,7 +31,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
            Template
   \*-----------------------*/
 
-  public override async onSubmit(): Promise<void> {
+  override async onSubmit(): Promise<void> {
     if (this.loading) {
       return;
     }
@@ -53,11 +53,11 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
            Service
   \*-----------------------*/
 
-  public async pullOne(id: string): Promise<Media> {
+  async pullOne(id: string): Promise<Media> {
     return this.mediaService.pullOne(this.id);
   }
 
-  public async update(data: { [key: string]: any }): Promise<void> {
+  async update(data: { [key: string]: any }): Promise<void> {
     await this.mediaService.update(data);
   }
 }

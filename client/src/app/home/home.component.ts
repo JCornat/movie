@@ -27,20 +27,20 @@ interface MediaListElement {
   ],
 })
 export class HomeComponent implements OnInit {
-  public mediaList!: MediaListElement[];
-  public movies: WritableSignal<Movie[]> = signal([]);
-  public series: WritableSignal<Serie[]> = signal([]);
-  public games: WritableSignal<Game[]> = signal([]);
-  public gameService = inject(GameService);
-  public movieService = inject(MovieService);
-  public router = inject(Router);
-  public serieService = inject(SerieService);
+  mediaList!: MediaListElement[];
+  movies: WritableSignal<Movie[]> = signal([]);
+  series: WritableSignal<Serie[]> = signal([]);
+  games: WritableSignal<Game[]> = signal([]);
+  gameService = inject(GameService);
+  movieService = inject(MovieService);
+  router = inject(Router);
+  serieService = inject(SerieService);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.buildMediaList();
     this.pullAllMovies();
     this.pullAllSeries();
@@ -51,11 +51,11 @@ export class HomeComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public trackByFn(index: number, data: MediaListElement): string {
+  trackByFn(index: number, data: MediaListElement): string {
     return data.title;
   }
 
-  public selectMedia(media: { title: string, url: string }): void {
+  selectMedia(media: { title: string, url: string }): void {
     this.router.navigate([media.url]);
   }
 
@@ -63,19 +63,19 @@ export class HomeComponent implements OnInit {
            Service
   \*-----------------------*/
 
-  public async pullAllMovies(): Promise<void> {
+  async pullAllMovies(): Promise<void> {
     const data = await this.movieService.pullAll();
     const processedData = this.processMedia(data);
     this.movies.set(processedData);
   }
 
-  public async pullAllSeries(): Promise<void> {
+  async pullAllSeries(): Promise<void> {
     const data = await this.serieService.pullAll();
     const processedData = this.processMedia(data);
     this.series.set(processedData);
   }
 
-  public async pullAllGames(): Promise<void> {
+  async pullAllGames(): Promise<void> {
     const data = await this.gameService.pullAll();
     const processedData = this.processMedia(data);
     this.games.set(processedData);
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
            Method
   \*-----------------------*/
 
-  public buildMediaList(): void {
+  buildMediaList(): void {
     this.mediaList = [
       {
         title: 'Movies',
@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
            Process
   \*-----------------------*/
 
-  public processMedia(media: Media[]): Media[] {
+  processMedia(media: Media[]): Media[] {
     media.sort((a, b) => {
       if (a.rating > b.rating) {
         return -1;
@@ -130,7 +130,7 @@ export class HomeComponent implements OnInit {
     return limit.splice(0, 25); // Display first 25
   }
 
-  public shuffle(array: unknown[]): void {
+  shuffle(array: unknown[]): void {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];

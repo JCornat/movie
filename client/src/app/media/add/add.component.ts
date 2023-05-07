@@ -12,26 +12,26 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
-  @ViewChild('inputFile', {static: false}) public inputFile!: ElementRef;
+  @ViewChild('inputFile', {static: false}) inputFile!: ElementRef;
 
-  public id!: string;
-  public importId!: string;
-  public loading!: boolean;
-  public error!: string | null;
-  public mediaForm!: FormGroup;
-  public formData!: { [key: string]: any };
-  public type!: 'movie' | 'serie' | 'game';
-  public ratings!: { value: string | number, label: string }[];
-  public requestService = inject(RequestService);
-  public route = inject(ActivatedRoute);
-  public router = inject(Router);
-  public abstract mediaService: SerieService | MovieService | GameService;
+  id!: string;
+  importId!: string;
+  loading!: boolean;
+  error!: string | null;
+  mediaForm!: FormGroup;
+  formData!: { [key: string]: any };
+  type!: 'movie' | 'serie' | 'game';
+  ratings!: { value: string | number, label: string }[];
+  requestService = inject(RequestService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
+  abstract mediaService: SerieService | MovieService | GameService;
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.buildType();
     this.buildForm();
   }
@@ -40,11 +40,11 @@ export abstract class MediaAddComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public onValid(data: { [key: string]: any }): void {
+  onValid(data: { [key: string]: any }): void {
     this.formData = data;
   }
 
-  public async onSubmit(): Promise<void> {
+  async onSubmit(): Promise<void> {
     if (this.loading) {
       return;
     }
@@ -72,11 +72,11 @@ export abstract class MediaAddComponent implements OnInit {
            Service
   \*-----------------------*/
 
-  public async add(): Promise<void> {
+  async add(): Promise<void> {
     await this.mediaService.add(this.formData);
   }
 
-  public async remove(): Promise<void> {
+  async remove(): Promise<void> {
     await this.mediaService.delete(this.id);
     this.navigateBack();
   }
@@ -85,7 +85,7 @@ export abstract class MediaAddComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  public navigateBack(): void {
+  navigateBack(): void {
     this.router.navigate([`/${this.type}`, 'search']);
   }
 
@@ -93,7 +93,7 @@ export abstract class MediaAddComponent implements OnInit {
            Method
   \*-----------------------*/
 
-  public buildType(): void {
+  buildType(): void {
     const regex = /^\/(\w+)/;
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
@@ -104,7 +104,7 @@ export abstract class MediaAddComponent implements OnInit {
     this.type = type as 'movie' | 'serie' | 'game';
   }
 
-  public buildForm(): void {
+  buildForm(): void {
     this.ratings = Global.clone(RATINGS);
 
     this.mediaForm = new FormGroup({
@@ -120,11 +120,11 @@ export abstract class MediaAddComponent implements OnInit {
     });
   }
 
-  public uploadSuccessful(data: string): void {
+  uploadSuccessful(data: string): void {
     this.mediaForm.get('url')?.setValue(data);
   }
 
-  public selectFile(event?: Event): void {
+  selectFile(event?: Event): void {
     if (event instanceof Event) {
       event.preventDefault();
       event.stopPropagation();
@@ -133,7 +133,7 @@ export abstract class MediaAddComponent implements OnInit {
     this.inputFile.nativeElement.click();
   }
 
-  public async selectedFile(event: any): Promise<void> {
+  async selectedFile(event: any): Promise<void> {
     const files = event.target.files;
     if (Global.isEmpty(files)) {
       return;

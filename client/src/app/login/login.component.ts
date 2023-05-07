@@ -16,38 +16,38 @@ import * as Global from '@shared/global/global';
   ],
 })
 export class LoginComponent implements OnInit {
-  public formData!: { [key: string]: any };
-  public loginForm!: FormGroup;
-  public error!: string;
-  public authenticationService = inject(AuthenticationService);
-  public router = inject(Router);
+  formData!: { [key: string]: any };
+  loginForm!: FormGroup;
+  error!: string;
+  authenticationService = inject(AuthenticationService);
+  router = inject(Router);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.buildForm();
   }
 
-  public onError(data: { [key: string]: any }): void {
+  onError(data: { [key: string]: any }): void {
     this.formData = null as any;
   }
 
-  public onValid(data: { [key: string]: any }): void {
+  onValid(data: { [key: string]: any }): void {
     this.formData = data;
   }
 
-  public toggleStayConnected(): void {
+  toggleStayConnected(): void {
     const stayLogged = this.formData?.stayLogged;
     this.loginForm.get('stayLogged')?.setValue(!stayLogged);
   }
 
-  public navigateBack(): void {
+  navigateBack(): void {
     this.navigateHome();
   }
 
-  public async onSubmit(): Promise<void> {
+  async onSubmit(): Promise<void> {
     if (Global.isEmpty(this.formData)) {
       return;
     }
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  public navigateHome(): void {
+  navigateHome(): void {
     this.router.navigate(['/']);
   }
 
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
            Service
   \*-----------------------*/
 
-  public async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
+  async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
     try {
       await this.authenticationService.login(options);
     } catch (error) {
@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
             Method
   \*-----------------------*/
 
-  public buildForm(): void {
+  buildForm(): void {
     this.loginForm = new FormGroup({
       username: new FormControl(''),
       password: new FormControl(''),

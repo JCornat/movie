@@ -18,5 +18,5 @@ import { MovieService } from '@app/movie/movie.service';
   ],
 })
 export class MovieAddComponent extends MediaAddComponent {
-  public mediaService = inject(MovieService);
+  mediaService = inject(MovieService);
 }

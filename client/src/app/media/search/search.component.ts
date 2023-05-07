@@ -10,21 +10,21 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
-  public values!: { [key: string]: any };
-  public formData!: { [key: string]: any };
-  public searchForm!: FormGroup;
-  public type!: 'movie' | 'serie' | 'game';
-  public searchResults!: ImportMedia[];
-  public loading!: boolean;
-  public error!: string;
-  public router = inject(Router);
-  public abstract mediaService: SerieService | MovieService | GameService;
+  values!: { [key: string]: any };
+  formData!: { [key: string]: any };
+  searchForm!: FormGroup;
+  type!: 'movie' | 'serie' | 'game';
+  searchResults!: ImportMedia[];
+  loading!: boolean;
+  error!: string;
+  router = inject(Router);
+  abstract mediaService: SerieService | MovieService | GameService;
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.buildType();
     this.buildForm();
   }
@@ -33,11 +33,11 @@ export abstract class MediaSearchComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public onValid(data: { [key: string]: any }): void {
+  onValid(data: { [key: string]: any }): void {
     this.formData = data;
   }
 
-  public async search(title: string): Promise<void> {
+  async search(title: string): Promise<void> {
     this.error = null as any;
     this.loading = true;
 
@@ -50,11 +50,11 @@ export abstract class MediaSearchComponent implements OnInit {
     }
   }
 
-  public select(result: ImportMedia): void {
+  select(result: ImportMedia): void {
     this.navigateImport(result.importId);
   }
 
-  public async onSubmit(): Promise<void> {
+  async onSubmit(): Promise<void> {
     if (!this.formData) {
       return;
     }
@@ -66,15 +66,15 @@ export abstract class MediaSearchComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  public navigateBack(): void {
+  navigateBack(): void {
     this.router.navigate([`/${this.type}`]);
   }
 
-  public navigateAdd(): void {
+  navigateAdd(): void {
     this.router.navigate([`/${this.type}`, 'add']);
   }
 
-  public navigateImport(importId: string): void {
+  navigateImport(importId: string): void {
     this.router.navigate([`/${this.type}`, importId, 'import']);
   }
 
@@ -82,7 +82,7 @@ export abstract class MediaSearchComponent implements OnInit {
            Method
   \*-----------------------*/
 
-  public buildType(): void {
+  buildType(): void {
     const regex = /^\/(\w+)/;
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
@@ -93,7 +93,7 @@ export abstract class MediaSearchComponent implements OnInit {
     this.type = type as 'movie' | 'serie' | 'game';
   }
 
-  public buildForm(): void {
+  buildForm(): void {
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });

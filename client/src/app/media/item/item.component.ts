@@ -15,10 +15,10 @@ import * as Global from '@shared/global/global';
   ],
 })
 export class MediaItemComponent implements OnInit {
-  @Input() public data!: { [key: string]: any };
-  @Input() public dynamic!: boolean; // Allow image update
+  @Input() data!: { [key: string]: any };
+  @Input() dynamic!: boolean; // Allow image update
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     if (Global.isPopulated((this.data as Media).id)) { // For Media item
       const data = this.data as Media;
       data.url = `${SERVER_URL}/upload/${data.id}.jpg`;

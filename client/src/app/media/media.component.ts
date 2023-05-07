@@ -15,25 +15,25 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
-  public displayList!: Category[];
-  public categories!: Category[];
-  public searchCategories!: Category[];
-  public resizeSubscriber!: Subscription;
-  public formData!: { [key: string]: any };
-  public media!: Media[];
-  public searchForm!: FormGroup;
-  public links!: any[];
-  public type!: 'movie' | 'serie' | 'game';
-  public authenticationService = inject(AuthenticationService);
-  public router = inject(Router);
-  public screenService = inject(ScreenService);
-  public abstract mediaService: SerieService | MovieService | GameService;
+  displayList!: Category[];
+  categories!: Category[];
+  searchCategories!: Category[];
+  resizeSubscriber!: Subscription;
+  formData!: { [key: string]: any };
+  media!: Media[];
+  searchForm!: FormGroup;
+  links!: any[];
+  type!: 'movie' | 'serie' | 'game';
+  authenticationService = inject(AuthenticationService);
+  router = inject(Router);
+  screenService = inject(ScreenService);
+  abstract mediaService: SerieService | MovieService | GameService;
 
-  public isLogged: Signal<boolean> = computed(() => {
+  isLogged: Signal<boolean> = computed(() => {
     return this.authenticationService.isLogged();
   });
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.buildType();
     this.buildLinks();
     this.buildForm();
@@ -41,7 +41,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.pullAll();
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.resizeSubscriber.unsubscribe();
   }
 
@@ -49,12 +49,12 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Template
   \*-----------------------*/
 
-  public increaseLimit(item: Category): void {
+  increaseLimit(item: Category): void {
     const newLimit = this.getLimitByScreenSize();
     item.limit += newLimit * 4;
   }
 
-  public sort(item: Category, type: string): void {
+  sort(item: Category, type: string): void {
     item.orderBy = type;
 
     if (type === 'random') {
@@ -66,7 +66,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     item.media = Global.sort({data: item.media, key});
   }
 
-  public trackByFn(index: number, data: Category): string {
+  trackByFn(index: number, data: Category): string {
     return data.label;
   }
 
@@ -74,11 +74,11 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Navigation
   \*-----------------------*/
 
-  public navigate(path: string): void {
+  navigate(path: string): void {
     this.router.navigate([path]);
   }
 
-  public navigateUpdate(media: Media): void {
+  navigateUpdate(media: Media): void {
     if (!this.isLogged()) {
       return;
     }
@@ -86,7 +86,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.router.navigate([`/${this.type}`, media.id, 'update']);
   }
 
-  public navigateSearch(): void {
+  navigateSearch(): void {
     if (!this.isLogged()) {
       return;
     }
@@ -98,7 +98,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Service
   \*-----------------------*/
 
-  public async pullAll(): Promise<void> {
+  async pullAll(): Promise<void> {
     this.media = await this.mediaService.pullAll();
     this.shuffle(this.media);
 
@@ -110,11 +110,11 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Process
   \*-----------------------*/
 
-  public processDisplayList(): void {
+  processDisplayList(): void {
     this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
   }
 
-  public processCategories(data: Media[], search?: string): Category[] {
+  processCategories(data: Media[], search?: string): Category[] {
     const limit = this.getLimitByScreenSize();
 
     const ratingsObj: { [key: string | number]: { label: string, value: string | number, limit: number, orderBy: string, media: Media[] } } = {};
@@ -158,7 +158,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
           Subscriber
   \*-----------------------*/
 
-  public subscribeResize(): void {
+  subscribeResize(): void {
     this.resizeSubscriber = this.screenService.widthResizeObservable.subscribe(() => {
       if (Global.isEmpty(this.categories)) {
         return;
@@ -179,14 +179,14 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Method
   \*-----------------------*/
 
-  public shuffle(array: unknown[]): void {
+  shuffle(array: unknown[]): void {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
 
-  public getLimitByScreenSize(): number {
+  getLimitByScreenSize(): number {
     if (this.screenService.isMobile()) {
       return 5;
     } else if (this.screenService.isTablet()) {
@@ -200,13 +200,13 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onValid(data: { [key: string]: any }): void {
+  onValid(data: { [key: string]: any }): void {
     this.formData = data;
     this.searchCategories = this.processCategories(this.media, data.search);
     this.processDisplayList();
   }
 
-  public buildForm(): void {
+  buildForm(): void {
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
@@ -216,7 +216,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     });
   }
 
-  public buildLinks(): void {
+  buildLinks(): void {
     this.links = [
       {label: 'Home', path: '/'},
       {label: 'Movies', path: '/movie', active: this.type === 'movie'},
@@ -225,7 +225,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     ];
   }
 
-  public buildType(): void {
+  buildType(): void {
     const regex = /^\/(\w+)/;
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
