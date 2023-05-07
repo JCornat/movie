@@ -11,7 +11,7 @@ import { Serie } from './serie';
   providedIn: 'root'
 })
 export class SerieService {
-  private requestService = inject(RequestService);
+  requestService = inject(RequestService);
 
   async pullAll(): Promise<Serie[]> {
     const optionsQuery: Request = {

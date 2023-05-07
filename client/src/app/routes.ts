@@ -1,9 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
+import { Route } from '@angular/router';
 import * as Config from '@shared/config/config';
 
-const routes: Routes = [
+export default [
   {
     path: '',
     loadComponent: () => import('./home/home.component').then(m => m.HomeComponent),
@@ -34,10 +32,4 @@ const routes: Routes = [
     loadChildren: () => import('./serie/routes'),
     title: `${Config.TITLE} - Series`,
   },
-];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+] as Route[];

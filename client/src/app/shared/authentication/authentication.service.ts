@@ -10,8 +10,8 @@ import { Request } from '@shared/request/request';
 })
 export class AuthenticationService {
   isLogged: Signal<boolean> = signal(false);
-  private requestService = inject(RequestService);
-  private tokenService = inject(TokenService);
+  requestService = inject(RequestService);
+  tokenService = inject(TokenService);
 
   constructor() {
     this.init();
