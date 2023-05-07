@@ -11,7 +11,7 @@ import { SERVER_URL } from '@shared/config/config';
   providedIn: 'root'
 })
 export class GameService {
-  private requestService = inject(RequestService);
+  requestService = inject(RequestService);
 
   async pullAll(): Promise<Game[]> {
     const optionsQuery: Request = {

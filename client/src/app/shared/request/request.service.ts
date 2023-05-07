@@ -14,9 +14,9 @@ import { Request } from './request';
 export class RequestService {
   currentServer!: string;
   timeout: number = 50000;
-  private http = inject(HttpClient);
-  private injector = inject(Injector);
-  private tokenService = inject(TokenService);
+  http = inject(HttpClient);
+  injector = inject(Injector);
+  tokenService = inject(TokenService);
 
   get(options: Request): Observable<any> {
     const requestOptions = {
