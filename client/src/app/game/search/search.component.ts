@@ -16,22 +16,5 @@ import { MediaSearchComponent } from '@app/media/search/search.component';
   ],
 })
 export class GameSearchComponent extends MediaSearchComponent {
-  public gameService = inject(GameService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public override async search(title: string): Promise<void> {
-    this.error = null as any;
-    this.loading = true;
-
-    try {
-      this.searchResults = await this.gameService.search(title);
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
-  }
+  public mediaService = inject(GameService);
 }

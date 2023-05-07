@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaUpdateComponent } from '@app/media/update/update.component';
-import { Serie } from '@app/serie/serie';
 import { SerieService } from '@app/serie/serie.service';
 
 @Component({
@@ -19,22 +18,5 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieUpdateComponent extends MediaUpdateComponent {
-  public serieService = inject(SerieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public async pullOne(id: string): Promise<Serie> {
-    return this.serieService.pullOne(this.id);
-  }
-
-  public override async remove(): Promise<void> {
-    await this.serieService.delete(this.id);
-    this.navigateBack();
-  }
-
-  public async update(data: { [key: string]: any }): Promise<void> {
-    await this.serieService.update(data);
-  }
+  public mediaService = inject(SerieService);
 }

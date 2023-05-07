@@ -16,22 +16,5 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieSearchComponent extends MediaSearchComponent {
-  public serieService = inject(SerieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public override async search(title: string): Promise<void> {
-    this.error = null as any;
-    this.loading = true;
-
-    try {
-      this.searchResults = await this.serieService.search(title);
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
-  }
+  public mediaService = inject(SerieService);
 }

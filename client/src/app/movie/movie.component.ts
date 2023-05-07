@@ -20,17 +20,5 @@ import { MovieService } from '@app/movie/movie.service';
 })
 export class MovieComponent extends MediaComponent {
   public override media!: Movie[];
-  public movieService = inject(MovieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public async pullAll(): Promise<void> {
-    this.media = await this.movieService.pullAll();
-    this.shuffle(this.media);
-
-    this.categories = this.processCategories(this.media);
-    this.processDisplayList();
-  }
+  public override mediaService = inject(MovieService);
 }

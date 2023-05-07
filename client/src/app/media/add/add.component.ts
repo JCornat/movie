@@ -1,10 +1,13 @@
-import { Directive, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Directive, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { GameService } from '@app/game/game.service';
+import { MovieService } from '@app/movie/movie.service';
 import { RATINGS } from '@app/media/rating';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
+import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
 
 @Directive()
@@ -22,6 +25,7 @@ export abstract class MediaAddComponent implements OnInit {
   public requestService = inject(RequestService);
   public route = inject(ActivatedRoute);
   public router = inject(Router);
+  public abstract mediaService: SerieService | MovieService | GameService;
 
   public ngOnInit(): void {
     this.init();
@@ -69,11 +73,12 @@ export abstract class MediaAddComponent implements OnInit {
   \*-----------------------*/
 
   public async add(): Promise<void> {
-    //
+    await this.mediaService.add(this.formData);
   }
 
   public async remove(): Promise<void> {
-    //
+    await this.mediaService.delete(this.id);
+    this.navigateBack();
   }
 
   /*-----------------------*\

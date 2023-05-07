@@ -20,17 +20,5 @@ import { SerieService } from '@app/serie/serie.service';
 })
 export class SerieComponent extends MediaComponent {
   public override media!: Serie[];
-  public serieService = inject(SerieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public async pullAll(): Promise<void> {
-    this.media = await this.serieService.pullAll();
-    this.shuffle(this.media);
-
-    this.categories = this.processCategories(this.media);
-    this.processDisplayList();
-  }
+  public override mediaService = inject(SerieService);
 }

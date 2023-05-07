@@ -5,9 +5,12 @@ import { Subscription } from 'rxjs';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { Category } from '@app/media/category';
+import { GameService } from '@app/game/game.service';
 import { Media } from '@app/media/media';
+import { MovieService } from '@app/movie/movie.service';
 import { RATINGS } from '@app/media/rating';
 import { ScreenService } from '@shared/screen/screen.service';
+import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
 
 @Directive()
@@ -24,6 +27,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   public authenticationService = inject(AuthenticationService);
   public router = inject(Router);
   public screenService = inject(ScreenService);
+  public abstract mediaService: SerieService | MovieService | GameService;
 
   public isLogged: Signal<boolean> = computed(() => {
     return this.authenticationService.isLogged();
@@ -94,7 +98,13 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Service
   \*-----------------------*/
 
-  public abstract pullAll(): Promise<void>;
+  public async pullAll(): Promise<void> {
+    this.media = await this.mediaService.pullAll();
+    this.shuffle(this.media);
+
+    this.categories = this.processCategories(this.media);
+    this.processDisplayList();
+  }
 
   /*-----------------------*\
            Process
