@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
 import { ImportMedia } from '@app/media/media';
@@ -11,11 +11,7 @@ import { SERVER_URL } from '@shared/config/config';
   providedIn: 'root'
 })
 export class MovieService {
-  constructor(
-    private requestService: RequestService,
-  ) {
-    //
-  }
+  private requestService = inject(RequestService);
 
   public async pullAll(): Promise<Movie[]> {
     const optionsQuery: Request = {

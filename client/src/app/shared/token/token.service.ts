@@ -1,5 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 
 import * as Global from '@shared/global/global';
@@ -13,13 +12,7 @@ export class TokenService {
   private _token!: string | null;
   private _refreshToken!: string | null;
   public hasToken: WritableSignal<boolean> = signal(false);
-
-  constructor(
-    public route: ActivatedRoute,
-    public storageService: StorageService,
-  ) {
-    //
-  }
+  private storageService = inject(StorageService);
 
   public init(): void {
     this.initToken();

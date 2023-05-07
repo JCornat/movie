@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { flatMap, catchError, timeout } from 'rxjs/operators';
@@ -14,14 +14,9 @@ import { Request } from './request';
 export class RequestService {
   public currentServer!: string;
   public timeout: number = 50000;
-
-  constructor(
-    public http: HttpClient,
-    public injector: Injector,
-    public tokenService: TokenService,
-  ) {
-    //
-  }
+  private http = inject(HttpClient);
+  private injector = inject(Injector);
+  private tokenService = inject(TokenService);
 
   public get(options: Request): Observable<any> {
     const requestOptions = {

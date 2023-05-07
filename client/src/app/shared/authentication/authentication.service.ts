@@ -1,4 +1,4 @@
-import { computed, effect, Injectable, Injector, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, effect, inject, Injectable, Injector, Signal, signal, WritableSignal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
 import { TokenService } from '@shared/token/token.service';
@@ -10,11 +10,10 @@ import { Request } from '@shared/request/request';
 })
 export class AuthenticationService {
   public isLogged: Signal<boolean> = signal(false);
+  private requestService = inject(RequestService);
+  private tokenService = inject(TokenService);
 
-  constructor(
-    public requestService: RequestService,
-    public tokenService: TokenService,
-  ) {
+  constructor() {
     this.init();
   }
 
