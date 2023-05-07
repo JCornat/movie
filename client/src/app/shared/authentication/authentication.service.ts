@@ -58,4 +58,8 @@ export class AuthenticationService {
     this.tokenService.token = data.token;
     this.tokenService.refreshToken = data.refresh;
   }
+
+  public logout(): void {
+    this.tokenService.reset();
+  }
 }

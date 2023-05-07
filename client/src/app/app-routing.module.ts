@@ -15,6 +15,11 @@ const routes: Routes = [
     title: `${Config.TITLE}`,
   },
   {
+    path: 'logout',
+    loadComponent: () => import('./logout/logout.component').then(m => m.LogoutComponent),
+    title: `${Config.TITLE}`,
+  },
+  {
     path: 'game',
     loadChildren: () => import('./game/routes'),
     title: `${Config.TITLE} - Games`,

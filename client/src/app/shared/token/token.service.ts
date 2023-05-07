@@ -57,6 +57,9 @@ export class TokenService {
   public reset(): void {
     this.removeStoredToken();
     this.removeStoredRefreshToken();
+    this.removeStayLogged();
+    this.token = null;
+    this.refreshToken = null;
   }
 
   public initToken(): void {
