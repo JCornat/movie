@@ -9,6 +9,7 @@ import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
 import { Serie } from '@app/serie/serie';
 import { SerieService } from '@app/serie/serie.service';
+import { Category } from '@app/media/category';
 
 @Component({
   selector: 'app-home',
@@ -46,6 +47,10 @@ export class HomeComponent implements OnInit {
   /*-----------------------*\
            Template
   \*-----------------------*/
+
+  public trackByFn(index: number, data: { title: string, description: string, url: string, data: any[] }): string {
+    return data.title;
+  }
 
   public selectMedia(media: { title: string, url: string }): void {
     this.router.navigate([media.url]);
