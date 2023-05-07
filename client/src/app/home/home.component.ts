@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,13 @@ import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
 import { Serie } from '@app/serie/serie';
 import { SerieService } from '@app/serie/serie.service';
-import { Category } from '@app/media/category';
+
+interface MediaListElement {
+  title: string;
+  description: string;
+  url: string;
+  data: WritableSignal<Movie[] | Serie[] | Game[]>;
+}
 
 @Component({
   selector: 'app-home',
@@ -21,10 +27,10 @@ import { Category } from '@app/media/category';
   ],
 })
 export class HomeComponent implements OnInit {
-  public mediaList!: { title: string, description: string, url: string, data: any[] }[];
-  public movies!: Movie[];
-  public series!: Serie[];
-  public games!: Game[];
+  public mediaList!: MediaListElement[];
+  public movies: WritableSignal<Movie[]> = signal([]);
+  public series: WritableSignal<Serie[]> = signal([]);
+  public games: WritableSignal<Game[]> = signal([]);
   public gameService = inject(GameService);
   public movieService = inject(MovieService);
   public router = inject(Router);
@@ -35,10 +41,7 @@ export class HomeComponent implements OnInit {
   }
 
   public init(): void {
-    this.movies = [];
-    this.series = [];
-    this.games = [];
-
+    this.buildMediaList();
     this.pullAllMovies();
     this.pullAllSeries();
     this.pullAllGames();
@@ -48,7 +51,7 @@ export class HomeComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  public trackByFn(index: number, data: { title: string, description: string, url: string, data: any[] }): string {
+  public trackByFn(index: number, data: MediaListElement): string {
     return data.title;
   }
 
@@ -62,27 +65,27 @@ export class HomeComponent implements OnInit {
 
   public async pullAllMovies(): Promise<void> {
     const data = await this.movieService.pullAll();
-    this.movies = this.processMedia(data);
-    this.updateMedia();
+    const processedData = this.processMedia(data);
+    this.movies.set(processedData);
   }
 
   public async pullAllSeries(): Promise<void> {
     const data = await this.serieService.pullAll();
-    this.series = this.processMedia(data);
-    this.updateMedia();
+    const processedData = this.processMedia(data);
+    this.series.set(processedData);
   }
 
   public async pullAllGames(): Promise<void> {
     const data = await this.gameService.pullAll();
-    this.games = this.processMedia(data);
-    this.updateMedia();
+    const processedData = this.processMedia(data);
+    this.games.set(processedData);
   }
 
   /*-----------------------*\
            Method
   \*-----------------------*/
 
-  public updateMedia(): void {
+  public buildMediaList(): void {
     this.mediaList = [
       {
         title: 'Movies',

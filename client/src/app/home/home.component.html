@@ -7,8 +7,8 @@
     </div>
 
     <div class="background">
-      <ng-container *ngIf="item.data.length > 0">
-        <ng-container *ngFor="let data of item.data">
+      <ng-container *ngIf="item.data().length > 0">
+        <ng-container *ngFor="let data of item.data()">
           <div class="media">
             <div class="poster">
               <picture>
