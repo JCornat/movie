@@ -18,13 +18,5 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieAddComponent extends MediaAddComponent {
-  public serieService = inject(SerieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public override async add(): Promise<void> {
-    await this.serieService.add(this.formData);
-  }
+  public mediaService = inject(SerieService);
 }

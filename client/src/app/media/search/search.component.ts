@@ -1,9 +1,11 @@
-import { ActivatedRoute, Router } from '@angular/router';
 import { Directive, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
+import { GameService } from '@app/game/game.service';
 import { ImportMedia } from '@app/media/media';
-import { RequestService } from '@shared/request/request.service';
+import { MovieService } from '@app/movie/movie.service';
+import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
 
 @Directive()
@@ -15,9 +17,8 @@ export abstract class MediaSearchComponent implements OnInit {
   public searchResults!: ImportMedia[];
   public loading!: boolean;
   public error!: string;
-  public requestService = inject(RequestService);
-  public route = inject(ActivatedRoute);
   public router = inject(Router);
+  public abstract mediaService: SerieService | MovieService | GameService;
 
   public ngOnInit(): void {
     this.init();
@@ -36,7 +37,18 @@ export abstract class MediaSearchComponent implements OnInit {
     this.formData = data;
   }
 
-  public abstract search(title: string): Promise<void>;
+  public async search(title: string): Promise<void> {
+    this.error = null as any;
+    this.loading = true;
+
+    try {
+      this.searchResults = await this.mediaService.search(title);
+    } catch (error) {
+      this.error = (error as any).message;
+    } finally {
+      this.loading = false;
+    }
+  }
 
   public select(result: ImportMedia): void {
     this.navigateImport(result.importId);

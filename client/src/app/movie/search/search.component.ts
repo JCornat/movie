@@ -16,22 +16,5 @@ import { MovieService } from '@app/movie/movie.service';
   ],
 })
 export class MovieSearchComponent extends MediaSearchComponent {
-  public movieService = inject(MovieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public override async search(title: string): Promise<void> {
-    this.error = null as any;
-    this.loading = true;
-
-    try {
-      this.searchResults = await this.movieService.search(title);
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
-  }
+  public mediaService = inject(MovieService);
 }

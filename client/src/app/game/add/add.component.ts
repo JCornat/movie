@@ -18,13 +18,5 @@ import { MediaItemComponent } from '@app/media/item/item.component';
   ],
 })
 export class GameAddComponent extends MediaAddComponent {
-  public gameService = inject(GameService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public override async add(): Promise<void> {
-    await this.gameService.add(this.formData);
-  }
+  public mediaService = inject(GameService);
 }

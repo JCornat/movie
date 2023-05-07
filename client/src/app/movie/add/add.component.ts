@@ -18,13 +18,5 @@ import { MovieService } from '@app/movie/movie.service';
   ],
 })
 export class MovieAddComponent extends MediaAddComponent {
-  public movieService = inject(MovieService);
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  public override async add(): Promise<void> {
-    await this.movieService.add(this.formData);
-  }
+  public mediaService = inject(MovieService);
 }
