@@ -7,10 +7,6 @@ export class ThemeService {
   public currentTheme!: string;
   public colorNames!: string[];
 
-  constructor() {
-    //
-  }
-
   public init(): void {
     this.initializeColorNames();
     this.buildTheme();

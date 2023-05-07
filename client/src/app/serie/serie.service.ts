@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
 import { ImportMedia } from '@app/media/media';
@@ -11,11 +11,7 @@ import { Serie } from './serie';
   providedIn: 'root'
 })
 export class SerieService {
-  constructor(
-    private requestService: RequestService,
-  ) {
-    //
-  }
+  private requestService = inject(RequestService);
 
   public async pullAll(): Promise<Serie[]> {
     const optionsQuery: Request = {
