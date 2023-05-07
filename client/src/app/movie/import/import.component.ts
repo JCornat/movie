@@ -1,5 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -7,7 +6,6 @@ import { ImportMedia } from '@app/media/media';
 import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MovieService } from '@app/movie/movie.service';
-import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'movie-import',
@@ -21,14 +19,7 @@ import { RequestService } from '@shared/request/request.service';
   ],
 })
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
-  constructor(
-    public movieService: MovieService,
-    public override requestService: RequestService,
-    public override router: Router,
-    public override route: ActivatedRoute,
-  ) {
-    super(requestService, route, router);
-  }
+  public movieService = inject(MovieService);
 
   /*-----------------------*\
            Service

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -24,15 +24,10 @@ export class HomeComponent implements OnInit {
   public movies!: Movie[];
   public series!: Serie[];
   public games!: Game[];
-
-  constructor(
-    public gameService: GameService,
-    public movieService: MovieService,
-    public router: Router,
-    public serieService: SerieService,
-  ) {
-    //
-  }
+  public gameService = inject(GameService);
+  public movieService = inject(MovieService);
+  public router = inject(Router);
+  public serieService = inject(SerieService);
 
   public ngOnInit(): void {
     this.init();

@@ -1,11 +1,9 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { GameService } from '@app/game/game.service';
 import { MediaSearchComponent } from '@app/media/search/search.component';
-import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'game-search',
@@ -18,14 +16,7 @@ import { RequestService } from '@shared/request/request.service';
   ],
 })
 export class GameSearchComponent extends MediaSearchComponent {
-  constructor(
-    public gameService: GameService,
-    public override requestService: RequestService,
-    public override router: Router,
-    public override route: ActivatedRoute,
-  ) {
-    super(requestService, route, router);
-  }
+  public gameService = inject(GameService);
 
   /*-----------------------*\
            Service

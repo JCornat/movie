@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,15 +23,7 @@ import { ScreenService } from '@shared/screen/screen.service';
 })
 export class GameComponent extends MediaComponent {
   public override media!: Game[];
-
-  constructor(
-    public override authenticationService: AuthenticationService,
-    public gameService: GameService,
-    public override router: Router,
-    public override screenService: ScreenService,
-  ) {
-    super(authenticationService, router, screenService);
-  }
+  public gameService = inject(GameService);
 
   /*-----------------------*\
            Service

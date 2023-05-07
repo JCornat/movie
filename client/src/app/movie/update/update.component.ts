@@ -1,5 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -7,7 +6,6 @@ import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaUpdateComponent } from '@app/media/update/update.component';
 import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
-import { RequestService } from '@shared/request/request.service';
 
 @Component({
   selector: 'movie-update',
@@ -21,14 +19,7 @@ import { RequestService } from '@shared/request/request.service';
   ],
 })
 export class MovieUpdateComponent extends MediaUpdateComponent {
-  constructor(
-    public movieService: MovieService,
-    public override requestService: RequestService,
-    public override router: Router,
-    public override route: ActivatedRoute,
-  ) {
-    super(requestService, route, router);
-  }
+  public movieService = inject(MovieService);
 
   /*-----------------------*\
            Service

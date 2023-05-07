@@ -1,12 +1,10 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ImportMedia } from '@app/media/media';
 import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { RequestService } from '@shared/request/request.service';
 import { SerieService } from '@app/serie/serie.service';
 
 @Component({
@@ -21,14 +19,7 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieImportComponent extends MediaImportComponent implements OnInit {
-  constructor(
-    public override requestService: RequestService,
-    public override router: Router,
-    public override route: ActivatedRoute,
-    public serieService: SerieService,
-  ) {
-    super(requestService, route, router);
-  }
+  public serieService = inject(SerieService);
 
   /*-----------------------*\
            Service
