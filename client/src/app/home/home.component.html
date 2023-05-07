@@ -1,4 +1,4 @@
-<ng-container *ngFor="let item of mediaList">
+<ng-container *ngFor="let item of mediaList; trackBy: trackByFn">
   <div class="presentation" (click)="selectMedia(item)">
     <div class="text">
       <div class="title">{{item.title}}</div>
