@@ -19,6 +19,6 @@ import { MediaItemComponent } from '@app/media/item/item.component';
   ],
 })
 export class GameComponent extends MediaComponent {
-  public override media!: Game[];
-  public override mediaService = inject(GameService);
+  override media!: Game[];
+  override mediaService = inject(GameService);
 }

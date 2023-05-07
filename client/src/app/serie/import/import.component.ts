@@ -18,5 +18,5 @@ import { SerieService } from '@app/serie/serie.service';
   ],
 })
 export class SerieImportComponent extends MediaImportComponent implements OnInit {
-  public mediaService = inject(SerieService);
+  mediaService = inject(SerieService);
 }

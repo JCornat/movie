@@ -13,14 +13,14 @@ import { AuthenticationService } from '@shared/authentication/authentication.ser
   ],
 })
 export class LogoutComponent implements OnInit {
-  public authenticationService = inject(AuthenticationService);
-  public router = inject(Router);
+  authenticationService = inject(AuthenticationService);
+  router = inject(Router);
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.authenticationService.logout();
     this.navigateHome();
   }
@@ -29,7 +29,7 @@ export class LogoutComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  public navigateHome(): void {
+  navigateHome(): void {
     this.router.navigate(['/']);
   }
 }

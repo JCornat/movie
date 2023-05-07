@@ -18,5 +18,5 @@ import { MediaUpdateComponent } from '@app/media/update/update.component';
   ],
 })
 export class GameUpdateComponent extends MediaUpdateComponent {
-  public mediaService = inject(GameService);
+  mediaService = inject(GameService);
 }

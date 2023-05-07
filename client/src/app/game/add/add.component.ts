@@ -18,5 +18,5 @@ import { MediaItemComponent } from '@app/media/item/item.component';
   ],
 })
 export class GameAddComponent extends MediaAddComponent {
-  public mediaService = inject(GameService);
+  mediaService = inject(GameService);
 }

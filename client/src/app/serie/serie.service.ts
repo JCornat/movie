@@ -13,7 +13,7 @@ import { Serie } from './serie';
 export class SerieService {
   private requestService = inject(RequestService);
 
-  public async pullAll(): Promise<Serie[]> {
+  async pullAll(): Promise<Serie[]> {
     const optionsQuery: Request = {
       url: `/api/serie`,
       header: {
@@ -25,7 +25,7 @@ export class SerieService {
     return this.processPullAll(data);
   }
 
-  public processPullAll(data: { data: Serie[] }): Serie[] {
+  processPullAll(data: { data: Serie[] }): Serie[] {
     for (const datum of data.data) {
       datum.url = `${SERVER_URL}/upload/${datum.id}.jpg`;
       datum.urlWebp = `${SERVER_URL}/upload/${datum.id}.webp`;
@@ -34,7 +34,7 @@ export class SerieService {
     return data.data;
   }
 
-  public async pullOne(id: string): Promise<Serie> {
+  async pullOne(id: string): Promise<Serie> {
     const optionsQuery = {
       url: `/api/serie/${id}`,
     };
@@ -43,12 +43,12 @@ export class SerieService {
     return this.processPullOne(data.data);
   }
 
-  public processPullOne(data: Serie): Serie {
+  processPullOne(data: Serie): Serie {
     const tmp = this.processPullAll({data: [data]});
     return tmp[0];
   }
 
-  public async search(title: string): Promise<ImportMedia[]> {
+  async search(title: string): Promise<ImportMedia[]> {
     const optionsQuery = {
       url: `/api/serie?search=${title}`,
     };
@@ -57,7 +57,7 @@ export class SerieService {
     return data.data;
   }
 
-  public async importOne(id: string): Promise<ImportMedia> {
+  async importOne(id: string): Promise<ImportMedia> {
     const optionsQuery = {
       url: `/api/serie/${id}/import`,
     };
@@ -66,7 +66,7 @@ export class SerieService {
     return data.data;
   }
 
-  public async update(options: { [key: string]: any }): Promise<void> {
+  async update(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
       url: `/api/serie/${options.id}`,
       body: {
@@ -77,7 +77,7 @@ export class SerieService {
     await lastValueFrom(this.requestService.put(optionsQuery));
   }
 
-  public async add(options: { [key: string]: any }): Promise<void> {
+  async add(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
       url: `/api/serie`,
       body: {
@@ -88,7 +88,7 @@ export class SerieService {
     await lastValueFrom(this.requestService.post(optionsQuery));
   }
 
-  public async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     const optionsQuery = {
       url: `/api/serie/${id}`,
     };

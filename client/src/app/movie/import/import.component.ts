@@ -18,5 +18,5 @@ import { MovieService } from '@app/movie/movie.service';
   ],
 })
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
-  public mediaService = inject(MovieService);
+  mediaService = inject(MovieService);
 }

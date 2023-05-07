@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ThemeService {
-  public currentTheme!: string;
-  public colorNames!: string[];
+  currentTheme!: string;
+  colorNames!: string[];
 
-  public init(): void {
+  init(): void {
     this.initializeColorNames();
     this.buildTheme();
   }
@@ -16,7 +16,7 @@ export class ThemeService {
            Method
   \*-----------------------*/
 
-  public initializeColorNames(): void {
+  initializeColorNames(): void {
     this.colorNames = [
       'background',
       'on-background',
@@ -39,11 +39,11 @@ export class ThemeService {
     ];
   }
 
-  public buildTheme(): void {
+  buildTheme(): void {
     this.setTheme('dark');
   }
 
-  public setTheme(theme: 'dark' | 'light'): void {
+  setTheme(theme: 'dark' | 'light'): void {
     if (!theme) {
       return;
     }
@@ -61,7 +61,7 @@ export class ThemeService {
     }
   }
 
-  public setLightTheme(): void {
+  setLightTheme(): void {
     const color = {
       'background': '#eceff1',
       'on-background': '#000000',
@@ -92,7 +92,7 @@ export class ThemeService {
     this.applyColors(color, {convertToRgb: true});
   }
 
-  public setDarkTheme(): void {
+  setDarkTheme(): void {
     const color = {
       'background': '#2d333c',
       'on-background': '#ffffff',
@@ -123,7 +123,7 @@ export class ThemeService {
     this.applyColors(color, {convertToRgb: true});
   }
 
-  public applyColors(data: any, options: { convertToRgb?: boolean } = {}): void {
+  applyColors(data: any, options: { convertToRgb?: boolean } = {}): void {
     for (const colorName of this.colorNames) {
       let value = data[colorName];
       if (options.convertToRgb) {
@@ -134,7 +134,7 @@ export class ThemeService {
     }
   }
 
-  public getColors(options: { convertToHex?: boolean } = {}): { [key: string]: string } {
+  getColors(options: { convertToHex?: boolean } = {}): { [key: string]: string } {
     const res: { [key: string]: string } = {};
 
     for (const colorName of this.colorNames) {
@@ -150,7 +150,7 @@ export class ThemeService {
     return res;
   }
 
-  public rgbToHex(red: string, green: string, blue: string): string {
+  rgbToHex(red: string, green: string, blue: string): string {
     let hexRed = (+red.trim()).toString(16);
     let hexGreen = (+green.trim()).toString(16);
     let hexBlue = (+blue.trim()).toString(16);
@@ -170,7 +170,7 @@ export class ThemeService {
     return `#${hexRed}${hexGreen}${hexBlue}`;
   }
 
-  public hexToRgb(value: string): string {
+  hexToRgb(value: string): string {
     let red = 0;
     let green = 0;
     let blue = 0;

@@ -11,10 +11,10 @@ import { StorageService } from '@shared/storage/storage.service';
 export class TokenService {
   private _token!: string | null;
   private _refreshToken!: string | null;
-  public hasToken: WritableSignal<boolean> = signal(false);
+  hasToken: WritableSignal<boolean> = signal(false);
   private storageService = inject(StorageService);
 
-  public init(): void {
+  init(): void {
     this.initToken();
     this.initRefreshToken();
   }
@@ -54,7 +54,7 @@ export class TokenService {
            Method
   \*-----------------------*/
 
-  public reset(): void {
+  reset(): void {
     this.removeStoredToken();
     this.removeStoredRefreshToken();
     this.removeStayLogged();
@@ -62,7 +62,7 @@ export class TokenService {
     this.refreshToken = null;
   }
 
-  public initToken(): void {
+  initToken(): void {
     let token = this._token;
 
     if (!token) {
@@ -72,7 +72,7 @@ export class TokenService {
     this.token = token;
   }
 
-  public initRefreshToken(): void {
+  initRefreshToken(): void {
     let refresh = this._refreshToken;
 
     if (!refresh) {
@@ -82,44 +82,44 @@ export class TokenService {
     this.refreshToken = refresh;
   }
 
-  public getStayLogged(): boolean {
+  getStayLogged(): boolean {
     const tmp = this.storageService.getItem('stay-logged');
     return (tmp === 'true');
   }
 
-  public setStayLogged(value: string): void {
+  setStayLogged(value: string): void {
     this.storageService.setItem('stay-logged', value);
   }
 
-  public removeStayLogged(): void {
+  removeStayLogged(): void {
     this.storageService.removeItem('stay-logged');
   }
 
-  public getStoredToken(): string | null {
+  getStoredToken(): string | null {
     return this.storageService.getItem('token');
   }
 
-  public storeToken(value: string): void {
+  storeToken(value: string): void {
     this.storageService.setItem('token', value);
   }
 
-  public removeStoredToken(): void {
+  removeStoredToken(): void {
     this.storageService.removeItem('token');
   }
 
-  public getStoreRefreshToken(): string | null {
+  getStoreRefreshToken(): string | null {
     return this.storageService.getItem('refresh-token');
   }
 
-  public storeRefreshToken(value: string): void {
+  storeRefreshToken(value: string): void {
     this.storageService.setItem('refresh-token', value);
   }
 
-  public removeStoredRefreshToken(): void {
+  removeStoredRefreshToken(): void {
     this.storageService.removeItem('refresh-token');
   }
 
-  public decode(): any {
+  decode(): any {
     const token = this.token;
     if (!token) {
       return null;

@@ -13,7 +13,7 @@ import { SERVER_URL } from '@shared/config/config';
 export class MovieService {
   private requestService = inject(RequestService);
 
-  public async pullAll(): Promise<Movie[]> {
+  async pullAll(): Promise<Movie[]> {
     const optionsQuery: Request = {
       url: `/api/movie`,
       header: {
@@ -25,7 +25,7 @@ export class MovieService {
     return this.processPullAll(data);
   }
 
-  public processPullAll(data: { data: Movie[] }): Movie[] {
+  processPullAll(data: { data: Movie[] }): Movie[] {
     for (const datum of data.data) {
       datum.url = `${SERVER_URL}/upload/${datum.id}.jpg`;
       datum.urlWebp = `${SERVER_URL}/upload/${datum.id}.webp`;
@@ -34,7 +34,7 @@ export class MovieService {
     return data.data;
   }
 
-  public async pullOne(id: string): Promise<Movie> {
+  async pullOne(id: string): Promise<Movie> {
     const optionsQuery = {
       url: `/api/movie/${id}`,
     };
@@ -43,12 +43,12 @@ export class MovieService {
     return this.processPullOne(data.data);
   }
 
-  public processPullOne(data: Movie): Movie {
+  processPullOne(data: Movie): Movie {
     const tmp = this.processPullAll({data: [data]});
     return tmp[0];
   }
 
-  public async search(title: string): Promise<ImportMedia[]> {
+  async search(title: string): Promise<ImportMedia[]> {
     const optionsQuery = {
       url: `/api/movie?search=${title}`,
     };
@@ -57,7 +57,7 @@ export class MovieService {
     return data.data;
   }
 
-  public async importOne(id: string): Promise<ImportMedia> {
+  async importOne(id: string): Promise<ImportMedia> {
     const optionsQuery = {
       url: `/api/movie/${id}/import`,
     };
@@ -66,7 +66,7 @@ export class MovieService {
     return data.data;
   }
 
-  public async update(options: { [key: string]: any }): Promise<void> {
+  async update(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
       url: `/api/movie/${options.id}`,
       body: {
@@ -77,7 +77,7 @@ export class MovieService {
     await lastValueFrom(this.requestService.put(optionsQuery));
   }
 
-  public async add(options: { [key: string]: any }): Promise<void> {
+  async add(options: { [key: string]: any }): Promise<void> {
     const optionsQuery = {
       url: `/api/movie`,
       body: {
@@ -88,7 +88,7 @@ export class MovieService {
     await lastValueFrom(this.requestService.post(optionsQuery));
   }
 
-  public async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     const optionsQuery = {
       url: `/api/movie/${id}`,
     };

@@ -7,26 +7,26 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ScreenService {
   private resizeSubject = new Subject<void>();
-  public resizeObservable = this.resizeSubject.asObservable();
+  resizeObservable = this.resizeSubject.asObservable();
 
   private scrollSubject = new Subject<void>();
-  public scrollObservable = this.scrollSubject.asObservable();
+  scrollObservable = this.scrollSubject.asObservable();
 
   private heightResizeSubject = new Subject<number>();
-  public heightResizeObservable = this.heightResizeSubject.asObservable();
+  heightResizeObservable = this.heightResizeSubject.asObservable();
 
   private widthResizeSubject = new Subject<number>();
-  public widthResizeObservable = this.widthResizeSubject.asObservable();
-  public widthSignal = signal(0);
+  widthResizeObservable = this.widthResizeSubject.asObservable();
+  widthSignal = signal(0);
 
-  public previousHeight!: number;
-  public currentHeight!: number;
+  previousHeight!: number;
+  currentHeight!: number;
 
-  public previousWidth!: number;
-  public currentWidth!: number;
+  previousWidth!: number;
+  currentWidth!: number;
 
-  public previousScrollTop!: number;
-  public currentScrollTop!: number;
+  previousScrollTop!: number;
+  currentScrollTop!: number;
 
   constructor() {
     this.subscribeResize();
@@ -34,7 +34,7 @@ export class ScreenService {
     this.init();
   }
 
-  public init(): void {
+  init(): void {
     this.currentHeight = 0;
     this.currentWidth = 0;
 
@@ -55,7 +55,7 @@ export class ScreenService {
       .subscribe(this.onResize.bind(this));
   }
 
-  public onResize(): void {
+  onResize(): void {
     this.getCurrentDimensions();
 
     this.resizeSubject.next();
@@ -70,29 +70,29 @@ export class ScreenService {
     }
   }
 
-  public onScroll(scrollTop: number): void {
+  onScroll(scrollTop: number): void {
     this.previousScrollTop = this.currentScrollTop;
     this.currentScrollTop = scrollTop;
     this.scrollSubject.next();
   }
 
-  public isMobile(): boolean {
+  isMobile(): boolean {
     return (this.currentWidth < 544);
   }
 
-  public isTablet(): boolean {
+  isTablet(): boolean {
     return (this.currentWidth >= 544 && this.currentWidth < 768);
   }
 
-  public isLaptop(): boolean {
+  isLaptop(): boolean {
     return (this.currentWidth >= 768 && this.currentWidth < 992);
   }
 
-  public isDesktop(): boolean {
+  isDesktop(): boolean {
     return (this.currentWidth >= 992 && this.currentWidth < 1921);
   }
 
-  public isWidescreen(): boolean {
+  isWidescreen(): boolean {
     return (this.currentWidth >= 1921);
   }
 }

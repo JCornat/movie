@@ -18,5 +18,5 @@ import { MediaItemComponent } from '@app/media/item/item.component';
   ],
 })
 export class GameImportComponent extends MediaImportComponent implements OnInit {
-  public mediaService = inject(GameService);
+  mediaService = inject(GameService);
 }
