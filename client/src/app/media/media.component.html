@@ -1,7 +1,7 @@
 <div class="navigation">
   <div class="link">
     <ng-container *ngFor="let link of links; index as i">
-      <div class="bold cursor-pointer pr-16" style="cursor: pointer;" [ngClass]="{'opacity-3': !link.active}" (click)="navigate(link.path)">{{link.label}}</div>
+      <div class="bold cursor-pointer p-8" [ngClass]="{'opacity-3': !link.active}" (click)="navigate(link.path)">{{link.label}}</div>
     </ng-container>
   </div>
 

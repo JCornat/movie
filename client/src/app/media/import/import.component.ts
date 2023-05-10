@@ -1,4 +1,4 @@
-import { Directive, OnInit } from '@angular/core';
+import { Directive, OnInit, Input } from '@angular/core';
 
 import { ImportMedia } from '@app/media/media';
 import { MediaAddComponent } from '@app/media/add/add.component';
@@ -6,10 +6,11 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
+  @Input() importId!: string;
+
   override async ngOnInit(): Promise<void> {
-    this.importId = this.route.snapshot.paramMap.get('importId') || '';
     if (Global.isEmpty(this.importId)) {
-      return;
+      throw new Error('NO IMPORT ID PROVIDED');
     }
 
     this.init();
@@ -24,7 +25,7 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
 
   async pullOne(id: string): Promise<ImportMedia> {
     if (!id) {
-      throw new Error('ID incorrect');
+      throw new Error('NO IMPORT ID PROVIDED');
     }
 
     this.error = null as any;

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as Global from '@shared/global/global';
 
 import { Media } from '@app/media/media';
 import { MediaAddComponent } from '../add/add.component';
@@ -7,9 +6,8 @@ import { MediaAddComponent } from '../add/add.component';
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
   override async ngOnInit(): Promise<void> {
-    this.id = this.route.snapshot.paramMap.get('id') || '';
-    if (Global.isEmpty(this.id)) {
-      return;
+    if (!this.id) {
+      throw new Error('NO ID PROVIDED');
     }
 
     this.init();
@@ -18,7 +16,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
     this.loading = true;
 
     try {
-      const values = await this.pullOne(this.importId);
+      const values = await this.pullOne(this.id);
       this.mediaForm.patchValue(values);
     } catch (error) {
       this.error = (error as any).message;
@@ -54,7 +52,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
   \*-----------------------*/
 
   async pullOne(id: string): Promise<Media> {
-    return this.mediaService.pullOne(this.id);
+    return this.mediaService.pullOne(id);
   }
 
   async update(data: { [key: string]: any }): Promise<void> {
