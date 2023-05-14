@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { Game } from '@app/game/game';
 import { GameService } from '@app/game/game.service';
@@ -16,6 +17,7 @@ import { MediaItemComponent } from '@app/media/item/item.component';
     MediaItemComponent,
     NgOptimizedImage,
     ReactiveFormsModule,
+    RouterModule,
   ],
 })
 export class GameComponent extends MediaComponent {

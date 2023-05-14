@@ -478,3 +478,10 @@ i {
     padding-right: 16px;
   }
 }
+
+a {
+  &.reset {
+    color: inherit;
+    text-decoration: inherit;
+  }
+}

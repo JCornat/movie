@@ -74,10 +74,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Navigation
   \*-----------------------*/
 
-  navigate(path: string): void {
-    this.router.navigate([path]);
-  }
-
   navigateUpdate(media: Media): void {
     if (!this.isLogged()) {
       return;

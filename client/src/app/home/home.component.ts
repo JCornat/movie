@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { Game } from '@app/game/game';
 import { GameService } from '@app/game/game.service';
@@ -24,6 +24,7 @@ interface MediaListElement {
   imports: [
     CommonModule,
     NgOptimizedImage,
+    RouterModule,
   ],
 })
 export class HomeComponent implements OnInit {

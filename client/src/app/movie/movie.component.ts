@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -16,6 +17,7 @@ import { MovieService } from '@app/movie/movie.service';
     MediaItemComponent,
     NgOptimizedImage,
     ReactiveFormsModule,
+    RouterModule,
   ],
 })
 export class MovieComponent extends MediaComponent {
