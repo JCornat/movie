@@ -3,7 +3,9 @@
     <div class="text">
       <div class="title">{{item.title}}</div>
       <div class="description">{{item.description}}</div>
-      <div class="more">See more <i class="icon icon-chevron-right"></i></div>
+      <div class="more">
+        <a [routerLink]="item.url" class="reset">See more <i class="icon icon-chevron-right"></i></a>
+      </div>
     </div>
 
     <div class="background">

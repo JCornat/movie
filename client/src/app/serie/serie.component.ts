@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -16,6 +17,7 @@ import { SerieService } from '@app/serie/serie.service';
     MediaItemComponent,
     NgOptimizedImage,
     ReactiveFormsModule,
+    RouterModule,
   ],
 })
 export class SerieComponent extends MediaComponent {
