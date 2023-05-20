@@ -88,7 +88,7 @@ export abstract class MediaAddComponent implements OnInit {
   \*-----------------------*/
 
   navigateBack(): void {
-    this.router.navigate([`/${this.type}`, 'search']);
+    this.router.navigate([`/administration`, this.type, 'search']);
   }
 
   /*-----------------------*\
@@ -96,9 +96,8 @@ export abstract class MediaAddComponent implements OnInit {
   \*-----------------------*/
 
   buildType(): void {
-    const regex = /^\/(\w+)/;
-    const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1];
+    const splitUrl = this.router.url.split('/');
+    const type = splitUrl[2]; // Get third item, because it has /administration
     if (Global.isEmpty(type)) {
       throw {status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown`};
     }

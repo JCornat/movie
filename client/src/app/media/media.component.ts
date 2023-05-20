@@ -79,7 +79,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([`/${this.type}`, media.id, 'update']);
+    this.router.navigate([`/administration`, this.type, media.id, 'update']);
   }
 
   navigateSearch(): void {
@@ -87,7 +87,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([`/${this.type}`, 'search']);
+    this.router.navigate([`/administration`, this.type, 'search']);
   }
 
   /*-----------------------*\
@@ -222,9 +222,8 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   buildType(): void {
-    const regex = /^\/(\w+)/;
-    const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1];
+    const splitUrl = this.router.url.split('/');
+    const type = splitUrl[1]; // Get second item, because no /administration
     if (Global.isEmpty(type)) {
       throw {status: 400, method: 'MediaComponent.buildType', message: `Type unknown`};
     }

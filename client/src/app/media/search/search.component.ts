@@ -67,15 +67,16 @@ export abstract class MediaSearchComponent implements OnInit {
   \*-----------------------*/
 
   navigateBack(): void {
+    console.log('this', this.type);
     this.router.navigate([`/${this.type}`]);
   }
 
   navigateAdd(): void {
-    this.router.navigate([`/${this.type}`, 'add']);
+    this.router.navigate([`/administration`, this.type, 'add']);
   }
 
   navigateImport(importId: string): void {
-    this.router.navigate([`/${this.type}`, importId, 'import']);
+    this.router.navigate([`/administration`, this.type, importId, 'import']);
   }
 
   /*-----------------------*\
@@ -83,9 +84,8 @@ export abstract class MediaSearchComponent implements OnInit {
   \*-----------------------*/
 
   buildType(): void {
-    const regex = /^\/(\w+)/;
-    const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1];
+    const splitUrl = this.router.url.split('/');
+    const type = splitUrl[2]; // Get third item, because it has /administration
     if (Global.isEmpty(type)) {
       throw {status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown`};
     }

@@ -1,15 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { GameService } from '@app/game/game.service';
-import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
+import { MediaUpdateComponent } from '@app/media/update/update.component';
 
 @Component({
-  selector: 'game-import',
-  templateUrl: '../../media/add/add.component.html',
-  styleUrls: ['../../media/add/add.component.scss'],
+  selector: 'game-update',
+  templateUrl: '../../../media/add/add.component.html',
+  styleUrls: ['../../../media/add/add.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -17,6 +17,6 @@ import { MediaItemComponent } from '@app/media/item/item.component';
     ReactiveFormsModule,
   ],
 })
-export class GameImportComponent extends MediaImportComponent implements OnInit {
+export class GameUpdateComponent extends MediaUpdateComponent {
   mediaService = inject(GameService);
 }
