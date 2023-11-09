@@ -1,26 +1,24 @@
-<ng-container *ngFor="let item of mediaList; trackBy: trackByFn">
+@for (item of mediaList; track item) {
   <div class="presentation" (click)="selectMedia(item)">
     <div class="text">
-      <div class="title">{{item.title}}</div>
-      <div class="description">{{item.description}}</div>
+      <div class="title">{{ item.title }}</div>
+      <div class="description">{{ item.description }}</div>
       <div class="more">
         <a [routerLink]="item.url" class="reset">See more <i class="icon icon-chevron-right"></i></a>
       </div>
     </div>
 
     <div class="background">
-      <ng-container *ngIf="item.data().length > 0">
-        <ng-container *ngFor="let data of item.data()">
-          <div class="media">
-            <div class="poster">
-              <picture>
-                <source [srcset]="data.urlWebp" type="image/webp">
-                <img [ngSrc]="data.url" alt="Description" fill="true">
-              </picture>
-            </div>
+      @for (data of item.data(); track data) {
+        <div class="media">
+          <div class="poster">
+            <picture>
+              <source [srcset]="data.urlWebp" type="image/webp">
+              <img [ngSrc]="data.url" alt="Description" fill="true">
+            </picture>
           </div>
-        </ng-container>
-      </ng-container>
+        </div>
+      }
     </div>
   </div>
-</ng-container>
+}

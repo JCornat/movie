@@ -5,7 +5,7 @@
     </button>
   </div>
 
-  <div class="bold text-xl mb-16">Search a new {{type}}</div>
+  <div class="bold text-xl mb-16">Search a new {{ type }}</div>
 
   <div>
     <div class="flex mb-24" style="align-items: end;">
@@ -25,32 +25,28 @@
       </div>
     </div>
 
-    <ng-container *ngIf="error">
+    @if (error) {
       <div class="mb-8">
-        <div style="color: red">{{error}}</div>
+        <div style="color: red">{{ error }}</div>
       </div>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="loading">
+    @if (loading) {
       <div class="card mb-16" style="text-align: center;">
         <i class="icon icon-sync text-xl spin"></i>
       </div>
-    </ng-container>
+    } @else {
+      @if (searchResults) {
+        <div class="bold text-lg mb-16">Results</div>
 
-    <ng-container *ngIf="!loading && searchResults">
-      <div class="bold text-lg mb-16">Results</div>
-
-      <div class="card">
-        <ng-container *ngIf="searchResults.length === 0">
-          No result
-        </ng-container>
-
-        <ng-container *ngIf="searchResults.length > 0">
-          <ng-container *ngFor="let result of searchResults">
-            <div class="row clickable p-12" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
-          </ng-container>
-        </ng-container>
-      </div>
-    </ng-container>
+        <div class="card">
+          @for (result of searchResults; track result) {
+            <div class="row clickable p-12" style="cursor: pointer;" (click)="select(result)">{{ result.title }} ({{ result.year }})</div>
+          } @empty {
+            No result
+          }
+        </div>
+      }
+    }
   </div>
 </div>

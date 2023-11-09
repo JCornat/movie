@@ -7,87 +7,86 @@
 
   <input type="file" style="position: absolute; width: 1px; height: 1px; top: 10px; left: 10px; z-index: -200;" #inputFile (change)="selectedFile($event)">
 
-  <ng-container *ngIf="loading">
+  @if (error) {
+    <p class="mb-8" style="color: red;">{{ error }}</p>
+  }
+
+  @if (loading) {
     <div class="card mb-16" style="text-align: center;">
       <i class="icon icon-sync text-xl spin"></i>
     </div>
-  </ng-container>
+  } @else {
+    @if (mediaForm) {
+      <div class="grid-add">
+        <div style="width: 100%;">
+          @if (id) {
+            <div class="bold text-xl mb-16">Update a {{ type }}</div>
+          } @else {
+            <div class="bold text-xl mb-16">Add a new {{ type }}</div>
+          }
 
-  <ng-container *ngIf="error">
-    <p class="mb-8" style="color: red;">{{error}}</p>
-  </ng-container>
+          <div class="card p-20 mb-16">
+            <div style="min-width: min(400px, 100%);">
+              <form [formGroup]="mediaForm" (submit)="onSubmit()">
+                <div class="bold mb-8">Title</div>
+                <div class="mb-16" style="position: relative;">
+                  <input type="text" formControlName="title" placeholder="Title"/>
+                </div>
 
-  <ng-container *ngIf="!loading && mediaForm">
-    <div class="grid-add">
-      <div style="width: 100%;">
-        <ng-container *ngIf="!id">
-          <div class="bold text-xl mb-16">Add a new {{type}}</div>
-        </ng-container>
+                <div class="bold mb-8">Year</div>
+                <div class="mb-16" style="position: relative;">
+                  <input type="number" formControlName="year" placeholder="Year"/>
+                </div>
 
-        <ng-container *ngIf="id">
-          <div class="bold text-xl mb-16">Update a {{type}}</div>
-        </ng-container>
+                <div class="bold mb-8">Url</div>
+                <div class="mb-16" style="position: relative;">
+                  <div class="flex">
+                    <div class="fill">
+                      <input type="text" formControlName="url" placeholder="Url"/>
+                    </div>
 
-        <div class="card p-20 mb-16">
-          <div style="min-width: min(400px, 100%);">
-            <form [formGroup]="mediaForm" (submit)="onSubmit()">
-              <div class="bold mb-8">Title</div>
-              <div class="mb-16" style="position: relative;">
-                <input type="text" formControlName="title" placeholder="Title"/>
-              </div>
-
-              <div class="bold mb-8">Year</div>
-              <div class="mb-16" style="position: relative;">
-                <input type="number" formControlName="year" placeholder="Year"/>
-              </div>
-
-              <div class="bold mb-8">Url</div>
-              <div class="mb-16" style="position: relative;">
-                <div class="flex">
-                  <div class="fill">
-                    <input type="text" formControlName="url" placeholder="Url"/>
-                  </div>
-
-                  <div class="ml-8">
-                    <button (click)="selectFile($event)">
-                      <i class="icon icon-file-upload"></i>
-                    </button>
+                    <div class="ml-8">
+                      <button (click)="selectFile($event)">
+                        <i class="icon icon-file-upload"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="bold mb-8">Rating</div>
-              <div style="position: relative;">
-                <select formControlName="rating">
-                  <option *ngFor="let rating of ratings" [ngValue]="rating.value">{{rating.label}}</option>
-                </select>
-              </div>
-            </form>
+                <div class="bold mb-8">Rating</div>
+                <div style="position: relative;">
+                  <select formControlName="rating">
+                    @for (rating of ratings;track rating) {
+                      <option [ngValue]="rating.value">{{ rating.label }}</option>
+                    }
+                  </select>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="flex mb-16">
+            @if (id) {
+              <button (click)="remove()">
+                <i class="icon icon-delete pr-8"></i> Remove
+              </button>
+            }
+
+            <div class="fill"></div>
+
+            <button (click)="onSubmit()">
+              <i class="icon icon-save pr-8"></i> Save
+            </button>
           </div>
         </div>
 
-        <div class="flex mb-16">
-          <ng-container *ngIf="id">
-            <button (click)="remove()">
-              <i class="icon icon-delete pr-8"></i> Remove
-            </button>
-          </ng-container>
-
-          <div class="fill"></div>
-
-          <button (click)="onSubmit()">
-            <i class="icon icon-save pr-8"></i> Save
-          </button>
-        </div>
+        @if (formData) {
+          <div class="media-item">
+            <div class="bold text-xl mb-16">Preview</div>
+            <media-item [data]="$any(formData)" [dynamic]="true"></media-item>
+          </div>
+        }
       </div>
-
-      <ng-container *ngIf="formData">
-        <div class="media-item">
-          <div class="bold text-xl mb-16">Preview</div>
-
-          <media-item [data]="$any(formData)" [dynamic]="true"></media-item>
-        </div>
-      </ng-container>
-    </div>
-  </ng-container>
+    }
+  }
 </div>

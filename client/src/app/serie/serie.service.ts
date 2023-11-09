@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable, Subscription } from 'rxjs';
 
 import { ImportMedia } from '@app/media/media';
 import { Request } from '@shared/request/request';
@@ -13,7 +13,7 @@ import { Serie } from './serie';
 export class SerieService {
   requestService = inject(RequestService);
 
-  async pullAll(): Promise<Serie[]> {
+  async pullAll(): Subscription {
     const optionsQuery: Request = {
       url: `/api/serie`,
       header: {
@@ -21,8 +21,9 @@ export class SerieService {
       },
     };
 
-    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
-    return this.processPullAll(data);
+    return this.requestService.get(optionsQuery).subscribe((res) => {
+      return this.processPullAll(res);
+    });
   }
 
   processPullAll(data: { data: Serie[] }): Serie[] {

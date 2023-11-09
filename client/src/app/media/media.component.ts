@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnDestroy, OnInit, Signal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,14 +12,15 @@ import { RATINGS } from '@app/media/rating';
 import { ScreenService } from '@shared/screen/screen.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
-  displayList!: Category[];
+  displayList!: Signal<Category[]>;
   categories!: Category[];
   searchCategories!: Category[];
   resizeSubscriber!: Subscription;
-  formData!: { [key: string]: any };
+  formData: WritableSignal<Record<string, any> | null> = signal(null);
   media!: Media[];
   searchForm!: FormGroup;
   links!: any[];
@@ -95,7 +96,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   \*-----------------------*/
 
   async pullAll(): Promise<void> {
-    this.media = await this.mediaService.pullAll();
+    this.media = await toSignal(this.mediaService.pullAll());
     this.shuffle(this.media);
 
     this.categories = this.processCategories(this.media);
@@ -107,7 +108,13 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   \*-----------------------*/
 
   processDisplayList(): void {
-    this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
+    this.displayList = computed(() => {
+      if (this.formData()?.search) {
+        return this.searchCategories;
+      } else {
+        return this.categories;
+      }
+    });
   }
 
   processCategories(data: Media[], search?: string): Category[] {
@@ -197,7 +204,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   onValid(data: { [key: string]: any }): void {
-    this.formData = data;
+    this.formData.set(data);
     this.searchCategories = this.processCategories(this.media, data.search);
     this.processDisplayList();
   }
