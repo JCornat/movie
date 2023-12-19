@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnDestroy, OnInit, Signal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, OnInit, signal, Signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -28,6 +28,12 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   router = inject(Router);
   screenService = inject(ScreenService);
   abstract mediaService: SerieService | MovieService | GameService;
+  navbarExpanded = signal<boolean>(false);
+
+  //Bind Components
+  current:any;
+  search:any;
+  add:any;
 
   isLogged: Signal<boolean> = computed(() => {
     return this.authenticationService.isLogged();
@@ -48,6 +54,10 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   /*-----------------------*\
            Template
   \*-----------------------*/
+
+  toggleNavBar(){
+    this.navbarExpanded.set(!this.navbarExpanded());
+  }
 
   increaseLimit(item: Category): void {
     const newLimit = this.getLimitByScreenSize();

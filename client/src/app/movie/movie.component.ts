@@ -7,6 +7,8 @@ import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
+import { MovieSearchComponent } from './search/search.component';
+import { MovieAddComponent } from './add/add.component';
 
 @Component({
   selector: 'app-movie',
@@ -23,4 +25,9 @@ import { MovieService } from '@app/movie/movie.service';
 export class MovieComponent extends MediaComponent {
   override media!: Movie[];
   override mediaService = inject(MovieService);
+  
+  override search = MovieSearchComponent;
+  override add = MovieAddComponent;
+  //apply
+  override current = this.search;
 }

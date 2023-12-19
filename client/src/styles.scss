@@ -55,6 +55,60 @@
   }
 }
 
+.main-container{
+  flex-grow: 1;
+}
+
+.sidebar{
+  position: sticky;
+  top:0px;
+  width: 100px;
+  height: 100vh;
+  transition: 0.3s all ease-in-out;
+  border-left: 1px solid #dbe2df;
+
+  &.expanded{
+    width: 500px;
+    height: 100vh;
+    box-shadow: 8px 10px 20px 2px #dbe2df;
+    transition: 0.3s all ease-in-out;
+  }
+}
+
+.tooltip
+{
+  position:relative;
+
+  .img-hover-container{
+    display:none; 
+    color:black;  
+  }
+
+  &:hover{
+    .img-hover-container{
+      display:block;   
+      position:absolute;
+      top:0;
+      right:0;
+      z-index:1000;
+      max-width:320px;
+      min-height:128px; 
+      opacity: 0;     
+      animation: fadeIn 0.5s forwards;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -378,8 +432,6 @@ button {
 
 .card {
   @include variable(background-color, var(--surface), #fff);
-  overflow: hidden;
-
   border-width: 1px;
   border-style: solid;
   @include variable(border-color, rgba(var(--on-surface), 0.3), #fff);

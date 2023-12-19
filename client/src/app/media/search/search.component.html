@@ -47,7 +47,12 @@
 
         <ng-container *ngIf="searchResults.length > 0">
           <ng-container *ngFor="let result of searchResults">
-            <div class="row clickable p-12" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
+            <div class="row clickable tooltip p-12" style="cursor: pointer;" (click)="select(result)" style="display: flex;">
+              {{result.title}} ({{result.year}})   
+              <span class="img-hover-container">
+                <img src={{result.url}} width="100px" style="display: inline-block;object-fit: contain;"  loading="lazy"/>
+              </span>            
+            </div>    
           </ng-container>
         </ng-container>
       </div>

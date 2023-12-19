@@ -24,7 +24,7 @@ export default [
   },
   {
     path: 'movie',
-    loadChildren: () => import('./movie/routes'),
+    loadComponent: () => import ('./movie/movie.component').then(m => m.MovieComponent),
     title: `${Config.TITLE} - Movies`,
   },
   {

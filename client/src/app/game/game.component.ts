@@ -7,6 +7,7 @@ import { Game } from '@app/game/game';
 import { GameService } from '@app/game/game.service';
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
+import { GameSearchComponent } from './search/search.component';
 
 @Component({
   selector: 'app-game',
@@ -23,4 +24,6 @@ import { MediaItemComponent } from '@app/media/item/item.component';
 export class GameComponent extends MediaComponent {
   override media!: Game[];
   override mediaService = inject(GameService);
+
+  override search = GameSearchComponent;
 }
