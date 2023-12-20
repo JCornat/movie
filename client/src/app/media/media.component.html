@@ -1,8 +1,6 @@
 <div [ngClass]="{'shadow-bg' :  navbarExpanded()}" (click)="closeNavbar($event)"></div>
-<aside class="sidebar" [ngClass]="{'expanded' :  navbarExpanded()} ">   
-  <ng-container *ngIf="navbarExpanded()">
-      <router-outlet></router-outlet>
-  </ng-container>  
+<aside class="sidebar" [ngClass]="{'expanded' :  outlet.isActivated && navbarExpanded()} ">   
+  <router-outlet #outlet="outlet"></router-outlet>
 </aside> 
 
     <div class="navigation">

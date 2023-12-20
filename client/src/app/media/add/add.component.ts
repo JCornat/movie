@@ -94,7 +94,7 @@ export abstract class MediaAddComponent implements OnInit {
            Navigation
   \*-----------------------*/
 
-  navigateBack(): void {
+  navigateBack(): void {    
     this.router.navigate([`/${this.type}`, 'search']);
   }
 

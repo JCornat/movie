@@ -24,7 +24,6 @@ export abstract class MediaSearchComponent implements OnInit {
   ngOnInit(): void {
     this.init();
     if(this.mediaService?.getCache() != null){
-      console.log(this.mediaService?.getCache())
       this.searchResults = this.mediaService.getCache();
     }
   }
@@ -74,6 +73,7 @@ export abstract class MediaSearchComponent implements OnInit {
   \*-----------------------*/
 
   navigateBack(): void {
+    this.mediaService.clearCache();
     this.router.navigate([`/${this.type}`]);
   }
 

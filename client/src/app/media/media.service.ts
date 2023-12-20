@@ -9,6 +9,9 @@ export abstract class MediaService
     getCache():any{
       return this.#searchCache;
     }
+    clearCache(){
+      this.#searchCache = undefined;
+    }
 
     abstract update(options: { [key: string]: any }): Promise<void>
     abstract search(title: string): Promise<ImportMedia[]> 

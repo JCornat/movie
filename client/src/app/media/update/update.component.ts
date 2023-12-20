@@ -9,6 +9,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
 
   constructor() {
     super();
+    // TODO avoid effect and trigger fetch directly in subscriber?
     effect( () => {
       this.performFetch(this.id());
     })  
