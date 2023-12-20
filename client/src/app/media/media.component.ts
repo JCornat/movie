@@ -30,11 +30,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   abstract mediaService: SerieService | MovieService | GameService;
   navbarExpanded = signal<boolean>(false);
 
-  //Bind Components
-  current:any;
-  search:any;
-  add:any;
-
   isLogged: Signal<boolean> = computed(() => {
     return this.authenticationService.isLogged();
   });
@@ -55,7 +50,12 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Template
   \*-----------------------*/
 
-  toggleNavBar(){
+  toggleNavBar(overrideState?: boolean){
+    if(overrideState){
+      this.navbarExpanded.set(overrideState);
+      return;
+    }
+    
     this.navbarExpanded.set(!this.navbarExpanded());
   }
 
@@ -90,6 +90,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     }
 
     this.router.navigate([`/${this.type}`, media.id, 'update']);
+    this.toggleNavBar(true)
   }
 
   navigateSearch(): void {
@@ -98,6 +99,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     }
 
     this.router.navigate([`/${this.type}`, 'search']);
+    this.toggleNavBar(true)
   }
 
   /*-----------------------*\

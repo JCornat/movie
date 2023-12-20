@@ -24,6 +24,4 @@ import { GameSearchComponent } from './search/search.component';
 export class GameComponent extends MediaComponent {
   override media!: Game[];
   override mediaService = inject(GameService);
-
-  override search = GameSearchComponent;
 }

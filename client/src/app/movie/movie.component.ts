@@ -25,9 +25,4 @@ import { MovieAddComponent } from './add/add.component';
 export class MovieComponent extends MediaComponent {
   override media!: Movie[];
   override mediaService = inject(MovieService);
-  
-  override search = MovieSearchComponent;
-  override add = MovieAddComponent;
-  //apply
-  override current = this.search;
 }

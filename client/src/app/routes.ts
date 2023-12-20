@@ -1,7 +1,7 @@
-import { Route } from '@angular/router';
+import { Route, Routes } from '@angular/router';
 import * as Config from '@shared/config/config';
 
-export default [
+const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./home/home.component').then(m => m.HomeComponent),
@@ -19,17 +19,22 @@ export default [
   },
   {
     path: 'game',
+    loadComponent: () => import('./game/game.component').then(m => m.GameComponent),
     loadChildren: () => import('./game/routes'),
     title: `${Config.TITLE} - Games`,
   },
   {
     path: 'movie',
     loadComponent: () => import ('./movie/movie.component').then(m => m.MovieComponent),
+    loadChildren: () => import('./movie/routes'),
     title: `${Config.TITLE} - Movies`,
   },
   {
     path: 'serie',
+    loadComponent: () => import ('./serie/serie.component').then(m => m.SerieComponent),
     loadChildren: () => import('./serie/routes'),
     title: `${Config.TITLE} - Series`,
   },
-] as Route[];
+];
+
+export default routes;

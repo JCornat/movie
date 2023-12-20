@@ -62,13 +62,13 @@
 .sidebar{
   position: sticky;
   top:0px;
-  width: 100px;
+  width: 0px;
   height: 100vh;
   transition: 0.3s all ease-in-out;
   border-left: 1px solid #dbe2df;
 
   &.expanded{
-    width: 500px;
+    width: 650px;
     height: 100vh;
     box-shadow: 8px 10px 20px 2px #dbe2df;
     transition: 0.3s all ease-in-out;

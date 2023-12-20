@@ -1,28 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable, effect, inject } from '@angular/core';
 
 import { Media } from '@app/media/media';
 import { MediaAddComponent } from '../add/add.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
-  override async ngOnInit(): Promise<void> {
-    if (!this.id) {
-      throw new Error('NO ID PROVIDED');
-    }
 
-    this.init();
+  constructor() {
+    super();
+    effect( () => {
+      this.performFetch(this.id());
+    })  
+  }
 
+  async performFetch(id:string){
     this.error = null;
     this.loading = true;
 
     try {
-      const values = await this.pullOne(this.id);
+      const values = await this.pullOne(id);
       this.mediaForm.patchValue(values);
     } catch (error) {
       this.error = (error as any).message;
     } finally {
       this.loading = false;
     }
+  }
+  
+  override async ngOnInit(): Promise<void> {
+    if (!this.id) {
+      throw new Error('NO ID PROVIDED');
+    }
+
+    this.init(); 
   }
 
   /*-----------------------*\

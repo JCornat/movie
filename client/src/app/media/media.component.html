@@ -69,12 +69,9 @@
       </ng-container>
     </ng-container>
   </div>
-  <div class="sidebar" [ngClass]="{'expanded' :  navbarExpanded()} ">
-    <i class="icon icon-add" (click)="toggleNavBar()"></i>
+  <div class="sidebar" [ngClass]="{'expanded' :  navbarExpanded()} ">   
     <ng-container *ngIf="navbarExpanded()">
-      <ng-container *ngIf="current"> 
-        <ng-container *ngComponentOutlet="current"></ng-container>
-      </ng-container>
+        <router-outlet></router-outlet>
     </ng-container>  
   </div>
 </div>

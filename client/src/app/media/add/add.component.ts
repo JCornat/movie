@@ -1,5 +1,5 @@
-import { Router } from '@angular/router';
-import { Directive, ElementRef, inject, OnInit, ViewChild, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Directive, ElementRef, inject, OnInit, ViewChild, Input, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { GameService } from '@app/game/game.service';
@@ -13,8 +13,15 @@ import * as Global from '@shared/global/global';
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
   @ViewChild('inputFile', {static: false}) inputFile!: ElementRef;
-  @Input() id?: string;
+  #activatedRoute = inject(ActivatedRoute);  
 
+  constructor(){
+    this.#activatedRoute.paramMap.subscribe( (params) => {
+        this.id.set(params.get('id') as string);
+    })
+  }
+
+  id = signal<string>('');
   loading!: boolean;
   error!: string | null;
   mediaForm!: FormGroup;
@@ -25,8 +32,8 @@ export abstract class MediaAddComponent implements OnInit {
   router = inject(Router);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  ngOnInit(): void {
-    this.init();
+  ngOnInit(): void {    
+    this.init();   
   }
 
   init(): void {
@@ -79,7 +86,7 @@ export abstract class MediaAddComponent implements OnInit {
       return;
     }
 
-    await this.mediaService.delete(this.id);
+    await this.mediaService.delete(this.id());
     this.navigateBack();
   }
 
