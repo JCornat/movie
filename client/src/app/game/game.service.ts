@@ -6,11 +6,12 @@ import { ImportMedia } from '@app/media/media';
 import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
+import { MediaService } from '@app/media/media.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
+export class GameService extends MediaService {
   requestService = inject(RequestService);
 
   async pullAll(): Promise<Game[]> {

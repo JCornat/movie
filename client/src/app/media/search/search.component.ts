@@ -7,6 +7,7 @@ import { ImportMedia } from '@app/media/media';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
+import { MediaService } from '../media.service';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
@@ -18,10 +19,14 @@ export abstract class MediaSearchComponent implements OnInit {
   loading!: boolean;
   error!: string;
   router = inject(Router);
-  abstract mediaService: SerieService | MovieService | GameService;
+  abstract mediaService: MediaService;
 
   ngOnInit(): void {
     this.init();
+    if(this.mediaService?.getCache() != null){
+      console.log(this.mediaService?.getCache())
+      this.searchResults = this.mediaService.getCache();
+    }
   }
 
   init(): void {
@@ -43,6 +48,7 @@ export abstract class MediaSearchComponent implements OnInit {
 
     try {
       this.searchResults = await this.mediaService.search(title);
+      this.mediaService.setCache(this.searchResults);
     } catch (error) {
       this.error = (error as any).message;
     } finally {
@@ -51,6 +57,7 @@ export abstract class MediaSearchComponent implements OnInit {
   }
 
   select(result: ImportMedia): void {
+
     this.navigateImport(result.importId);
   }
 

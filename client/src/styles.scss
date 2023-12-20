@@ -55,17 +55,27 @@
   }
 }
 
-.main-container{
-  flex-grow: 1;
+.shadow-bg
+{
+  position: fixed;
+  top:0px;
+  z-index: 30;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0.3;
 }
 
 .sidebar{
-  position: sticky;
+  position: fixed;
+  z-index: 35;
   top:0px;
+  right: 0px;
   width: 0px;
   height: 100vh;
   transition: 0.3s all ease-in-out;
   border-left: 1px solid #dbe2df;
+  background-color: #242323;
 
   &.expanded{
     width: 650px;

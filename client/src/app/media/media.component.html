@@ -1,77 +1,76 @@
-<div class="flex">
-  <div class="main-container">
-     <div class="navigation">
-      <div class="link">
-        <ng-container *ngFor="let link of links; index as i">
-          <div class="bold cursor-pointer" [ngClass]="{'opacity-3': !link.active}">
-            <a [routerLink]="link.path" class="p-8 reset">{{link.label}}</a>
-          </div>
-        </ng-container>
-      </div>
+<div [ngClass]="{'shadow-bg' :  navbarExpanded()}" (click)="closeNavbar($event)"></div>
+<aside class="sidebar" [ngClass]="{'expanded' :  navbarExpanded()} ">   
+  <ng-container *ngIf="navbarExpanded()">
+      <router-outlet></router-outlet>
+  </ng-container>  
+</aside> 
 
-      <div class="search">
-        <form [formGroup]="searchForm">
-          <div style="position: relative; width: 100%; text-align: right;">
-            <input type="text" formControlName="search" placeholder="Search"/>
-            <i class="icon icon-search"></i>
-          </div>
-        </form>
-
-        <ng-container *ngIf="isLogged()">
-          <div class="ml-8">
-            <button (click)="navigateSearch()">
-              <i class="icon icon-add"></i>
-            </button>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-
-    <ng-container *ngFor="let category of displayList; trackBy: trackByFn">
-      <ng-container *ngIf="category.media && category.media.length > 0">
-        <div class="mx-16 flex" style="align-items: baseline;">
-          <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>
-          <div class="fill"></div>
-          <div class="flex">
-            <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</div>
-            <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'alphabetic'}" (click)="sort(category, 'alphabetic')">A-Z</div>
-            <div class="bold cursor-pointer" [ngClass]="{'opacity-3': category.orderBy !== 'chronologic'}" (click)="sort(category, 'chronologic')">Year</div>
-          </div>
-        </div>
-
-        <div class="media-container" style="margin-bottom: 64px;">
-          <ng-container *ngFor="let game of category.media; index as i">
-            <ng-container *ngIf="i < category.limit">
-              <media-item [data]="game" (click)="navigateUpdate(game)"></media-item>
-            </ng-container>
-          </ng-container>
-
-          <ng-container *ngIf="category.limit < category.media.length">
-            <div class="media blur cursor-pointer" (click)="increaseLimit(category)">
-              <div class="poster-container">
-                <div class="poster">
-                  <picture>
-                    <ng-container *ngIf="category.media[category.limit].urlWebp">
-                      <source [srcset]="category.media[category.limit].urlWebp" type="image/webp">
-                    </ng-container>
-
-                    <img [src]="category.media[category.limit].url" alt="Description" fill="true">
-                  </picture>
-                </div>
-              </div>
-
-              <div class="content">
-                <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.media.length - category.limit}} more</div>
-              </div>
-            </div>
-          </ng-container>
+    <div class="navigation">
+    <div class="link">
+      <ng-container *ngFor="let link of links; index as i">
+        <div class="bold cursor-pointer" [ngClass]="{'opacity-3': !link.active}">
+          <a [routerLink]="link.path" class="p-8 reset">{{link.label}}</a>
         </div>
       </ng-container>
+    </div>
+
+    <div class="search">
+      <form [formGroup]="searchForm">
+        <div style="position: relative; width: 100%; text-align: right;">
+          <input type="text" formControlName="search" placeholder="Search"/>
+          <i class="icon icon-search"></i>
+        </div>
+      </form>
+
+      <ng-container *ngIf="isLogged()">
+        <div class="ml-8">
+          <button (click)="navigateSearch()">
+            <i class="icon icon-add"></i>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngFor="let category of displayList; trackBy: trackByFn">
+    <ng-container *ngIf="category.media && category.media.length > 0">
+      <div class="mx-16 flex" style="align-items: baseline;">
+        <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>
+        <div class="fill"></div>
+        <div class="flex">
+          <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</div>
+          <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'alphabetic'}" (click)="sort(category, 'alphabetic')">A-Z</div>
+          <div class="bold cursor-pointer" [ngClass]="{'opacity-3': category.orderBy !== 'chronologic'}" (click)="sort(category, 'chronologic')">Year</div>
+        </div>
+      </div>
+
+      <div class="media-container" style="margin-bottom: 64px;">
+        <ng-container *ngFor="let game of category.media; index as i">
+          <ng-container *ngIf="i < category.limit">
+            <media-item [data]="game" (click)="navigateUpdate(game)"></media-item>
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="category.limit < category.media.length">
+          <div class="media blur cursor-pointer" (click)="increaseLimit(category)">
+            <div class="poster-container">
+              <div class="poster">
+                <picture>
+                  <ng-container *ngIf="category.media[category.limit].urlWebp">
+                    <source [srcset]="category.media[category.limit].urlWebp" type="image/webp">
+                  </ng-container>
+
+                  <img [src]="category.media[category.limit].url" alt="Description" fill="true">
+                </picture>
+              </div>
+            </div>
+
+            <div class="content">
+              <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.media.length - category.limit}} more</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </ng-container>
-  </div>
-  <div class="sidebar" [ngClass]="{'expanded' :  navbarExpanded()} ">   
-    <ng-container *ngIf="navbarExpanded()">
-        <router-outlet></router-outlet>
-    </ng-container>  
-  </div>
-</div>
+  </ng-container> 
+

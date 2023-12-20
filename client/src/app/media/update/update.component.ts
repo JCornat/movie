@@ -16,7 +16,9 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
 
   async performFetch(id:string){
     this.error = null;
-    this.loading = true;
+    if(this.mediaForm?.getRawValue() == null){
+      this.loading = true;
+    }
 
     try {
       const values = await this.pullOne(id);

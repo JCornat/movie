@@ -6,12 +6,14 @@ import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
 import { Serie } from './serie';
+import { MediaService } from '@app/media/media.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SerieService {
+export class SerieService extends MediaService {
   requestService = inject(RequestService);
+
 
   async pullAll(): Promise<Serie[]> {
     const optionsQuery: Request = {

@@ -50,13 +50,14 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
            Template
   \*-----------------------*/
 
-  toggleNavBar(overrideState?: boolean){
-    if(overrideState){
-      this.navbarExpanded.set(overrideState);
-      return;
-    }
-    
-    this.navbarExpanded.set(!this.navbarExpanded());
+  closeNavbar(event:Event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.toggleNavBar(false);
+  }
+
+  toggleNavBar(overrideState?: boolean){    
+    this.navbarExpanded.set(overrideState ?? !this.navbarExpanded());
   }
 
   increaseLimit(item: Category): void {
