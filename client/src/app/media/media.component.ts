@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnDestroy, OnInit, signal, Signal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
-  displayList!: Category[];
+  displayList = signal<Category[]>([]);
   categories!: Category[];
   searchCategories!: Category[];
   resizeSubscriber!: Subscription;
@@ -40,6 +40,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.buildForm();
     this.subscribeResize();
     this.pullAll();
+    this.syncSignalService();
   }
 
   ngOnDestroy(): void {
@@ -111,8 +112,12 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.media = await this.mediaService.pullAll();
     this.shuffle(this.media);
 
-    this.categories = this.processCategories(this.media);
+    this.categories = this.processCategories(this.media)
     this.processDisplayList();
+  }
+
+  syncSignalService(){
+    this.mediaService.setMediaSignal(this.displayList);
   }
 
   /*-----------------------*\
@@ -120,7 +125,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   \*-----------------------*/
 
   processDisplayList(): void {
-    this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
+    this.displayList.set((this.formData?.search) ? this.searchCategories : this.categories);
   }
 
   processCategories(data: Media[], search?: string): Category[] {

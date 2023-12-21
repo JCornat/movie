@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <ng-container *ngFor="let category of displayList; trackBy: trackByFn">
+  <ng-container *ngFor="let category of displayList(); trackBy: trackByFn">
     <ng-container *ngIf="category.media && category.media.length > 0">
       <div class="mx-16 flex" style="align-items: baseline;">
         <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>

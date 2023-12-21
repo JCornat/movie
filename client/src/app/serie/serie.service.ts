@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
-import { ImportMedia } from '@app/media/media';
+import { ImportMedia, Media } from '@app/media/media';
 import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
@@ -76,7 +76,11 @@ export class SerieService extends MediaService {
       },
     };
 
-    await lastValueFrom(this.requestService.put(optionsQuery));
+    const result = await lastValueFrom(this.requestService.put(optionsQuery));
+    if( !result || result.status !== 200)
+      return;
+
+    this.updateMedia(options);
   }
 
   async add(options: { [key: string]: any }): Promise<void> {
@@ -87,7 +91,12 @@ export class SerieService extends MediaService {
       },
     };
 
-    await lastValueFrom(this.requestService.post(optionsQuery));
+    const result = await lastValueFrom(this.requestService.post(optionsQuery));
+    if( !result || result.data == null)
+    return;
+
+    const id = result.data;
+    this.addMedia({...options,id} as Media);
   }
 
   async delete(id: string): Promise<void> {
@@ -95,6 +104,10 @@ export class SerieService extends MediaService {
       url: `/api/serie/${id}`,
     };
 
-    await lastValueFrom(this.requestService.delete(optionsQuery));
+    const result = await lastValueFrom(this.requestService.delete(optionsQuery));
+    if( !result || result.status !== 200)
+      return;
+
+    this.removeMedia(id);
   }
 }

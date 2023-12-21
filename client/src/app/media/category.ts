@@ -7,4 +7,5 @@ export interface Category {
   limit: number;
   orderBy: string;
   media: (Game | Movie | Serie)[];
+  value?: number | string;
 }
