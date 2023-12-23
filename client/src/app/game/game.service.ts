@@ -104,6 +104,7 @@ export class GameService extends MediaService {
     const optionsQuery = {
       url: `/api/game/${id}`,
     };    
+    
     const result = await lastValueFrom(this.requestService.delete(optionsQuery));
     if( !result || result.status !== 200)
       return;

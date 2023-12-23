@@ -82,6 +82,10 @@
     height: 100vh;
     box-shadow: 8px 10px 20px 2px #dbe2df;
     transition: 0.3s all ease-in-out;
+
+    @media (max-width: $minMedium) {
+      width: 80%;
+    }
   }
 }
 

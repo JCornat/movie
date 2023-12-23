@@ -1,4 +1,4 @@
-import { Directive, inject, OnInit } from '@angular/core';
+import { Directive, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -20,6 +20,11 @@ export abstract class MediaSearchComponent implements OnInit {
   error!: string;
   router = inject(Router);
   abstract mediaService: MediaService;
+  @ViewChild("searchInput") private _inputElement!: ElementRef;
+
+  ngAfterViewInit(): void {
+    this._inputElement.nativeElement.focus();
+}
 
   ngOnInit(): void {
     this.init();
