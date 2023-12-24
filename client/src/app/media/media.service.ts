@@ -26,33 +26,43 @@ export abstract class MediaService {
 
   // Signals Media
 
-  addMedia( media: Media){
-    this.#mediaSignal.update( (values:Category[]) => {
+  addMedia(media: Media) {
+    this.#mediaSignal.update((values: Category[]) => {
       const data = [...values];
-      data.find( (category:Category) => category.value === media.rating)?.media.push(media);
-      return data;
-      });
-  }
-
-  removeMedia( id: string ){
-    this.#mediaSignal.update( (values:Category[]) => {
-      const data = [...values];
-      for (const datum of data) {
-        datum.media = datum.media.filter( media => media.id !== id);
-      }
-    
+      data
+        .find((category: Category) => category.value === media.rating)
+        ?.media.push(media);
       return data;
     });
   }
 
-  updateMedia(obj:any){
-    this.#mediaSignal.update( (values) => {
+  removeMedia(id: string) {
+    this.#mediaSignal.update((values: Category[]) => {
       const data = [...values];
-      data.forEach(category => {
-        const foundMedia = category.media.find(media => media.id === obj.id);     
-        if (foundMedia) {
-          Object.assign(foundMedia, obj);
+      for (const datum of data) {
+        datum.media = datum.media.filter((media) => media.id !== id);
+      }
+
+      return data;
+    });
+  }
+
+  updateMedia(obj: any) {
+    this.#mediaSignal.update((values) => {
+      const data = [...values];
+      data.forEach((category) => {
+        const foundMedia = category.media.find((media) => media.id === obj.id);
+        if (!foundMedia) return;
+        
+        const index = category.media.indexOf(foundMedia);     
+        category.media.splice(index, 1);
+                
+        const newCategory = data.find((c) => c.value === obj.rating);
+        if (newCategory) {
+          newCategory.media.push(foundMedia);
         }
+
+        Object.assign(foundMedia, obj);
       });
       return data;
     });
