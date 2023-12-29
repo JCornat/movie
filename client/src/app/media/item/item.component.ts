@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 
 import { Media } from '@app/media/media';
 import { SERVER_URL } from '@shared/config/config';
@@ -9,7 +9,7 @@ import * as Global from '@shared/global/global';
   selector: 'media-item',
   templateUrl: './item.component.html',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [NgOptimizedImage],
 })
 export class MediaItemComponent implements OnInit {
   @Input() data!: { [key: string]: any };

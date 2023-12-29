@@ -25,32 +25,29 @@
       </div>
     </div>
 
-    <ng-container *ngIf="error">
+    @if (error) {
       <div class="mb-8">
         <div style="color: red">{{error}}</div>
       </div>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="loading">
+    @if (loading) {
       <div class="card mb-16" style="text-align: center;">
         <i class="icon icon-sync text-xl spin"></i>
       </div>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="!loading && searchResults">
+    @if (!loading && searchResults) {
       <div class="bold text-lg mb-16">Results</div>
-
       <div class="card">
-        <ng-container *ngIf="searchResults.length === 0">
+        @if (searchResults.length === 0) {
           No result
-        </ng-container>
-
-        <ng-container *ngIf="searchResults.length > 0">
-          <ng-container *ngFor="let result of searchResults">
+        } @else {
+          @for (result of searchResults; track result) {
             <div class="row clickable p-12" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
-          </ng-container>
-        </ng-container>
+          }
+        }
       </div>
-    </ng-container>
+    }
   </div>
 </div>

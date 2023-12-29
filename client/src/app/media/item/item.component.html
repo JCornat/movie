@@ -1,23 +1,22 @@
 <div class="media">
   <div class="poster-container">
     <div class="poster">
-      <ng-container *ngIf="data.url">
-        <ng-container *ngIf="!dynamic">
+      @if (data.url) {
+        @if (!dynamic) {
           <picture>
-            <ng-container *ngIf="data.urlWebp">
+            @if (data.urlWebp) {
               <source [srcset]="data.urlWebp" type="image/webp">
-            </ng-container>
-
+            }
             <img [ngSrc]="data.url" [alt]="data.title" fill="true">
           </picture>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="dynamic">
+        @if (dynamic) {
           <picture>
             <img [src]="data.url" [alt]="'Image ' + data.title" style="position: absolute; width: 100%; height: 100%; inset: 0px;">
           </picture>
-        </ng-container>
-      </ng-container>
+        }
+      }
     </div>
   </div>
 

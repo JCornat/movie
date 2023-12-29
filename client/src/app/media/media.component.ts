@@ -66,10 +66,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     item.media = Global.sort({ data: item.media, key });
   }
 
-  trackByFn(index: number, data: Category): string {
-    return data.label;
-  }
-
   /*-----------------------*\
            Navigation
   \*-----------------------*/

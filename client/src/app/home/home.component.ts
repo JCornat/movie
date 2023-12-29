@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 import { Game } from '@app/game/game';
@@ -21,7 +21,7 @@ interface MediaListElement {
   selector: 'app-home',
   templateUrl: './home.component.html',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, RouterModule],
+  imports: [NgOptimizedImage, RouterModule],
 })
 export class HomeComponent implements OnInit {
   mediaList!: MediaListElement[];
@@ -47,10 +47,6 @@ export class HomeComponent implements OnInit {
   /*-----------------------*\
            Template
   \*-----------------------*/
-
-  trackByFn(index: number, data: MediaListElement): string {
-    return data.title;
-  }
 
   selectMedia(media: { title: string, url: string }): void {
     this.router.navigate([media.url]);
