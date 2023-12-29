@@ -1,10 +1,10 @@
 <div class="navigation">
   <div class="link">
-    <ng-container *ngFor="let link of links; index as i">
+    @for (link of links; track link; let i = $index) {
       <div class="bold cursor-pointer" [ngClass]="{'opacity-3': !link.active}">
         <a [routerLink]="link.path" class="p-8 reset">{{link.label}}</a>
       </div>
-    </ng-container>
+    }
   </div>
 
   <div class="search">
@@ -15,18 +15,18 @@
       </div>
     </form>
 
-    <ng-container *ngIf="isLogged()">
+    @if (isLogged()) {
       <div class="ml-8">
         <button (click)="navigateSearch()">
           <i class="icon icon-add"></i>
         </button>
       </div>
-    </ng-container>
+    }
   </div>
 </div>
 
-<ng-container *ngFor="let category of displayList; trackBy: trackByFn">
-  <ng-container *ngIf="category.media && category.media.length > 0">
+@for (category of displayList; track category.label) {
+  @if (category.media && category.media.length > 0) {
     <div class="mx-16 flex" style="align-items: baseline;">
       <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>
       <div class="fill"></div>
@@ -38,20 +38,20 @@
     </div>
 
     <div class="media-container" style="margin-bottom: 64px;">
-      <ng-container *ngFor="let game of category.media; index as i">
-        <ng-container *ngIf="i < category.limit">
+      @for (game of category.media; track game; let i = $index) {
+        @if (i < category.limit) {
           <media-item [data]="game" (click)="navigateUpdate(game)"></media-item>
-        </ng-container>
-      </ng-container>
+        }
+      }
 
-      <ng-container *ngIf="category.limit < category.media.length">
+      @if (category.limit < category.media.length) {
         <div class="media blur cursor-pointer" (click)="increaseLimit(category)">
           <div class="poster-container">
             <div class="poster">
               <picture>
-                <ng-container *ngIf="category.media[category.limit].urlWebp">
+                @if (category.media[category.limit].urlWebp) {
                   <source [srcset]="category.media[category.limit].urlWebp" type="image/webp">
-                </ng-container>
+                }
 
                 <img [src]="category.media[category.limit].url" alt="Description" fill="true">
               </picture>
@@ -62,7 +62,7 @@
             <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.media.length - category.limit}} more</div>
           </div>
         </div>
-      </ng-container>
+      }
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

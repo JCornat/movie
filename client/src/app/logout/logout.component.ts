@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
@@ -8,7 +8,7 @@ import { AuthenticationService } from '@shared/authentication/authentication.ser
   selector: 'app-logout',
   templateUrl: './logout.component.html',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
 })
 export class LogoutComponent implements OnInit {
   authenticationService = inject(AuthenticationService);

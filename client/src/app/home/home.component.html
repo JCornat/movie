@@ -1,4 +1,4 @@
-<ng-container *ngFor="let item of mediaList; trackBy: trackByFn">
+@for (item of mediaList; track item.title) {
   <div class="presentation" (click)="selectMedia(item)">
     <div class="text">
       <div class="title">{{item.title}}</div>
@@ -9,8 +9,8 @@
     </div>
 
     <div class="background">
-      <ng-container *ngIf="item.data().length > 0">
-        <ng-container *ngFor="let data of item.data()">
+      @if (item.data().length > 0) {
+        @for (data of item.data(); track data.id) {
           <div class="media">
             <div class="poster">
               <picture>
@@ -19,8 +19,8 @@
               </picture>
             </div>
           </div>
-        </ng-container>
-      </ng-container>
+        }
+      }
     </div>
   </div>
-</ng-container>
+}

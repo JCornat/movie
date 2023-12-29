@@ -20,24 +20,17 @@
       </div>
 
       <div class="mb-16 flex" style="position: relative; cursor: pointer;" (click)="toggleStayConnected()">
-        <ng-container *ngIf="formData?.stayLogged">
-          <i class="icon icon-check-box mr-8"></i>
-        </ng-container>
-
-        <ng-container *ngIf="!formData?.stayLogged">
-          <i class="icon icon-check-box-outline-blank mr-8"></i>
-        </ng-container>
-
+        <i class="icon mr-8" [ngClass]="{'icon-check-box': formData?.stayLogged, 'icon-check-box-outline-blank': !formData?.stayLogged}"></i>
         Stay connected
       </div>
     </form>
   </div>
 
-  <ng-container *ngIf="error">
+  @if (error) {
     <div class="mb-8">
       <div style="color: red">{{error}}</div>
     </div>
-  </ng-container>
+  }
 
   <div class="flex">
     <div class="fill"></div>
