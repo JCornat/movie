@@ -63,64 +63,64 @@ export class ThemeService {
 
   setLightTheme(): void {
     const color = {
-      'background': '#eceff1',
+      background: '#eceff1',
       'on-background': '#000000',
-      'primary': '#2979ff',
+      primary: '#2979ff',
       'on-primary': '#ffffff',
-      'secondary': '#3f51b5',
+      secondary: '#3f51b5',
       'on-secondary': '#000000',
-      'surface': '#fafafa',
+      surface: '#fafafa',
       'on-surface': '#000000',
-      'error': '#cf6679',
+      error: '#cf6679',
       'on-error': '#000000',
-      'success': '#4caf50',
+      success: '#4caf50',
       'on-success': '#000000',
-      'warning': '#ff9800',
+      warning: '#ff9800',
       'on-warning': '#000000',
-      'link': '#1976d2',
-      'navbar': '#19212b',
+      link: '#1976d2',
+      navbar: '#19212b',
       'on-navbar': '#ffffff',
       'on-navbar-primary': '#4fc3f7',
-      'admission': '#9C27B0',
+      admission: '#9C27B0',
       'on-admission': '#ffffff',
-      'operation': '#F44336',
+      operation: '#F44336',
       'on-operation': '#ffffff',
-      'exit': '#4CAF50',
+      exit: '#4CAF50',
       'on-exit': '#ffffff',
     };
 
-    this.applyColors(color, {convertToRgb: true});
+    this.applyColors(color, { convertToRgb: true });
   }
 
   setDarkTheme(): void {
     const color = {
-      'background': '#2d333c',
+      background: '#2d333c',
       'on-background': '#ffffff',
-      'primary': '#0043b3',
+      primary: '#0043b3',
       'on-primary': '#ffffff',
-      'secondary': '#03dac6',
+      secondary: '#03dac6',
       'on-secondary': '#ffffff',
-      'surface': '#1d1d1d',
+      surface: '#1d1d1d',
       'on-surface': '#ffffff',
-      'error': '#cf6679',
+      error: '#cf6679',
       'on-error': '#ffffff',
-      'success': '#4caf50',
+      success: '#4caf50',
       'on-success': '#ffffff',
-      'warning': '#ff9800',
+      warning: '#ff9800',
       'on-warning': '#ffffff',
-      'link': '#1976d2',
-      'navbar': '#19212b',
+      link: '#1976d2',
+      navbar: '#19212b',
       'on-navbar': '#ffffff',
       'on-navbar-primary': '#4fc3f7',
-      'admission': '#9C27B0',
+      admission: '#9C27B0',
       'on-admission': '#ffffff',
-      'operation': '#F44336',
+      operation: '#F44336',
       'on-operation': '#ffffff',
-      'exit': '#4CAF50',
+      exit: '#4CAF50',
       'on-exit': '#ffffff',
     };
 
-    this.applyColors(color, {convertToRgb: true});
+    this.applyColors(color, { convertToRgb: true });
   }
 
   applyColors(data: any, options: { convertToRgb?: boolean } = {}): void {

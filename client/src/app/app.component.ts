@@ -10,13 +10,10 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterModule,
-  ],
+  imports: [RouterModule],
   template: `
     <router-outlet></router-outlet>
   `,
-  styles: []
 })
 export class AppComponent implements OnInit {
   authenticationService = inject(AuthenticationService); // Keep to fire AuthenticationService constructor

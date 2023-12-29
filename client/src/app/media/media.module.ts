@@ -4,14 +4,8 @@ import { NgModule } from '@angular/core';
 import { MediaItemComponent } from '@app/media/item/item.component';
 
 @NgModule({
-  exports: [
-    MediaItemComponent,
-  ],
-  imports: [
-    CommonModule,
-    MediaItemComponent,
-    NgOptimizedImage,
-  ],
+  exports: [MediaItemComponent],
+  imports: [CommonModule, MediaItemComponent, NgOptimizedImage],
 })
 export class MediaModule {
   //

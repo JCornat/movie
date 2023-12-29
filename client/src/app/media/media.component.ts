@@ -63,7 +63,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     }
 
     const key = (type === 'alphabetic') ? 'title' : 'year';
-    item.media = Global.sort({data: item.media, key});
+    item.media = Global.sort({ data: item.media, key });
   }
 
   trackByFn(index: number, data: Category): string {
@@ -214,10 +214,10 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
   buildLinks(): void {
     this.links = [
-      {label: 'Home', path: '/'},
-      {label: 'Movies', path: '/movie', active: this.type === 'movie'},
-      {label: 'Series', path: '/serie', active: this.type === 'serie'},
-      {label: 'Games', path: '/game', active: this.type === 'game'},
+      { label: 'Home', path: '/' },
+      { label: 'Movies', path: '/movie', active: this.type === 'movie' },
+      { label: 'Series', path: '/serie', active: this.type === 'serie' },
+      { label: 'Games', path: '/game', active: this.type === 'game' },
     ];
   }
 
@@ -226,7 +226,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
     if (Global.isEmpty(type)) {
-      throw {status: 400, method: 'MediaComponent.buildType', message: `Type unknown`};
+      throw { status: 400, method: 'MediaComponent.buildType', message: `Type unknown` };
     }
 
     this.type = type as 'movie' | 'serie' | 'game';

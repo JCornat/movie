@@ -21,11 +21,7 @@ interface MediaListElement {
   selector: 'app-home',
   templateUrl: './home.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    RouterModule,
-  ],
+  imports: [CommonModule, NgOptimizedImage, RouterModule],
 })
 export class HomeComponent implements OnInit {
   mediaList!: MediaListElement[];

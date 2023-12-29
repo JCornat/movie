@@ -11,11 +11,7 @@ import { MovieService } from '@app/movie/movie.service';
   templateUrl: '../../media/add/add.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    MediaItemComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, MediaItemComponent, ReactiveFormsModule],
 })
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
   mediaService = inject(MovieService);

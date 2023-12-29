@@ -8,7 +8,7 @@ import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameService {
   requestService = inject(RequestService);
@@ -44,7 +44,7 @@ export class GameService {
   }
 
   processPullOne(data: Game): Game {
-    const tmp = this.processPullAll({data: [data]});
+    const tmp = this.processPullAll({ data: [data] });
     return tmp[0];
   }
 

@@ -8,7 +8,7 @@ import { SERVER_URL } from '@shared/config/config';
 import { Serie } from './serie';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SerieService {
   requestService = inject(RequestService);
@@ -44,7 +44,7 @@ export class SerieService {
   }
 
   processPullOne(data: Serie): Serie {
-    const tmp = this.processPullAll({data: [data]});
+    const tmp = this.processPullAll({ data: [data] });
     return tmp[0];
   }
 
