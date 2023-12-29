@@ -1,5 +1,5 @@
 import 'module-alias/register';
-import * as express from 'express';
+import express from 'express';
 import * as http from 'http';
 
 import * as AssetMiddleware from './middleware/asset';

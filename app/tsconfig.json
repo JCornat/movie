@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "noImplicitAny": false,
     "sourceMap": true,
     "baseUrl": ".",
-    "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "lib": [
-      "esnext"
+      "ES2022"
     ],
     "typeRoots": [
       "node_modules/@types"

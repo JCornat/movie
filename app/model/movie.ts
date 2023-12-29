@@ -25,7 +25,7 @@ export function getOne(id: string): Movie {
 }
 
 export async function add(options: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
-  return store.add(options);
+  return await store.add(options);
 }
 
 export async function remove(id: string): Promise<void> {

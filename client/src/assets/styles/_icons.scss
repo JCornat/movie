@@ -1,9 +1,9 @@
 @font-face {
   font-family: '<%= fontName %>';
-  src: url('#{$generatedFontPath}/<%= fontName %>.eot');
-  src: url('#{$generatedFontPath}/<%= fontName %>.eot?#iefix') format('eot'),
-  url('#{$generatedFontPath}/<%= fontName %>.woff') format('woff'),
-  url('#{$generatedFontPath}/<%= fontName %>.ttf') format('truetype');
+  src: url('./<%= fontName %>.eot');
+  src: url('./<%= fontName %>.eot?#iefix') format('eot'),
+  url('./<%= fontName %>.woff') format('woff'),
+  url('./<%= fontName %>.ttf') format('truetype');
 }
 
 .<%= cssClass %> {

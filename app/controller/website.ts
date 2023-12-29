@@ -19,7 +19,7 @@ router.get(regexp, async (req: Request, res: C7zResponse, next: any) => {
     const filePath = path.join(__dirname, '..', 'www', 'index.html');
     await res.sendFileAsync(filePath);
   } catch (error) {
-    return next({status: 404, message: 'File not found'});
+    return next({ status: 404, message: 'File not found' });
   }
 });
 
@@ -28,6 +28,6 @@ router.get('/robots.txt', async (req: Request, res: C7zResponse, next: any) => {
     const filePath = path.join(__dirname, '..', 'public', 'robots.txt');
     await res.sendFileAsync(filePath);
   } catch (error) {
-    return next({status: 404, message: 'File not found'});
+    return next({ status: 404, message: 'File not found' });
   }
 });

@@ -18,7 +18,7 @@ function getMedia(media: string): any {
     case 'serie':
       return Serie;
     default:
-      throw {status: 400, method: 'Media.getMedia', message: `Paramètres invalides`};
+      throw { status: 400, method: 'Media.getMedia', message: `Paramètres invalides` };
   }
 }
 
@@ -36,7 +36,7 @@ router.get('/api/:media(game|movie|serie)', async (req: Request, res: C7zRespons
       data = await media.getAll();
     }
 
-    res.send({data});
+    res.send({ data });
   } catch (error) {
     return next(error);
   }
@@ -48,7 +48,7 @@ router.get('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async
     const id = req.params.id;
 
     const data = await media.getOne(id);
-    res.send({data});
+    res.send({ data });
   } catch (error) {
     return next(error);
   }
@@ -60,7 +60,7 @@ router.get('/api/:media(game|movie|serie)/:id/import', Authentication.isLogged()
     const id = req.params.id;
 
     const data = await media.importOne(id);
-    res.send({data});
+    res.send({ data });
   } catch (error) {
     return next(error);
   }
@@ -77,7 +77,7 @@ router.put('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async
     };
 
     await media.update(id, options);
-    res.send({status: 200});
+    res.send({ status: 200 });
   } catch (error) {
     return next(error);
   }
@@ -89,7 +89,7 @@ router.post('/api/:media(game|movie|serie)', Authentication.isLogged(), async (r
     const body = req.body;
 
     const data = await media.add(body);
-    res.send({data});
+    res.send({ data });
   } catch (error) {
     return next(error);
   }
@@ -101,7 +101,7 @@ router.delete('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), as
     const id = req.params.id;
 
     await media.remove(id);
-    res.send({status: 200});
+    res.send({ status: 200 });
   } catch (error) {
     return next(error);
   }

@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { Request } from 'express';
 
 import { C7zResponse } from '../class/response';

@@ -25,13 +25,13 @@ export interface ImportMedia {
 }
 
 export class Store<T> {
-  public collection: T;
-  public name: string;
-  public filePath: string;
+  collection: T;
+  name: string;
+  filePath: string;
 
   constructor(name: string) {
     if (Global.isEmpty(name)) {
-      throw {status: 400, method: 'Store.constructor', message: `Paramètres invalides`};
+      throw { status: 400, method: 'Store.constructor', message: `Paramètres invalides` };
     }
 
     this.name = name;
@@ -65,7 +65,7 @@ export class Store<T> {
   getOne(id: string): T {
     const res = this.collection[id];
     if (Global.isEmpty(res)) {
-      throw {status: 500, method: 'Store.getOne', message: `Media not found`};
+      throw { status: 500, method: 'Store.getOne', message: `Media not found` };
     }
 
     return res;
@@ -75,7 +75,7 @@ export class Store<T> {
     const id = Random.generate();
 
     if (data.url) {
-      await Image.downloadAndConvert({sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg']});
+      await Image.downloadAndConvert({ sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg'] });
     }
 
     delete data.url;
@@ -93,7 +93,7 @@ export class Store<T> {
     this.getOne(id); // Get one to check if existing
 
     if (data.url && !data.url.includes(URL)) { // If url contains server url, no need to download
-      await Image.downloadAndConvert({sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg']});
+      await Image.downloadAndConvert({ sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg'] });
     }
 
     delete data.url;
@@ -110,7 +110,7 @@ export class Store<T> {
     this.getOne(id); // Get one to check if existing
     delete this.collection[id];
 
-    await Image.remove({basename: id, extensions: ['webp', 'jpg']});
+    await Image.remove({ basename: id, extensions: ['webp', 'jpg'] });
     await this.save();
   }
 }

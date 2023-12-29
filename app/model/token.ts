@@ -36,7 +36,7 @@ export function verify(token: string, options: any = {}): any {
 export function handleError(errorName: string): null {
   switch (errorName) {
     case 'TokenExpiredError':
-      throw {status: 401, message: 'TokenExpiredError'};
+      throw { status: 401, message: 'TokenExpiredError' };
     case 'JsonWebTokenError':
     default:
       return null;
@@ -44,7 +44,7 @@ export function handleError(errorName: string): null {
 }
 
 export function sign(data: any): string {
-  return jwt.sign(data, TOKEN_SIGNATURE, {expiresIn: TOKEN_EXPIRATION});
+  return jwt.sign(data, TOKEN_SIGNATURE, { expiresIn: TOKEN_EXPIRATION });
 }
 
 export function addRefresh(data: string): void {
@@ -53,13 +53,13 @@ export function addRefresh(data: string): void {
 
 export async function checkRefresh(stringToken: any, refreshToken: string): Promise<any> {
   if (Global.isEmpty(stringToken) || Global.isEmpty(refreshToken)) {
-    throw {status: 400, message: 'Paramètres invalides'};
+    throw { status: 400, message: 'Paramètres invalides' };
   }
 
-  const token: any = decode(stringToken, {ignoreExpiration: true});
+  const token: any = decode(stringToken, { ignoreExpiration: true });
 
   if (Global.isEmpty(refreshTokens)) {
-    throw {status: 401, message: 'Reconnexion nécessaire'};
+    throw { status: 401, message: 'Reconnexion nécessaire' };
   }
 
   let generate;
@@ -72,7 +72,7 @@ export async function checkRefresh(stringToken: any, refreshToken: string): Prom
   }
 
   if (!generate) {
-    throw {status: 401, message: 'Reconnexion nécessaire'};
+    throw { status: 401, message: 'Reconnexion nécessaire' };
   }
 
   const newToken = { // Recover token information
