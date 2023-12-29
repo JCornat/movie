@@ -8,9 +8,7 @@ import { AuthenticationService } from '@shared/authentication/authentication.ser
   selector: 'app-logout',
   templateUrl: './logout.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
 })
 export class LogoutComponent implements OnInit {
   authenticationService = inject(AuthenticationService);

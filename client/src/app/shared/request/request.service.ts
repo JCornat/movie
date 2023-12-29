@@ -88,7 +88,7 @@ export class RequestService {
 
     const params: any[] = [];
     const requestOptions: {
-      [key: string]: any
+      [key: string]: any;
     } = {
       headers: this.getHeaders(header),
       params: null,
@@ -239,7 +239,7 @@ export class RequestService {
     };
 
     xhr.onload = () => {
-      const blob = new Blob([xhr.response], {type: 'application/pdf'});
+      const blob = new Blob([xhr.response], { type: 'application/pdf' });
       if ((navigator as any).msSaveOrOpenBlob) {
         (navigator as any).msSaveOrOpenBlob(blob, fileName || name);
       } else {

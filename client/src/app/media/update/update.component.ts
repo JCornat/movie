@@ -52,7 +52,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
   \*-----------------------*/
 
   async pullOne(id: string): Promise<Media> {
-    return this.mediaService.pullOne(id);
+    return await this.mediaService.pullOne(id);
   }
 
   async update(data: { [key: string]: any }): Promise<void> {

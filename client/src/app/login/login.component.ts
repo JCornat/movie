@@ -10,10 +10,7 @@ import * as Global from '@shared/global/global';
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class LoginComponent implements OnInit {
   formData!: { [key: string]: any };

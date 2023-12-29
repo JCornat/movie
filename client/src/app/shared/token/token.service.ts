@@ -1,8 +1,7 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 import * as Global from '@shared/global/global';
-
 import { StorageService } from '@shared/storage/storage.service';
 
 @Injectable({

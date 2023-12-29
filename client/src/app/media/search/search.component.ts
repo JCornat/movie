@@ -87,7 +87,7 @@ export abstract class MediaSearchComponent implements OnInit {
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
     if (Global.isEmpty(type)) {
-      throw {status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown`};
+      throw { status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown` };
     }
 
     this.type = type as 'movie' | 'serie' | 'game';

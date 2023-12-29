@@ -11,11 +11,7 @@ import { MediaItemComponent } from '@app/media/item/item.component';
   templateUrl: '../../media/add/add.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    MediaItemComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, MediaItemComponent, ReactiveFormsModule],
 })
 export class GameAddComponent extends MediaAddComponent {
   mediaService = inject(GameService);

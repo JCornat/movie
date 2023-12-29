@@ -9,10 +9,7 @@ import * as Global from '@shared/global/global';
   selector: 'media-item',
   templateUrl: './item.component.html',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-  ],
+  imports: [CommonModule, NgOptimizedImage],
 })
 export class MediaItemComponent implements OnInit {
   @Input() data!: { [key: string]: any };

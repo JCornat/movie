@@ -10,10 +10,7 @@ import { MediaSearchComponent } from '@app/media/search/search.component';
   templateUrl: '../../media/search/search.component.html',
   styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class GameSearchComponent extends MediaSearchComponent {
   mediaService = inject(GameService);

@@ -6,12 +6,12 @@ export interface Request {
   body?: any;
   req?: HttpRequest<any>;
   header?: {
-    timeout?: number,
-    disableAuthentication?: boolean,
-    optionalAuthentication?: boolean,
-    file?: any,
-    reportProgress?: boolean,
-    noHeader?: boolean,
-    responseType?: string,
+    timeout?: number;
+    disableAuthentication?: boolean;
+    optionalAuthentication?: boolean;
+    file?: any;
+    reportProgress?: boolean;
+    noHeader?: boolean;
+    responseType?: string;
   };
 }

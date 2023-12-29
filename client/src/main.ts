@@ -12,8 +12,5 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(),
-  ],
+  providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient()],
 }).catch((error: Error) => console.error(error));

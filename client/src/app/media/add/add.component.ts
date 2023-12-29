@@ -12,7 +12,7 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
-  @ViewChild('inputFile', {static: false}) inputFile!: ElementRef;
+  @ViewChild('inputFile', { static: false }) inputFile!: ElementRef;
   @Input() id?: string;
 
   loading!: boolean;
@@ -100,7 +100,7 @@ export abstract class MediaAddComponent implements OnInit {
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
     if (Global.isEmpty(type)) {
-      throw {status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown`};
+      throw { status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown` };
     }
 
     this.type = type as 'movie' | 'serie' | 'game';
