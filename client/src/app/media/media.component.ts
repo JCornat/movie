@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnDestroy, OnInit, Signal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,30 +12,27 @@ import { RATINGS } from '@app/media/rating';
 import { ScreenService } from '@shared/screen/screen.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
+import { MediaType } from '@app/media/media-type';
+import { HeaderLink } from '@app/media/header-link';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
-  displayList!: Category[];
-  categories!: Category[];
-  searchCategories!: Category[];
-  resizeSubscriber!: Subscription;
-  formData!: { [key: string]: any };
-  media!: Media[];
-  searchForm!: FormGroup;
-  links!: any[];
-  type!: 'movie' | 'serie' | 'game';
   authenticationService = inject(AuthenticationService);
   router = inject(Router);
   screenService = inject(ScreenService);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  isLogged: Signal<boolean> = computed(() => {
-    return this.authenticationService.isLogged();
-  });
+  resizeSubscriber!: Subscription;
+  media!: Media[];
+  searchForm!: FormGroup;
+  formData: WritableSignal<Record<string, any>> = signal({});
+  displayList = this.computeDisplayList();
+  categories: WritableSignal<Category[]> = signal([]);
+  type = this.computeType();
+  links = this.computeLinks();
+  isLogged = this.computeIsLogged();
 
   ngOnInit(): void {
-    this.buildType();
-    this.buildLinks();
     this.buildForm();
     this.subscribeResize();
     this.pullAll();
@@ -94,17 +91,13 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     this.media = await this.mediaService.pullAll();
     this.shuffle(this.media);
 
-    this.categories = this.processCategories(this.media);
-    this.processDisplayList();
+    const categories = this.processCategories(this.media);
+    this.categories.set(categories);
   }
 
   /*-----------------------*\
            Process
   \*-----------------------*/
-
-  processDisplayList(): void {
-    this.displayList = (this.formData?.search) ? this.searchCategories : this.categories;
-  }
 
   processCategories(data: Media[], search?: string): Category[] {
     const limit = this.getLimitByScreenSize();
@@ -152,11 +145,11 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
   subscribeResize(): void {
     this.resizeSubscriber = this.screenService.widthResizeObservable.subscribe(() => {
-      if (Global.isEmpty(this.categories)) {
+      if (Global.isEmpty(this.categories())) {
         return;
       }
 
-      for (const category of this.categories) {
+      for (const category of this.categories()) {
         const newLimit = this.getLimitByScreenSize();
         if (newLimit < category.limit) { // Do not decrease limit when screen is resized
           continue;
@@ -193,9 +186,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   }
 
   onValid(data: { [key: string]: any }): void {
-    this.formData = data;
-    this.searchCategories = this.processCategories(this.media, data.search);
-    this.processDisplayList();
+    this.formData.set(data);
   }
 
   buildForm(): void {
@@ -208,16 +199,24 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     });
   }
 
-  buildLinks(): void {
-    this.links = [
-      { label: 'Home', path: '/' },
-      { label: 'Movies', path: '/movie', active: this.type === 'movie' },
-      { label: 'Series', path: '/serie', active: this.type === 'serie' },
-      { label: 'Games', path: '/game', active: this.type === 'game' },
-    ];
+  /*-----------------------*\
+          Compute
+  \*-----------------------*/
+
+  computeLinks(): Signal<HeaderLink[]> {
+    return computed(() => {
+      const type = this.type();
+
+      return [
+        { label: 'Home', path: '/' },
+        { label: 'Movies', path: '/movie', active: (type === 'movie') },
+        { label: 'Series', path: '/serie', active: (type === 'serie') },
+        { label: 'Games', path: '/game', active: (type === 'game') },
+      ];
+    });
   }
 
-  buildType(): void {
+  computeType(): Signal<MediaType> {
     const regex = /^\/(\w+)/;
     const regexResult = regex.exec(this.router.url);
     const type = regexResult?.[1];
@@ -225,6 +224,23 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       throw { status: 400, method: 'MediaComponent.buildType', message: `Type unknown` };
     }
 
-    this.type = type as 'movie' | 'serie' | 'game';
+    return signal(type as MediaType);
+  }
+
+  computeIsLogged(): Signal<boolean> {
+    return computed(() => {
+      return this.authenticationService.isLogged();
+    });
+  }
+
+  computeDisplayList(): Signal<Category[]> {
+    return computed(() => {
+      const search = this.formData().search;
+      if (search) {
+        return this.processCategories(this.media, search);
+      }
+
+      return this.categories();
+    });
   }
 }

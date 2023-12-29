@@ -1,6 +1,6 @@
 <div class="navigation">
   <div class="link">
-    @for (link of links; track link; let i = $index) {
+    @for (link of links(); track link; let i = $index) {
       <div class="bold cursor-pointer" [ngClass]="{'opacity-3': !link.active}">
         <a [routerLink]="link.path" class="p-8 reset">{{link.label}}</a>
       </div>
@@ -25,7 +25,7 @@
   </div>
 </div>
 
-@for (category of displayList; track category.label) {
+@for (category of displayList(); track category.label) {
   @if (category.media && category.media.length > 0) {
     <div class="mx-16 flex" style="align-items: baseline;">
       <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>
