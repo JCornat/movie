@@ -10,7 +10,7 @@ import * as Config from '@config/config';
 import * as Global from './global';
 
 export async function read(sourcePath: string): Promise<any> {
-  return fsPromises.readFile(sourcePath, {encoding: 'utf8'});
+  return await fsPromises.readFile(sourcePath, { encoding: 'utf8' });
 }
 
 export function exists(sourcePath: string): boolean {
@@ -32,7 +32,7 @@ export async function write(filePath: string, data: any, options?: any): Promise
 
 export async function buildUpload(req: Request): Promise<string> {
   if (Global.isEmpty(Config.UPLOAD_PATH)) {
-    throw {status: 400, message: `Répertoire de dépôt non configuré`};
+    throw { status: 400, message: `Répertoire de dépôt non configuré` };
   }
 
   let file: { fieldName: string, originalFilename: string, path: string, headers: any, size: number };
@@ -41,7 +41,7 @@ export async function buildUpload(req: Request): Promise<string> {
     file = await upload(req);
   } catch (error) {
     console.error('File.buildUpload', 'upload', error);
-    throw {status: 500, message: error.message};
+    throw { status: 500, message: error.message };
   }
 
   const extensionName = path.extname(file.path).toLowerCase();
@@ -53,7 +53,7 @@ export async function buildUpload(req: Request): Promise<string> {
     await move(file.path, url);
   } catch (error) {
     console.error('File.buildUpload', 'move', error);
-    throw {status: 500, message: `Sauvergarde du fichier échouée`};
+    throw { status: 500, message: `Sauvergarde du fichier échouée` };
   }
 
   return `${Config.URL}/upload/${filename}`;

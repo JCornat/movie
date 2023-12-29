@@ -45,7 +45,7 @@ export async function optimize(imagePath: string, destinationPath: string): Prom
 
 export async function convert(imagePath: string, destinationPath: string, maxWidth?: number, maxHeight?: number): Promise<void> {
   if (Global.isEmpty(imagePath) || Global.isEmpty(destinationPath)) {
-    throw {status: 400, message: `Paramètres invalides`};
+    throw { status: 400, message: `Paramètres invalides` };
   }
 
   const convertOptions = [imagePath];
@@ -57,7 +57,7 @@ export async function convert(imagePath: string, destinationPath: string, maxWid
 
   convertOptions.push('-quality', '80', destinationPath);
 
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     imagemagick.convert(convertOptions, (error) => {
       if (error) {
         return reject(error);
@@ -69,7 +69,7 @@ export async function convert(imagePath: string, destinationPath: string, maxWid
 }
 
 export async function identify(filename: string): Promise<any> {
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     imagemagick.identify(['-format', '%wx%h', filename], (error, features) => {
       if (error) {
         console.error('ShareImage.identify', error);
@@ -82,8 +82,13 @@ export async function identify(filename: string): Promise<any> {
 }
 
 export async function merge(filenames: string[], destinationPath: string): Promise<void> {
-  return new Promise(async (resolve, reject) => {
-    const params = ['-density', '150', ...filenames, destinationPath];
+  return await new Promise(async (resolve, reject) => {
+    const params = [
+      '-density',
+      '150',
+      ...filenames,
+      destinationPath,
+    ];
 
     imagemagick.convert(params, (error) => {
       if (error) {

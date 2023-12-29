@@ -1,0 +1,294 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": [
+    "@stylistic",
+    "@stylistic/ts"
+  ],
+  "rules": {
+    "@stylistic/array-bracket-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minItems": 4
+      }
+    ],
+    "@stylistic/array-element-newline": [
+      "error",
+      {
+        "multiline": true,
+        "minItems": 4
+      }
+    ],
+    "@stylistic/arrow-parens": [
+      "error",
+      "always"
+    ],
+    "@stylistic/arrow-spacing": "error",
+    "@stylistic/block-spacing": [
+      "error",
+      "always"
+    ],
+    "@stylistic/brace-style": "error",
+    "@stylistic/comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "@stylistic/comma-spacing": [
+      "error",
+      {
+        "after": true,
+        "before": false
+      }
+    ],
+    "@stylistic/dot-location": [
+      "error",
+      "property"
+    ],
+    "@stylistic/eol-last": "error",
+    // Keep "function-call-argument-newline" at "off", it's too restrictive
+    "@stylistic/function-call-argument-newline": "off",
+    "@stylistic/function-call-spacing": [
+      "error",
+      "never"
+    ],
+    // Keep "function-paren-newline" at "off", it's too restrictive
+    "@stylistic/function-paren-newline": "off",
+    "@stylistic/indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "@stylistic/key-spacing": [
+      "error",
+      {
+        "afterColon": true
+      }
+    ],
+    "@stylistic/keyword-spacing": [
+      "error",
+      {
+        "before": true
+      }
+    ],
+    "@stylistic/linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "@stylistic/lines-between-class-members": [
+      "error",
+      {
+        "enforce": [
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "method"
+          }
+        ]
+      }
+    ],
+    // Keep "max-len" at "off", it's too restrictive
+    "@stylistic/max-len": "off",
+    "@stylistic/max-statements-per-line": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "@stylistic/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "comma",
+          "requireLast": false
+        }
+      }
+    ],
+    "@stylistic/multiline-ternary": [
+      "error",
+      "never"
+    ],
+    "@stylistic/new-parens": "error",
+    "@stylistic/newline-per-chained-call": [
+      "error",
+      {
+        "ignoreChainWithDepth": 4
+      }
+    ],
+    "@stylistic/no-extra-parens": [
+      "error",
+      "functions"
+    ],
+    "@stylistic/no-extra-semi": "error",
+    "@stylistic/no-floating-decimal": "error",
+    "@stylistic/no-mixed-operators": "error",
+    "@stylistic/no-mixed-spaces-and-tabs": "error",
+    "@stylistic/no-multi-spaces": "error",
+    "@stylistic/no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxEOF": 0
+      }
+    ],
+    "@stylistic/no-tabs": "error",
+    "@stylistic/no-trailing-spaces": [
+      "error",
+      {
+        "ignoreComments": true
+      }
+    ],
+    "@stylistic/no-whitespace-before-property": "error",
+    "@stylistic/object-curly-newline": "off",
+    "@stylistic/object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "@stylistic/object-property-newline": [
+      "error",
+      {
+        "allowAllPropertiesOnSameLine": true
+      }
+    ],
+    "@stylistic/operator-linebreak": [
+      "error",
+      "after"
+    ],
+    "@stylistic/padded-blocks": [
+      "error",
+      "never"
+    ],
+    "@stylistic/padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": [
+          "function"
+        ]
+      },
+      {
+        "blankLine": "always",
+        "prev": [
+          "block-like",
+          "multiline-const"
+        ],
+        "next": [
+          "*"
+        ]
+      },
+      {
+        "blankLine": "never",
+        "prev": [
+          "case",
+          "default"
+        ],
+        "next": [
+          "case",
+          "default"
+        ]
+      }
+    ],
+    "@stylistic/quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "@stylistic/quotes": [
+      "error",
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "@stylistic/rest-spread-spacing": [
+      "error",
+      "never"
+    ],
+    "@stylistic/semi": [
+      "error",
+      "always"
+    ],
+    "@stylistic/semi-spacing": "error",
+    "@stylistic/semi-style": [
+      "error",
+      "last"
+    ],
+    "@stylistic/space-before-blocks": "error",
+    "@stylistic/space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "@stylistic/space-in-parens": [
+      "error",
+      "never"
+    ],
+    "@stylistic/space-infix-ops": "error",
+    "@stylistic/space-unary-ops": "error",
+    // Keep "spaced-comment" at "off", it's too restrictive for /*-----*\ comments
+    "@stylistic/spaced-comment": "off",
+    "@stylistic/switch-colon-spacing": "error",
+    "@stylistic/template-curly-spacing": "error",
+    "@stylistic/template-tag-spacing": "error",
+    "@stylistic/ts/type-annotation-spacing": [
+      "error",
+      {
+        "after": true,
+        "before": false
+      }
+    ],
+    "@stylistic/wrap-iife": [
+      "error",
+      "outside"
+    ],
+    // Keep "wrap-regex" at "off", it's too restrictive
+    "@stylistic/wrap-regex": "off",
+    "@stylistic/yield-star-spacing": [
+      "error",
+      "after"
+    ],
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "accessibility": "explicit",
+        "overrides": {
+          "constructors": "no-public",
+          "methods": "no-public",
+          "properties": "no-public"
+        }
+      }
+    ],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/return-await": [
+      "error",
+      "always"
+    ],
+    "curly": "error",
+    "max-depth": "off",
+    "no-case-declarations": "off",
+    // Keep "no-return-await" at "off", it's handled by "@typescript-eslint/return-await"
+    "no-return-await": "off",
+    "@typescript-eslint/no-unused-vars": "off"
+  }
+}

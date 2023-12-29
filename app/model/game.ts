@@ -1,7 +1,7 @@
-import * as moment from 'moment';
 import * as request from 'request';
 
 import { Store, Media, ImportMedia, Rating } from '@class/store';
+import { time } from '@model/time';
 import * as Config from '@config/config';
 import * as Global from '@model/global';
 
@@ -27,7 +27,7 @@ export function getOne(id: string): Game {
 }
 
 export async function add(options: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
-  return store.add(options);
+  return await store.add(options);
 }
 
 export async function remove(id: string): Promise<void> {
@@ -54,8 +54,8 @@ export function search(title: string): Promise<ImportMedia[]> {
       `,
       headers: {
         'Client-ID': Config.TWITCH_CLIENT.id,
-        'Authorization': `Bearer ${bearer}`,
-      }
+        Authorization: `Bearer ${bearer}`,
+      },
     };
 
     request.post(options, (error, response, body) => {
@@ -77,7 +77,7 @@ function processSearch(data: any[]): ImportMedia[] {
 
   for (const datum of data) {
     const url = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
-    const year = (datum.first_release_date) ? moment(datum.first_release_date, 'X').format('YYYY') : '';
+    const year = (datum.first_release_date) ? time(datum.first_release_date, 'X').format('YYYY') : '';
     const tmp: ImportMedia = {
       importId: datum.id + '',
       title: datum.name,
@@ -107,8 +107,8 @@ export function importOne(id: string): Promise<ImportMedia> {
       `,
       headers: {
         'Client-ID': Config.TWITCH_CLIENT.id,
-        'Authorization': `Bearer ${bearer}`,
-      }
+        Authorization: `Bearer ${bearer}`,
+      },
     };
 
     request.post(options, (error, response, body) => {
