@@ -12,12 +12,12 @@ import { RATINGS } from '@app/media/rating';
 import { ScreenService } from '@shared/screen/screen.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
-import { MediaType } from '@app/media/media-type';
-import { HeaderLink } from '@app/media/header-link';
+import { CategoryService } from '@app/category/category.service';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
   authenticationService = inject(AuthenticationService);
+  categoryService = inject(CategoryService);
   router = inject(Router);
   screenService = inject(ScreenService);
   abstract mediaService: SerieService | MovieService | GameService;
@@ -28,8 +28,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   formData: WritableSignal<Record<string, any>> = signal({});
   displayList = this.computeDisplayList();
   categories: WritableSignal<Category[]> = signal([]);
-  type = this.computeType();
-  links = this.computeLinks();
   isLogged = this.computeIsLogged();
 
   ngOnInit(): void {
@@ -72,7 +70,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([`/${this.type}`, media.id, 'update']);
+    this.router.navigate([`/${this.categoryService.currentCategory()}`, media.id, 'update']);
   }
 
   navigateSearch(): void {
@@ -80,7 +78,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate([`/${this.type}`, 'search']);
+    this.router.navigate([`/${this.categoryService.currentCategory()}`, 'search']);
   }
 
   /*-----------------------*\
@@ -202,30 +200,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
   /*-----------------------*\
           Compute
   \*-----------------------*/
-
-  computeLinks(): Signal<HeaderLink[]> {
-    return computed(() => {
-      const type = this.type();
-
-      return [
-        { label: 'Home', path: '/' },
-        { label: 'Movies', path: '/movie', active: (type === 'movie') },
-        { label: 'Series', path: '/serie', active: (type === 'serie') },
-        { label: 'Games', path: '/game', active: (type === 'game') },
-      ];
-    });
-  }
-
-  computeType(): Signal<MediaType> {
-    const regex = /^\/(\w+)/;
-    const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1];
-    if (Global.isEmpty(type)) {
-      throw { status: 400, method: 'MediaComponent.buildType', message: `Type unknown` };
-    }
-
-    return signal(type as MediaType);
-  }
 
   computeIsLogged(): Signal<boolean> {
     return computed(() => {

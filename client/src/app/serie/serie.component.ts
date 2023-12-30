@@ -7,6 +7,7 @@ import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { Serie } from '@app/serie/serie';
 import { SerieService } from '@app/serie/serie.service';
+import { CategoryComponent } from '@app/category/category.component';
 
 @Component({
   selector: 'app-serie',
@@ -18,6 +19,7 @@ import { SerieService } from '@app/serie/serie.service';
     NgOptimizedImage,
     ReactiveFormsModule,
     RouterModule,
+    CategoryComponent,
   ],
 })
 export class SerieComponent extends MediaComponent {

@@ -7,6 +7,7 @@ import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
+import { CategoryComponent } from '@app/category/category.component';
 
 @Component({
   selector: 'app-movie',
@@ -18,6 +19,7 @@ import { MovieService } from '@app/movie/movie.service';
     NgOptimizedImage,
     ReactiveFormsModule,
     RouterModule,
+    CategoryComponent,
   ],
 })
 export class MovieComponent extends MediaComponent {

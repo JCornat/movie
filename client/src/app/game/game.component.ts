@@ -7,6 +7,7 @@ import { Game } from '@app/game/game';
 import { GameService } from '@app/game/game.service';
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
+import { CategoryComponent } from '@app/category/category.component';
 
 @Component({
   selector: 'app-game',
@@ -15,6 +16,7 @@ import { MediaItemComponent } from '@app/media/item/item.component';
   imports: [
     CommonModule,
     MediaItemComponent,
+    CategoryComponent,
     NgOptimizedImage,
     ReactiveFormsModule,
     RouterModule,

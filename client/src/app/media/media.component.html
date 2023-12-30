@@ -1,11 +1,5 @@
 <div class="navigation">
-  <div class="link">
-    @for (link of links(); track link; let i = $index) {
-      <div class="bold cursor-pointer" [ngClass]="{'opacity-3': !link.active}">
-        <a [routerLink]="link.path" class="p-8 reset">{{link.label}}</a>
-      </div>
-    }
-  </div>
+  <app-category/>
 
   <div class="search">
     <form [formGroup]="searchForm">
