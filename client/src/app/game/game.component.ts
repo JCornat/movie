@@ -3,11 +3,13 @@ import { NgOptimizedImage, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { Game } from '@app/game/game';
+import { Game } from '@app/interface';
 import { GameService } from '@app/game/game.service';
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { CategoryComponent } from '@app/category/category.component';
+import { FilterComponent } from '@app/media/filter/filter.component';
+import { MediaMoreComponent } from '@app/media/more/more.component';
 
 @Component({
   selector: 'app-game',
@@ -20,6 +22,8 @@ import { CategoryComponent } from '@app/category/category.component';
     NgOptimizedImage,
     ReactiveFormsModule,
     RouterModule,
+    FilterComponent,
+    MediaMoreComponent,
   ],
 })
 export class GameComponent extends MediaComponent {

@@ -2,20 +2,10 @@ import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core
 import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
-import { Game } from '@app/game/game';
+import { Game, Media, MediaListElement, Movie, Serie } from '@app/interface';
 import { GameService } from '@app/game/game.service';
-import { Media } from '@app/media/media';
-import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
-import { Serie } from '@app/serie/serie';
 import { SerieService } from '@app/serie/serie.service';
-
-interface MediaListElement {
-  title: string;
-  description: string;
-  url: string;
-  data: WritableSignal<Movie[] | Serie[] | Game[]>;
-}
 
 @Component({
   selector: 'app-home',

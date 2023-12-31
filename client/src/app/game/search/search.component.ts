@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { GameService } from '@app/game/game.service';

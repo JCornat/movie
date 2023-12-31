@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Media } from '@app/media/media';
 import { MediaAddComponent } from '../add/add.component';
+import { Media } from '@app/interface';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {

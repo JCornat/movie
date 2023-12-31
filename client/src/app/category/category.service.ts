@@ -1,10 +1,9 @@
 import { computed, inject, Injectable, Signal } from '@angular/core';
-import { HeaderLink } from '@app/media/header-link';
-import { MediaType } from '@app/media/media-type';
 import * as Global from '@shared/global/global';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, Observable } from 'rxjs';
+import { HeaderLink, MediaType } from '@app/interface';
 
 @Injectable({
   providedIn: 'root',
