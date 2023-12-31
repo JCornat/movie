@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { MediaAddComponent } from '../add/add.component';
-import { Media } from '@app/interface';
+import { Medium } from '@app/interface';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
@@ -51,7 +51,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
            Service
   \*-----------------------*/
 
-  async pullOne(id: string): Promise<Media> {
+  async pullOne(id: string): Promise<Medium> {
     return await this.mediaService.pullOne(id);
   }
 

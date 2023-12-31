@@ -6,7 +6,7 @@ import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import { CategoryService } from '@app/category/category.service';
-import { GroupMedium, Media } from '@app/interface';
+import { GroupMedium, Medium } from '@app/interface';
 
 @Directive()
 export abstract class MediaComponent implements OnInit {
@@ -15,9 +15,10 @@ export abstract class MediaComponent implements OnInit {
   router = inject(Router);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  media!: Media[];
+  media!: Medium[];
   isLogged = this.authenticationService.isLogged;
   displayList = this.computeDisplayList();
+  searchTerm = this.computeSearchTerm();
 
   ngOnInit(): void {
     this.mediaService.pullAll();
@@ -50,11 +51,12 @@ export abstract class MediaComponent implements OnInit {
 
     this.router.navigate([`/${this.categoryService.currentCategory()}`, 'search']);
   }
+
   /*-----------------------*\
           Navigation
   \*-----------------------*/
 
-  navigateUpdate(media: Media): void {
+  navigateUpdate(media: Medium): void {
     // if (!this.isLogged()) {
     return;
     // }
@@ -69,6 +71,12 @@ export abstract class MediaComponent implements OnInit {
   computeDisplayList(): Signal<GroupMedium[]> {
     return computed(() => {
       return this.mediaService.groupMedia();
+    });
+  }
+
+  computeSearchTerm() {
+    return computed(() => {
+      return this.mediaService.searchTerm();
     });
   }
 }

@@ -1,8 +1,8 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
-import { Game, Media, MediaListElement, Movie, Serie } from '@app/interface';
+import { CategoryPreview, Game, Medium, Movie, Serie } from '@app/interface';
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
@@ -14,24 +14,24 @@ import { SerieService } from '@app/serie/serie.service';
   imports: [NgOptimizedImage, RouterModule],
 })
 export class HomeComponent implements OnInit {
-  mediaList!: MediaListElement[];
-  movies: WritableSignal<Movie[]> = signal([]);
-  series: WritableSignal<Serie[]> = signal([]);
-  games: WritableSignal<Game[]> = signal([]);
   gameService = inject(GameService);
   movieService = inject(MovieService);
   router = inject(Router);
   serieService = inject(SerieService);
+
+  categoriesPreview: Signal<CategoryPreview[]> = this.computeCategoriesPreview();
+  movies: Signal<Movie[]> = this.computeMovies();
+  series: Signal<Serie[]> = this.computeSeries();
+  games: Signal<Game[]> = this.computeGames();
 
   ngOnInit(): void {
     this.init();
   }
 
   init(): void {
-    this.buildMediaList();
-    this.pullAllMovies();
-    this.pullAllSeries();
-    this.pullAllGames();
+    this.movieService.pullAll();
+    this.serieService.pullAll();
+    this.gameService.pullAll();
   }
 
   /*-----------------------*\
@@ -43,59 +43,39 @@ export class HomeComponent implements OnInit {
   }
 
   /*-----------------------*\
-           Service
+           Method
   \*-----------------------*/
 
-  async pullAllMovies(): Promise<void> {
-    await this.movieService.pullAll();
-    const processedData = this.processMedia([]);
-    this.movies.set(processedData);
-  }
-
-  async pullAllSeries(): Promise<void> {
-    await this.serieService.pullAll();
-    const processedData = this.processMedia([]);
-    this.series.set(processedData);
-  }
-
-  async pullAllGames(): Promise<void> {
-    await this.gameService.pullAll();
-    const processedData = this.processMedia([]);
-    this.games.set(processedData);
+  computeCategoriesPreview(): Signal<CategoryPreview[]> {
+    return computed(() => {
+      return [
+        {
+          title: 'Movies',
+          description: `Keep track of my favourites movies.`,
+          url: '/movie',
+          media: this.movies(),
+        },
+        {
+          title: 'Series',
+          description: `Follow my preferred series.`,
+          url: '/serie',
+          media: this.series(),
+        },
+        {
+          title: 'Games',
+          description: `Explore my dearest games.`,
+          url: '/game',
+          media: this.games(),
+        },
+      ] as CategoryPreview[];
+    });
   }
 
   /*-----------------------*\
            Method
   \*-----------------------*/
 
-  buildMediaList(): void {
-    this.mediaList = [
-      {
-        title: 'Movies',
-        description: `Keep track of my favourites movies.`,
-        url: '/movie',
-        data: this.movies,
-      },
-      {
-        title: 'Series',
-        description: `Follow my preferred series.`,
-        url: '/serie',
-        data: this.series,
-      },
-      {
-        title: 'Games',
-        description: `Explore my dearest games.`,
-        url: '/game',
-        data: this.games,
-      },
-    ];
-  }
-
-  /*-----------------------*\
-           Process
-  \*-----------------------*/
-
-  processMedia(media: Media[]): Media[] {
+  filterMedia(media: Medium[]): Medium[] {
     media.sort((a, b) => {
       if (a.rating > b.rating) {
         return -1;
@@ -118,5 +98,30 @@ export class HomeComponent implements OnInit {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
+  }
+
+  /*-----------------------*\
+          Compute
+  \*-----------------------*/
+
+  computeMovies() {
+    return computed(() => {
+      const media = this.movieService.media();
+      return this.filterMedia(media);
+    });
+  }
+
+  computeSeries() {
+    return computed(() => {
+      const media = this.serieService.media();
+      return this.filterMedia(media);
+    });
+  }
+
+  computeGames() {
+    return computed(() => {
+      const media = this.gameService.media();
+      return this.filterMedia(media);
+    });
   }
 }

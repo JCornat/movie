@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
-import { GroupMedium, Media } from '@app/interface';
+import { GroupMedium, Medium } from '@app/interface';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,10 +13,10 @@ import { CommonModule } from '@angular/common';
 export class ListComponent {
   @Input({ required: true }) groupMedia!: GroupMedium[];
 
-  @Output() onUpdate = new EventEmitter<Media>();
+  @Output() onUpdate = new EventEmitter<Medium>();
   @Output() onIncreaseLimit = new EventEmitter<GroupMedium>();
 
-  update(media: Media) {
+  update(media: Medium) {
     this.onUpdate.emit(media);
   }
 

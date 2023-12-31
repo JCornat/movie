@@ -1,5 +1,3 @@
-import { WritableSignal } from '@angular/core';
-
 export type Rating = number | 'todo' | 'progress';
 
 export interface RatingDisplay {
@@ -7,7 +5,7 @@ export interface RatingDisplay {
   label: string;
 }
 
-export interface Media {
+export interface Medium {
   id: string;
   title: string;
   year: number;
@@ -16,15 +14,15 @@ export interface Media {
   urlWebp: string;
 }
 
-export interface Movie extends Media {
+export interface Movie extends Medium {
   //
 }
 
-export interface Game extends Media {
+export interface Game extends Medium {
   //
 }
 
-export interface Serie extends Media {
+export interface Serie extends Medium {
   //
 }
 
@@ -45,11 +43,11 @@ export interface GroupMedium {
   media: (Game | Movie | Serie)[];
 }
 
-export interface MediaListElement {
+export interface CategoryPreview {
   title: string;
   description: string;
   url: string;
-  data: WritableSignal<Movie[] | Serie[] | Game[]>;
+  media: Movie[] | Serie[] | Game[];
 }
 
 export interface HeaderLink {

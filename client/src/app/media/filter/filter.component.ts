@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, signal, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 export class FilterComponent implements OnInit {
   searchForm!: FormGroup;
 
+  @Input() searchTerm!: string;
   @Output() onSearch = new EventEmitter<string>();
 
   ngOnInit(): void {
@@ -30,7 +31,7 @@ export class FilterComponent implements OnInit {
 
   buildForm(): void {
     this.searchForm = new FormGroup({
-      search: new FormControl(''),
+      search: new FormControl(this.searchTerm),
     });
 
     this.searchForm.valueChanges.subscribe((data) => {

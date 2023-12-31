@@ -1,6 +1,6 @@
 <div class="navigation">
   <app-category class="link"/>
-  <app-filter class="search" (onSearch)="search($event)"/>
+  <app-filter class="search" [searchTerm]="searchTerm()" (onSearch)="search($event)"/>
 
   @if (isLogged()) {
     <div class="ml-8">
