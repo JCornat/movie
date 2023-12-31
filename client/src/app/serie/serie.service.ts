@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
-import { ImportMedia, Media, Serie } from '@app/interface';
+import { ImportMedia, Medium, Serie } from '@app/interface';
 import { MediaService } from '@app/media/media.service';
 
 @Injectable({

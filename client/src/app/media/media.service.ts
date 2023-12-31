@@ -1,6 +1,6 @@
 import { computed, Directive, inject, Injectable, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
-import { GroupMedium, Media } from '@app/interface';
+import { GroupMedium, Medium } from '@app/interface';
 import * as Global from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ export abstract class MediaService implements OnDestroy {
   screenService = inject(ScreenService);
 
   searchTerm: WritableSignal<string> = signal('');
-  media: WritableSignal<Media[]> = signal([]);
+  media: WritableSignal<Medium[]> = signal([]);
   groupMedia: Signal<GroupMedium[]> = this.computeGroupMedia();
   resizeSubscriber!: Subscription;
 

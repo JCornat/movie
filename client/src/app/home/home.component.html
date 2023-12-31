@@ -1,25 +1,23 @@
-@for (item of mediaList; track item.title) {
-  <div class="presentation" (click)="selectMedia(item)">
+@for (categoryPreview of categoriesPreview(); track categoryPreview.title) {
+  <div class="presentation" (click)="selectMedia(categoryPreview)">
     <div class="text">
-      <div class="title">{{item.title}}</div>
-      <div class="description">{{item.description}}</div>
+      <div class="title">{{categoryPreview.title}}</div>
+      <div class="description">{{categoryPreview.description}}</div>
       <div class="more">
-        <a [routerLink]="item.url" class="reset">See more <i class="icon icon-chevron-right"></i></a>
+        <a [routerLink]="categoryPreview.url" class="reset">See more <i class="icon icon-chevron-right"></i></a>
       </div>
     </div>
 
     <div class="background">
-      @if (item.data().length > 0) {
-        @for (data of item.data(); track data.id) {
-          <div class="media">
-            <div class="poster">
-              <picture>
-                <source [srcset]="data.urlWebp" type="image/webp">
-                <img [ngSrc]="data.url" alt="Description" fill="true">
-              </picture>
-            </div>
+      @for (medium of categoryPreview.media; track medium.id) {
+        <div class="media">
+          <div class="poster">
+            <picture>
+              <source [srcset]="medium.urlWebp" type="image/webp">
+              <img [ngSrc]="medium.url" alt="Description" fill="true">
+            </picture>
           </div>
-        }
+        </div>
       }
     </div>
   </div>
