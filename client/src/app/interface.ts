@@ -43,7 +43,16 @@ export interface GroupMedium {
 
 export type GroupMediaLimit = Record<string, number>;
 
-export type GroupMediaSort = Record<string, string>;
+export enum OrderBy {
+  random = 'random',
+  alphabetic = 'alphabetic',
+  alphabeticReverse = 'alphabetic-',
+  chronological = 'chronological',
+  chronologicalReverse = 'chronological-',
+  added = 'added',
+}
+
+export type GroupMediaSort = Record<string, OrderBy>;
 
 export interface CategoryPreview {
   title: string;

@@ -1,6 +1,6 @@
 import { computed, Directive, inject, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
-import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium } from '@app/interface';
+import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
 import * as Global from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { Subscription } from 'rxjs';
@@ -42,7 +42,7 @@ export abstract class MediaService implements OnDestroy {
     });
   }
 
-  sort(item: GroupMedium, type: string): void {
+  sort(item: GroupMedium, type: OrderBy): void {
     this.groupMediaSort.update((value) => {
       value[item.value] = type;
       return { ...value };
@@ -74,7 +74,7 @@ export abstract class MediaService implements OnDestroy {
   initializeGroupMediaSort() {
     const res: GroupMediaSort = {};
     for (const rating of RATINGS) {
-      res[rating.value] = 'random';
+      res[rating.value] = OrderBy.random;
     }
 
     this.groupMediaSort.set(res);
@@ -132,14 +132,28 @@ export abstract class MediaService implements OnDestroy {
         const tmp = ratingsObj[rating.value];
         const sort = this.groupMediaSort()[rating.value];
         switch (sort) {
-          case 'alphabetic':
+          case OrderBy.alphabetic:
             tmp.media = Global.sort({ data: tmp.media, key: 'title' });
             break;
-          case 'chronologic':
+          case OrderBy.alphabeticReverse:
+            tmp.media = Global.sort({ data: tmp.media, key: 'title', descending: true });
+            break;
+          case OrderBy.chronological:
             tmp.media = Global.sort({ data: tmp.media, key: 'year' });
             break;
-          case 'random':
-            this.shuffle(tmp.media);
+          case OrderBy.chronologicalReverse:
+            tmp.media = Global.sort({ data: tmp.media, key: 'year', descending: true });
+            break;
+          case OrderBy.random:
+            const shuffled = Global.clone(tmp.media);
+            this.shuffle(shuffled);
+            tmp.media = shuffled;
+            break;
+          case OrderBy.added:
+            tmp.media = tmp.media.reverse();
+            break;
+          default:
+            console.log('NOT SUPPORTED SORT', sort);
             break;
         }
 
