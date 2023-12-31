@@ -4,21 +4,21 @@
       <div class="bold text-xl mr-8" [id]="groupMedium.label">{{groupMedium.label}}</div>
       <div class="fill"></div>
       <div class="flex">
-        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': groupMedium.orderBy !== 'random'}" (click)="sort(groupMedium, 'random')">Random</div>
-        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': groupMedium.orderBy !== 'alphabetic'}" (click)="sort(groupMedium, 'alphabetic')">A-Z</div>
-        <div class="bold cursor-pointer" [ngClass]="{'opacity-3': groupMedium.orderBy !== 'chronologic'}" (click)="sort(groupMedium, 'chronologic')">Year</div>
+        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': groupMediaSort[groupMedium.value] !== 'random'}" (click)="sort(groupMedium, 'random')">Random</div>
+        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': groupMediaSort[groupMedium.value] !== 'alphabetic'}" (click)="sort(groupMedium, 'alphabetic')">A-Z</div>
+        <div class="bold cursor-pointer" [ngClass]="{'opacity-3': groupMediaSort[groupMedium.value] !== 'chronologic'}" (click)="sort(groupMedium, 'chronologic')">Year</div>
       </div>
     </div>
 
     <div class="media-container" style="margin-bottom: 64px;">
       @for (game of groupMedium.media; track game; let i = $index) {
-        @if (i < groupMedium.limit) {
+        @if (i < groupMediaLimit[groupMedium.value]) {
           <media-item [data]="game" (click)="update(game)"></media-item>
         }
       }
 
-      @if (groupMedium.limit < groupMedium.media.length) {
-        <media-more [category]="groupMedium" (click)="increaseLimit(groupMedium)"/>
+      @if (groupMediaLimit[groupMedium.value] < groupMedium.media.length) {
+        <media-more [category]="groupMedium" [limit]="groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
       }
     </div>
   }

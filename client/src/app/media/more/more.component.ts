@@ -8,4 +8,5 @@ import { GroupMedium } from '@app/interface';
 })
 export class MediaMoreComponent {
   @Input({ required: true }) category!: GroupMedium;
+  @Input({ required: true }) limit!: number;
 }

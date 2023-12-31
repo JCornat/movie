@@ -19,6 +19,8 @@ export abstract class MediaComponent implements OnInit {
   isLogged = this.authenticationService.isLogged;
   displayList = this.computeDisplayList();
   searchTerm = this.computeSearchTerm();
+  groupMediaLimit = this.computeGroupMediaLimit();
+  groupMediaSort = this.computeGroupMediaSort();
 
   ngOnInit(): void {
     this.mediaService.pullAll();
@@ -36,8 +38,8 @@ export abstract class MediaComponent implements OnInit {
     this.mediaService.increaseLimit(groupMedium);
   }
 
-  sort(item: GroupMedium, type: string): void {
-    this.mediaService.sort(item, type);
+  sort(value: { groupMedium: GroupMedium, type: string }): void {
+    this.mediaService.sort(value.groupMedium, value.type);
   }
 
   /*-----------------------*\
@@ -77,6 +79,18 @@ export abstract class MediaComponent implements OnInit {
   computeSearchTerm() {
     return computed(() => {
       return this.mediaService.searchTerm();
+    });
+  }
+
+  computeGroupMediaLimit() {
+    return computed(() => {
+      return this.mediaService.groupMediaLimit();
+    });
+  }
+
+  computeGroupMediaSort() {
+    return computed(() => {
+      return this.mediaService.groupMediaSort();
     });
   }
 }

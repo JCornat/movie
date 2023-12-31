@@ -11,4 +11,4 @@
   }
 </div>
 
-<app-list [groupMedia]="displayList()" (onUpdate)="navigateUpdate($event)" (onIncreaseLimit)="increaseLimit($event)"/>
+<app-list [groupMedia]="displayList()" [groupMediaLimit]="groupMediaLimit()" [groupMediaSort]="groupMediaSort()" (onSort)="sort($event)" (onUpdate)="navigateUpdate($event)" (onIncreaseLimit)="increaseLimit($event)"/>

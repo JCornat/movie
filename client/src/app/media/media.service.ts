@@ -1,6 +1,6 @@
-import { computed, Directive, inject, Injectable, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
-import { GroupMedium, Medium } from '@app/interface';
+import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium } from '@app/interface';
 import * as Global from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { Subscription } from 'rxjs';
@@ -12,10 +12,15 @@ export abstract class MediaService implements OnDestroy {
   searchTerm: WritableSignal<string> = signal('');
   media: WritableSignal<Medium[]> = signal([]);
   groupMedia: Signal<GroupMedium[]> = this.computeGroupMedia();
+  groupMediaLimit: WritableSignal<GroupMediaLimit> = signal({});
+  groupMediaSort: WritableSignal<GroupMediaSort> = signal({});
+
   resizeSubscriber!: Subscription;
 
   constructor() {
-    this.subscribeResize();
+    this.updateGroupMediaLimit();
+    this.initializeGroupMediaSort();
+    this.subscribeScreenResize();
   }
 
   ngOnDestroy(): void {
@@ -31,20 +36,17 @@ export abstract class MediaService implements OnDestroy {
   }
 
   increaseLimit(groupMedium: GroupMedium): void {
-    const newLimit = this.getLimitByScreenSize();
-    groupMedium.limit += newLimit * 4;
+    this.groupMediaLimit.update((value) => {
+      value[groupMedium.value] += this.getLimitByScreenSize();
+      return { ...value };
+    });
   }
 
   sort(item: GroupMedium, type: string): void {
-    item.orderBy = type;
-
-    if (type === 'random') {
-      this.shuffle(item.media);
-      return;
-    }
-
-    const key = (type === 'alphabetic') ? 'title' : 'year';
-    item.media = Global.sort({ data: item.media, key });
+    this.groupMediaSort.update((value) => {
+      value[item.value] = type;
+      return { ...value };
+    });
   }
 
   shuffle(array: unknown[]): void {
@@ -52,6 +54,30 @@ export abstract class MediaService implements OnDestroy {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
+  }
+
+  updateGroupMediaLimit() {
+    const res: GroupMediaLimit = { ...this.groupMediaLimit() };
+    const newLimit = this.getLimitByScreenSize();
+    for (const rating of RATINGS) {
+      const oldLimit = res[rating.value] || 0;
+      if (oldLimit > newLimit) {
+        continue;
+      }
+
+      res[rating.value] = newLimit;
+    }
+
+    this.groupMediaLimit.set(res);
+  }
+
+  initializeGroupMediaSort() {
+    const res: GroupMediaSort = {};
+    for (const rating of RATINGS) {
+      res[rating.value] = 'random';
+    }
+
+    this.groupMediaSort.set(res);
   }
 
   getLimitByScreenSize(): number {
@@ -69,20 +95,16 @@ export abstract class MediaService implements OnDestroy {
   }
 
   /*-----------------------*\
-           Process
+           Compute
   \*-----------------------*/
 
   computeGroupMedia(): Signal<GroupMedium[]> {
     return computed(() => {
-      const limit = this.getLimitByScreenSize();
-
       const ratingsObj: Record<string, GroupMedium> = {};
       for (const rating of RATINGS) {
         const groupMedium: GroupMedium = {
           label: rating.label,
           value: rating.value,
-          limit,
-          orderBy: 'random',
           media: [],
         };
 
@@ -108,6 +130,19 @@ export abstract class MediaService implements OnDestroy {
       const res: GroupMedium[] = [];
       for (const rating of RATINGS) {
         const tmp = ratingsObj[rating.value];
+        const sort = this.groupMediaSort()[rating.value];
+        switch (sort) {
+          case 'alphabetic':
+            tmp.media = Global.sort({ data: tmp.media, key: 'title' });
+            break;
+          case 'chronologic':
+            tmp.media = Global.sort({ data: tmp.media, key: 'year' });
+            break;
+          case 'random':
+            this.shuffle(tmp.media);
+            break;
+        }
+
         res.push(tmp);
       }
 
@@ -119,20 +154,10 @@ export abstract class MediaService implements OnDestroy {
           Subscriber
   \*-----------------------*/
 
-  subscribeResize(): void {
-    this.resizeSubscriber = this.screenService.widthResizeObservable.subscribe(() => {
-      if (Global.isEmpty(this.groupMedia())) {
-        return;
-      }
-
-      for (const category of this.groupMedia()) {
-        const newLimit = this.getLimitByScreenSize();
-        if (newLimit < category.limit) { // Do not decrease limit when screen is resized
-          continue;
-        }
-
-        category.limit = newLimit;
-      }
-    });
+  subscribeScreenResize(): void {
+    this.resizeSubscriber = this.screenService.widthResizeObservable
+      .subscribe(() => {
+        this.updateGroupMediaLimit();
+      });
   }
 }

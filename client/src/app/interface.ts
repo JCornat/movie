@@ -38,10 +38,12 @@ export interface ImportMedia {
 export interface GroupMedium {
   label: string;
   value: Rating;
-  limit: number;
-  orderBy: string;
   media: (Game | Movie | Serie)[];
 }
+
+export type GroupMediaLimit = Record<string, number>;
+
+export type GroupMediaSort = Record<string, string>;
 
 export interface CategoryPreview {
   title: string;
