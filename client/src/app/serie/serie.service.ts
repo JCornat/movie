@@ -1,18 +1,19 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
 import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
-import { ImportMedia, Serie } from '@app/interface';
+import { ImportMedia, Media, Serie } from '@app/interface';
+import { MediaService } from '@app/media/media.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SerieService {
+export class SerieService extends MediaService {
   requestService = inject(RequestService);
 
-  async pullAll(): Promise<Serie[]> {
+  async pullAll(): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/serie`,
       header: {
@@ -21,7 +22,8 @@ export class SerieService {
     };
 
     const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
-    return this.processPullAll(data);
+    const formattedData = this.processPullAll(data);
+    this.media.set(formattedData);
   }
 
   processPullAll(data: { data: Serie[] }): Serie[] {

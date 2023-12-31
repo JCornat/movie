@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,8 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 })
 export class FilterComponent implements OnInit {
   searchForm!: FormGroup;
-  formData: WritableSignal<Record<string, any>> = signal({});
+
+  @Output() onSearch = new EventEmitter<string>();
 
   ngOnInit(): void {
     this.buildForm();
@@ -20,7 +21,7 @@ export class FilterComponent implements OnInit {
   \*-----------------------*/
 
   onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
+    this.onSearch.emit(data.search);
   }
 
   /*-----------------------*\

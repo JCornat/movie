@@ -10,6 +10,7 @@ import { CategoryComponent } from '@app/category/category.component';
 import { FilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
 import { Movie } from '@app/interface';
+import { ListComponent } from '@app/media/list/list.component';
 
 @Component({
   selector: 'app-movie',
@@ -24,6 +25,7 @@ import { Movie } from '@app/interface';
     CategoryComponent,
     FilterComponent,
     MediaMoreComponent,
+    ListComponent,
   ],
 })
 export class MovieComponent extends MediaComponent {

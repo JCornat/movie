@@ -10,6 +10,7 @@ import { MediaItemComponent } from '@app/media/item/item.component';
 import { CategoryComponent } from '@app/category/category.component';
 import { FilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
+import { ListComponent } from '@app/media/list/list.component';
 
 @Component({
   selector: 'app-game',
@@ -24,6 +25,7 @@ import { MediaMoreComponent } from '@app/media/more/more.component';
     RouterModule,
     FilterComponent,
     MediaMoreComponent,
+    ListComponent,
   ],
 })
 export class GameComponent extends MediaComponent {

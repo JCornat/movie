@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Category } from '@app/interface';
+import { GroupMedium } from '@app/interface';
 
 @Component({
   selector: 'media-more',
@@ -7,5 +7,5 @@ import { Category } from '@app/interface';
   templateUrl: './more.component.html',
 })
 export class MediaMoreComponent {
-  @Input({ required: true }) category!: Category;
+  @Input({ required: true }) category!: GroupMedium;
 }

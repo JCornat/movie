@@ -1,6 +1,6 @@
 <div class="navigation">
-  <app-category/>
-  <app-filter/>
+  <app-category class="link"/>
+  <app-filter class="search" (onSearch)="search($event)"/>
 
   @if (isLogged()) {
     <div class="ml-8">
@@ -11,28 +11,4 @@
   }
 </div>
 
-@for (category of displayList(); track category.label) {
-  @if (category.media && category.media.length > 0) {
-    <div class="mx-16 flex" style="align-items: baseline;">
-      <div class="bold text-xl mr-8" [id]="category.label">{{category.label}}</div>
-      <div class="fill"></div>
-      <div class="flex">
-        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'random'}" (click)="sort(category, 'random')">Random</div>
-        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': category.orderBy !== 'alphabetic'}" (click)="sort(category, 'alphabetic')">A-Z</div>
-        <div class="bold cursor-pointer" [ngClass]="{'opacity-3': category.orderBy !== 'chronologic'}" (click)="sort(category, 'chronologic')">Year</div>
-      </div>
-    </div>
-
-    <div class="media-container" style="margin-bottom: 64px;">
-      @for (game of category.media; track game; let i = $index) {
-        @if (i < category.limit) {
-          <media-item [data]="game" (click)="navigateUpdate(game)"></media-item>
-        }
-      }
-
-      @if (category.limit < category.media.length) {
-        <media-more [category]="category" (click)="increaseLimit(category)"/>
-      }
-    </div>
-  }
-}
+<app-list [groupMedia]="displayList()" (onUpdate)="navigateUpdate($event)" (onIncreaseLimit)="increaseLimit($event)"/>

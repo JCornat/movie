@@ -5,14 +5,15 @@ import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
 import { ImportMedia, Movie } from '@app/interface';
+import { MediaService } from '@app/media/media.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MovieService {
+export class MovieService extends MediaService {
   requestService = inject(RequestService);
 
-  async pullAll(): Promise<Movie[]> {
+  async pullAll(): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/movie`,
       header: {
@@ -21,7 +22,8 @@ export class MovieService {
     };
 
     const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
-    return this.processPullAll(data);
+    const formattedData = this.processPullAll(data);
+    this.media.set(formattedData);
   }
 
   processPullAll(data: { data: Movie[] }): Movie[] {
