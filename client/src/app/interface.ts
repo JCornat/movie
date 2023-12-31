@@ -2,6 +2,11 @@ import { WritableSignal } from '@angular/core';
 
 export type Rating = number | 'todo' | 'progress';
 
+export interface RatingDisplay {
+  value: Rating;
+  label: string;
+}
+
 export interface Media {
   id: string;
   title: string;
@@ -32,8 +37,9 @@ export interface ImportMedia {
   url: string;
 }
 
-export interface Category {
+export interface GroupMedium {
   label: string;
+  value: Rating;
   limit: number;
   orderBy: string;
   media: (Game | Movie | Serie)[];

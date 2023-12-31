@@ -5,14 +5,15 @@ import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
 import { Game, ImportMedia } from '@app/interface';
+import { MediaService } from '@app/media/media.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GameService {
+export class GameService extends MediaService {
   requestService = inject(RequestService);
 
-  async pullAll(): Promise<Game[]> {
+  async pullAll(): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/game`,
       header: {
@@ -21,7 +22,8 @@ export class GameService {
     };
 
     const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
-    return this.processPullAll(data);
+    const formattedData = this.processPullAll(data);
+    this.media.set(formattedData);
   }
 
   processPullAll(data: { data: Game[] }): Game[] {

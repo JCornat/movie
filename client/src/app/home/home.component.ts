@@ -47,20 +47,20 @@ export class HomeComponent implements OnInit {
   \*-----------------------*/
 
   async pullAllMovies(): Promise<void> {
-    const data = await this.movieService.pullAll();
-    const processedData = this.processMedia(data);
+    await this.movieService.pullAll();
+    const processedData = this.processMedia([]);
     this.movies.set(processedData);
   }
 
   async pullAllSeries(): Promise<void> {
-    const data = await this.serieService.pullAll();
-    const processedData = this.processMedia(data);
+    await this.serieService.pullAll();
+    const processedData = this.processMedia([]);
     this.series.set(processedData);
   }
 
   async pullAllGames(): Promise<void> {
-    const data = await this.gameService.pullAll();
-    const processedData = this.processMedia(data);
+    await this.gameService.pullAll();
+    const processedData = this.processMedia([]);
     this.games.set(processedData);
   }
 
