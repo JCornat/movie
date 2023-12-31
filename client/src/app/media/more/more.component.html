@@ -2,16 +2,16 @@
   <div class="poster-container">
     <div class="poster">
       <picture>
-        @if (category.media[category.limit].urlWebp) {
-          <source [srcset]="category.media[category.limit].urlWebp" type="image/webp">
+        @if (category.media[limit].urlWebp) {
+          <source [srcset]="category.media[limit].urlWebp" type="image/webp">
         }
 
-        <img [src]="category.media[category.limit].url" alt="Description" fill="true">
+        <img [src]="category.media[limit].url" alt="Description" fill="true">
       </picture>
     </div>
   </div>
 
   <div class="content">
-    <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.media.length - category.limit}} more</div>
+    <div class="title" style="font-size: 20px; font-weight: 600;">See {{category.media.length - limit}} more</div>
   </div>
 </div>
