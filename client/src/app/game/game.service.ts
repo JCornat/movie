@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
-import { Game } from './game';
-import { ImportMedia } from '@app/media/media';
 import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
+import { Game, ImportMedia } from '@app/interface';
 
 @Injectable({
   providedIn: 'root',

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 
-import { Media } from '@app/media/media';
 import { SERVER_URL } from '@shared/config/config';
 import * as Global from '@shared/global/global';
+import { Media } from '@app/interface';
 
 @Component({
   selector: 'media-item',

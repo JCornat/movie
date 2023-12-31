@@ -5,9 +5,11 @@ import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { Movie } from '@app/movie/movie';
 import { MovieService } from '@app/movie/movie.service';
 import { CategoryComponent } from '@app/category/category.component';
+import { FilterComponent } from '@app/media/filter/filter.component';
+import { MediaMoreComponent } from '@app/media/more/more.component';
+import { Movie } from '@app/interface';
 
 @Component({
   selector: 'app-movie',
@@ -20,6 +22,8 @@ import { CategoryComponent } from '@app/category/category.component';
     ReactiveFormsModule,
     RouterModule,
     CategoryComponent,
+    FilterComponent,
+    MediaMoreComponent,
   ],
 })
 export class MovieComponent extends MediaComponent {

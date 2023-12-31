@@ -1,18 +1,16 @@
 import { computed, Directive, inject, OnDestroy, OnInit, signal, Signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
-import { Category } from '@app/media/category';
 import { GameService } from '@app/game/game.service';
-import { Media } from '@app/media/media';
 import { MovieService } from '@app/movie/movie.service';
 import { RATINGS } from '@app/media/rating';
 import { ScreenService } from '@shared/screen/screen.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
 import { CategoryService } from '@app/category/category.service';
+import { Category, Media } from '@app/interface';
 
 @Directive()
 export abstract class MediaComponent implements OnInit, OnDestroy {
@@ -24,14 +22,11 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
   resizeSubscriber!: Subscription;
   media!: Media[];
-  searchForm!: FormGroup;
-  formData: WritableSignal<Record<string, any>> = signal({});
   displayList = this.computeDisplayList();
   categories: WritableSignal<Category[]> = signal([]);
   isLogged = this.computeIsLogged();
 
   ngOnInit(): void {
-    this.buildForm();
     this.subscribeResize();
     this.pullAll();
   }
@@ -183,20 +178,6 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
     }
   }
 
-  onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
-  }
-
-  buildForm(): void {
-    this.searchForm = new FormGroup({
-      search: new FormControl(''),
-    });
-
-    this.searchForm.valueChanges.subscribe((data) => {
-      this.onValid(data);
-    });
-  }
-
   /*-----------------------*\
           Compute
   \*-----------------------*/
@@ -209,7 +190,7 @@ export abstract class MediaComponent implements OnInit, OnDestroy {
 
   computeDisplayList(): Signal<Category[]> {
     return computed(() => {
-      const search = this.formData().search;
+      const search = '';
       if (search) {
         return this.processCategories(this.media, search);
       }

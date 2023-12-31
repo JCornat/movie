@@ -1,8 +1,8 @@
 import { Directive, OnInit, Input } from '@angular/core';
 
-import { ImportMedia } from '@app/media/media';
 import { MediaAddComponent } from '@app/media/add/add.component';
 import * as Global from '@shared/global/global';
+import { ImportMedia } from '@app/interface';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {

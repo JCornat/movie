@@ -3,10 +3,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { GameService } from '@app/game/game.service';
-import { ImportMedia } from '@app/media/media';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
+import { ImportMedia } from '@app/interface';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {

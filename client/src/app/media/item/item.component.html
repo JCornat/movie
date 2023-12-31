@@ -7,6 +7,7 @@
             @if (data.urlWebp) {
               <source [srcset]="data.urlWebp" type="image/webp">
             }
+
             <img [ngSrc]="data.url" [alt]="data.title" fill="true">
           </picture>
         }
