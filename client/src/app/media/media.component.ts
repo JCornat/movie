@@ -6,7 +6,7 @@ import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import { CategoryService } from '@app/category/category.service';
-import { GroupMedium, Medium } from '@app/interface';
+import { GroupMedium, Medium, OrderBy } from '@app/interface';
 
 @Directive()
 export abstract class MediaComponent implements OnInit {
@@ -38,7 +38,7 @@ export abstract class MediaComponent implements OnInit {
     this.mediaService.increaseLimit(groupMedium);
   }
 
-  sort(value: { groupMedium: GroupMedium, type: string }): void {
+  sort(value: { groupMedium: GroupMedium, type: OrderBy }): void {
     this.mediaService.sort(value.groupMedium, value.type);
   }
 

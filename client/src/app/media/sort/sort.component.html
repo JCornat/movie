@@ -1,0 +1,12 @@
+<form [formGroup]="mediaForm">
+  <select formControlName="orderBy">
+    @for (sort of sorts; track sort) {
+      <option [ngValue]="sort.value">{{sort.label}}</option>
+    }
+  </select>
+</form>
+<!--
+        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': groupMediaSort[groupMedium.value] !== 'random'}" (click)="sort(groupMedium, 'random')">Random</div>
+        <div class="bold cursor-pointer pr-16" [ngClass]="{'opacity-3': groupMediaSort[groupMedium.value] !== 'alphabetic'}" (click)="sort(groupMedium, 'alphabetic')">A-Z</div>
+        <div class="bold cursor-pointer" [ngClass]="{'opacity-3': groupMediaSort[groupMedium.value] !== 'chronologic'}" (click)="sort(groupMedium, 'chronologic')">Year</div>
+        -->
