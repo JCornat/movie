@@ -18,8 +18,8 @@ export class SortComponent implements OnInit {
     { value: OrderBy.random, label: 'Random' },
     { value: OrderBy.alphabetic, label: 'A-Z' },
     { value: OrderBy.alphabeticReverse, label: 'Z-A' },
-    { value: OrderBy.chronological, label: 'Year ascendant' },
-    { value: OrderBy.chronologicalReverse, label: 'Year descendant' },
+    { value: OrderBy.chronological, label: 'Most recent' },
+    { value: OrderBy.chronologicalReverse, label: 'Least recent' },
     { value: OrderBy.added, label: 'Last added' },
   ];
 
