@@ -25,6 +25,10 @@ export abstract class MediaService {
   }
 
   // Signals Media
+  mediaAlreadyPresent(title:string):boolean {
+    console.log(title)
+    return this.#mediaSignal().flatMap(cat => cat.media).find(media => media.title === title) != null;
+  }
 
   addMedia(media: Media) {
     this.#mediaSignal.update((values: Category[]) => {

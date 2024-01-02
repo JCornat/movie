@@ -78,6 +78,12 @@ export abstract class MediaAddComponent implements OnInit {
   \*-----------------------*/
 
   async add(): Promise<void> {
+    console.log(this.formData)
+    if(this.mediaService.mediaAlreadyPresent(this.formData.title)){
+      if(confirm("This title already exist, do you stil want to add it?") == false){
+        return;
+      }
+    }
     await this.mediaService.add(this.formData);
   }
 
