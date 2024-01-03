@@ -47,9 +47,9 @@ export enum OrderBy {
   random = 'random',
   alphabetic = 'alphabetic',
   alphabeticReverse = 'alphabetic-',
-  chronological = 'chronological',
-  chronologicalReverse = 'chronological-',
-  added = 'added',
+  mostRecent = 'mostRecent',
+  leastRecent = 'chronological-',
+  lastAdded = 'lastAdded',
 }
 
 export type GroupMediaSort = Record<string, OrderBy>;

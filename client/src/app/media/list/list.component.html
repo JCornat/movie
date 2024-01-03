@@ -1,11 +1,9 @@
 @for (groupMedium of groupMedia; track groupMedium.label) {
   @if (groupMedium.media.length > 0) {
-    <div class="mx-16 flex" style="align-items: baseline;">
+    <div class="mx-16 flex" style="align-items: center;">
       <div class="bold text-xl mr-8" [id]="groupMedium.label">{{groupMedium.label}}</div>
       <div class="fill"></div>
-      <div class="flex">
-        <app-sort [orderBy]="groupMediaSort[groupMedium.value]" (onChange)="sort(groupMedium, $event)"/>
-      </div>
+      <app-sort [orderBy]="groupMediaSort[groupMedium.value]" (onChange)="sort(groupMedium, $event)"/>
     </div>
 
     <div class="media-container" style="margin-bottom: 64px;">

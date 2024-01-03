@@ -18,9 +18,9 @@ export class SortComponent implements OnInit {
     { value: OrderBy.random, label: 'Random' },
     { value: OrderBy.alphabetic, label: 'A-Z' },
     { value: OrderBy.alphabeticReverse, label: 'Z-A' },
-    { value: OrderBy.chronological, label: 'Most recent' },
-    { value: OrderBy.chronologicalReverse, label: 'Least recent' },
-    { value: OrderBy.added, label: 'Last added' },
+    { value: OrderBy.mostRecent, label: 'Most recent' },
+    { value: OrderBy.leastRecent, label: 'Least recent' },
+    { value: OrderBy.lastAdded, label: 'Last added' },
   ];
 
   ngOnInit() {
