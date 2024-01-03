@@ -138,18 +138,18 @@ export abstract class MediaService implements OnDestroy {
           case OrderBy.alphabeticReverse:
             tmp.media = Global.sort({ data: tmp.media, key: 'title', descending: true });
             break;
-          case OrderBy.chronological:
-            tmp.media = Global.sort({ data: tmp.media, key: 'year' });
-            break;
-          case OrderBy.chronologicalReverse:
+          case OrderBy.mostRecent:
             tmp.media = Global.sort({ data: tmp.media, key: 'year', descending: true });
+            break;
+          case OrderBy.leastRecent:
+            tmp.media = Global.sort({ data: tmp.media, key: 'year' });
             break;
           case OrderBy.random:
             const shuffled = Global.clone(tmp.media);
             this.shuffle(shuffled);
             tmp.media = shuffled;
             break;
-          case OrderBy.added:
+          case OrderBy.lastAdded:
             tmp.media = tmp.media.reverse();
             break;
           default:
