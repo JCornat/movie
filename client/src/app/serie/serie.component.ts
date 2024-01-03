@@ -7,10 +7,10 @@ import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { SerieService } from '@app/serie/serie.service';
 import { CategoryComponent } from '@app/category/category.component';
-import { FilterComponent } from '@app/media/filter/filter.component';
+import { MediaFilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
 import { Serie } from '@app/interface';
-import { ListComponent } from '@app/media/list/list.component';
+import { MediaListComponent } from '@app/media/list/list.component';
 
 @Component({
   selector: 'app-serie',
@@ -23,9 +23,9 @@ import { ListComponent } from '@app/media/list/list.component';
     ReactiveFormsModule,
     RouterModule,
     CategoryComponent,
-    FilterComponent,
+    MediaFilterComponent,
     MediaMoreComponent,
-    ListComponent,
+    MediaListComponent,
   ],
 })
 export class SerieComponent extends MediaComponent {

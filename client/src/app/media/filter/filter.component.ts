@@ -7,10 +7,11 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './filter.component.html',
 })
-export class FilterComponent implements OnInit {
+export class MediaFilterComponent implements OnInit {
   searchForm!: FormGroup;
 
   @Input() searchTerm!: string;
+
   @Output() onSearch = new EventEmitter<string>();
 
   ngOnInit(): void {

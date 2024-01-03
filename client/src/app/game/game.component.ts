@@ -8,9 +8,9 @@ import { GameService } from '@app/game/game.service';
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { CategoryComponent } from '@app/category/category.component';
-import { FilterComponent } from '@app/media/filter/filter.component';
+import { MediaFilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
-import { ListComponent } from '@app/media/list/list.component';
+import { MediaListComponent } from '@app/media/list/list.component';
 
 @Component({
   selector: 'app-game',
@@ -23,9 +23,9 @@ import { ListComponent } from '@app/media/list/list.component';
     NgOptimizedImage,
     ReactiveFormsModule,
     RouterModule,
-    FilterComponent,
+    MediaFilterComponent,
     MediaMoreComponent,
-    ListComponent,
+    MediaListComponent,
   ],
 })
 export class GameComponent extends MediaComponent {

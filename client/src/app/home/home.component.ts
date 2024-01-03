@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  selectMedia(media: { title: string, url: string }): void {
+  selectCategory(media: { title: string, url: string }): void {
     this.router.navigate([media.url]);
   }
 

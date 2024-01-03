@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as Global from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
-import { SortComponent } from '@app/media/sort/sort.component';
+import { MediaSortComponent } from '@app/media/sort/sort.component';
 
 @Component({
   selector: 'app-list',
@@ -17,11 +17,11 @@ import { SortComponent } from '@app/media/sort/sort.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    SortComponent,
+    MediaSortComponent,
   ],
   templateUrl: './list.component.html',
 })
-export class ListComponent {
+export class MediaListComponent {
   @Input({ required: true }) groupMedia!: GroupMedium[];
   @Input({ required: true }) groupMediaLimit!: GroupMediaLimit;
   @Input({ required: true }) groupMediaSort!: GroupMediaSort;

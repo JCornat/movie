@@ -8,7 +8,7 @@ import { OrderBy } from '@app/interface';
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './sort.component.html',
 })
-export class SortComponent implements OnInit {
+export class MediaSortComponent implements OnInit {
   @Input({ required: true }) orderBy!: string;
   @Output() onChange = new EventEmitter<OrderBy>();
 
