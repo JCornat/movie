@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } fr
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Route } from '../../app.routes';
-import { AuthenticationService } from '../../core/services/authentication/authentication.service';
+import { Route } from '../../../app.routes';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-login',
