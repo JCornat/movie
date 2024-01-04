@@ -12,10 +12,12 @@
           "skipTests": true
         },
         "@schematics/angular:directive": {
-          "flat": false
+          "flat": false,
+          "skipTests": true
         },
         "@schematics/angular:service": {
-          "flat": false
+          "flat": false,
+          "skipTests": true
         }
       },
       "root": "",

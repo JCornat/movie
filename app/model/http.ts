@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as Request from 'request';
+import Request from 'request';
 
 import * as Global from './global';
 
