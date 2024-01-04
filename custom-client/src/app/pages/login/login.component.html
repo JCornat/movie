@@ -1,1 +1,11 @@
-<p>login works!</p>
+<form (ngSubmit)="login()">
+  <fieldset>
+    <legend>Username</legend>
+    <input id="username" name="username" type="password" [ngModel]="username()" (ngModelChange)="username.set($event)">
+  </fieldset>
+  <fieldset>
+    <legend>Password</legend>
+    <input id="password" name="password" type="password" [ngModel]="password()" (ngModelChange)="password.set($event)">
+  </fieldset>
+  <button type="submit">Login</button>
+</form>

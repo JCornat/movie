@@ -1,0 +1,16 @@
+import { InjectionToken, Provider } from '@angular/core';
+
+import { ConfigInterface } from './config.interface';
+
+// eslint-disable-next-line @typescript-eslint/typedef
+const _Config = {
+  apiUrl: '',
+} satisfies ConfigInterface;
+
+export type ConfigType = typeof _Config;
+
+export const Config: InjectionToken<ConfigType> = new InjectionToken<ConfigType>('Config');
+
+export function provideConfig(): Provider {
+  return { provide: Config, useValue: _Config };
+}

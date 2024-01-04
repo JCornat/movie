@@ -18,7 +18,7 @@ export class AuthenticationService {
     return this.http.post<{ token: string; refresh: string }>('api/login', { username, password }).pipe(
       tap(({ token, refresh }) => {
         this.tokenService.setToken(token);
-        this.tokenService.setRefreshToken(token);
+        this.tokenService.setRefreshToken(refresh);
       }),
       map(() => void 0),
     );
