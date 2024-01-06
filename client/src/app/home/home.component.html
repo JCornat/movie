@@ -1,14 +1,14 @@
 @for (categoryPreview of categoriesPreview(); track categoryPreview.title) {
-  <div class="flex cursor-pointer items-center relative mb-4 overflow-hidden" (click)="selectCategory(categoryPreview)" style="height: calc(var(--presentation-media-height) * 2); background: linear-gradient(90deg,rgb(18,18,18) 25%,rgba(18,18,18,.7) 50%,rgba(18,18,18,.1) 100%);">
-    <div class="pl-24">
-      <div class="text-3xl font-bold" style="text-shadow: 0 0 5px rgba(0,212,252,.8)">{{categoryPreview.title}}</div>
+  <div class="flex cursor-pointer items-center relative mb-4 overflow-hidden" (click)="selectCategory(categoryPreview)" style="height: calc(var(--presentation-media-height) * 2); background: linear-gradient(90deg, rgb(18,18,18) 25%, rgba(18,18,18,.7) 50%, rgba(18,18,18,.1) 100%);">
+    <div class="px-4 md:pl-12 lg:pl-24">
+      <div class="text-3xl font-bold" style="text-shadow: 0 0 5px rgba(0, 212, 252, .8)">{{categoryPreview.title}}</div>
       <div class="opacity-50 mb-4 text-xl">{{categoryPreview.description}}</div>
-      <div class="text-lg font-medium">
+      <div class="text-lg font-bold">
         <a [routerLink]="categoryPreview.url" class="reset">See more <span class="opacity-40">></span></a>
       </div>
     </div>
 
-    <div class="absolute grid w-full -z-10 inset-0" style="grid-template-columns: repeat(auto-fill,minmax(var(--presentation-media-width),1fr));">
+    <div class="absolute grid w-full -z-10 inset-0" style="grid-template-columns: repeat(auto-fill, minmax(var(--presentation-media-width),1fr));">
       @for (medium of categoryPreview.media; track medium.id) {
         <div class="relative block">
           <div class="w-full bg-center bg-cover bg-no-repeat" style="height: var(--presentation-media-height);">

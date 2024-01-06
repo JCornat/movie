@@ -16,7 +16,7 @@
   }
 }
 
-@media (max-width: 544px) {
+@media (max-width: 640px) {
   :root {
     --movie-width: 160px;
     --presentation-media-width: 125px;
