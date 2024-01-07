@@ -1,5 +1,5 @@
 @for (link of categories(); track link; let i = $index) {
-  <div class="bold cursor-pointer" [ngClass]="{'opacity-3': !link.active}">
-    <a [routerLink]="link.path" class="p-8 reset">{{link.label}}</a>
+  <div class="font-bold cursor-pointer mr-2" [ngClass]="{'opacity-30': !link.active}">
+    <a [routerLink]="link.path" class="pr-2 reset">{{link.label}}</a>
   </div>
 }
