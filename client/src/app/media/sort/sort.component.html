@@ -1,5 +1,5 @@
 <form [formGroup]="mediaForm">
-  <select formControlName="orderBy" style="min-width: 200px;">
+  <select formControlName="orderBy" class="bg-transparent border-white/30 border h-8 pl-2.5 rounded-lg text-sm min-w-52">
     @for (sort of sorts; track sort) {
       <option [ngValue]="sort.value">{{sort.label}}</option>
     }

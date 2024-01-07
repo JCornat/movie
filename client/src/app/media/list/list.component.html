@@ -1,12 +1,12 @@
 @for (groupMedium of groupMedia; track groupMedium.label) {
   @if (groupMedium.media.length > 0) {
-    <div class="mx-16 flex" style="align-items: center;">
-      <div class="bold text-xl mr-8" [id]="groupMedium.label">{{groupMedium.label}}</div>
-      <div class="fill"></div>
+    <div class="mx-4 flex" style="align-items: center;">
+      <div class="font-bold text-2xl" [id]="groupMedium.label">{{groupMedium.label}}</div>
+      <div class="flex-grow"></div>
       <app-sort [orderBy]="groupMediaSort[groupMedium.value]" (onChange)="sort(groupMedium, $event)"/>
     </div>
 
-    <div class="media-container" style="margin-bottom: 64px;">
+    <div class="grid gap-4 grid-cols-media m-4" style="margin-bottom: 64px;">
       @for (game of groupMedium.media; track game; let i = $index) {
         @if (i < groupMediaLimit[groupMedium.value]) {
           <media-item [data]="game" (click)="update(game)"></media-item>
@@ -14,7 +14,7 @@
       }
 
       @if (groupMediaLimit[groupMedium.value] < groupMedium.media.length) {
-        <media-more [category]="groupMedium" [limit]="groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
+        <media-more [data]="groupMedium.media[groupMediaLimit[groupMedium.value]]" [limit]="groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
       }
     </div>
   }

@@ -1,5 +1,5 @@
 @for (categoryPreview of categoriesPreview(); track categoryPreview.title) {
-  <div class="flex cursor-pointer items-center relative mb-4 overflow-hidden" (click)="selectCategory(categoryPreview)" style="height: calc(var(--presentation-media-height) * 2); background: linear-gradient(90deg, rgb(18,18,18) 25%, rgba(18,18,18,.7) 50%, rgba(18,18,18,.1) 100%);">
+  <div class="flex cursor-pointer items-center relative mb-4 overflow-hidden h-media-2 bg-home" (click)="selectCategory(categoryPreview)">
     <div class="px-4 md:pl-12 lg:pl-24">
       <div class="text-3xl font-bold" style="text-shadow: 0 0 5px rgba(0, 212, 252, .8)">{{categoryPreview.title}}</div>
       <div class="opacity-50 mb-4 text-xl">{{categoryPreview.description}}</div>
@@ -8,10 +8,10 @@
       </div>
     </div>
 
-    <div class="absolute grid w-full -z-10 inset-0" style="grid-template-columns: repeat(auto-fill, minmax(var(--presentation-media-width),1fr));">
+    <div class="absolute grid w-full -z-10 inset-0 grid-cols-home">
       @for (medium of categoryPreview.media; track medium.id) {
         <div class="relative block">
-          <div class="w-full bg-center bg-cover bg-no-repeat" style="height: var(--presentation-media-height);">
+          <div class="w-full bg-center bg-cover bg-no-repeat h-media">
             <picture>
               <source [srcset]="medium.urlWebp" type="image/webp">
               <img [ngSrc]="medium.url" alt="Description" fill="true" class="absolute w-full h-full inset-0">

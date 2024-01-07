@@ -1,6 +1,7 @@
-<div class="navigation">
-  <app-category class="link"/>
-  <app-filter class="search" [searchTerm]="searchTerm()" (onSearch)="search($event)"/>
+<div class="flex m-4 flex-col items-center sm:flex-row">
+  <app-category class="flex"/>
+  <div class="sm:flex-grow mb-2 sm:mb-0"></div>
+  <app-filter class="block w-full sm:w-auto" [searchTerm]="searchTerm()" (onSearch)="search($event)"/>
 
   @if (isLogged()) {
     <div class="ml-8">

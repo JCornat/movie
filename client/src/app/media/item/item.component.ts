@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
+import { NgClass, NgOptimizedImage } from '@angular/common';
 
 import { SERVER_URL } from '@shared/config/config';
 import * as Global from '@shared/global/global';
@@ -9,10 +9,10 @@ import { Medium } from '@app/interface';
   selector: 'media-item',
   templateUrl: './item.component.html',
   standalone: true,
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, NgClass],
 })
 export class MediaItemComponent implements OnInit {
-  @Input() data!: { [key: string]: any };
+  @Input({ required: true }) data!: { [key: string]: any };
   @Input() dynamic!: boolean; // Allow image update
 
   ngOnInit(): void {
