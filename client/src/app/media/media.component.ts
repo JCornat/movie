@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnDestroy, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, Directive, ElementRef, inject, OnInit, Signal, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
@@ -21,6 +21,9 @@ export abstract class MediaComponent implements OnInit {
   searchTerm = this.computeSearchTerm();
   groupMediaLimit = this.computeGroupMediaLimit();
   groupMediaSort = this.computeGroupMediaSort();
+  openSearch = signal<boolean>(false);
+  openAdd = signal<boolean>(false);
+  openUpdate = signal<boolean>(false);
 
   ngOnInit(): void {
     this.mediaService.pullAll();
@@ -29,6 +32,12 @@ export abstract class MediaComponent implements OnInit {
   /*-----------------------*\
            Template
   \*-----------------------*/
+
+  abstract getSearchComponent(): any;
+
+  abstract getAddComponent(): any;
+
+  abstract getUpdateComponent(): any;
 
   search(term: string): void {
     this.mediaService.updateSearchTerm(term);
@@ -47,11 +56,7 @@ export abstract class MediaComponent implements OnInit {
   \*-----------------------*/
 
   navigateSearch(): void {
-    if (!this.isLogged()) {
-      return;
-    }
-
-    this.router.navigate([`/${this.categoryService.currentCategory()}`, 'search']);
+    this.openSearch.update((value) => !value);
   }
 
   /*-----------------------*\

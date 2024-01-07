@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NgOptimizedImage, CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -11,6 +11,9 @@ import { CategoryComponent } from '@app/category/category.component';
 import { MediaFilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
 import { MediaListComponent } from '@app/media/list/list.component';
+import { GameSearchComponent } from '@app/game/search/search.component';
+import { GameAddComponent } from '@app/game/add/add.component';
+import { GameUpdateComponent } from '@app/game/update/update.component';
 
 @Component({
   selector: 'app-game',
@@ -31,4 +34,16 @@ import { MediaListComponent } from '@app/media/list/list.component';
 export class GameComponent extends MediaComponent {
   override media!: Game[];
   override mediaService = inject(GameService);
+
+  override getSearchComponent(): any {
+    return GameSearchComponent;
+  }
+
+  override getAddComponent(): any {
+    return GameAddComponent;
+  }
+
+  override getUpdateComponent(): any {
+    return GameUpdateComponent;
+  }
 }

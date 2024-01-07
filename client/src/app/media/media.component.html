@@ -10,4 +10,22 @@
   }
 </div>
 
+  @defer (when openSearch()) {
+    @if (openSearch()) {
+      <ng-container *ngComponentOutlet="getSearchComponent()"/>
+    }
+  }
+
+  @defer (when openAdd()) {
+    @if (openAdd()) {
+      <ng-container *ngComponentOutlet="getAddComponent()"/>
+    }
+  }
+
+  @defer (when openUpdate()) {
+    @if (openUpdate()) {
+      <ng-container *ngComponentOutlet="getUpdateComponent()"/>
+    }
+  }
+
 <app-list [groupMedia]="displayList()" [groupMediaLimit]="groupMediaLimit()" [groupMediaSort]="groupMediaSort()" (onSort)="sort($event)" (onUpdate)="navigateUpdate($event)" (onIncreaseLimit)="increaseLimit($event)"/>

@@ -19,17 +19,17 @@ export default [
   },
   {
     path: 'game',
-    loadChildren: () => import('./game/routes'),
+    loadComponent: () => import('./game/game.component').then((m) => m.GameComponent),
     title: `${Config.TITLE} - Games`,
   },
   {
     path: 'movie',
-    loadChildren: () => import('./movie/routes'),
+    loadComponent: () => import('./movie/movie.component').then((m) => m.MovieComponent),
     title: `${Config.TITLE} - Movies`,
   },
   {
     path: 'serie',
-    loadChildren: () => import('./serie/routes'),
+    loadComponent: () => import('./serie/serie.component').then((m) => m.SerieComponent),
     title: `${Config.TITLE} - Series`,
   },
 ] as Route[];
