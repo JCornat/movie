@@ -1,26 +1,26 @@
-<div class="mx-16 mt-16 max-w-936">
-  <div class="mb-16">
+<div class="mx-4 max-w-936">
+  <div class="mb-4">
     <button (click)="navigateBack()">
-      <i class="icon icon-arrow-back pr-8"></i> Back
+      <i class="icon icon-arrow-back pr-2"></i> Back
     </button>
   </div>
 
-  <div class="bold text-xl mb-16">Login</div>
+  <div class="bold text-xl mb-4">Login</div>
 
-  <div class="card p-20 mb-16">
+  <div class="border rounded-lg p-4 mb-4">
     <form [formGroup]="loginForm" (submit)="onSubmit()">
-      <div class="bold mb-8">Username</div>
-      <div class="mb-16" style="position: relative;">
+      <div class="mb-2">Username</div>
+      <div class="mb-4 relative">
         <input type="password" formControlName="username"/>
       </div>
 
-      <div class="bold mb-8">Password</div>
-      <div class="mb-16" style="position: relative;">
+      <div class="mb-2">Password</div>
+      <div class="mb-4 relative">
         <input type="password" formControlName="password"/>
       </div>
 
-      <div class="mb-16 flex" style="position: relative; cursor: pointer;" (click)="toggleStayConnected()">
-        <i class="icon mr-8" [ngClass]="{'icon-check-box': formData?.stayLogged, 'icon-check-box-outline-blank': !formData?.stayLogged}"></i>
+      <div class="mb-4 flex relative cursor-pointer" (click)="toggleStayConnected()">
+        <i class="icon mr-2" [ngClass]="{'icon-check-box': formData?.stayLogged, 'icon-check-box-outline-blank': !formData?.stayLogged}"></i>
         Stay connected
       </div>
     </form>
@@ -33,10 +33,8 @@
   }
 
   <div class="flex">
-    <div class="fill"></div>
+    <div class="flex-grow"></div>
 
-    <button (click)="onSubmit()">
-      <i class="icon icon-login pr-8"></i> Login
-    </button>
+    <button (click)="onSubmit()" class="border rounded-md px-4 h-8">Login</button>
   </div>
 </div>

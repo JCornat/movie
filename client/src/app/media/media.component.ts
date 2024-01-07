@@ -60,7 +60,7 @@ export abstract class MediaComponent implements OnInit {
 
   navigateUpdate(media: Medium): void {
     // if (!this.isLogged()) {
-    return;
+    // return;
     // }
 
     this.router.navigate([`/${this.categoryService.currentCategory()}`, media.id, 'update']);

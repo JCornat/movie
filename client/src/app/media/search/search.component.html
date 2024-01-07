@@ -1,14 +1,14 @@
-<div class="mx-16 mt-16 max-w-936">
-  <div class="mb-16">
+<div class="m-4 max-w-936">
+  <div class="mb-4">
     <button (click)="navigateBack()">
       <i class="icon icon-arrow-back pr-8"></i> Back
     </button>
   </div>
 
-  <div class="bold text-xl mb-16">Search a new {{type}}</div>
+  <div class="bold text-xl mb-4">Search a new {{type}}</div>
 
   <div>
-    <div class="flex mb-24" style="align-items: end;">
+    <div class="flex mb-8" style="align-items: end;">
       <div class="fill">
         <form [formGroup]="searchForm" (submit)="onSubmit()">
           <div style="position: relative;">
@@ -38,13 +38,13 @@
     }
 
     @if (!loading && searchResults) {
-      <div class="bold text-lg mb-16">Results</div>
-      <div class="card">
+      <div class="bold text-lg mb-4">Results</div>
+      <div class="border">
         @if (searchResults.length === 0) {
           No result
         } @else {
           @for (result of searchResults; track result) {
-            <div class="row clickable p-12" style="cursor: pointer;" (click)="select(result)">{{result.title}} ({{result.year}})</div>
+            <div class="border-b border-b-white cursor-pointer p-2" (click)="select(result)">{{result.title}} ({{result.year}})</div>
           }
         }
       </div>

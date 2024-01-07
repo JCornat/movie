@@ -7,9 +7,9 @@
     </div>
 
     <div class="grid gap-4 grid-cols-media m-4" style="margin-bottom: 64px;">
-      @for (game of groupMedium.media; track game; let i = $index) {
+      @for (medium of groupMedium.media; track medium; let i = $index) {
         @if (i < groupMediaLimit[groupMedium.value]) {
-          <media-item [data]="game" (click)="update(game)"></media-item>
+          <media-item [data]="medium" (click)="update(medium)"></media-item>
         }
       }
 

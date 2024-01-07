@@ -1,5 +1,5 @@
-<div class="mx-16 mt-16 max-w-936">
-  <div class="mb-16">
+<div class="m-4 max-w-936">
+  <div class="mb-4">
     <button (click)="navigateBack()">
       <i class="icon icon-arrow-back pr-8"></i> Back
     </button>
@@ -21,26 +21,26 @@
     <div class="grid-add">
       <div style="width: 100%;">
         @if (id) {
-          <div class="bold text-xl mb-16">Update a {{type}}</div>
+          <div class="bold text-xl mb-4">Update a {{type}}</div>
         } @else {
-          <div class="bold text-xl mb-16">Add a new {{type}}</div>
+          <div class="bold text-xl mb-4">Add a new {{type}}</div>
         }
 
-        <div class="card p-20 mb-16">
+        <div class="p-4 mb-4 border rounded-lg">
           <div style="min-width: min(400px, 100%);">
             <form [formGroup]="mediaForm" (submit)="onSubmit()">
-              <div class="bold mb-8">Title</div>
-              <div class="mb-16" style="position: relative;">
+              <div class="bold mb-2">Title</div>
+              <div class="mb-4">
                 <input type="text" formControlName="title" placeholder="Title"/>
               </div>
 
-              <div class="bold mb-8">Year</div>
-              <div class="mb-16" style="position: relative;">
+              <div class="bold mb-2">Year</div>
+              <div class="mb-4">
                 <input type="number" formControlName="year" placeholder="Year"/>
               </div>
 
-              <div class="bold mb-8">Url</div>
-              <div class="mb-16" style="position: relative;">
+              <div class="bold mb-2">Url</div>
+              <div class="mb-4">
                 <div class="flex">
                   <div class="fill">
                     <input type="text" formControlName="url" placeholder="Url"/>
@@ -53,8 +53,8 @@
                 </div>
               </div>
 
-              <div class="bold mb-8">Rating</div>
-              <div style="position: relative;">
+              <div class="bold mb-2">Rating</div>
+              <div>
                 <select formControlName="rating">
                   @for (rating of ratings; track rating) {
                     <option [ngValue]="rating.value">{{rating.label}}</option>
@@ -65,23 +65,23 @@
           </div>
         </div>
 
-        <div class="flex mb-16">
+        <div class="flex mb-4">
           @if (id) {
-            <button (click)="remove()">
-              <i class="icon icon-delete pr-8"></i> Remove
+            <button (click)="remove()" class="border rounded-md px-2 h-8">
+              <i class="icon icon-delete"></i> Remove
             </button>
           }
 
-          <div class="fill"></div>
-          <button (click)="onSubmit()">
-            <i class="icon icon-save pr-8"></i> Save
+          <div class="flex-grow"></div>
+          <button (click)="onSubmit()" class="border rounded-md px-2 h-8">
+            <i class="icon icon-save"></i> Save
           </button>
         </div>
       </div>
 
       @if (formData) {
         <div class="media-item">
-          <div class="bold text-xl mb-16">Preview</div>
+          <div class="bold text-xl mb-4">Preview</div>
           <media-item [data]="$any(formData)" [dynamic]="true"></media-item>
         </div>
       }
