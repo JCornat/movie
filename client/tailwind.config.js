@@ -22,12 +22,10 @@ module.exports = {
       },
       grayscale: {
         5: '5%',
-        10: '100%',
       },
       saturate: {
         110: '110%',
       },
     },
   },
-  plugins: [],
 };
