@@ -4,10 +4,8 @@
   <app-filter class="block w-full sm:w-auto" [searchTerm]="searchTerm()" (onSearch)="search($event)"/>
 
   @if (isLogged()) {
-    <div class="ml-8">
-      <button (click)="navigateSearch()">
-        <i class="icon icon-add"></i>
-      </button>
+    <div class="ml-2">
+      <button class="border border-white/30 h-8 px-3 rounded-lg text-sm" (click)="navigateSearch()">+</button>
     </div>
   }
 </div>
