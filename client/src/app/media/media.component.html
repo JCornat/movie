@@ -10,9 +10,18 @@
   }
 </div>
 
+<!--<div class="absolute inset-0 max-w-936 bg-black/80 z-10 overflow-hidden tra">-->
+<!--  <div class="relative inset-0 h-full w-full">-->
+<!--  </div>-->
+<!--</div>-->
+<button (click)="navigateSearch()">X</button>
+<div class="max-w-lg bg-[#2D333B] h-full overflow-scroll absolute w-full transition-all right-0 z-20 top-0" [style.translate]="(!openSearch()) ? '100% 0' : '0 0'">
+  <button (click)="navigateSearch()">X</button>
+</div>
+
   @defer (when openSearch()) {
     @if (openSearch()) {
-      <ng-container *ngComponentOutlet="getSearchComponent()"/>
+<!--      <ng-container *ngComponentOutlet="getSearchComponent()"/>-->
     }
   }
 

@@ -6,13 +6,15 @@ import { ThemeService } from '@shared/theme/theme.service';
 import { AuthenticationService } from '@shared/authentication/authentication.service';
 import * as Config from '@shared/config/config';
 import { RouterModule } from '@angular/router';
+import { PanelComponent } from '@app/panel/panel.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, PanelComponent],
   template: `
-    <router-outlet></router-outlet>
+    <app-panel/>
+    <router-outlet/>
   `,
 })
 export class AppComponent implements OnInit {
