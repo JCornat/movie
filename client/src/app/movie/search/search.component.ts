@@ -8,7 +8,6 @@ import { MovieService } from '@app/movie/movie.service';
 @Component({
   selector: 'movie-search',
   templateUrl: '../../media/search/search.component.html',
-  styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
 })

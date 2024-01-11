@@ -7,7 +7,6 @@ import { MediaSearchComponent } from '@app/media/search/search.component';
 @Component({
   selector: 'game-search',
   templateUrl: '../../media/search/search.component.html',
-  styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
   imports: [ReactiveFormsModule],
 })

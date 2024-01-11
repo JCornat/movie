@@ -9,7 +9,6 @@ import { SerieService } from '@app/serie/serie.service';
 @Component({
   selector: 'serie-add',
   templateUrl: '../../media/add/add.component.html',
-  styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
   imports: [CommonModule, MediaItemComponent, ReactiveFormsModule],
 })
