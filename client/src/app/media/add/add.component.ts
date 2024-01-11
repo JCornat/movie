@@ -12,6 +12,10 @@ import * as Global from '@shared/global/global';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
+  requestService = inject(RequestService);
+  router = inject(Router);
+  abstract mediaService: SerieService | MovieService | GameService;
+
   @ViewChild('inputFile', { static: false }) inputFile!: ElementRef;
   @Input() id?: string;
 
@@ -21,9 +25,6 @@ export abstract class MediaAddComponent implements OnInit {
   formData!: { [key: string]: any };
   type!: 'movie' | 'serie' | 'game';
   ratings!: { value: string | number, label: string }[];
-  requestService = inject(RequestService);
-  router = inject(Router);
-  abstract mediaService: SerieService | MovieService | GameService;
 
   ngOnInit(): void {
     this.init();

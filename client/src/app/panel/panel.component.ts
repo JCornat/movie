@@ -1,16 +1,31 @@
-import { Component, inject, signal, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PanelService } from '@app/panel/panel.service';
+import { CommonModule, NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-panel',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, NgComponentOutlet],
   templateUrl: './panel.component.html',
 })
 export class PanelComponent {
   panelService = inject(PanelService);
 
-  display = this.panelService.display;
+  component = this.panelService.component;
 
-  @ViewChild('dialogContainer', { read: ViewContainerRef }) container: ViewContainerRef;
+  preventDefault(event?: Event): void {
+    if (event instanceof Event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  close(event?: Event): void {
+    if (event instanceof Event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    this.panelService.close();
+  }
 }

@@ -7,11 +7,13 @@ import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import { CategoryService } from '@app/category/category.service';
 import { GroupMedium, Medium, OrderBy } from '@app/interface';
+import { PanelService } from '@app/panel/panel.service';
 
 @Directive()
 export abstract class MediaComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
   categoryService = inject(CategoryService);
+  panelService = inject(PanelService);
   router = inject(Router);
   abstract mediaService: SerieService | MovieService | GameService;
 
@@ -21,9 +23,6 @@ export abstract class MediaComponent implements OnInit {
   searchTerm = this.computeSearchTerm();
   groupMediaLimit = this.computeGroupMediaLimit();
   groupMediaSort = this.computeGroupMediaSort();
-  openSearch = signal<boolean>(false);
-  openAdd = signal<boolean>(false);
-  openUpdate = signal<boolean>(false);
 
   ngOnInit(): void {
     this.mediaService.pullAll();
@@ -51,25 +50,23 @@ export abstract class MediaComponent implements OnInit {
     this.mediaService.sort(value.groupMedium, value.type);
   }
 
+  openSearchPanel(): void {
+    const component = this.getSearchComponent();
+    this.panelService.open({ component });
+  }
+
+  openUpdatePanel(media: Medium): void {
+    const component = this.getUpdateComponent();
+    this.panelService.open({ component, inputs: { id: media.id } });
+  }
+
   /*-----------------------*\
            Navigation
   \*-----------------------*/
 
-  navigateSearch(): void {
-    this.openSearch.update((value) => !value);
-  }
-
   /*-----------------------*\
           Navigation
   \*-----------------------*/
-
-  navigateUpdate(media: Medium): void {
-    // if (!this.isLogged()) {
-    // return;
-    // }
-
-    this.router.navigate([`/${this.categoryService.currentCategory()}`, media.id, 'update']);
-  }
 
   /*-----------------------*\
           Compute

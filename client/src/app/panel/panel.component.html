@@ -1,7 +1,5 @@
-@if (display()) {
-  <div class="absolute inset-0 max-w-936 bg-black/80 z-10 overflow-hidden">
-    <div class="relative inset-0 h-full w-full">
-      <ng-template #dialogContainer></ng-template>
-    </div>
+<div class="inset-0 max-w-936 bg-black/70  overflow-hidden transition-all opacity-0 fixed duration-300 -z-10" [ngClass]="{'!opacity-100 !z-10': component()}" (click)="close($event)">
+  <div class="max-w-lg h-full bg-[#2D333B] transition-all absolute w-full -right-full duration-300 p-4" [ngClass]="{ '!right-0': component()}" (click)="preventDefault($event)">
+    <ng-container *ngComponentOutlet="component()?.component; inputs: component()?.inputs"/>
   </div>
-}
+</div>
