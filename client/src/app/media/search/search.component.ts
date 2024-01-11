@@ -1,4 +1,4 @@
-import { Directive, inject, OnInit } from '@angular/core';
+import { Directive, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,9 +7,14 @@ import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import * as Global from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
+import { PanelService } from '@app/panel/panel.service';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
+  router = inject(Router);
+  panelService = inject(PanelService);
+  abstract mediaService: SerieService | MovieService | GameService;
+
   values!: { [key: string]: any };
   formData!: { [key: string]: any };
   searchForm!: FormGroup;
@@ -17,8 +22,6 @@ export abstract class MediaSearchComponent implements OnInit {
   searchResults!: ImportMedia[];
   loading!: boolean;
   error!: string;
-  router = inject(Router);
-  abstract mediaService: SerieService | MovieService | GameService;
 
   ngOnInit(): void {
     this.init();
@@ -67,7 +70,8 @@ export abstract class MediaSearchComponent implements OnInit {
   \*-----------------------*/
 
   navigateBack(): void {
-    this.router.navigate([`/${this.type}`]);
+    // this.router.navigate([`/${this.type}`]);
+    this.panelService.close();
   }
 
   navigateAdd(): void {

@@ -5,36 +5,9 @@
 
   @if (isLogged()) {
     <div class="ml-2">
-      <button class="border border-white/30 h-8 px-3 rounded-lg text-sm" (click)="navigateSearch()">+</button>
+      <button class="border border-white/30 h-8 px-3 rounded-lg text-sm" (click)="openSearchPanel()">+</button>
     </div>
   }
 </div>
 
-<!--<div class="absolute inset-0 max-w-936 bg-black/80 z-10 overflow-hidden tra">-->
-<!--  <div class="relative inset-0 h-full w-full">-->
-<!--  </div>-->
-<!--</div>-->
-<button (click)="navigateSearch()">X</button>
-<div class="max-w-lg bg-[#2D333B] h-full overflow-scroll absolute w-full transition-all right-0 z-20 top-0" [style.translate]="(!openSearch()) ? '100% 0' : '0 0'">
-  <button (click)="navigateSearch()">X</button>
-</div>
-
-  @defer (when openSearch()) {
-    @if (openSearch()) {
-<!--      <ng-container *ngComponentOutlet="getSearchComponent()"/>-->
-    }
-  }
-
-  @defer (when openAdd()) {
-    @if (openAdd()) {
-      <ng-container *ngComponentOutlet="getAddComponent()"/>
-    }
-  }
-
-  @defer (when openUpdate()) {
-    @if (openUpdate()) {
-      <ng-container *ngComponentOutlet="getUpdateComponent()"/>
-    }
-  }
-
-<app-list [groupMedia]="displayList()" [groupMediaLimit]="groupMediaLimit()" [groupMediaSort]="groupMediaSort()" (onSort)="sort($event)" (onUpdate)="navigateUpdate($event)" (onIncreaseLimit)="increaseLimit($event)"/>
+<app-list [groupMedia]="displayList()" [groupMediaLimit]="groupMediaLimit()" [groupMediaSort]="groupMediaSort()" (onSort)="sort($event)" (onUpdate)="openUpdatePanel($event)" (onIncreaseLimit)="increaseLimit($event)"/>
