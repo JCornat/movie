@@ -9,7 +9,6 @@ import { MediaUpdateComponent } from '@app/media/update/update.component';
 @Component({
   selector: 'game-update',
   templateUrl: '../../media/add/add.component.html',
-  styleUrls: ['../../media/add/add.component.scss'],
   standalone: true,
   imports: [CommonModule, MediaItemComponent, ReactiveFormsModule],
 })
