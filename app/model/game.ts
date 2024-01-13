@@ -3,7 +3,7 @@ import * as request from 'request';
 import { Store, Media, ImportMedia, Rating } from '@class/store';
 import { time } from '@model/time';
 import * as Config from '@config/config';
-import * as Global from '@model/global';
+import { Global } from '@model/global';
 
 // tslint:disable-next-line:no-empty-interface
 export interface Game extends Media {

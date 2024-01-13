@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 import { NgClass } from '@angular/common';
 
 @Component({

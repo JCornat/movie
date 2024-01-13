@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import { URL } from '@config/config';
 import * as File from '@model/file';
-import * as Global from '@model/global';
+import { Global } from '@model/global';
 import * as Image from '@model/image';
 import * as Random from '@model/random';
 

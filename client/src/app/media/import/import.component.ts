@@ -1,7 +1,7 @@
 import { Directive, OnInit, Input } from '@angular/core';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
 
 @Directive()
