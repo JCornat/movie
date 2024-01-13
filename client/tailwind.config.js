@@ -26,6 +26,9 @@ module.exports = {
       saturate: {
         110: '110%',
       },
+      maxWidth: {
+        '90p': '90%',
+      },
     },
   },
 };

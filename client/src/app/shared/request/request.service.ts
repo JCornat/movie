@@ -1,8 +1,7 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { flatMap, catchError, timeout } from 'rxjs/operators';
-import { Injector } from '@angular/core';
+import { catchError, flatMap, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { TokenService } from '@shared/token/token.service';

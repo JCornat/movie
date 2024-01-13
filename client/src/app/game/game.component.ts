@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { Game } from '@app/interface';
@@ -14,17 +13,17 @@ import { MediaListComponent } from '@app/media/list/list.component';
 import { GameSearchComponent } from '@app/game/search/search.component';
 import { GameAddComponent } from '@app/game/add/add.component';
 import { GameUpdateComponent } from '@app/game/update/update.component';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-game',
   templateUrl: '../media/media.component.html',
   standalone: true,
   imports: [
-    CommonModule,
+    SharedModule,
     MediaItemComponent,
     CategoryComponent,
     NgOptimizedImage,
-    ReactiveFormsModule,
     RouterModule,
     MediaFilterComponent,
     MediaMoreComponent,

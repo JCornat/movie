@@ -1,10 +1,10 @@
-import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
 import { Request } from '@shared/request/request';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
-import { ImportMedia, Medium, Serie } from '@app/interface';
+import { ImportMedia, Serie } from '@app/interface';
 import { MediaService } from '@app/media/media.service';
 
 @Injectable({

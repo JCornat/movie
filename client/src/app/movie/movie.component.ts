@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
@@ -14,16 +13,16 @@ import { MediaListComponent } from '@app/media/list/list.component';
 import { MovieSearchComponent } from '@app/movie/search/search.component';
 import { MovieAddComponent } from '@app/movie/add/add.component';
 import { MovieUpdateComponent } from '@app/movie/update/update.component';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-movie',
   templateUrl: '../media/media.component.html',
   standalone: true,
   imports: [
-    CommonModule,
+    SharedModule,
     MediaItemComponent,
     NgOptimizedImage,
-    ReactiveFormsModule,
     RouterModule,
     CategoryComponent,
     MediaFilterComponent,

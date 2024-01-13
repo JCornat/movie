@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { OrderBy } from '@app/interface';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-sort',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [SharedModule],
   templateUrl: './sort.component.html',
 })
 export class MediaSortComponent implements OnInit {

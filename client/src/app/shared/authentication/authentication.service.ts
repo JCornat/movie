@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, Injector, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
 import { TokenService } from '@shared/token/token.service';
