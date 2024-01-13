@@ -2,23 +2,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
-import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Global } from '@shared/global/global';
-import { RATINGS } from '@app/media/rating';
 import { MediaSortComponent } from '@app/media/sort/sort.component';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [
-    MediaItemComponent,
-    MediaMoreComponent,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MediaSortComponent,
-  ],
+  imports: [MediaItemComponent, MediaMoreComponent, MediaSortComponent],
   templateUrl: './list.component.html',
 })
 export class MediaListComponent {

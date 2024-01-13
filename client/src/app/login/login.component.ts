@@ -1,17 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { Global } from '@shared/global/global';
-import { NgClass } from '@angular/common';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [SharedModule],
 })
 export class LoginComponent implements OnInit {
   formData!: { [key: string]: any };

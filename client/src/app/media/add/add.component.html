@@ -11,8 +11,8 @@
 }
 
 @if (!loading && mediaForm) {
-  <div class="grid-add">
-    <div style="width: 100%;">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="sm:col-span-2">
       @if (id) {
         <div class="bold text-xl mb-4">Update a {{type}}</div>
       } @else {
@@ -24,20 +24,21 @@
           <form [formGroup]="mediaForm" (submit)="onSubmit()">
             <div class="bold mb-2">Title</div>
             <div class="mb-4">
-              <input type="text" formControlName="title" placeholder="Title"/>
+              <input type="text" formControlName="title" placeholder="Title" formInput/>
             </div>
 
             <div class="bold mb-2">Year</div>
             <div class="mb-4">
-              <input type="number" formControlName="year" placeholder="Year"/>
+              <input type="number" formControlName="year" placeholder="Year" formInput/>
             </div>
 
             <div class="bold mb-2">Url</div>
             <div class="mb-4">
               <div class="flex">
-                <div class="fill">
-                  <input type="text" formControlName="url" placeholder="Url"/>
+                <div class="grow">
+                  <input type="text" formControlName="url" placeholder="Url" formInput/>
                 </div>
+
                 <div class="ml-8">
                   <button (click)="selectFile($event)">
                     <i class="icon icon-file-upload"></i>
@@ -48,7 +49,7 @@
 
             <div class="bold mb-2">Rating</div>
             <div>
-              <select formControlName="rating">
+              <select formControlName="rating" formInput>
                 @for (rating of ratings; track rating) {
                   <option [ngValue]="rating.value">{{rating.label}}</option>
                 }

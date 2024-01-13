@@ -1,4 +1,4 @@
-import { Directive, OnInit, Input } from '@angular/core';
+import { Directive, Input, OnInit } from '@angular/core';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
 import { Global } from '@shared/global/global';

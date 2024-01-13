@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Directive, ElementRef, inject, OnInit, ViewChild, Input } from '@angular/core';
+import { Directive, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { GameService } from '@app/game/game.service';

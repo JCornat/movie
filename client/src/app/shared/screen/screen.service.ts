@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Subject, fromEvent } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 @Injectable({

@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
@@ -14,16 +13,16 @@ import { MediaListComponent } from '@app/media/list/list.component';
 import { SerieSearchComponent } from '@app/serie/search/search.component';
 import { SerieAddComponent } from '@app/serie/add/add.component';
 import { SerieUpdateComponent } from '@app/serie/update/update.component';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-serie',
   templateUrl: '../media/media.component.html',
   standalone: true,
   imports: [
-    CommonModule,
+    SharedModule,
     MediaItemComponent,
     NgOptimizedImage,
-    ReactiveFormsModule,
     RouterModule,
     CategoryComponent,
     MediaFilterComponent,

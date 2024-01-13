@@ -1,4 +1,4 @@
-import { computed, Directive, ElementRef, inject, OnInit, Signal, signal, ViewChild } from '@angular/core';
+import { computed, Directive, inject, OnInit, Signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';

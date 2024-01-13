@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [SharedModule],
   templateUrl: './filter.component.html',
 })
 export class MediaFilterComponent implements OnInit {
