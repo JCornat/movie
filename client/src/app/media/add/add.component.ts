@@ -8,7 +8,7 @@ import { RATINGS } from '@app/media/rating';
 import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
 import { SerieService } from '@app/serie/serie.service';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {

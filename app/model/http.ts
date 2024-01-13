@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as Request from 'request';
 
-import * as Global from './global';
+import { Global } from './global';
 
 export async function get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
   return await build('get', url, form, options);

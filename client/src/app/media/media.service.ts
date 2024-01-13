@@ -1,7 +1,7 @@
 import { computed, Directive, inject, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { Subscription } from 'rxjs';
 

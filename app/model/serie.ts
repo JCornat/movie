@@ -2,7 +2,7 @@ import * as request from 'request';
 
 import { ImportMedia, Media, Rating, Store } from '@class/store';
 import * as Config from '@config/config';
-import * as Global from '@model/global';
+import { Global } from '@model/global';
 
 // tslint:disable-next-line:no-empty-interface
 export interface Serie extends Media {

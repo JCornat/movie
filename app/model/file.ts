@@ -7,7 +7,7 @@ import * as path from 'path';
 
 import { UPLOAD_MAX_SIZE } from '@config/config';
 import * as Config from '@config/config';
-import * as Global from './global';
+import { Global } from './global';
 
 export async function read(sourcePath: string): Promise<any> {
   return await fsPromises.readFile(sourcePath, { encoding: 'utf8' });

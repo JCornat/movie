@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import * as Config from '@config/config';
 import * as File from '@model/file';
-import * as Global from '@model/global';
+import { Global } from '@model/global';
 import * as Http from '@model/http';
 
 export const IMAGE_EXTENSIONS = [

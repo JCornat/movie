@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
 

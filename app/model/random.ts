@@ -1,4 +1,4 @@
-import * as Global from './global';
+import { Global } from './global';
 
 export function generate(options: { count?: number, disableLowerCase?: boolean, disableNumbers?: boolean, disableUpperCase?: boolean } = {}): string {
   const lowerCaseCharacters = 'abcdefghijklmnopqrstuvwxyz';

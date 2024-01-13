@@ -4,7 +4,7 @@ import { v4 as UUID } from 'uuid';
 import { ADMINISTRATOR_USERNAME, ADMINISTRATOR_PASSWORD } from '@config/config';
 import { C7zResponse } from '@class/response';
 import * as Encryption from './encryption';
-import * as Global from './global';
+import { Global } from './global';
 import * as Token from './token';
 
 export async function login(options: { username: string, password: string }): Promise<{ token: string, refresh: string }> {

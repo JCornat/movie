@@ -4,7 +4,7 @@ import { MediaMoreComponent } from '@app/media/more/more.component';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { MediaSortComponent } from '@app/media/sort/sort.component';
 

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 
 import { SERVER_URL } from '@shared/config/config';
-import * as Global from '@shared/global/global';
+import { Global } from '@shared/global/global';
 import { Medium } from '@app/interface';
 
 @Component({
