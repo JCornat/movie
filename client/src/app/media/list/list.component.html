@@ -14,7 +14,7 @@
       }
 
       @if (groupMediaLimit[groupMedium.value] < groupMedium.media.length) {
-        <media-more [data]="groupMedium.media[groupMediaLimit[groupMedium.value]]" [limit]="groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
+        <media-more [data]="groupMedium.media[groupMediaLimit[groupMedium.value]]" [limit]="groupMedium.media.length - groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
       }
     </div>
   }
