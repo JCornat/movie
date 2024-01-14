@@ -11,7 +11,6 @@ import { MediaMoreComponent } from '@app/media/more/more.component';
 import { Movie } from '@app/interface';
 import { MediaListComponent } from '@app/media/list/list.component';
 import { MovieSearchComponent } from '@app/movie/search/search.component';
-import { MovieAddComponent } from '@app/movie/add/add.component';
 import { MovieUpdateComponent } from '@app/movie/update/update.component';
 import { SharedModule } from '@shared/shared.module';
 
@@ -36,10 +35,6 @@ export class MovieComponent extends MediaComponent {
 
   override getSearchComponent(): any {
     return MovieSearchComponent;
-  }
-
-  override getAddComponent(): any {
-    return MovieAddComponent;
   }
 
   override getUpdateComponent(): any {

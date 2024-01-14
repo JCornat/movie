@@ -11,7 +11,6 @@ import { MediaFilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
 import { MediaListComponent } from '@app/media/list/list.component';
 import { GameSearchComponent } from '@app/game/search/search.component';
-import { GameAddComponent } from '@app/game/add/add.component';
 import { GameUpdateComponent } from '@app/game/update/update.component';
 import { SharedModule } from '@shared/shared.module';
 
@@ -36,10 +35,6 @@ export class GameComponent extends MediaComponent {
 
   override getSearchComponent(): any {
     return GameSearchComponent;
-  }
-
-  override getAddComponent(): any {
-    return GameAddComponent;
   }
 
   override getUpdateComponent(): any {

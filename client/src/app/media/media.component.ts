@@ -32,12 +32,6 @@ export abstract class MediaComponent implements OnInit {
            Template
   \*-----------------------*/
 
-  abstract getSearchComponent(): any;
-
-  abstract getAddComponent(): any;
-
-  abstract getUpdateComponent(): any;
-
   search(term: string): void {
     this.mediaService.updateSearchTerm(term);
   }
@@ -52,7 +46,7 @@ export abstract class MediaComponent implements OnInit {
 
   openSearchPanel(): void {
     const component = this.getSearchComponent();
-    this.panelService.open({ component });
+    this.panelService.open({ component, inputs: { initialSearch: this.searchTerm() } });
   }
 
   openUpdatePanel(media: Medium): void {
@@ -61,12 +55,12 @@ export abstract class MediaComponent implements OnInit {
   }
 
   /*-----------------------*\
-           Navigation
+           Method
   \*-----------------------*/
 
-  /*-----------------------*\
-          Navigation
-  \*-----------------------*/
+  abstract getSearchComponent(): any;
+
+  abstract getUpdateComponent(): any;
 
   /*-----------------------*\
           Compute
