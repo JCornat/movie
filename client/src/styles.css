@@ -3,24 +3,28 @@
 @tailwind utilities;
 
 :root {
-  --movie-width: 200px;
+  --list-media-width: 200px;
   --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
 
   --presentation-media-width: 200px;
   --presentation-media-height: calc(var(--presentation-media-width) * 1.5);
+
+  --search-media-width: 120px;
 }
 
 @media (max-width: 768px) {
   :root {
-    --movie-width: 180px;
+    --list-media-width: 180px;
     --presentation-media-width: 175px;
+    --search-media-width: 100px;
   }
 }
 
 @media (max-width: 640px) {
   :root {
-    --movie-width: 160px;
+    --list-media-width: 160px;
     --presentation-media-width: 125px;
+    --search-media-width: 80px;
   }
 }
 

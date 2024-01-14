@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         home: 'repeat(auto-fill, minmax(var(--presentation-media-width), 1fr))',
-        media: 'repeat(auto-fill, minmax(var(--movie-width), 1fr))',
+        media: 'repeat(auto-fill, minmax(var(--list-media-width), 1fr))',
+        search: 'repeat(auto-fill, minmax(var(--search-media-width), 1fr))',
       },
       height: {
         media: 'var(--presentation-media-height)',

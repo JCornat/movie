@@ -1,4 +1,4 @@
-import { Directive, inject, OnInit } from '@angular/core';
+import { Directive, inject, Input, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -8,102 +8,111 @@ import { SerieService } from '@app/serie/serie.service';
 import { Global } from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
+import { filter, startWith, tap } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { CategoryService } from '@app/category/category.service';
 
 @Directive()
 export abstract class MediaSearchComponent implements OnInit {
+  categoryService = inject(CategoryService);
   router = inject(Router);
   panelService = inject(PanelService);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  values!: { [key: string]: any };
-  formData!: { [key: string]: any };
-  searchForm!: FormGroup;
-  type!: 'movie' | 'serie' | 'game';
-  searchResults!: ImportMedia[];
-  loading!: boolean;
-  error!: string;
-
-  ngOnInit(): void {
-    this.init();
+  @Input() set initialSearch(value: string) {
+    this.searchTerm.set(value);
   }
 
-  init(): void {
-    this.buildType();
-    this.buildForm();
+  searchTerm: WritableSignal<string> = signal('');
+  formData: WritableSignal<{ [key: string]: any } | null> = signal(null);
+  searchForm: WritableSignal<FormGroup | null> = signal(null);
+  type = this.categoryService.currentCategory;
+  searchResults: WritableSignal<ImportMedia[] | null> = signal(null);
+  loading: WritableSignal<boolean> = signal(false);
+  error: WritableSignal<string | null> = signal(null);
+
+  constructor() {
+    this.subscribeFormData();
+  }
+
+  ngOnInit(): void {
+    this.buildSearchForm();
+    this.subscribeFormChanges();
   }
 
   /*-----------------------*\
            Template
   \*-----------------------*/
 
+  openImportPanel(value: ImportMedia) {
+    const component = this.getImportComponent();
+    this.panelService.open({ component, inputs: { importId: value.importId } });
+  }
+
+  openAddPanel() {
+    const component = this.getAddComponent();
+    this.panelService.open({ component });
+  }
+
   onValid(data: { [key: string]: any }): void {
-    this.formData = data;
+    this.formData.set(data);
   }
 
   async search(title: string): Promise<void> {
-    this.error = null as any;
-    this.loading = true;
+    this.error.set(null);
 
     try {
-      this.searchResults = await this.mediaService.search(title);
+      const results = await this.mediaService.search(title);
+      this.searchResults.set(results);
     } catch (error) {
-      this.error = (error as any).message;
+      this.error.set((error as any).message);
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
-  }
-
-  select(result: ImportMedia): void {
-    this.navigateImport(result.importId);
-  }
-
-  async onSubmit(): Promise<void> {
-    if (!this.formData) {
-      return;
-    }
-
-    this.search(this.formData.search);
-  }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  navigateBack(): void {
-    // this.router.navigate([`/${this.type}`]);
-    this.panelService.close();
-  }
-
-  navigateAdd(): void {
-    this.router.navigate([`/${this.type}`, 'add']);
-  }
-
-  navigateImport(importId: string): void {
-    this.router.navigate([`/${this.type}`, importId, 'import']);
   }
 
   /*-----------------------*\
            Method
   \*-----------------------*/
 
-  buildType(): void {
-    const regex = /^\/(\w+)/;
-    const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1];
-    if (Global.isEmpty(type)) {
-      throw { status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown` };
-    }
+  abstract getImportComponent(): any;
 
-    this.type = type as 'movie' | 'serie' | 'game';
+  abstract getAddComponent(): any;
+
+  buildSearchForm(): void {
+    const formGroup = new FormGroup({
+      search: new FormControl(this.searchTerm()),
+    });
+
+    this.searchForm.set(formGroup);
   }
 
-  buildForm(): void {
-    this.searchForm = new FormGroup({
-      search: new FormControl(''),
-    });
+  /*-----------------------*\
+          Subscribe
+  \*-----------------------*/
 
-    this.searchForm.valueChanges.subscribe((data) => {
-      this.onValid(data);
-    });
+  subscribeFormChanges(): void {
+    this.searchForm()!.valueChanges
+      .pipe(
+        startWith({ search: this.searchTerm() }),
+      )
+      .subscribe((data) => {
+        this.onValid(data);
+      });
+  }
+
+  subscribeFormData(): void {
+    toObservable(this.formData)
+      .pipe(
+        filter((value) => value?.search.length > 2),
+        tap((value) => {
+          this.loading.set(true);
+        }),
+        debounceTime(500),
+      )
+      .subscribe(async (value) => {
+        await this.search(value!.search);
+      });
   }
 }

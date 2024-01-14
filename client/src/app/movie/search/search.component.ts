@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 
 import { MediaSearchComponent } from '@app/media/search/search.component';
 import { MovieService } from '@app/movie/movie.service';
-import { FormInputDirective } from '@shared/form-input/form-input.directive';
 import { SharedModule } from '@shared/shared.module';
 import { MediaItemComponent } from '@app/media/item/item.component';
+import { MovieImportComponent } from '@app/movie/import/import.component';
+import { MovieAddComponent } from '@app/movie/add/add.component';
 
 @Component({
   selector: 'movie-search',
@@ -14,4 +15,12 @@ import { MediaItemComponent } from '@app/media/item/item.component';
 })
 export class MovieSearchComponent extends MediaSearchComponent {
   mediaService = inject(MovieService);
+
+  override getImportComponent(): any {
+    return MovieImportComponent;
+  }
+
+  override getAddComponent(): any {
+    return MovieAddComponent;
+  }
 }

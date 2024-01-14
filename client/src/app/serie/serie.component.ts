@@ -11,7 +11,6 @@ import { MediaMoreComponent } from '@app/media/more/more.component';
 import { Serie } from '@app/interface';
 import { MediaListComponent } from '@app/media/list/list.component';
 import { SerieSearchComponent } from '@app/serie/search/search.component';
-import { SerieAddComponent } from '@app/serie/add/add.component';
 import { SerieUpdateComponent } from '@app/serie/update/update.component';
 import { SharedModule } from '@shared/shared.module';
 
@@ -36,10 +35,6 @@ export class SerieComponent extends MediaComponent {
 
   override getSearchComponent(): any {
     return SerieSearchComponent;
-  }
-
-  override getAddComponent(): any {
-    return SerieAddComponent;
   }
 
   override getUpdateComponent(): any {
