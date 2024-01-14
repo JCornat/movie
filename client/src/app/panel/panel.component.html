@@ -1,5 +1,5 @@
 <div class="inset-0 bg-black/70 overflow-hidden transition-all opacity-0 fixed duration-300 -z-10" [ngClass]="{'!opacity-100 !z-10': component()}" (click)="close($event)">
-  <div class="max-w-90p sm:max-w-xl md:max-w-3xl h-full bg-[#2D333B] transition-all absolute w-full -right-full duration-300 p-4" [ngClass]="{ '!right-0': component()}" (click)="preventDefault($event)">
+  <div class="max-w-90p sm:max-w-xl md:max-w-3xl h-full bg-[#2D333B] transition-all absolute w-full -right-full duration-300 p-4 overflow-scroll" [ngClass]="{ '!right-0': component()}" (click)="preventDefault($event)">
     <ng-container *ngComponentOutlet="component()?.component; inputs: component()?.inputs"/>
   </div>
 </div>

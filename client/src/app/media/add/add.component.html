@@ -1,5 +1,11 @@
 <input type="file" style="position: absolute; width: 1px; height: 1px; top: 10px; left: 10px; z-index: -200;" #inputFile (change)="selectedFile($event)">
 
+@if (id) {
+  <div class="font-bold text-2xl mb-2">Update a {{type}}</div>
+} @else {
+  <div class="font-bold text-2xl mb-2">Add a new {{type}}</div>
+}
+
 @if (loading) {
   <div class="card mb-16" style="text-align: center;">
     <i class="icon icon-sync text-xl spin"></i>
@@ -13,43 +19,37 @@
 @if (!loading && mediaForm) {
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
     <div class="sm:col-span-2">
-      @if (id) {
-        <div class="bold text-xl mb-4">Update a {{type}}</div>
-      } @else {
-        <div class="bold text-xl mb-4">Add a new {{type}}</div>
-      }
+      <div class="font-bold text-lg mb-2">Information</div>
 
-      <div class="p-4 mb-4 border rounded-lg">
+      <div class="p-4 mb-4 border border-white/30 rounded-lg">
         <div style="min-width: min(400px, 100%);">
           <form [formGroup]="mediaForm" (submit)="onSubmit()">
             <div class="bold mb-2">Title</div>
             <div class="mb-4">
-              <input type="text" formControlName="title" placeholder="Title" formInput/>
+              <input type="text" formControlName="title" placeholder="Title" decorationInput/>
             </div>
 
             <div class="bold mb-2">Year</div>
             <div class="mb-4">
-              <input type="number" formControlName="year" placeholder="Year" formInput/>
+              <input type="number" formControlName="year" placeholder="Year" decorationInput/>
             </div>
 
             <div class="bold mb-2">Url</div>
             <div class="mb-4">
               <div class="flex">
                 <div class="grow">
-                  <input type="text" formControlName="url" placeholder="Url" formInput/>
+                  <input type="text" formControlName="url" placeholder="Url" decorationInput/>
                 </div>
 
-                <div class="ml-8">
-                  <button (click)="selectFile($event)">
-                    <i class="icon icon-file-upload"></i>
-                  </button>
+                <div class="ml-4">
+                  <button decorationButton (click)="selectFile($event)">Upload</button>
                 </div>
               </div>
             </div>
 
             <div class="bold mb-2">Rating</div>
             <div>
-              <select formControlName="rating" formInput>
+              <select formControlName="rating" decorationInput>
                 @for (rating of ratings; track rating) {
                   <option [ngValue]="rating.value">{{rating.label}}</option>
                 }
@@ -61,22 +61,23 @@
 
       <div class="flex mb-4">
         @if (id) {
-          <button (click)="remove()" class="border rounded-md px-2 h-8">
-            <i class="icon icon-delete"></i> Remove
-          </button>
+          <div>
+            <button (click)="remove()" decorationButton>Remove</button>
+          </div>
         }
 
-        <div class="flex-grow"></div>
-        <button (click)="onSubmit()" class="border rounded-md px-2 h-8">
-          <i class="icon icon-save"></i> Save
-        </button>
+        <div class="grow"></div>
+
+        <div>
+          <button (click)="onSubmit()" decorationButton>Save</button>
+        </div>
       </div>
     </div>
 
     @if (formData) {
       <div class="media-item">
-        <div class="bold text-xl mb-4">Preview</div>
-        <media-item [data]="$any(formData)" [dynamic]="true"></media-item>
+        <div class="font-bold text-lg mb-2">Preview</div>
+        <media-item [data]="formData" [dynamic]="true"></media-item>
       </div>
     }
   </div>
