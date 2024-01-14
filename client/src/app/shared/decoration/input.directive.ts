@@ -1,10 +1,10 @@
 import { Directive, ElementRef, inject, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[formInput]',
+  selector: '[decorationInput]',
   standalone: true,
 })
-export class FormInputDirective {
+export class DecorationInputDirective {
   renderer = inject(Renderer2);
   hostElement = inject(ElementRef);
 

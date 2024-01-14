@@ -11,12 +11,12 @@
     <form [formGroup]="loginForm" (submit)="onSubmit()">
       <div class="mb-2">Username</div>
       <div class="mb-4 relative">
-        <input type="password" formControlName="username" formInput/>
+        <input type="password" formControlName="username" decorationInput/>
       </div>
 
       <div class="mb-2">Password</div>
       <div class="mb-4 relative">
-        <input type="password" formControlName="password" formInput/>
+        <input type="password" formControlName="password" decorationInput/>
       </div>
 
       <div class="mb-4 flex relative cursor-pointer" (click)="toggleStayConnected()">

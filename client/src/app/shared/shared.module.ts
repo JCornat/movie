@@ -1,12 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormInputDirective } from '@shared/form-input/form-input.directive';
+import { DecorationInputDirective } from '@shared/decoration/input.directive';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DecorationButtonDirective } from '@shared/decoration/button.directive';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, ReactiveFormsModule, FormInputDirective],
-  exports: [CommonModule, ReactiveFormsModule, FormInputDirective],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DecorationInputDirective,
+    DecorationButtonDirective,
+  ],
+  exports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DecorationInputDirective,
+    DecorationButtonDirective,
+  ],
 })
 export class SharedModule {
   //
