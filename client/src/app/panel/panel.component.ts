@@ -15,14 +15,12 @@ export class PanelComponent {
 
   preventDefault(event?: Event): void {
     if (event instanceof Event) {
-      event.preventDefault();
       event.stopPropagation();
     }
   }
 
   close(event?: Event): void {
     if (event instanceof Event) {
-      event.preventDefault();
       event.stopPropagation();
     }
 

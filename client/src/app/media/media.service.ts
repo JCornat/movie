@@ -1,23 +1,28 @@
 import { computed, Directive, inject, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
-import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
+import { Game, GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, Movie, OrderBy } from '@app/interface';
 import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
+import { CrudService } from '@shared/crud/crud.service';
+import { SERVER_URL } from '@shared/config/config';
+import { Request } from '@shared/request/request';
 
 @Directive()
-export abstract class MediaService implements OnDestroy {
+export abstract class MediaService<T> extends CrudService<Medium> implements OnDestroy {
   screenService = inject(ScreenService);
 
   searchTerm: WritableSignal<string> = signal('');
-  media: WritableSignal<Medium[]> = signal([]);
   groupMedia: Signal<GroupMedium[]> = this.computeGroupMedia();
   groupMediaLimit: WritableSignal<GroupMediaLimit> = signal({});
   groupMediaSort: WritableSignal<GroupMediaSort> = signal({});
+  abstract type: MediaType;
 
   resizeSubscriber!: Subscription;
 
   constructor() {
+    super();
+
     this.updateGroupMediaLimit();
     this.initializeGroupMediaSort();
     this.subscribeScreenResize();
@@ -25,6 +30,79 @@ export abstract class MediaService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.resizeSubscriber.unsubscribe();
+  }
+
+  /*-----------------------*\
+            HTTP
+  \*-----------------------*/
+
+  async pullAll(): Promise<void> {
+    const optionsQuery: Request = {
+      url: `/api/${this.type}`,
+      header: {
+        disableAuthentication: true,
+      },
+      process: this.processPullAll.bind(this),
+    };
+
+    await this._pullAll(optionsQuery);
+  }
+
+  async pullOne(id: string): Promise<void> {
+    const optionsQuery = {
+      url: `/api/${this.type}/${id}`,
+      process: this.processPullOne.bind(this),
+    };
+
+    await this._pullOne(optionsQuery);
+  }
+
+  async search(title: string): Promise<ImportMedia[]> {
+    const optionsQuery = {
+      url: `/api/${this.type}?search=${title}`,
+    };
+
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
+    return data.data;
+  }
+
+  async importOne(id: string): Promise<ImportMedia> {
+    const optionsQuery = {
+      url: `/api/${this.type}/${id}/import`,
+    };
+
+    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
+    return data.data;
+  }
+
+  async update(options: { [key: string]: any }): Promise<void> {
+    const optionsQuery = {
+      url: `/api/${this.type}/${options.id}`,
+      body: {
+        ...options,
+      },
+    };
+
+    await this._update(optionsQuery);
+  }
+
+  async add(options: { [key: string]: any }): Promise<void> {
+    const optionsQuery = {
+      url: `/api/${this.type}`,
+      body: {
+        ...options,
+      },
+    };
+
+    await this._add(optionsQuery);
+  }
+
+  async delete(id: string): Promise<void> {
+    const optionsQuery = {
+      url: `/api/${this.type}/${id}`,
+    };
+
+    await this._delete(optionsQuery);
   }
 
   /*-----------------------*\
@@ -111,7 +189,7 @@ export abstract class MediaService implements OnDestroy {
         ratingsObj[rating.value] = groupMedium;
       }
 
-      for (const datum of this.media()) {
+      for (const datum of this.valuesPullAll()!) {
         const search = this.searchTerm();
         if (search) {
           if (!(datum.year + '').includes(search) && !(datum.title.toLowerCase()).includes(search.toLowerCase())) {
@@ -173,5 +251,23 @@ export abstract class MediaService implements OnDestroy {
       .subscribe(() => {
         this.updateGroupMediaLimit();
       });
+  }
+
+  /*-----------------------*\
+          Process
+  \*-----------------------*/
+
+  processPullAll(data: { data: Medium[] }): Medium[] {
+    for (const datum of data.data) {
+      datum.url = `${SERVER_URL}/upload/${datum.id}.jpg`;
+      datum.urlWebp = `${SERVER_URL}/upload/${datum.id}.webp`;
+    }
+
+    return data.data;
+  }
+
+  processPullOne(data: { data: Medium }): Medium {
+    const tmp = this.processPullAll({ data: [data.data] });
+    return tmp[0];
   }
 }

@@ -13,7 +13,8 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
       throw new Error('NO IMPORT ID PROVIDED');
     }
 
-    this.init();
+    this.buildType();
+    this.buildForm();
 
     const values = await this.pullOne(this.importId);
     this.mediaForm.patchValue(values);

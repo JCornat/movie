@@ -1,28 +1,24 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 import { MediaAddComponent } from '../add/add.component';
-import { Medium } from '@app/interface';
+import { Global } from '@shared/global/global';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
-  override async ngOnInit(): Promise<void> {
+  inject = inject(Injector);
+
+  override ngOnInit(): void {
     if (!this.id) {
       throw new Error('NO ID PROVIDED');
     }
 
-    this.init();
+    this.buildType();
+    this.buildForm();
+    this.subscribePullOne();
 
-    this.error = null;
     this.loading = true;
-
-    try {
-      const values = await this.pullOne(this.id);
-      this.mediaForm.patchValue(values);
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
+    this.pullOne(this.id);
   }
 
   /*-----------------------*\
@@ -39,7 +35,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
 
     try {
       await this.update(this.formData);
-      this.navigateBack();
+      this.close();
     } catch (error) {
       this.error = (error as any).message;
     } finally {
@@ -51,11 +47,27 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
            Service
   \*-----------------------*/
 
-  async pullOne(id: string): Promise<Medium> {
+  async pullOne(id: string): Promise<void> {
     return await this.mediaService.pullOne(id);
   }
 
   async update(data: { [key: string]: any }): Promise<void> {
     await this.mediaService.update(data);
+  }
+
+  /*-----------------------*\
+          Observable
+  \*-----------------------*/
+
+  subscribePullOne(): void {
+    toObservable(this.mediaService.valuesPullOne, { injector: this.inject })
+      .subscribe((value) => {
+        if (Global.isEmpty(value)) {
+          return;
+        }
+
+        this.mediaForm.patchValue(value as any);
+        this.loading = false;
+      });
   }
 }
