@@ -1,11 +1,25 @@
-import { inject, Injectable, Injector } from '@angular/core';
+import { inject, Injectable, Injector, WritableSignal } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { catchError, flatMap, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { TokenService } from '@shared/token/token.service';
 import { Request } from './request';
+
+export enum RequestType {
+  GET = 'get',
+  POST = 'post',
+  PUT = 'put',
+  DELETE = 'delete',
+}
+
+export interface RequestBuilder {
+  state: WritableSignal<any>;
+  method: RequestType;
+  request: Request;
+  process?: any;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +30,51 @@ export class RequestService {
   http = inject(HttpClient);
   injector = inject(Injector);
   tokenService = inject(TokenService);
+
+  builder(optionsQuery: RequestBuilder): Promise<void> {
+    return new Promise((resolve, reject) => {
+      optionsQuery.state.update((value) => {
+        return {
+          ...value,
+          loading: true,
+          error: null,
+        };
+      });
+
+      this[optionsQuery.method](optionsQuery.request)
+        .pipe(
+          catchError((error) => {
+            optionsQuery.state.update((value) => {
+              return {
+                ...value,
+                loading: false,
+                error: error.message,
+              };
+            });
+
+            reject();
+            return EMPTY;
+          }),
+        )
+        .subscribe((response) => {
+          optionsQuery.state.update((value) => {
+            let values = response.data || response;
+            if (optionsQuery.process) {
+              values = optionsQuery.process(response);
+            }
+
+            return {
+              ...value,
+              loading: false,
+              values,
+              hasMore: response.hasMore,
+            };
+          });
+
+          resolve();
+        });
+    });
+  }
 
   get(options: Request): Observable<any> {
     const requestOptions = {

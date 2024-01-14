@@ -1,4 +1,4 @@
-<input type="file" style="position: absolute; width: 1px; height: 1px; top: 10px; left: 10px; z-index: -200;" #inputFile (change)="selectedFile($event)">
+<input type="file" #inputFile style="visibility: hidden" (change)="selectedFile($event)">
 
 @if (id) {
   <div class="font-bold text-2xl mb-2">Update a {{type}}</div>

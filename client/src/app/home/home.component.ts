@@ -106,22 +106,25 @@ export class HomeComponent implements OnInit {
 
   computeMovies() {
     return computed(() => {
-      const media = this.movieService.media();
-      return this.filterMedia(media);
+      const media = this.movieService.valuesPullAll() as Movie[];
+      console.log('computeMovies', media);
+      return this.filterMedia(media || []);
     });
   }
 
   computeSeries() {
     return computed(() => {
-      const media = this.serieService.media();
-      return this.filterMedia(media);
+      const media = this.serieService.valuesPullAll() as Serie[];
+      console.log('computeSeries', media);
+      return this.filterMedia(media || []);
     });
   }
 
   computeGames() {
     return computed(() => {
-      const media = this.gameService.media();
-      return this.filterMedia(media);
+      const media = this.gameService.valuesPullAll() as Game[];
+      console.log('computeGames', media);
+      return this.filterMedia(media || []);
     });
   }
 }

@@ -9,14 +9,17 @@ import { RequestService } from '@shared/request/request.service';
 import { SERVER_URL } from '@shared/config/config';
 import { SerieService } from '@app/serie/serie.service';
 import { Global } from '@shared/global/global';
+import { PanelService } from '@app/panel/panel.service';
 
 @Directive()
 export abstract class MediaAddComponent implements OnInit {
   requestService = inject(RequestService);
+  panelService = inject(PanelService);
   router = inject(Router);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  @ViewChild('inputFile', { static: false }) inputFile!: ElementRef;
+  @ViewChild('inputFile', { static: true }) inputFile!: ElementRef;
+
   @Input() id?: string;
 
   loading!: boolean;
@@ -27,10 +30,6 @@ export abstract class MediaAddComponent implements OnInit {
   ratings!: { value: string | number, label: string }[];
 
   ngOnInit(): void {
-    this.init();
-  }
-
-  init(): void {
     this.buildType();
     this.buildForm();
   }
@@ -59,7 +58,6 @@ export abstract class MediaAddComponent implements OnInit {
 
     try {
       await this.add();
-      this.navigateBack();
     } catch (error) {
       this.error = (error as any).message;
     } finally {
@@ -73,6 +71,7 @@ export abstract class MediaAddComponent implements OnInit {
 
   async add(): Promise<void> {
     await this.mediaService.add(this.formData);
+    this.close();
   }
 
   async remove(): Promise<void> {
@@ -81,15 +80,7 @@ export abstract class MediaAddComponent implements OnInit {
     }
 
     await this.mediaService.delete(this.id);
-    this.navigateBack();
-  }
-
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
-  navigateBack(): void {
-    this.router.navigate([`/${this.type}`, 'search']);
+    this.close();
   }
 
   /*-----------------------*\
@@ -144,5 +135,9 @@ export abstract class MediaAddComponent implements OnInit {
 
     const data = await this.requestService.upload(`${SERVER_URL}/api/file`, files[0]);
     this.uploadSuccessful(data);
+  }
+
+  close(): void {
+    this.panelService.close();
   }
 }

@@ -5,6 +5,7 @@ export interface Request {
   url: string;
   body?: any;
   req?: HttpRequest<any>;
+  process?: any;
   header?: {
     timeout?: number;
     disableAuthentication?: boolean;
