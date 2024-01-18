@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import fs from 'node:fs';
 import Request from 'request';
 
 import { Global } from './global';

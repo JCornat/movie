@@ -1,4 +1,4 @@
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 import { TOKEN_EXPIRATION, TOKEN_SIGNATURE } from '@config/config';
 import { Global } from './global';

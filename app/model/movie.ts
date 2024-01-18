@@ -1,4 +1,4 @@
-import * as request from 'request';
+import request from 'request';
 
 import { ImportMedia, Media, Rating, Store } from '@class/store';
 import * as Config from '@config/config';

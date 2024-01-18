@@ -1,5 +1,5 @@
 import { Request, Router } from 'express';
-import * as path from 'path';
+import path from 'node:path';
 
 import { C7zResponse } from '../class/response';
 

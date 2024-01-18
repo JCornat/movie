@@ -1,9 +1,9 @@
 import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
-import * as fs from 'fs';
-import * as fsPromises from 'fs/promises';
-import * as multiparty from 'multiparty';
-import * as path from 'path';
+import fs from 'node:fs';
+import fsPromises from 'node:fs/promises';
+import multiparty from 'multiparty';
+import path from 'node:path';
 
 import { UPLOAD_MAX_SIZE } from '@config/config';
 import * as Config from '@config/config';
