@@ -1,28 +1,11 @@
 import path from 'node:path';
 
 import { URL } from '@config/config';
-import * as File from '@model/file';
 import { Global } from '@model/global';
-import * as Image from '@model/image';
-import * as Random from '@model/random';
-
-export type Rating = number | 'todo' | 'progress';
-
-export interface Media {
-  id: string;
-  title: string;
-  year: number;
-  rating: Rating;
-  url?: string;
-  urlWebp?: string;
-}
-
-export interface ImportMedia {
-  importId: string;
-  title: string;
-  year: number;
-  url: string;
-}
+import { File } from '@model/file';
+import { Random } from '@model/random';
+import { Image } from '@model/image';
+import { Rating } from '@model/definition';
 
 export class Store<T> {
   collection: T;

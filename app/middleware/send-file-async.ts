@@ -1,7 +1,7 @@
 import express from 'express';
 import { Request } from 'express';
 
-import { C7zResponse } from '../class/response';
+import { C7zResponse } from '@model/definition';
 
 export const app = express();
 

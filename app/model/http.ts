@@ -3,105 +3,107 @@ import Request from 'request';
 
 import { Global } from './global';
 
-export async function get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
-  return await build('get', url, form, options);
-}
+export class Http {
+  static async get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
+    return await this.build('get', url, form, options);
+  }
 
-export async function post(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-  return await build('post', url, form, options);
-}
+  static async post(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+    return await this.build('post', url, form, options);
+  }
 
-export async function put(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-  return await build('put', url, form, options);
-}
+  static async put(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+    return await this.build('put', url, form, options);
+  }
 
-export async function del(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
-  return await build('delete', url, form, options);
-}
+  static async del(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
+    return await this.build('delete', url, form, options);
+  }
 
-export async function download(url: string, destinationPath: string): Promise<void> {
-  const file = fs.createWriteStream(destinationPath);
+  static async download(url: string, destinationPath: string): Promise<void> {
+    const file = fs.createWriteStream(destinationPath);
 
-  return await new Promise((resolve, reject) => {
-    const stream = Request({ url })
-      .pipe(file)
-      .on('finish', () => {
-        resolve();
-      })
-      .on('error', (error) => {
-        reject(error);
-      });
-  });
-}
+    return await new Promise((resolve, reject) => {
+      const stream = Request({ url })
+        .pipe(file)
+        .on('finish', () => {
+          resolve();
+        })
+        .on('error', (error) => {
+          reject(error);
+        });
+    });
+  }
 
-function build(method: string, url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-  return new Promise(async (resolve, reject) => {
-    const requestOptions: any = {
-      url,
-    };
-
-    requestOptions.headers = {};
-
-    if (Global.isPopulated(options.headers)) {
-      requestOptions.headers = {
-        ...options.headers,
+  static build(method: string, url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      const requestOptions: any = {
+        url,
       };
-    }
 
-    if (form.token) {
-      requestOptions.headers['X-Access-Token'] = form.token;
-      delete form.token;
-    }
+      requestOptions.headers = {};
 
-    switch (method) {
-      case 'get':
-      case 'delete':
-        requestOptions.qs = form;
-        break;
-      case 'put':
-      case 'post':
-        requestOptions.form = form;
-        break;
-      default:
-        console.error('Method not supported', method, url);
-        throw new Error('Method not supported');
-    }
-
-    Request[method](requestOptions, (error, response) => {
-      if (error) {
-        return reject(error);
+      if (Global.isPopulated(options.headers)) {
+        requestOptions.headers = {
+          ...options.headers,
+        };
       }
 
-      const res = {
-        status: response.statusCode,
-        body: response.body,
-      };
+      if (form.token) {
+        requestOptions.headers['X-Access-Token'] = form.token;
+        delete form.token;
+      }
 
-      if (res.status >= 400) {
-        const err = {
-          status: res.status,
-          message: res.body || undefined,
+      switch (method) {
+        case 'get':
+        case 'delete':
+          requestOptions.qs = form;
+          break;
+        case 'put':
+        case 'post':
+          requestOptions.form = form;
+          break;
+        default:
+          console.error('Method not supported', method, url);
+          throw new Error('Method not supported');
+      }
+
+      Request[method](requestOptions, (error, response) => {
+        if (error) {
+          return reject(error);
+        }
+
+        const res = {
+          status: response.statusCode,
+          body: response.body,
         };
 
-        return reject(err);
-      }
+        if (res.status >= 400) {
+          const err = {
+            status: res.status,
+            message: res.body || undefined,
+          };
 
-      let data;
+          return reject(err);
+        }
 
-      try {
-        data = JSON.parse(res.body);
-      } catch {
-        data = res.body;
-      }
+        let data;
 
-      if (options?.resolveHeaders) {
-        return resolve({
-          content: data,
-          headers: response.rawHeaders,
-        });
-      }
+        try {
+          data = JSON.parse(res.body);
+        } catch {
+          data = res.body;
+        }
 
-      resolve(data);
+        if (options?.resolveHeaders) {
+          return resolve({
+            content: data,
+            headers: response.rawHeaders,
+          });
+        }
+
+        resolve(data);
+      });
     });
-  });
+  }
 }

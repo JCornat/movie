@@ -1,8 +1,8 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '../class/response';
-import * as Authentication from '../model/authentication';
-import * as Token from '../model/token';
+import { C7zResponse } from '@model/definition';
+import { Authentication } from '@model/authentication';
+import { Token } from '@model/token';
 
 export const router = Router();
 
