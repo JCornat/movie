@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'node:path';
 
 export const MODE: 'development' | 'test' | 'production' = 'development';
 export const PORT: number = 3000;

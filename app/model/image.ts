@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as imagemagick from 'imagemagick';
-import * as path from 'path';
+import fs from 'node:fs';
+import imagemagick from 'imagemagick';
+import path from 'node:path';
 
 import * as Config from '@config/config';
 import * as File from '@model/file';

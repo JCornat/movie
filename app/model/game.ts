@@ -1,4 +1,4 @@
-import * as request from 'request';
+import request from 'request';
 
 import { Store, Media, ImportMedia, Rating } from '@class/store';
 import { time } from '@model/time';
