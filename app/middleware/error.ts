@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { C7zResponse } from '../class/response';
+import { C7zResponse } from '@model/definition';
 
 export function handle(error: any, req: Request, res: C7zResponse, next: any): any {
   if (!isNaN(error)) {

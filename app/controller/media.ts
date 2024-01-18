@@ -1,11 +1,11 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '../class/response';
-import * as Authentication from '../model/authentication';
-import * as Game from '../model/game';
-import * as Movie from '@model/movie';
-import * as Serie from '@model/serie';
-import * as Token from '@model/token';
+import { C7zResponse } from '@model/definition';
+import { Token } from '@model/token';
+import { Authentication } from '@model/authentication';
+import { Game } from '@model/game';
+import { Movie } from '@model/movie';
+import { Serie } from '@model/serie';
 
 export const router = Router();
 

@@ -1,8 +1,7 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '../class/response';
-import * as Authentication from '../model/authentication';
-import * as File from '../model/file';
+import { C7zResponse } from '@model/definition';
+import { File } from '@model/file';
 
 export const router = Router();
 

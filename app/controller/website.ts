@@ -1,7 +1,7 @@
 import { Request, Router } from 'express';
 import path from 'node:path';
 
-import { C7zResponse } from '../class/response';
+import { C7zResponse } from '@model/definition';
 
 export const router = Router();
 

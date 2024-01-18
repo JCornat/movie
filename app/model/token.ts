@@ -5,84 +5,86 @@ import { Global } from './global';
 
 const refreshTokens: string[] = [];
 
-export function getAccessToken(req: any): string {
-  let token;
+export class Token {
+  static getAccessToken(req: any): string {
+    let token;
 
-  if (req.headers && req.headers['x-access-token']) {
-    token = req.headers['x-access-token'];
-  } else if (req.body?.token) {
-    token = req.body.token;
-  } else if (req.query?.token) {
-    token = req.query.token;
-  } else if (req.handshake?.query?.token) {
-    token = req.handshake.query.token;
+    if (req.headers && req.headers['x-access-token']) {
+      token = req.headers['x-access-token'];
+    } else if (req.body?.token) {
+      token = req.body.token;
+    } else if (req.query?.token) {
+      token = req.query.token;
+    } else if (req.handshake?.query?.token) {
+      token = req.handshake.query.token;
+    }
+
+    return token;
   }
 
-  return token;
-}
-
-export function decode(token: string, options: any = {}): any {
-  return jwt.decode(token, options);
-}
-
-export function verify(token: string, options: any = {}): any {
-  try {
-    return jwt.verify(token, TOKEN_SIGNATURE, options);
-  } catch (error) {
-    handleError(error.name);
-  }
-}
-
-export function handleError(errorName: string): null {
-  switch (errorName) {
-    case 'TokenExpiredError':
-      throw { status: 401, message: 'TokenExpiredError' };
-    case 'JsonWebTokenError':
-    default:
-      return null;
-  }
-}
-
-export function sign(data: any): string {
-  return jwt.sign(data, TOKEN_SIGNATURE, { expiresIn: TOKEN_EXPIRATION });
-}
-
-export function addRefresh(data: string): void {
-  refreshTokens.push(data);
-}
-
-export async function checkRefresh(stringToken: any, refreshToken: string): Promise<any> {
-  if (Global.isEmpty(stringToken) || Global.isEmpty(refreshToken)) {
-    throw { status: 400, message: 'Paramètres invalides' };
+  static decode(token: string, options: any = {}): any {
+    return jwt.decode(token, options);
   }
 
-  const token: any = decode(stringToken, { ignoreExpiration: true });
-
-  if (Global.isEmpty(refreshTokens)) {
-    throw { status: 401, message: 'Reconnexion nécessaire' };
-  }
-
-  let generate;
-
-  for (const item of refreshTokens) {
-    if (item === refreshToken) {
-      generate = true;
-      break;
+  static verify(token: string, options: any = {}): any {
+    try {
+      return jwt.verify(token, TOKEN_SIGNATURE, options);
+    } catch (error) {
+      this.handleError(error.name);
     }
   }
 
-  if (!generate) {
-    throw { status: 401, message: 'Reconnexion nécessaire' };
+  static handleError(errorName: string): null {
+    switch (errorName) {
+      case 'TokenExpiredError':
+        throw { status: 401, message: 'TokenExpiredError' };
+      case 'JsonWebTokenError':
+      default:
+        return null;
+    }
   }
 
-  const newToken = { // Recover token information
-    ...token,
-  };
+  static sign(data: any): string {
+    return jwt.sign(data, TOKEN_SIGNATURE, { expiresIn: TOKEN_EXPIRATION });
+  }
 
-  delete newToken.iat; // Except iat
-  delete newToken.exp; // Except exp
+  static addRefresh(data: string): void {
+    refreshTokens.push(data);
+  }
 
-  return {
-    token: sign(newToken),
-  };
+  static async checkRefresh(stringToken: any, refreshToken: string): Promise<any> {
+    if (Global.isEmpty(stringToken) || Global.isEmpty(refreshToken)) {
+      throw { status: 400, message: 'Paramètres invalides' };
+    }
+
+    const token: any = this.decode(stringToken, { ignoreExpiration: true });
+
+    if (Global.isEmpty(refreshTokens)) {
+      throw { status: 401, message: 'Reconnexion nécessaire' };
+    }
+
+    let generate;
+
+    for (const item of refreshTokens) {
+      if (item === refreshToken) {
+        generate = true;
+        break;
+      }
+    }
+
+    if (!generate) {
+      throw { status: 401, message: 'Reconnexion nécessaire' };
+    }
+
+    const newToken = { // Recover token information
+      ...token,
+    };
+
+    delete newToken.iat; // Except iat
+    delete newToken.exp; // Except exp
+
+    return {
+      token: this.sign(newToken),
+    };
+  }
 }

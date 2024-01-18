@@ -1,6 +1,6 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '../class/response';
+import { C7zResponse } from '@model/definition';
 
 export const router = Router();
 
