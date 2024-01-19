@@ -1,39 +1,16 @@
 import request from 'request';
 
-import { Store } from '@model/store';
 import * as Config from '@config/config';
 import { Global } from '@model/global';
-import { ImportMedia, ISerie, Rating } from '@model/definition';
+import { ImportMedia } from '@model/definition';
+import { Media } from '@model/media';
 
-export class Serie {
-  static store: Store<ISerie>;
-
+export class Serie extends Media {
   static async init(): Promise<void> {
-    this.store = new Store('serie');
-    await this.store.init();
+    await Media.createStore('serie');
   }
 
-  static getAll(): ISerie[] {
-    return this.store.getAll();
-  }
-
-  static getOne(id: string): ISerie {
-    return this.store.getOne(id);
-  }
-
-  static async add(options: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
-    return await this.store.add(options);
-  }
-
-  static async remove(id: string): Promise<void> {
-    await this.store.remove(id);
-  }
-
-  static async update(id: string, data: ISerie): Promise<void> {
-    await this.store.update(id, data);
-  }
-
-  static search(title: string): Promise<ImportMedia[]> {
+  static override search(title: string): Promise<ImportMedia[]> {
     return new Promise((resolve, reject) => {
       const options = {
         url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
@@ -72,7 +49,7 @@ export class Serie {
     return res;
   }
 
-  static importOne(id: string): Promise<ImportMedia> {
+  static override importOne(id: string): Promise<ImportMedia> {
     return new Promise((resolve, reject) => {
       const options = {
         url: `https://api.themoviedb.org/3/tv/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
