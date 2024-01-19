@@ -6,7 +6,14 @@ export interface C7zResponse extends Response {
 
 export type Rating = number | 'todo' | 'progress';
 
-export interface Media {
+export interface ImportMedia {
+  importId: string;
+  title: string;
+  year: number;
+  url: string;
+}
+
+export interface IMedia {
   id: string;
   title: string;
   year: number;
@@ -15,21 +22,23 @@ export interface Media {
   urlWebp?: string;
 }
 
-export interface ImportMedia {
-  importId: string;
+export interface IGame extends IMedia {
+  //
+}
+
+export interface IMovie extends IMedia {
+  //
+}
+
+export interface ISerie extends IMedia {
+  //
+}
+
+export interface MediaAddParameters {
   title: string;
   year: number;
-  url: string;
-}
+  rating: Rating;
+  url?: string;
 
-export interface IGame extends Media {
-  //
-}
-
-export interface IMovie extends Media {
-  //
-}
-
-export interface ISerie extends Media {
-  //
+  [key: string]: any;
 }

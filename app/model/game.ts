@@ -1,41 +1,19 @@
 import request from 'request';
 
-import { Store } from '@model/store';
-import { time } from '@model/time';
 import * as Config from '@config/config';
+import { time } from '@model/time';
 import { Global } from '@model/global';
-import { IGame, ImportMedia, Rating } from '@model/definition';
+import { ImportMedia } from '@model/definition';
+import { Media } from '@model/media';
 
-export class Game {
-  static store: Store<IGame>;
+export class Game extends Media {
   static bearer: string;
 
   static async init(): Promise<void> {
-    this.store = new Store('game');
-    await this.store.init();
+    await Media.createStore('game');
   }
 
-  static getAll(): IGame[] {
-    return this.store.getAll();
-  }
-
-  static getOne(id: string): IGame {
-    return this.store.getOne(id);
-  }
-
-  static async add(options: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
-    return await this.store.add(options);
-  }
-
-  static async remove(id: string): Promise<void> {
-    await this.store.remove(id);
-  }
-
-  static async update(id: string, data: IGame): Promise<void> {
-    await this.store.update(id, data);
-  }
-
-  static search(title: string): Promise<ImportMedia[]> {
+  static override search(title: string): Promise<ImportMedia[]> {
     return new Promise(async (resolve, reject) => {
       try {
         await this.checkBearer();
@@ -88,7 +66,7 @@ export class Game {
     return res;
   }
 
-  static importOne(id: string): Promise<ImportMedia> {
+  static override importOne(id: string): Promise<ImportMedia> {
     return new Promise(async (resolve, reject) => {
       try {
         await this.checkBearer();
