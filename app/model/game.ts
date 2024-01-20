@@ -52,7 +52,7 @@ export class Game extends Media {
 
     for (const datum of data) {
       const url = (datum.cover?.image_id) ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${datum.cover.image_id}.jpg` : '';
-      const year = (datum.first_release_date) ? time(datum.first_release_date, 'X').format('YYYY') : '';
+      const year = (datum.first_release_date) ? time(`${datum.first_release_date}000`).format('YYYY') : '';
       const tmp: ImportMedia = {
         importId: datum.id + '',
         title: datum.name,
