@@ -7,13 +7,13 @@ import { ImportMedia } from '@model/definition';
 import { Media } from '@model/media';
 
 export class Game extends Media {
-  static bearer: string;
+  bearer: string;
 
-  static async init(): Promise<void> {
-    await Media.createStore('game');
+  async init(): Promise<void> {
+    await this.createStore('game');
   }
 
-  static override search(title: string): Promise<ImportMedia[]> {
+  override search(title: string): Promise<ImportMedia[]> {
     return new Promise(async (resolve, reject) => {
       try {
         await this.checkBearer();
@@ -44,7 +44,7 @@ export class Game extends Media {
     });
   }
 
-  static processSearch(data: any[]): ImportMedia[] {
+  processSearch(data: any[]): ImportMedia[] {
     const res = [];
     if (Global.isEmpty(data)) {
       return res;
@@ -66,7 +66,7 @@ export class Game extends Media {
     return res;
   }
 
-  static override importOne(id: string): Promise<ImportMedia> {
+  override importOne(id: string): Promise<ImportMedia> {
     return new Promise(async (resolve, reject) => {
       try {
         await this.checkBearer();
@@ -97,7 +97,7 @@ export class Game extends Media {
     });
   }
 
-  static async checkBearer(): Promise<void> {
+  async checkBearer(): Promise<void> {
     if (!this.bearer) {
       const authentication = await this.authenticate();
       this.bearer = authentication.access_token;
@@ -108,7 +108,7 @@ export class Game extends Media {
     }
   }
 
-  static authenticate(): Promise<{ access_token: string, expires_in: number, token_type: string }> {
+  authenticate(): Promise<{ access_token: string, expires_in: number, token_type: string }> {
     return new Promise((resolve, reject) => {
       const options = {
         url: `https://id.twitch.tv/oauth2/token?client_id=${Config.TWITCH_CLIENT.id}&client_secret=${Config.TWITCH_CLIENT.secret}&grant_type=client_credentials`,
@@ -124,3 +124,5 @@ export class Game extends Media {
     });
   }
 }
+
+export const game = new Game();

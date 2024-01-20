@@ -6,11 +6,11 @@ import { ImportMedia } from '@model/definition';
 import { Media } from '@model/media';
 
 export class Serie extends Media {
-  static async init(): Promise<void> {
-    await Media.createStore('serie');
+  async init(): Promise<void> {
+    await this.createStore('serie');
   }
 
-  static override search(title: string): Promise<ImportMedia[]> {
+  override search(title: string): Promise<ImportMedia[]> {
     return new Promise((resolve, reject) => {
       const options = {
         url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
@@ -27,7 +27,7 @@ export class Serie extends Media {
     });
   }
 
-  static processSearch(data: any[]): ImportMedia[] {
+  processSearch(data: any[]): ImportMedia[] {
     const res = [];
     if (Global.isEmpty(data)) {
       return res;
@@ -49,7 +49,7 @@ export class Serie extends Media {
     return res;
   }
 
-  static override importOne(id: string): Promise<ImportMedia> {
+  override importOne(id: string): Promise<ImportMedia> {
     return new Promise((resolve, reject) => {
       const options = {
         url: `https://api.themoviedb.org/3/tv/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
@@ -66,3 +66,5 @@ export class Serie extends Media {
     });
   }
 }
+
+export const serie = new Serie();

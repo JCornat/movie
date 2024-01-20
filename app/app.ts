@@ -13,9 +13,9 @@ import * as AuthenticationController from './controller/authentication';
 import * as FileController from './controller/file';
 import * as MediaController from './controller/media';
 import * as WebsiteController from './controller/website';
-import { Movie } from '@model/movie';
-import { Serie } from '@model/serie';
-import { Game } from '@model/game';
+import { serie } from '@model/serie';
+import { game } from '@model/game';
+import { movie } from '@model/movie';
 
 export const app = express();
 const server = http.createServer(app);
@@ -29,9 +29,9 @@ async function init(): Promise<void> {
   app.use(SendFileAsyncMiddleware.app);
 
   // Init models to load data in memory
-  await Movie.init();
-  await Serie.init();
-  await Game.init();
+  await movie.init();
+  await serie.init();
+  await game.init();
 
   app.use(AuthenticationController.router);
   app.use(FileController.router);
