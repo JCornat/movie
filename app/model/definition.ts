@@ -39,6 +39,9 @@ export interface MediaAddParameters {
   year: number;
   rating: Rating;
   url?: string;
-
   [key: string]: any;
+}
+
+export interface MediaUpdateParameters extends MediaAddParameters {
+  //
 }

@@ -5,7 +5,7 @@ import { Global } from '@model/global';
 import { File } from '@model/file';
 import { Random } from '@model/random';
 import { Image } from '@model/image';
-import { Rating } from '@model/definition';
+import { MediaAddParameters, MediaUpdateParameters } from '@model/definition';
 
 export class Store<T> {
   collection: T;
@@ -54,7 +54,7 @@ export class Store<T> {
     return res;
   }
 
-  async add(data: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<string> {
+  async add(data: MediaAddParameters): Promise<string> {
     const id = Random.generate();
 
     if (data.url) {
@@ -72,7 +72,7 @@ export class Store<T> {
     return id;
   }
 
-  async update(id: string, data: { title: string, year: number, rating: Rating, url?: string, [key: string]: any }): Promise<void> {
+  async update(id: string, data: MediaUpdateParameters): Promise<void> {
     this.getOne(id); // Get one to check if existing
 
     if (data.url && !data.url.includes(URL)) { // If url contains server url, no need to download

@@ -3,20 +3,20 @@ import { Request, Router } from 'express';
 import { C7zResponse } from '@model/definition';
 import { Token } from '@model/token';
 import { Authentication } from '@model/authentication';
-import { Game } from '@model/game';
-import { Movie } from '@model/movie';
-import { Serie } from '@model/serie';
+import { game } from '@model/game';
+import { movie } from '@model/movie';
+import { serie } from '@model/serie';
 
 export const router = Router();
 
 function getMedia(media: string): any {
   switch (media) {
     case 'game':
-      return Game;
+      return game;
     case 'movie':
-      return Movie;
+      return movie;
     case 'serie':
-      return Serie;
+      return serie;
     default:
       throw { status: 400, method: 'Media.getMedia', message: `Paramètres invalides` };
   }
