@@ -28,7 +28,6 @@ async function init(): Promise<void> {
   app.use(AssetMiddleware.app);
   app.use(SendFileAsyncMiddleware.app);
 
-  // Init models to load data in memory
   await movie.init();
   await serie.init();
   await game.init();
