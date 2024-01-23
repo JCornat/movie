@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
 })
 export class LoginComponent implements OnInit {

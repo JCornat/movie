@@ -1,12 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PanelService } from '@app/panel/panel.service';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-panel',
-  standalone: true,
-  imports: [CommonModule, NgComponentOutlet],
   templateUrl: './panel.component.html',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, NgComponentOutlet],
 })
 export class PanelComponent {
   panelService = inject(PanelService);

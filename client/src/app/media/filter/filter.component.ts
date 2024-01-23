@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-filter',
-  standalone: true,
-  imports: [SharedModule],
   templateUrl: './filter.component.html',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SharedModule],
 })
 export class MediaFilterComponent implements OnInit {
   searchForm!: FormGroup;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 
 import { SERVER_URL } from '@shared/config/config';
@@ -9,6 +9,7 @@ import { Medium } from '@app/interface';
   selector: 'media-search-item',
   templateUrl: './item.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgOptimizedImage, NgClass],
 })
 export class MediaSearchItemComponent implements OnInit {

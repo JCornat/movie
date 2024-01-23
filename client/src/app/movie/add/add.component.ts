@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -9,6 +9,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'media-add',
   templateUrl: '../../media/add/add.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MediaItemComponent, SharedModule],
 })
 export class MovieAddComponent extends MediaAddComponent {

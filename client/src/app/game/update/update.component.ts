@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { GameService } from '@app/game/game.service';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -9,6 +9,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'game-update',
   templateUrl: '../../media/add/add.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
 export class GameUpdateComponent extends MediaUpdateComponent {

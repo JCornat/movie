@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { GameService } from '@app/game/game.service';
 import { MediaSearchComponent } from '@app/media/search/search.component';
@@ -11,6 +11,7 @@ import { GameAddComponent } from '@app/game/add/add.component';
   selector: 'game-search',
   templateUrl: '../../media/search/search.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
 export class GameSearchComponent extends MediaSearchComponent {

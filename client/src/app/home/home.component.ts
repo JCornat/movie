@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -11,6 +11,7 @@ import { SerieService } from '@app/serie/serie.service';
   selector: 'app-home',
   templateUrl: './home.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgOptimizedImage, RouterModule],
 })
 export class HomeComponent implements OnInit {
