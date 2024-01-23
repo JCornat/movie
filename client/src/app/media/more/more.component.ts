@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'media-more',
-  standalone: true,
   templateUrl: './more.component.html',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgOptimizedImage],
 })
 export class MediaMoreComponent {

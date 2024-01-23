@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -18,6 +18,7 @@ import { SharedModule } from '@shared/shared.module';
   selector: 'app-game',
   templateUrl: '../media/media.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SharedModule,
     MediaItemComponent,

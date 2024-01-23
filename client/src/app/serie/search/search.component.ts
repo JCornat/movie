@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MediaSearchComponent } from '@app/media/search/search.component';
 import { SerieService } from '@app/serie/serie.service';
@@ -11,6 +11,7 @@ import { SerieAddComponent } from '@app/serie/add/add.component';
   selector: 'serie-search',
   templateUrl: '../../media/search/search.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
 export class SerieSearchComponent extends MediaSearchComponent {

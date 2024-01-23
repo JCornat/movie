@@ -1,13 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, input, Output, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { OrderBy } from '@app/interface';
 import { SharedModule } from '@shared/shared.module';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-sort',
   standalone: true,
   imports: [SharedModule],
   templateUrl: './sort.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaSortComponent implements OnInit {
   @Input({ required: true }) orderBy!: string;
