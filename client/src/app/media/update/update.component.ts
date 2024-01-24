@@ -3,22 +3,21 @@ import { toObservable } from '@angular/core/rxjs-interop';
 
 import { MediaAddComponent } from '../add/add.component';
 import { Global } from '@shared/global/global';
+import { SerieService } from '@app/serie/serie.service';
+import { MovieService } from '@app/movie/movie.service';
+import { GameService } from '@app/game/game.service';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
   inject = inject(Injector);
 
-  override ngOnInit(): void {
-    if (!this.id) {
-      throw new Error('NO ID PROVIDED');
-    }
+  constructor(
+    public override mediaService: SerieService | MovieService | GameService,
+  ) {
+    super(mediaService);
 
-    this.buildType();
-    this.buildForm();
     this.subscribePullOne();
-
-    this.loading = true;
-    this.pullOne(this.id);
+    this.subscribeId();
   }
 
   /*-----------------------*\
@@ -26,21 +25,12 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
   \*-----------------------*/
 
   override async onSubmit(): Promise<void> {
-    if (this.loading) {
+    if (this.loadingUpdate()) {
       return;
     }
 
-    this.error = null;
-    this.loading = true;
-
-    try {
-      await this.update(this.formData);
-      this.close();
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
+    await this.update(this.formData()!);
+    this.close();
   }
 
   /*-----------------------*\
@@ -60,14 +50,24 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
   \*-----------------------*/
 
   subscribePullOne(): void {
-    toObservable(this.mediaService.valuesPullOne, { injector: this.inject })
+    toObservable(this.mediaService.valuesPullOne)
       .subscribe((value) => {
         if (Global.isEmpty(value)) {
           return;
         }
 
-        this.mediaForm.patchValue(value as any);
-        this.loading = false;
+        this.mediaForm().patchValue(value as any);
+      });
+  }
+
+  subscribeId(): void {
+    toObservable(this.id)
+      .subscribe((value) => {
+        if (Global.isEmpty(value)) {
+          return;
+        }
+
+        this.pullOne(this.id()!);
       });
   }
 }

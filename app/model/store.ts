@@ -1,6 +1,4 @@
 import path from 'node:path';
-
-import { URL } from '@config/config';
 import { Global } from '@model/global';
 import { File } from '@model/file';
 import { Random } from '@model/random';
@@ -75,7 +73,7 @@ export class Store<T> {
   async update(id: string, data: MediaUpdateParameters): Promise<void> {
     this.getOne(id); // Get one to check if existing
 
-    if (data.url && !data.url.includes(URL)) { // If url contains server url, no need to download
+    if (data.url) { // If url contains server url, no need to download
       await Image.downloadAndConvert({ sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg'] });
     }
 

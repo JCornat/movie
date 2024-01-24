@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -13,5 +13,9 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule, MediaItemComponent],
 })
 export class MovieImportComponent extends MediaImportComponent implements OnInit {
-  mediaService = inject(MovieService);
+  constructor(
+    movieService: MovieService,
+  ) {
+    super(movieService);
+  }
 }

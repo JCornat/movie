@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { GameService } from '@app/game/game.service';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -13,5 +13,9 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule, MediaItemComponent],
 })
 export class GameUpdateComponent extends MediaUpdateComponent {
-  mediaService = inject(GameService);
+  constructor(
+    gameService: GameService,
+  ) {
+    super(gameService);
+  }
 }

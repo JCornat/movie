@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
@@ -13,5 +13,7 @@ import { SharedModule } from '@shared/shared.module';
   imports: [MediaItemComponent, SharedModule],
 })
 export class MovieAddComponent extends MediaAddComponent {
-  mediaService = inject(MovieService);
+  constructor(movieService: MovieService) {
+    super(movieService);
+  }
 }

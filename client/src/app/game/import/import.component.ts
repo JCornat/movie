@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { GameService } from '@app/game/game.service';
 import { MediaImportComponent } from '@app/media/import/import.component';
@@ -13,5 +13,9 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule, MediaItemComponent],
 })
 export class GameImportComponent extends MediaImportComponent implements OnInit {
-  mediaService = inject(GameService);
+  constructor(
+    gameService: GameService,
+  ) {
+    super(gameService);
+  }
 }
