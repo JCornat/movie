@@ -1,14 +1,23 @@
-import { Directive, Input, OnInit } from '@angular/core';
+import { Directive, input, OnInit } from '@angular/core';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
 import { Global } from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
+import { SerieService } from '@app/serie/serie.service';
+import { MovieService } from '@app/movie/movie.service';
+import { GameService } from '@app/game/game.service';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
-  @Input() importId!: string;
+  importId = input<string>();
 
-  override async ngOnInit(): Promise<void> {
+  constructor(
+    public override mediaService: SerieService | MovieService | GameService,
+  ) {
+    super(mediaService);
+  }
+
+  async ngOnInit(): Promise<void> {
     if (Global.isEmpty(this.importId)) {
       throw new Error('NO IMPORT ID PROVIDED');
     }
@@ -16,8 +25,8 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
     this.buildType();
     this.buildForm();
 
-    const values = await this.pullOne(this.importId);
-    this.mediaForm.patchValue(values);
+    const values = await this.pullOne(this.importId()!);
+    this.mediaForm().patchValue(values);
   }
 
   /*-----------------------*\
@@ -29,19 +38,6 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
       throw new Error('NO IMPORT ID PROVIDED');
     }
 
-    this.error = null as any;
-    this.loading = true;
-
-    let data: any;
-
-    try {
-      data = await this.mediaService.importOne(id);
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
-
-    return data;
+    return await this.mediaService.importOne(id);
   }
 }

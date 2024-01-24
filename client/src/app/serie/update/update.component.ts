@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaUpdateComponent } from '@app/media/update/update.component';
@@ -13,5 +13,9 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule, MediaItemComponent],
 })
 export class SerieUpdateComponent extends MediaUpdateComponent {
-  mediaService = inject(SerieService);
+  constructor(
+    serieService: SerieService,
+  ) {
+    super(serieService);
+  }
 }

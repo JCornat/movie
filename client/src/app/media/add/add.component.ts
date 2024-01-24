@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Directive, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Directive, ElementRef, inject, input, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { GameService } from '@app/game/game.service';
@@ -10,28 +10,33 @@ import { SERVER_URL } from '@shared/config/config';
 import { SerieService } from '@app/serie/serie.service';
 import { Global } from '@shared/global/global';
 import { PanelService } from '@app/panel/panel.service';
+import { RatingDisplay } from '@app/interface';
 
 @Directive()
-export abstract class MediaAddComponent implements OnInit {
+export abstract class MediaAddComponent {
   requestService = inject(RequestService);
   panelService = inject(PanelService);
   router = inject(Router);
-  abstract mediaService: SerieService | MovieService | GameService;
 
   @ViewChild('inputFile', { static: true }) inputFile!: ElementRef;
 
-  @Input() id?: string;
+  id = input<string | null>(null);
 
-  loading!: boolean;
-  error!: string | null;
-  mediaForm!: FormGroup;
-  formData!: { [key: string]: any };
-  type!: 'movie' | 'serie' | 'game';
-  ratings!: { value: string | number, label: string }[];
+  loadingAdd = this.mediaService.loadingAdd;
+  loadingUpdate = this.mediaService.loadingUpdate;
+  loadingPullOne = this.mediaService.loadingPullOne;
+  errorAdd = this.mediaService.errorAdd;
+  errorUpdate = this.mediaService.errorUpdate;
+  errorPullOne = this.mediaService.errorPullOne;
+  formData = signal<{ [key: string]: any } | null>(null);
+  ratings = signal<RatingDisplay[]>([...RATINGS]);
+  mediaForm = this.buildForm();
+  type = this.buildType();
 
-  ngOnInit(): void {
-    this.buildType();
-    this.buildForm();
+  constructor(
+    public mediaService: SerieService | MovieService | GameService,
+  ) {
+    this.subscribeForm();
   }
 
   /*-----------------------*\
@@ -39,83 +44,19 @@ export abstract class MediaAddComponent implements OnInit {
   \*-----------------------*/
 
   onValid(data: { [key: string]: any }): void {
-    this.formData = data;
+    this.formData.set(data);
   }
 
   async onSubmit(): Promise<void> {
-    if (this.loading) {
+    if (this.loadingAdd()) {
       return;
     }
 
-    this.error = null;
-
-    if (this.mediaForm.invalid) {
-      this.error = 'Invalid form';
+    if (this.mediaForm().invalid) {
       return;
     }
 
-    this.loading = true;
-
-    try {
-      await this.add();
-    } catch (error) {
-      this.error = (error as any).message;
-    } finally {
-      this.loading = false;
-    }
-  }
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  async add(): Promise<void> {
-    await this.mediaService.add(this.formData);
-    this.close();
-  }
-
-  async remove(): Promise<void> {
-    if (!this.id) {
-      return;
-    }
-
-    await this.mediaService.delete(this.id);
-    this.close();
-  }
-
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
-  buildType(): void {
-    const regex = /^\/(\w+)/;
-    const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1];
-    if (Global.isEmpty(type)) {
-      throw { status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown` };
-    }
-
-    this.type = type as 'movie' | 'serie' | 'game';
-  }
-
-  buildForm(): void {
-    this.ratings = Global.clone(RATINGS);
-
-    this.mediaForm = new FormGroup({
-      id: new FormControl(''),
-      title: new FormControl('', [Validators.required]),
-      year: new FormControl('', [Validators.required]),
-      url: new FormControl('', [Validators.required]),
-      rating: new FormControl('', [Validators.required]),
-    });
-
-    this.mediaForm.valueChanges.subscribe((data) => {
-      this.onValid(data);
-    });
-  }
-
-  uploadSuccessful(data: string): void {
-    this.mediaForm.get('url')?.setValue(data);
+    await this.add();
   }
 
   selectFile(event?: Event): void {
@@ -139,5 +80,64 @@ export abstract class MediaAddComponent implements OnInit {
 
   close(): void {
     this.panelService.close();
+  }
+
+  /*-----------------------*\
+           Service
+  \*-----------------------*/
+
+  async add(): Promise<void> {
+    await this.mediaService.add(this.formData()!);
+    this.close();
+  }
+
+  async remove(): Promise<void> {
+    if (!this.id()) {
+      return;
+    }
+
+    await this.mediaService.delete(this.id()!);
+    this.close();
+  }
+
+  /*-----------------------*\
+           Method
+  \*-----------------------*/
+
+  buildType(): WritableSignal<'movie' | 'serie' | 'game'> {
+    const regex = /^\/(\w+)/;
+    const regexResult = regex.exec(this.router.url);
+    const type = regexResult?.[1] as 'movie' | 'serie' | 'game';
+    if (Global.isEmpty(type)) {
+      throw { status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown` };
+    }
+
+    return signal(type);
+  }
+
+  buildForm(): WritableSignal<FormGroup> {
+    const form = new FormGroup({
+      id: new FormControl(''),
+      title: new FormControl('', [Validators.required]),
+      year: new FormControl('', [Validators.required]),
+      url: new FormControl('', [Validators.required]),
+      rating: new FormControl('', [Validators.required]),
+    });
+
+    return signal(form);
+  }
+
+  uploadSuccessful(data: string): void {
+    this.mediaForm().get('url')?.setValue(data);
+  }
+
+  /*-----------------------*\
+          Subscriber
+  \*-----------------------*/
+
+  subscribeForm(): void {
+    this.mediaForm().valueChanges.subscribe((data) => {
+      this.onValid(data);
+    });
   }
 }
