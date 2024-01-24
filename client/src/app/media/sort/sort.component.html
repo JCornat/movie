@@ -1,6 +1,6 @@
-<form [formGroup]="mediaForm">
+<form [formGroup]="mediaForm()">
   <select formControlName="orderBy" decorationInput class="min-w-52">
-    @for (sort of sorts; track sort) {
+    @for (sort of sorts(); track sort.value) {
       <option [ngValue]="sort.value">{{sort.label}}</option>
     }
   </select>

@@ -1,19 +1,19 @@
 <div class="relative block cursor-pointer">
   <div class="rounded-lg overflow-hidden relative shadow-media grayscale-5 hover:grayscale-0 hover:saturate-110 transition">
     <div class="w-full bg-center bg-cover bg-no-repeat aspect-2/3 block blur reflection transition will-change-transform">
-      @if (data.url) {
+      @if (data().url) {
         <picture class="block h-full w-full">
-          @if (data.urlWebp) {
-            <source [srcset]="data.urlWebp" type="image/webp">
+          @if (data().urlWebp) {
+            <source [srcset]="data().urlWebp" type="image/webp">
           }
 
-          <img [ngSrc]="data.url" [alt]="data.title" fill="true" class="object-cover">
+          <img [ngSrc]="data().url" [alt]="data().title" fill="true" class="object-cover">
         </picture>
       }
     </div>
 
     <div class="absolute inset-0 flex items-center justify-center">
-      <div class="font-bold text-xl">See {{limit}} more</div>
+      <div class="font-bold text-xl">See {{limit()}} more</div>
     </div>
   </div>
 </div>

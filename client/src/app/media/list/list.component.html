@@ -1,20 +1,20 @@
-@for (groupMedium of groupMedia; track groupMedium.label) {
+@for (groupMedium of groupMedia(); track groupMedium.label) {
   @if (groupMedium.media.length > 0) {
     <div class="mx-4 flex" style="align-items: center;">
       <div class="font-bold text-2xl" [id]="groupMedium.label">{{groupMedium.label}}</div>
       <div class="flex-grow"></div>
-      <app-sort [orderBy]="groupMediaSort[groupMedium.value]" (onChange)="sort(groupMedium, $event)"/>
+      <app-sort [orderBy]="groupMediaSort()[groupMedium.value]" (onChange)="sort(groupMedium, $event)"/>
     </div>
 
     <div class="grid gap-4 grid-cols-media m-4" style="margin-bottom: 64px;">
       @for (medium of groupMedium.media; track medium; let i = $index) {
-        @if (i < groupMediaLimit[groupMedium.value]) {
-          <media-item [data]="medium" (click)="update(medium)"></media-item>
+        @if (i < groupMediaLimit()[groupMedium.value]) {
+          <media-item [data]="medium" (click)="update(medium)"/>
         }
       }
 
-      @if (groupMediaLimit[groupMedium.value] < groupMedium.media.length) {
-        <media-more [data]="groupMedium.media[groupMediaLimit[groupMedium.value]]" [limit]="groupMedium.media.length - groupMediaLimit[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
+      @if (groupMediaLimit()[groupMedium.value] < groupMedium.media.length) {
+        <media-more [data]="groupMedium.media[groupMediaLimit()[groupMedium.value]]" [limit]="groupMedium.media.length - groupMediaLimit()[groupMedium.value]" (click)="increaseLimit(groupMedium)"/>
       }
     </div>
   }

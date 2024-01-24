@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { Medium } from '@app/interface';
 
 @Component({
   selector: 'media-more',
@@ -9,6 +10,6 @@ import { NgOptimizedImage } from '@angular/common';
   imports: [NgOptimizedImage],
 })
 export class MediaMoreComponent {
-  @Input({ required: true }) data!: { [key: string]: any };
-  @Input({ required: true }) limit!: number;
+  data = input.required<Medium>();
+  limit = input.required<number>();
 }

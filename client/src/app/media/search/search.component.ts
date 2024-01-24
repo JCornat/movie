@@ -1,11 +1,10 @@
-import { Directive, inject, Input, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Directive, inject, input, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
-import { Global } from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
 import { filter, startWith, tap } from 'rxjs';
@@ -20,17 +19,14 @@ export abstract class MediaSearchComponent implements OnInit {
   panelService = inject(PanelService);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  @Input() set initialSearch(value: string) {
-    this.searchTerm.set(value);
-  }
+  searchTerm = input<string>('');
 
-  searchTerm: WritableSignal<string> = signal('');
-  formData: WritableSignal<{ [key: string]: any } | null> = signal(null);
-  searchForm: WritableSignal<FormGroup | null> = signal(null);
+  formData = signal<Record<string, any> | null>(null);
+  searchForm = signal<FormGroup | null>(null);
   type = this.categoryService.currentCategory;
-  searchResults: WritableSignal<ImportMedia[] | null> = signal(null);
-  loading: WritableSignal<boolean> = signal(false);
-  error: WritableSignal<string | null> = signal(null);
+  searchResults = signal<ImportMedia[] | null>(null);
+  loading = signal<boolean>(false);
+  error = signal<string | null>(null);
 
   constructor() {
     this.subscribeFormData();
