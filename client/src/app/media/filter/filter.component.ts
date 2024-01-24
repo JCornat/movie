@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, input, Output, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-filter',
@@ -9,15 +10,16 @@ import { SharedModule } from '@shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
 })
-export class MediaFilterComponent implements OnInit {
-  searchForm!: FormGroup;
-
-  @Input() searchTerm!: string;
+export class MediaFilterComponent {
+  searchTerm = input<string>('');
 
   @Output() onSearch = new EventEmitter<string>();
 
-  ngOnInit(): void {
-    this.buildForm();
+  searchForm = this.buildForm();
+
+  constructor() {
+    this.subscribeInputChange();
+    this.subscribeForm();
   }
 
   /*-----------------------*\
@@ -32,12 +34,26 @@ export class MediaFilterComponent implements OnInit {
           Method
   \*-----------------------*/
 
-  buildForm(): void {
-    this.searchForm = new FormGroup({
-      search: new FormControl(this.searchTerm),
+  buildForm() {
+    const formGroup = new FormGroup({
+      search: new FormControl('', { nonNullable: true }),
     });
 
-    this.searchForm.valueChanges.subscribe((data) => {
+    return signal(formGroup);
+  }
+
+  /*-----------------------*\
+          Subscriber
+  \*-----------------------*/
+
+  subscribeInputChange() {
+    toObservable(this.searchTerm).subscribe((value) => {
+      this.searchForm().patchValue({ search: value });
+    });
+  }
+
+  subscribeForm(): void {
+    this.searchForm().valueChanges.subscribe((data) => {
       this.onValid(data);
     });
   }

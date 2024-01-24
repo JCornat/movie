@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, input, Output } from '@angular/core';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
@@ -12,9 +12,9 @@ import { MediaSortComponent } from '@app/media/sort/sort.component';
   imports: [MediaItemComponent, MediaMoreComponent, MediaSortComponent],
 })
 export class MediaListComponent {
-  @Input({ required: true }) groupMedia!: GroupMedium[];
-  @Input({ required: true }) groupMediaLimit!: GroupMediaLimit;
-  @Input({ required: true }) groupMediaSort!: GroupMediaSort;
+  groupMedia = input.required<GroupMedium[]>();
+  groupMediaLimit = input.required<GroupMediaLimit>();
+  groupMediaSort = input.required<GroupMediaSort>();
 
   @Output() onUpdate = new EventEmitter<Medium>();
   @Output() onIncreaseLimit = new EventEmitter<GroupMedium>();

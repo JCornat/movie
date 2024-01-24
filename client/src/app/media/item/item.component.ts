@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
-
-import { SERVER_URL } from '@shared/config/config';
-import { Global } from '@shared/global/global';
 import { Medium } from '@app/interface';
 
 @Component({
@@ -12,15 +9,7 @@ import { Medium } from '@app/interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgOptimizedImage, NgClass],
 })
-export class MediaItemComponent implements OnInit {
-  @Input({ required: true }) data!: { [key: string]: any };
-  @Input() dynamic!: boolean; // Allow image update
-
-  ngOnInit(): void {
-    if (Global.isPopulated((this.data as Medium).id)) { // For Media item
-      const data = this.data as Medium;
-      data.url = `${SERVER_URL}/upload/${data.id}.jpg`;
-      data.urlWebp = `${SERVER_URL}/upload/${data.id}.webp`;
-    }
-  }
+export class MediaItemComponent {
+  data = input.required<Medium>();
+  dynamic = input<boolean>();
 }

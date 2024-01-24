@@ -28,7 +28,7 @@
           No result
         } @else {
           @for (result of searchResults(); track result) {
-            <media-item [data]="result" (click)="openImportPanel(result)"></media-item>
+            <media-item [data]="$any(result)" (click)="openImportPanel(result)"></media-item>
           }
         }
       </div>

@@ -1,20 +1,20 @@
 <div class="relative block">
   <div class="rounded-lg overflow-hidden relative shadow-media grayscale-5 hover:grayscale-0 hover:saturate-110 transition">
     <div class="w-full bg-center bg-cover bg-no-repeat aspect-2/3 block reflection">
-      @if (data.url) {
-        @if (!dynamic) {
+      @if (data().url) {
+        @if (!dynamic()) {
           <picture class="block h-full w-full ">
-            @if (data.urlWebp) {
-              <source [srcset]="data.urlWebp" type="image/webp">
+            @if (data().urlWebp) {
+              <source [srcset]="data().urlWebp" type="image/webp">
             }
 
-            <img [ngSrc]="data.url" [alt]="data.title" fill="true" class="object-cover">
+            <img [ngSrc]="data().url" [alt]="data().title" fill="true" class="object-cover">
           </picture>
         }
 
-        @if (dynamic) {
+        @if (dynamic()) {
           <picture>
-            <img [src]="data.url" [alt]="'Image ' + data.title" class="absolute w-full h-full inset-0">
+            <img [src]="data().url" [alt]="'Image ' + data().title" class="absolute w-full h-full inset-0">
           </picture>
         }
       }
@@ -22,7 +22,7 @@
   </div>
 
   <div class="text-center mt-2">
-    <div class="mb-0.5 font-bold leading-none">{{data.title}}</div>
-    <div class="opacity-50 text-sm">{{data.year}}</div>
+    <div class="mb-0.5 font-bold leading-none">{{data().title}}</div>
+    <div class="opacity-50 text-sm">{{data().year}}</div>
   </div>
 </div>

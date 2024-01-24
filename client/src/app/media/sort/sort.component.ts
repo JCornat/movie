@@ -11,31 +11,56 @@ import { toObservable } from '@angular/core/rxjs-interop';
   templateUrl: './sort.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MediaSortComponent implements OnInit {
-  @Input({ required: true }) orderBy!: string;
+export class MediaSortComponent {
+  orderBy = input.required<OrderBy>();
+
   @Output() onChange = new EventEmitter<OrderBy>();
 
-  mediaForm!: FormGroup;
+  mediaForm = this.buildForm();
+  sorts = this.buildSortList();
 
-  sorts: { value: OrderBy, label: string }[] = [
-    { value: OrderBy.random, label: 'Random' },
-    { value: OrderBy.alphabetic, label: 'A-Z' },
-    { value: OrderBy.alphabeticReverse, label: 'Z-A' },
-    { value: OrderBy.mostRecent, label: 'Most recent' },
-    { value: OrderBy.leastRecent, label: 'Least recent' },
-    { value: OrderBy.lastAdded, label: 'Last added' },
-  ];
-
-  ngOnInit() {
-    this.buildForm();
+  constructor() {
+    this.subscribeInputChange();
+    this.subscribeForm();
   }
 
-  buildForm(): void {
-    this.mediaForm = new FormGroup({
-      orderBy: new FormControl(this.orderBy),
+  /*-----------------------*\
+            Method
+  \*-----------------------*/
+
+  buildForm() {
+    const formGroup = new FormGroup({
+      orderBy: new FormControl<OrderBy>(OrderBy.random, { nonNullable: true }),
     });
 
-    this.mediaForm.valueChanges.subscribe((data) => {
+    return signal(formGroup);
+  }
+
+  buildSortList() {
+    const sortList: { value: OrderBy, label: string }[] = [
+      { value: OrderBy.random, label: 'Random' },
+      { value: OrderBy.alphabetic, label: 'A-Z' },
+      { value: OrderBy.alphabeticReverse, label: 'Z-A' },
+      { value: OrderBy.mostRecent, label: 'Most recent' },
+      { value: OrderBy.leastRecent, label: 'Least recent' },
+      { value: OrderBy.lastAdded, label: 'Last added' },
+    ];
+
+    return signal(sortList);
+  }
+
+  /*-----------------------*\
+          Subscriber
+  \*-----------------------*/
+
+  subscribeInputChange() {
+    toObservable(this.orderBy).subscribe((value) => {
+      this.mediaForm().patchValue({ orderBy: value });
+    });
+  }
+
+  subscribeForm(): void {
+    this.mediaForm().valueChanges.subscribe((data) => {
       this.onChange.emit(data.orderBy);
     });
   }
