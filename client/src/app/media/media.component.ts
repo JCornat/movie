@@ -45,11 +45,19 @@ export abstract class MediaComponent implements OnInit {
   }
 
   openSearchPanel(): void {
+    if (!this.isLogged()) {
+      return;
+    }
+
     const component = this.getSearchComponent();
-    this.panelService.open({ component, inputs: { initialSearch: this.searchTerm() } });
+    this.panelService.open({ component, inputs: { searchTerm: this.searchTerm() } });
   }
 
   openUpdatePanel(media: Medium): void {
+    if (!this.isLogged()) {
+      return;
+    }
+
     const component = this.getUpdateComponent();
     this.panelService.open({ component, inputs: { id: media.id } });
   }
