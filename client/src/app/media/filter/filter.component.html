@@ -1,6 +1,6 @@
 <form [formGroup]="searchForm()">
-  <div>
+  <div class="relative">
     <input type="text" formControlName="search" decorationInput placeholder="Search" class="min-w-80"/>
-    <i class="icon icon-search"></i>
+    <app-icon name="search" class="absolute right-0 top-0 h-full mr-2"/>
   </div>
 </form>
