@@ -6,13 +6,14 @@ import { CategoryPreview, Game, Medium, Movie, Serie } from '@app/interface';
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
+import { SharedIconComponent } from '@shared/icon/icon.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, RouterModule],
+  imports: [NgOptimizedImage, RouterModule, SharedIconComponent],
 })
 export class HomeComponent implements OnInit {
   gameService = inject(GameService);

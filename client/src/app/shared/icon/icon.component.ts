@@ -5,7 +5,11 @@ import { toObservable } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-icon',
   standalone: true,
-  template: `<span [innerHTML]="svgIcon()" [style.fill]="fill()"></span>`,
+  template: `
+    <div class="flex items-center pointer-events-none h-full">
+      <div class="fill-current" [innerHTML]="svgIcon()" [style.height]="height()"></div>
+    </div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
 })
@@ -13,7 +17,7 @@ export class SharedIconComponent {
   svgIconService = inject(SharedIconService);
 
   name = input.required<string>();
-  fill = input<string>();
+  height = input<string>('20px');
   svgIcon = computed(() => {
     return this.svgIconService.icons()[this.name()];
   });

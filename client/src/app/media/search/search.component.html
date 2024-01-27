@@ -4,7 +4,10 @@
     <div class="flex items-center mb-4">
       <div class="grow">
         <form [formGroup]="searchForm()!">
-          <input type="text" formControlName="search" placeholder="Search" decorationInput/>
+          <div class="relative">
+            <input type="text" formControlName="search" placeholder="Search" decorationInput/>
+            <app-icon name="search" class="absolute right-0 top-0 h-full mr-2"/>
+          </div>
         </form>
       </div>
 
@@ -15,7 +18,7 @@
 
     @if (error()) {
       <div class="mb-8">
-        <div style="color: red">{{error}}</div>
+        <div style="color: red">{{error()}}</div>
       </div>
     }
 
