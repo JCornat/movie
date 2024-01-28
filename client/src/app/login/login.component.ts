@@ -15,11 +15,12 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule],
 })
 export class LoginComponent implements OnInit {
+  authenticationService = inject(AuthenticationService);
+  router = inject(Router);
+
   formData!: { [key: string]: any };
   loginForm!: FormGroup;
   error!: string;
-  authenticationService = inject(AuthenticationService);
-  router = inject(Router);
 
   ngOnInit(): void {
     this.init();

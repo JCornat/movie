@@ -18,6 +18,8 @@ export class DecorationButtonDirective {
       'px-2.5',
       'rounded-lg',
       'text-sm',
+      'flex',
+      'items-center',
     ];
 
     for (const className of classNames) {

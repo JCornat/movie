@@ -3,8 +3,9 @@
     <div class="px-4 md:pl-12 lg:pl-24">
       <div class="text-3xl font-bold" style="text-shadow: 0 0 5px rgba(0, 212, 252, .8)">{{categoryPreview.title}}</div>
       <div class="opacity-50 mb-4 text-xl">{{categoryPreview.description}}</div>
-      <div class="text-lg font-bold">
-        <a [routerLink]="categoryPreview.url" class="reset">See more <app-icon name="chevron-right"/></a>
+      <div class="text-lg font-bold flex">
+        <a [routerLink]="categoryPreview.url" class="reset">See more</a>
+        <app-icon name="chevron-right" class="ml-1" height="24px"/>
       </div>
     </div>
 

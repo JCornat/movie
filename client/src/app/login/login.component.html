@@ -1,8 +1,13 @@
 <div class="mx-4 md:mx-auto max-w-screen-md">
-  <div class="mb-4">
-    <button (click)="navigateBack()">
-      <i class="icon icon-arrow-back pr-2"></i> Back
-    </button>
+  <div class="flex mb-4">
+    <div>
+      <button (click)="navigateBack()" decorationButton>
+        <app-icon name="arrow-back" class="mr-1"/>
+        Back
+      </button>
+    </div>
+
+    <div class="flex-grow"></div>
   </div>
 
   <div class="bold text-xl mb-4">Login</div>
@@ -20,7 +25,7 @@
       </div>
 
       <div class="mb-4 flex relative cursor-pointer" (click)="toggleStayConnected()">
-        <i class="icon mr-2" [ngClass]="{'icon-check-box': formData.stayLogged, 'icon-check-box-outline-blank': !formData.stayLogged}"></i>
+        <app-icon class="mr-1" [name]="(formData?.stayLogged) ? 'check-box' : 'check-box-outline'"/>
         Stay connected
       </div>
     </form>
@@ -35,6 +40,8 @@
   <div class="flex">
     <div class="flex-grow"></div>
 
-    <button (click)="onSubmit()" class="border rounded-md px-4 h-8">Login</button>
+    <div>
+      <button (click)="onSubmit()" decorationButton>Login</button>
+    </div>
   </div>
 </div>
