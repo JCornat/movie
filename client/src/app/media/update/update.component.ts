@@ -6,6 +6,7 @@ import { Global } from '@shared/global/global';
 import { SerieService } from '@app/serie/serie.service';
 import { MovieService } from '@app/movie/movie.service';
 import { GameService } from '@app/game/game.service';
+import { Medium } from '@app/interface';
 
 @Injectable()
 export abstract class MediaUpdateComponent extends MediaAddComponent {
@@ -29,8 +30,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
       return;
     }
 
-    await this.update(this.formData()!);
-    this.close();
+    await this.update(this.formData() as Medium);
   }
 
   /*-----------------------*\
@@ -41,8 +41,10 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
     return await this.mediaService.pullOne(id);
   }
 
-  async update(data: { [key: string]: any }): Promise<void> {
+  async update(data: Medium): Promise<void> {
     await this.mediaService.update(data);
+    this.mediaService.pushLocalUpdate(data);
+    this.close();
   }
 
   /*-----------------------*\

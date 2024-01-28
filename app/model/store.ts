@@ -4,6 +4,7 @@ import { File } from '@model/file';
 import { Random } from '@model/random';
 import { Image } from '@model/image';
 import { MediaAddParameters, MediaUpdateParameters } from '@model/definition';
+import * as Config from '@config/config';
 
 export class Store<T> {
   collection: T;
@@ -55,7 +56,7 @@ export class Store<T> {
   async add(data: MediaAddParameters): Promise<string> {
     const id = Random.generate();
 
-    if (data.url) {
+    if (!data.url.includes(`${Config.URL}/image`)) {
       await Image.downloadAndConvert({ sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg'] });
     }
 
@@ -73,7 +74,7 @@ export class Store<T> {
   async update(id: string, data: MediaUpdateParameters): Promise<void> {
     this.getOne(id); // Get one to check if existing
 
-    if (data.url) { // If url contains server url, no need to download
+    if (!data.url.includes(`${Config.URL}/image`)) {
       await Image.downloadAndConvert({ sourceUrl: data.url, basename: id, extensions: ['webp', 'jpg'] });
     }
 

@@ -9,5 +9,8 @@ config/*
 public/image/*
 !public/image/.gitkeep
 
+public/upload/*
+!public/upload/.gitkeep
+
 www/*
 !www/*.gitkeep

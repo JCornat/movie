@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { Global } from '@shared/global/global';
 import { SharedModule } from '@shared/shared.module';
+import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -84,10 +85,11 @@ export class LoginComponent {
   \*-----------------------*/
 
   subscribeForm(): void {
-    this.loginForm().valueChanges.subscribe((data) => {
-      this.onValid(data);
-    });
-
-    this.onValid(this.loginForm().getRawValue()); // Fire once
+    this.loginForm().valueChanges
+      .pipe(startWith({ stayLogged: true }))
+      .subscribe((data) => {
+        console.log('ok', data);
+        this.onValid(data);
+      });
   }
 }
