@@ -1,4 +1,4 @@
-import { computed, inject, signal, WritableSignal } from '@angular/core';
+import { computed, inject, signal } from '@angular/core';
 
 import { Request } from '@shared/request/request';
 import { RequestService, RequestType } from '@shared/request/request.service';
@@ -6,7 +6,7 @@ import { RequestService, RequestType } from '@shared/request/request.service';
 export abstract class CrudService<T> {
   requestService = inject(RequestService);
 
-  protected statePullAll: WritableSignal<{ values: T[] | null, hasMore: boolean | null, error: string | null, loading: boolean }> = signal({
+  protected statePullAll = signal<{ values: T[] | null, hasMore: boolean | null, error: string | null, loading: boolean }>({
     values: [] as T[],
     hasMore: null,
     error: null,
@@ -18,7 +18,7 @@ export abstract class CrudService<T> {
   errorPullAll = computed(() => this.statePullAll().error);
   loadingPullAll = computed(() => this.statePullAll().loading);
 
-  protected statePullOne: WritableSignal<{ values: T | null, error: string | null, loading: boolean }> = signal({
+  protected statePullOne = signal<{ values: T | null, error: string | null, loading: boolean }>({
     values: null,
     error: null,
     loading: false,
@@ -28,7 +28,7 @@ export abstract class CrudService<T> {
   errorPullOne = computed(() => this.statePullOne().error);
   loadingPullOne = computed(() => this.statePullOne().loading);
 
-  protected stateAdd: WritableSignal<{ values: any, error: string | null, loading: boolean }> = signal({
+  protected stateAdd = signal<{ values: any, error: string | null, loading: boolean }>({
     values: null,
     error: null,
     loading: false,
@@ -38,7 +38,7 @@ export abstract class CrudService<T> {
   errorAdd = computed(() => this.stateAdd().error);
   loadingAdd = computed(() => this.stateAdd().loading);
 
-  protected stateUpdate: WritableSignal<{ values: T | null, error: string | null, loading: boolean }> = signal({
+  protected stateUpdate = signal<{ values: T | null, error: string | null, loading: boolean }>({
     values: null,
     error: null,
     loading: false,
@@ -48,7 +48,7 @@ export abstract class CrudService<T> {
   errorUpdate = computed(() => this.stateUpdate().error);
   loadingUpdate = computed(() => this.stateUpdate().loading);
 
-  protected stateDelete: WritableSignal<{ values: number | null, error: string | null, loading: boolean }> = signal({
+  protected stateDelete = signal<{ values: number | null, error: string | null, loading: boolean }>({
     values: null,
     error: null,
     loading: false,

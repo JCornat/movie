@@ -1,10 +1,10 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PanelService {
-  #component: WritableSignal<{ component: any, inputs?: Record<string, any> } | null> = signal(null);
+  #component = signal<{ component: any, inputs?: Record<string, any> } | null>(null);
   component = this.#component.asReadonly();
 
   close() {
