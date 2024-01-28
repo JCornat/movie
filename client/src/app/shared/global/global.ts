@@ -232,7 +232,11 @@ export class Global {
  * Do not use on objects like functions & dates, it can be dangerous !
  */
   static clone(data: any): any {
-    return JSON.parse(JSON.stringify(data));
+    if (window['structuredClone']) {
+      return structuredClone(data);
+    } else {
+      return JSON.parse(JSON.stringify(data));
+    }
   }
 
   static cancelSubscriber(subscriber: Subscription): void {

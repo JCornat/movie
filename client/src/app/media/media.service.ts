@@ -1,35 +1,47 @@
-import { computed, Directive, inject, OnDestroy, signal, Signal } from '@angular/core';
+import { computed, Directive, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, OrderBy } from '@app/interface';
 import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
-import { lastValueFrom, Subscription } from 'rxjs';
+import { lastValueFrom, Subject, Subscription } from 'rxjs';
 import { CrudService } from '@shared/crud/crud.service';
 import { SERVER_URL } from '@shared/config/config';
 import { Request } from '@shared/request/request';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 @Directive()
-export abstract class MediaService<T> extends CrudService<Medium> implements OnDestroy {
+export abstract class MediaService<T> extends CrudService<Medium> {
   screenService = inject(ScreenService);
 
-  searchTerm = signal<string>('');
-  groupMedia = this.computeGroupMedia();
-  groupMediaLimit = signal<GroupMediaLimit>({});
-  groupMediaSort = signal<GroupMediaSort>({});
   abstract type: MediaType;
 
-  resizeSubscriber!: Subscription;
+  #searchTerm = signal<string>('');
+  searchTerm = this.#searchTerm.asReadonly();
+
+  #groupMediaOriginal = this.#computeGroupMedia();
+
+  #groupMedia = signal<GroupMedium[]>([]);
+  groupMedia = this.#groupMedia.asReadonly();
+
+  #groupMediaLimit = signal<GroupMediaLimit>({});
+  groupMediaLimit = this.#groupMediaLimit.asReadonly();
+
+  #groupMediaSort = this.#initializeGroupMediaSort();
+  groupMediaSort = this.#groupMediaSort.asReadonly();
+
+  #localUpdate = new Subject<Medium>();
+  #localAdd = new Subject<Medium>();
+  #localRemove = new Subject<string>();
 
   constructor() {
     super();
 
-    this.updateGroupMediaLimit();
-    this.initializeGroupMediaSort();
-    this.subscribeScreenResize();
-  }
-
-  ngOnDestroy(): void {
-    this.resizeSubscriber.unsubscribe();
+    this.#subscribeGroupMediaOriginal();
+    this.#subscribeLocalAdd();
+    this.#subscribeLocalRemove();
+    this.#subscribeLocalUpdate();
+    this.#subscribeScreenResize();
+    this.#updateGroupMediaLimit();
   }
 
   /*-----------------------*\
@@ -109,21 +121,114 @@ export abstract class MediaService<T> extends CrudService<Medium> implements OnD
            Method
   \*-----------------------*/
 
+  #subscribeGroupMediaOriginal(): Subscription {
+    return toObservable(this.#groupMediaOriginal)
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        this.#groupMedia.set(value);
+      });
+  }
+
+  // Update locally the list of media without calling the API
+  pushLocalAdd(value: Medium): void {
+    this.#localAdd.next(value);
+  }
+
+  // Update locally the list of media without calling the API
+  #subscribeLocalAdd(): Subscription {
+    return this.#localAdd
+      .pipe(takeUntilDestroyed())
+      .subscribe((medium: Medium) => {
+        this.#groupMedia.update((value) => {
+          const groupMedia = Global.clone(value);
+          const groupMedium = groupMedia.find((groupMedium: GroupMedium) => groupMedium.value === medium.rating);
+          if (!groupMedium) {
+            throw new Error(`CATEGORY ${medium.rating} NOT FOUND`);
+          }
+
+          groupMedium.media.unshift(medium);
+          return groupMedia;
+        });
+      });
+  }
+
+  // Update locally the list of media without calling the API
+  pushLocalRemove(id: string): void {
+    this.#localRemove.next(id);
+  }
+
+  // Update locally the list of media without calling the API
+  #subscribeLocalRemove(): Subscription {
+    return this.#localRemove
+      .pipe(takeUntilDestroyed())
+      .subscribe((id: string) => {
+        this.#groupMedia.update((value) => {
+          const groupMedia = Global.clone(value);
+          for (const groupMedium of groupMedia) {
+            const foundMedia = groupMedium.media.find((media: Medium) => media.id === id);
+            if (!foundMedia) {
+              continue;
+            }
+
+            const index = groupMedium.media.indexOf(foundMedia);
+            groupMedium.media.splice(index, 1);
+          }
+
+          return groupMedia;
+        });
+      });
+  }
+
+  // Update locally the list of media without calling the API
+  pushLocalUpdate(value: Medium): void {
+    this.#localUpdate.next(value);
+  }
+
+  // Update locally the list of media without calling the API
+  #subscribeLocalUpdate(): Subscription {
+    return this.#localUpdate
+      .pipe(takeUntilDestroyed())
+      .subscribe((medium: Medium) => {
+        this.#groupMedia.update((value) => {
+          const groupMedia = Global.clone(value);
+          for (const groupMedium of groupMedia) {
+            const foundMedia = groupMedium.media.find((media: Medium) => media.id === medium.id);
+            if (!foundMedia) {
+              continue;
+            }
+
+            const index = groupMedium.media.indexOf(foundMedia);
+            groupMedium.media.splice(index, 1);
+
+            const newCategory = groupMedia.find((category: GroupMedium) => category.value === medium.rating);
+            if (!newCategory) {
+              break;
+            }
+
+            newCategory.media.unshift(medium);
+            break;
+          }
+
+          return groupMedia;
+        });
+      });
+  }
+
   updateSearchTerm(term: string): void {
-    this.searchTerm.set(term);
+    this.#searchTerm.set(term);
   }
 
   increaseLimit(groupMedium: GroupMedium): void {
-    this.groupMediaLimit.update((value) => {
+    this.#groupMediaLimit.update((value) => {
       value[groupMedium.value] += this.getLimitByScreenSize();
-      return { ...value };
+      return Global.clone(value);
     });
   }
 
   sort(item: GroupMedium, type: OrderBy): void {
-    this.groupMediaSort.update((value) => {
+    this.#groupMediaSort.update((value) => {
       value[item.value] = type;
-      return { ...value };
+      return Global.clone(value);
     });
   }
 
@@ -134,8 +239,8 @@ export abstract class MediaService<T> extends CrudService<Medium> implements OnD
     }
   }
 
-  updateGroupMediaLimit() {
-    const res: GroupMediaLimit = { ...this.groupMediaLimit() };
+  #updateGroupMediaLimit() {
+    const res: GroupMediaLimit = Global.clone(this.groupMediaLimit());
     const newLimit = this.getLimitByScreenSize();
     for (const rating of RATINGS) {
       const oldLimit = res[rating.value] || 0;
@@ -146,16 +251,16 @@ export abstract class MediaService<T> extends CrudService<Medium> implements OnD
       res[rating.value] = newLimit;
     }
 
-    this.groupMediaLimit.set(res);
+    this.#groupMediaLimit.set(res);
   }
 
-  initializeGroupMediaSort() {
+  #initializeGroupMediaSort(): WritableSignal<GroupMediaSort> {
     const res: GroupMediaSort = {};
     for (const rating of RATINGS) {
       res[rating.value] = OrderBy.random;
     }
 
-    this.groupMediaSort.set(res);
+    return signal(res);
   }
 
   getLimitByScreenSize(): number {
@@ -176,80 +281,96 @@ export abstract class MediaService<T> extends CrudService<Medium> implements OnD
            Compute
   \*-----------------------*/
 
-  computeGroupMedia(): Signal<GroupMedium[]> {
+  #computeGroupMedia(): Signal<GroupMedium[]> {
     return computed(() => {
-      const ratingsObj: Record<string, GroupMedium> = {};
-      for (const rating of RATINGS) {
-        const groupMedium: GroupMedium = {
-          label: rating.label,
-          value: rating.value,
-          media: [],
-        };
-
-        ratingsObj[rating.value] = groupMedium;
-      }
-
-      for (const datum of this.valuesPullAll()!) {
-        const search = this.searchTerm();
-        if (search) {
-          if (!(datum.year + '').includes(search) && !(datum.title.toLowerCase()).includes(search.toLowerCase())) {
-            continue;
-          }
-        }
-
-        let rating = ratingsObj[datum.rating];
-        if (!rating) {
-          rating = ratingsObj['todo'];
-        }
-
-        rating.media.push(datum);
-      }
-
-      const res: GroupMedium[] = [];
-      for (const rating of RATINGS) {
-        const tmp = ratingsObj[rating.value];
-        const sort = this.groupMediaSort()[rating.value];
-        switch (sort) {
-          case OrderBy.alphabetic:
-            tmp.media = Global.sort({ data: tmp.media, key: 'title' });
-            break;
-          case OrderBy.alphabeticReverse:
-            tmp.media = Global.sort({ data: tmp.media, key: 'title', descending: true });
-            break;
-          case OrderBy.mostRecent:
-            tmp.media = Global.sort({ data: tmp.media, key: 'year', descending: true });
-            break;
-          case OrderBy.leastRecent:
-            tmp.media = Global.sort({ data: tmp.media, key: 'year' });
-            break;
-          case OrderBy.random:
-            const shuffled = Global.clone(tmp.media);
-            this.shuffle(shuffled);
-            tmp.media = shuffled;
-            break;
-          case OrderBy.lastAdded:
-            tmp.media = tmp.media.reverse();
-            break;
-          default:
-            console.log('NOT SUPPORTED SORT', sort);
-            break;
-        }
-
-        res.push(tmp);
-      }
-
-      return res;
+      const emptyRatingsRecord = this.#buildRatingRecord();
+      const ratingRecord = this.#populateRatingRecord(emptyRatingsRecord);
+      return this.#sortRatingRecord(ratingRecord);
     });
   }
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
+  #buildRatingRecord() {
+    const ratingRecord: Record<string, GroupMedium> = {};
+    for (const rating of RATINGS) {
+      const groupMedium: GroupMedium = {
+        label: rating.label,
+        value: rating.value,
+        media: [],
+      };
 
-  subscribeScreenResize(): void {
-    this.resizeSubscriber = this.screenService.widthResizeObservable
+      ratingRecord[rating.value] = groupMedium;
+    }
+
+    return ratingRecord;
+  }
+
+  #populateRatingRecord(data: Record<string, GroupMedium>) {
+    const ratingRecord = Global.clone(data);
+    for (const datum of this.valuesPullAll()!) {
+      const search = this.searchTerm();
+      if (search) {
+        if (!(datum.year + '').includes(search) && !(datum.title.toLowerCase()).includes(search.toLowerCase())) {
+          continue;
+        }
+      }
+
+      let rating = ratingRecord[datum.rating];
+      if (!rating) {
+        rating = ratingRecord['todo'];
+      }
+
+      rating.media.push(datum);
+    }
+
+    return ratingRecord;
+  }
+
+  #sortRatingRecord(data: Record<string, GroupMedium>) {
+    const res: GroupMedium[] = [];
+    for (const rating of RATINGS) {
+      const tmp = data[rating.value];
+      const sort = this.groupMediaSort()[rating.value];
+      switch (sort) {
+        case OrderBy.alphabetic:
+          tmp.media = Global.sort({ data: tmp.media, key: 'title' });
+          break;
+        case OrderBy.alphabeticReverse:
+          tmp.media = Global.sort({ data: tmp.media, key: 'title', descending: true });
+          break;
+        case OrderBy.mostRecent:
+          tmp.media = Global.sort({ data: tmp.media, key: 'year', descending: true });
+          break;
+        case OrderBy.leastRecent:
+          tmp.media = Global.sort({ data: tmp.media, key: 'year' });
+          break;
+        case OrderBy.random:
+          const shuffled = Global.clone(tmp.media);
+          this.shuffle(shuffled);
+          tmp.media = shuffled;
+          break;
+        case OrderBy.lastAdded:
+          tmp.media = tmp.media.reverse();
+          break;
+        default:
+          console.log('NOT SUPPORTED SORT', sort);
+          break;
+      }
+
+      res.push(tmp);
+    }
+
+    return res;
+  }
+
+  /*-----------------------*\
+            Subscriber
+    \*-----------------------*/
+
+  #subscribeScreenResize(): Subscription {
+    return this.screenService.widthResizeObservable
+      .pipe(takeUntilDestroyed())
       .subscribe(() => {
-        this.updateGroupMediaLimit();
+        this.#updateGroupMediaLimit();
       });
   }
 
@@ -259,8 +380,8 @@ export abstract class MediaService<T> extends CrudService<Medium> implements OnD
 
   processPullAll(data: { data: Medium[] }): Medium[] {
     for (const datum of data.data) {
-      datum.url = `${SERVER_URL}/upload/${datum.id}.jpg`;
-      datum.urlWebp = `${SERVER_URL}/upload/${datum.id}.webp`;
+      datum.url = `${SERVER_URL}/image/${datum.id}.jpg`;
+      datum.urlWebp = `${SERVER_URL}/image/${datum.id}.webp`;
     }
 
     return data.data;

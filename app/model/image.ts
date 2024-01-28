@@ -110,7 +110,7 @@ export class Image {
 
     for (const extension of options.extensions) {
       const filename = `${options.basename}.${extension}`;
-      const destinationPath = path.join(Config.UPLOAD_PATH, filename);
+      const destinationPath = path.join(Config.IMAGE_PATH, filename);
       await this.convert(destinationTmpPath, destinationPath, null, 375);
     }
 
@@ -120,7 +120,7 @@ export class Image {
   static async remove(options: { basename: string, extensions: string[] }): Promise<void> {
     for (const extension of options.extensions) {
       const filename = `${options.basename}.${extension}`;
-      const destinationPath = path.join(Config.UPLOAD_PATH, filename);
+      const destinationPath = path.join(Config.IMAGE_PATH, filename);
 
       try {
         await File.remove(destinationPath);

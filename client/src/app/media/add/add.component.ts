@@ -10,7 +10,7 @@ import { SERVER_URL } from '@shared/config/config';
 import { SerieService } from '@app/serie/serie.service';
 import { Global } from '@shared/global/global';
 import { PanelService } from '@app/panel/panel.service';
-import { RatingDisplay } from '@app/interface';
+import { Medium, RatingDisplay } from '@app/interface';
 
 @Directive()
 export abstract class MediaAddComponent {
@@ -83,16 +83,20 @@ export abstract class MediaAddComponent {
   \*-----------------------*/
 
   async add(): Promise<void> {
-    await this.mediaService.add(this.formData()!);
+    const formData = this.formData() as Medium;
+    await this.mediaService.add(formData);
+    this.mediaService.pushLocalAdd(formData);
     this.close();
   }
 
   async remove(): Promise<void> {
-    if (!this.id()) {
+    const id = this.id() as string;
+    if (!id) {
       return;
     }
 
-    await this.mediaService.delete(this.id()!);
+    await this.mediaService.delete(id);
+    this.mediaService.pushLocalRemove(id);
     this.close();
   }
 
