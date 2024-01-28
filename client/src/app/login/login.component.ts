@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 
@@ -67,8 +67,8 @@ export class LoginComponent {
 
   buildForm(): WritableSignal<FormGroup> {
     const form = new FormGroup({
-      username: new FormControl(''),
-      password: new FormControl(''),
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
       stayLogged: new FormControl(true),
     });
 

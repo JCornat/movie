@@ -6,7 +6,7 @@ import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import { CategoryService } from '@app/category/category.service';
-import { GroupMedium, Medium, OrderBy } from '@app/interface';
+import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
 
 @Directive()
@@ -80,19 +80,19 @@ export abstract class MediaComponent implements OnInit {
     });
   }
 
-  computeSearchTerm() {
+  computeSearchTerm(): Signal<string> {
     return computed(() => {
       return this.mediaService.searchTerm();
     });
   }
 
-  computeGroupMediaLimit() {
+  computeGroupMediaLimit(): Signal<GroupMediaLimit> {
     return computed(() => {
       return this.mediaService.groupMediaLimit();
     });
   }
 
-  computeGroupMediaSort() {
+  computeGroupMediaSort(): Signal<GroupMediaSort> {
     return computed(() => {
       return this.mediaService.groupMediaSort();
     });

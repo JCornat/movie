@@ -219,7 +219,7 @@ export class RequestService {
   }
 
   refreshToken(): Observable<any> {
-    const refresh = this.tokenService.refreshToken;
+    const refresh = this.tokenService.refreshToken();
     if (!refresh) {
       this.navigateLogout();
       throw new Error('NO REFRESH TOKEN');

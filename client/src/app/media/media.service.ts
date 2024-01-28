@@ -1,4 +1,4 @@
-import { computed, Directive, inject, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, Directive, inject, OnDestroy, signal, Signal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, OrderBy } from '@app/interface';
 import { Global } from '@shared/global/global';
@@ -12,10 +12,10 @@ import { Request } from '@shared/request/request';
 export abstract class MediaService<T> extends CrudService<Medium> implements OnDestroy {
   screenService = inject(ScreenService);
 
-  searchTerm: WritableSignal<string> = signal('');
-  groupMedia: Signal<GroupMedium[]> = this.computeGroupMedia();
-  groupMediaLimit: WritableSignal<GroupMediaLimit> = signal({});
-  groupMediaSort: WritableSignal<GroupMediaSort> = signal({});
+  searchTerm = signal<string>('');
+  groupMedia = this.computeGroupMedia();
+  groupMediaLimit = signal<GroupMediaLimit>({});
+  groupMediaSort = signal<GroupMediaSort>({});
   abstract type: MediaType;
 
   resizeSubscriber!: Subscription;
