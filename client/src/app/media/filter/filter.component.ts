@@ -23,14 +23,6 @@ export class MediaFilterComponent {
   }
 
   /*-----------------------*\
-          Template
-  \*-----------------------*/
-
-  onValid(data: { [key: string]: any }): void {
-    this.onSearch.emit(data.search);
-  }
-
-  /*-----------------------*\
           Method
   \*-----------------------*/
 
@@ -40,6 +32,10 @@ export class MediaFilterComponent {
     });
 
     return signal(formGroup);
+  }
+
+  onValid(data: { [key: string]: any }): void {
+    this.onSearch.emit(data.search);
   }
 
   /*-----------------------*\

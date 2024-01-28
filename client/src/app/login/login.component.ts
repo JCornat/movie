@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { Router } from '@angular/router';
@@ -14,33 +14,17 @@ import { SharedModule } from '@shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
-  formData!: { [key: string]: any };
-  loginForm!: FormGroup;
-  error!: string;
+  loadingAdd = this.authenticationService.loadingAdd;
+  errorAdd = this.authenticationService.errorAdd;
+  loginForm = this.buildForm();
+  formData = signal<{ [key: string]: any } | null>(null);
 
-  ngOnInit(): void {
-    this.init();
-  }
-
-  init(): void {
-    this.buildForm();
-  }
-
-  onError(data: { [key: string]: any }): void {
-    this.formData = null as any;
-  }
-
-  onValid(data: { [key: string]: any }): void {
-    this.formData = data;
-  }
-
-  toggleStayConnected(): void {
-    const stayLogged = this.formData?.stayLogged;
-    this.loginForm.get('stayLogged')?.setValue(!stayLogged);
+  constructor() {
+    this.subscribeForm();
   }
 
   navigateBack(): void {
@@ -48,17 +32,16 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    if (Global.isEmpty(this.formData)) {
+    const data = this.formData() as { username: string, password: string, stayLogged: boolean };
+    if (Global.isEmpty(data)) {
       return;
     }
 
-    const options = {
-      username: this.formData.username,
-      password: this.formData.password,
-      stayLogged: this.formData.stayLogged,
-    };
+    if (data.stayLogged) {
+      this.authenticationService.stayLogged.set(true);
+    }
 
-    await this.login(options);
+    await this.login(data);
     this.navigateHome();
   }
 
@@ -75,27 +58,36 @@ export class LoginComponent implements OnInit {
   \*-----------------------*/
 
   async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
-    try {
-      await this.authenticationService.login(options);
-    } catch (error) {
-      this.error = (error as any).message;
-      throw error;
-    }
+    return await this.authenticationService.login(options);
   }
 
   /*-----------------------*\
             Method
   \*-----------------------*/
 
-  buildForm(): void {
-    this.loginForm = new FormGroup({
+  buildForm(): WritableSignal<FormGroup> {
+    const form = new FormGroup({
       username: new FormControl(''),
       password: new FormControl(''),
-      stayLogged: new FormControl(''),
+      stayLogged: new FormControl(true),
     });
 
-    this.loginForm.valueChanges.subscribe((data) => {
+    return signal(form);
+  }
+
+  onValid(data: { [key: string]: any }): void {
+    this.formData.set(data);
+  }
+
+  /*-----------------------*\
+          Subscriber
+  \*-----------------------*/
+
+  subscribeForm(): void {
+    this.loginForm().valueChanges.subscribe((data) => {
       this.onValid(data);
     });
+
+    this.onValid(this.loginForm().getRawValue()); // Fire once
   }
 }
