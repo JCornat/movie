@@ -43,10 +43,6 @@ export abstract class MediaAddComponent {
            Template
   \*-----------------------*/
 
-  onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
-  }
-
   async onSubmit(): Promise<void> {
     if (this.loadingAdd()) {
       return;
@@ -129,6 +125,10 @@ export abstract class MediaAddComponent {
 
   uploadSuccessful(data: string): void {
     this.mediaForm().get('url')?.setValue(data);
+  }
+
+  onValid(data: { [key: string]: any }): void {
+    this.formData.set(data);
   }
 
   /*-----------------------*\

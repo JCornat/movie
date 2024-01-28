@@ -188,7 +188,7 @@ export class RequestService {
     if (replay && error.error === 'TokenExpiredError') {
       return this.refreshToken()
         .pipe(flatMap((res) => {
-          this.tokenService.token = res.token;
+          this.tokenService.setToken(res.token);
           return this.requestBuilder(replay);
         }), catchError((error2): any => {
           this.intercept(error2);
@@ -239,7 +239,7 @@ export class RequestService {
     let headers: any = new HttpHeaders();
 
     if (!data?.disableAuthentication) { // If authentication is not disabled (enabled by default), get token
-      const token = this.tokenService.token;
+      const token = this.tokenService.token();
       if (!token && !data?.optionalAuthentication) { // If there is no token, and authentication is not optional (not optional by default), cancel request
         throw new Error('Authentification requise');
       }
@@ -352,8 +352,8 @@ export class RequestService {
       };
 
       xhr.open('POST', url, true);
-      if (this.tokenService.token) {
-        xhr.setRequestHeader('X-Access-Token', this.tokenService.token);
+      if (this.tokenService.token()) {
+        xhr.setRequestHeader('X-Access-Token', this.tokenService.token()!);
       }
 
       xhr.send(formData);

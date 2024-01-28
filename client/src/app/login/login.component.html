@@ -13,7 +13,7 @@
   <div class="bold text-xl mb-4">Login</div>
 
   <div class="border rounded-lg p-4 mb-4">
-    <form [formGroup]="loginForm" (submit)="onSubmit()">
+    <form [formGroup]="loginForm()" (submit)="onSubmit()">
       <div class="mb-2">Username</div>
       <div class="mb-4 relative">
         <input type="password" formControlName="username" decorationInput/>
@@ -24,16 +24,20 @@
         <input type="password" formControlName="password" decorationInput/>
       </div>
 
-      <div class="mb-4 flex relative cursor-pointer" (click)="toggleStayConnected()">
-        <app-icon class="mr-1" [name]="(formData?.stayLogged) ? 'check-box' : 'check-box-outline'"/>
-        Stay connected
+      <div class="mb-4 flex relative cursor-pointer">
+        <label>
+          <input type="checkbox" formControlName="stayLogged">
+          Stay connected
+        </label>
       </div>
+
+      <button type="submit" class="hidden">hidden submit</button>
     </form>
   </div>
 
-  @if (error) {
+  @if (errorAdd()) {
     <div class="mb-8">
-      <div style="color: red">{{error}}</div>
+      <div style="color: red">{{errorAdd()}}</div>
     </div>
   }
 

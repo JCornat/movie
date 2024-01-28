@@ -28,7 +28,7 @@ export abstract class CrudService<T> {
   errorPullOne = computed(() => this.statePullOne().error);
   loadingPullOne = computed(() => this.statePullOne().loading);
 
-  protected stateAdd: WritableSignal<{ values: number | null, error: string | null, loading: boolean }> = signal({
+  protected stateAdd: WritableSignal<{ values: any, error: string | null, loading: boolean }> = signal({
     values: null,
     error: null,
     loading: false,

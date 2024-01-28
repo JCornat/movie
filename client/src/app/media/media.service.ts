@@ -1,6 +1,6 @@
 import { computed, Directive, inject, OnDestroy, signal, Signal, WritableSignal } from '@angular/core';
 import { ScreenService } from '@shared/screen/screen.service';
-import { Game, GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, Movie, OrderBy } from '@app/interface';
+import { GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, OrderBy } from '@app/interface';
 import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { lastValueFrom, Subscription } from 'rxjs';
@@ -36,7 +36,7 @@ export abstract class MediaService<T> extends CrudService<Medium> implements OnD
             HTTP
   \*-----------------------*/
 
-  async pullAll(): Promise<void> {
+  override async pullAll(): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/${this.type}`,
       header: {

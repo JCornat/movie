@@ -51,10 +51,6 @@ export abstract class MediaSearchComponent implements OnInit {
     this.panelService.open({ component });
   }
 
-  onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
-  }
-
   async search(title: string): Promise<void> {
     this.error.set(null);
 
@@ -82,6 +78,10 @@ export abstract class MediaSearchComponent implements OnInit {
     });
 
     this.searchForm.set(formGroup);
+  }
+
+  onValid(data: { [key: string]: any }): void {
+    this.formData.set(data);
   }
 
   /*-----------------------*\

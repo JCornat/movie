@@ -1,32 +1,27 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
 
 import { TokenService } from '@shared/token/token.service';
-import { RequestService } from '@shared/request/request.service';
 import { Request } from '@shared/request/request';
+import { CrudService } from '@shared/crud/crud.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticationService {
-  isLogged: Signal<boolean> = signal(false);
-  requestService = inject(RequestService);
+export class AuthenticationService extends CrudService<any> {
   tokenService = inject(TokenService);
 
+  isLogged = this.tokenService.hasToken;
+  stayLogged = this.tokenService.stayLogged;
+
   constructor() {
-    this.init();
-  }
+    super();
 
-  init(): void {
-    this.tokenService.init();
-
-    this.isLogged = computed(() => {
-      return this.tokenService.hasToken();
-    });
+    this.#subscribeValuesAdd();
   }
 
   /*-----------------------*\
-           Service
+           Method
   \*-----------------------*/
 
   async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
@@ -40,26 +35,34 @@ export class AuthenticationService {
       },
     };
 
-    let data: { [key: string]: any };
-
-    try {
-      data = await lastValueFrom(this.requestService.post(optionsQuery));
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-
-    if (options.stayLogged) {
-      this.tokenService.setStayLogged('true');
-    } else {
-      this.tokenService.removeStayLogged();
-    }
-
-    this.tokenService.token = data.token;
-    this.tokenService.refreshToken = data.refresh;
+    await this._add(optionsQuery);
   }
+
+  override async pullAll(): Promise<void> {
+    //
+  }
+
+  /*-----------------------*\
+          Service
+  \*-----------------------*/
 
   logout(): void {
     this.tokenService.reset();
+  }
+
+  /*-----------------------*\
+          Subscriber
+  \*-----------------------*/
+
+  #subscribeValuesAdd() {
+    toObservable(this.valuesAdd)
+      .subscribe((data) => {
+        if (!data) {
+          return;
+        }
+
+        this.tokenService.setToken(data.token);
+        this.tokenService.setRefreshToken(data.refresh);
+      });
   }
 }
