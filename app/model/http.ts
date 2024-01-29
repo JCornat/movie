@@ -3,24 +3,24 @@ import Request from 'request';
 
 import { Global } from './global';
 
-export class Http {
-  static async get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
-    return await this.build('get', url, form, options);
+export namespace Http {
+  export async function get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
+    return await build('get', url, form, options);
   }
 
-  static async post(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-    return await this.build('post', url, form, options);
+  export async function post(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+    return await build('post', url, form, options);
   }
 
-  static async put(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-    return await this.build('put', url, form, options);
+  export async function put(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+    return await build('put', url, form, options);
   }
 
-  static async del(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
-    return await this.build('delete', url, form, options);
+  export async function del(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
+    return await build('delete', url, form, options);
   }
 
-  static async download(url: string, destinationPath: string): Promise<void> {
+  export async function download(url: string, destinationPath: string): Promise<void> {
     const file = fs.createWriteStream(destinationPath);
 
     return await new Promise((resolve, reject) => {
@@ -35,7 +35,7 @@ export class Http {
     });
   }
 
-  static build(method: string, url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+  export function build(method: string, url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const requestOptions: any = {
         url,

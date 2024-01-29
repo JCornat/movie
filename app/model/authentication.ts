@@ -1,26 +1,26 @@
 import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
 
-import { ADMINISTRATOR_USERNAME, ADMINISTRATOR_PASSWORD } from '@config/config';
+import { Config } from '@config/config';
 import { C7zResponse } from '@model/definition';
 import { Global } from '@model/global';
 import { Encryption } from '@model/encryption';
 import { Token } from '@model/token';
 
-export class Authentication {
-  static async login(options: { username: string, password: string }): Promise<{ token: string, refresh: string }> {
+export namespace Authentication {
+  export async function login(options: { username: string, password: string }): Promise<{ token: string, refresh: string }> {
     if (Global.isEmpty(options?.username) || Global.isEmpty(options.password)) {
       throw { status: 400, method: 'Authentication.login', message: 'Invalid parameters' };
     }
 
     try {
-      await Encryption.compare(options.username, ADMINISTRATOR_USERNAME);
+      await Encryption.compare(options.username, Config.ADMINISTRATOR_USERNAME);
     } catch {
       throw { status: 400, method: 'Authentication.login', message: 'Authentication failed' };
     }
 
     try {
-      await Encryption.compare(options.password, ADMINISTRATOR_PASSWORD);
+      await Encryption.compare(options.password, Config.ADMINISTRATOR_PASSWORD);
     } catch {
       throw { status: 400, method: 'Authentication.login', message: 'Authentication failed' };
     }
@@ -34,7 +34,7 @@ export class Authentication {
     };
   }
 
-  static isLogged(): any {
+  export function isLogged(): any {
     return async (req: Request, res: C7zResponse, next: any) => {
       try {
         const token = Token.getAccessToken(req);

@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 
-import { TOKEN_EXPIRATION, TOKEN_SIGNATURE } from '@config/config';
+import { Config } from '@config/config';
 import { Global } from './global';
 
 const refreshTokens: string[] = [];
 
-export class Token {
-  static getAccessToken(req: any): string {
+export namespace Token {
+  export function getAccessToken(req: any): string {
     let token;
 
     if (req.headers && req.headers['x-access-token']) {
@@ -22,19 +22,19 @@ export class Token {
     return token;
   }
 
-  static decode(token: string, options: any = {}): any {
+  export function decode(token: string, options: any = {}): any {
     return jwt.decode(token, options);
   }
 
-  static verify(token: string, options: any = {}): any {
+  export function verify(token: string, options: any = {}): any {
     try {
-      return jwt.verify(token, TOKEN_SIGNATURE, options);
+      return jwt.verify(token, Config.TOKEN_SIGNATURE, options);
     } catch (error) {
-      this.handleError(error.name);
+      handleError(error.name);
     }
   }
 
-  static handleError(errorName: string): null {
+  export function handleError(errorName: string): null {
     switch (errorName) {
       case 'TokenExpiredError':
         throw { status: 401, message: 'TokenExpiredError' };
@@ -44,20 +44,20 @@ export class Token {
     }
   }
 
-  static sign(data: any): string {
-    return jwt.sign(data, TOKEN_SIGNATURE, { expiresIn: TOKEN_EXPIRATION });
+  export function sign(data: any): string {
+    return jwt.sign(data, Config.TOKEN_SIGNATURE, { expiresIn: Config.TOKEN_EXPIRATION });
   }
 
-  static addRefresh(data: string): void {
+  export function addRefresh(data: string): void {
     refreshTokens.push(data);
   }
 
-  static async checkRefresh(stringToken: any, refreshToken: string): Promise<any> {
+  export async function checkRefresh(stringToken: any, refreshToken: string): Promise<any> {
     if (Global.isEmpty(stringToken) || Global.isEmpty(refreshToken)) {
       throw { status: 400, message: 'Paramètres invalides' };
     }
 
-    const token: any = this.decode(stringToken, { ignoreExpiration: true });
+    const token: any = decode(stringToken, { ignoreExpiration: true });
 
     if (Global.isEmpty(refreshTokens)) {
       throw { status: 401, message: 'Reconnexion nécessaire' };
@@ -84,7 +84,7 @@ export class Token {
     delete newToken.exp; // Except exp
 
     return {
-      token: this.sign(newToken),
+      token: sign(newToken),
     };
   }
 }

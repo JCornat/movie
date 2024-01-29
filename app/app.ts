@@ -2,17 +2,16 @@ import 'module-alias/register';
 import express from 'express';
 import http from 'http';
 
-import * as AssetMiddleware from './middleware/asset';
-import * as ErrorMiddleware from './middleware/error';
-import * as PostMiddleware from './middleware/post';
-import * as SecurityMiddleware from './middleware/security';
-
-import * as Config from './config/config';
-import * as SendFileAsyncMiddleware from './middleware/send-file-async';
-import * as AuthenticationController from './controller/authentication';
-import * as FileController from './controller/file';
-import * as MediaController from './controller/media';
-import * as WebsiteController from './controller/website';
+import { AssetMiddleware } from '@middleware/asset';
+import { ErrorMiddleware } from '@middleware/error';
+import { PostMiddleware } from '@middleware/post';
+import { SecurityMiddleware } from '@middleware/security';
+import { Config } from '@config/config';
+import { SendFileAsyncMiddleware } from '@middleware/send-file-async';
+import { AuthenticationController } from '@controller/authentication';
+import { FileController } from '@controller/file';
+import { MediaController } from '@controller/media';
+import { WebsiteController } from '@controller/website';
 import { serie } from '@model/serie';
 import { game } from '@model/game';
 import { movie } from '@model/movie';

@@ -1,10 +1,10 @@
-export class Global {
+export namespace Global {
   /**
    * Capitalize each word from a string
    *
    * Ex: ('lorem ipsum dolor') will return 'Lorem Ipsum Dolor'
    */
-  static capitalize(arg: string): string {
+  export function capitalize(arg: string): string {
     if (typeof arg !== 'string') {
       throw new Error('Argument type unexpected');
     }
@@ -32,7 +32,7 @@ export class Global {
    * Ex: For data = [{a: 1}, {b: 2}] and property = 'a', this will return [1]
    * Ex: For data = [{a: {b: {c: 'hello'}}}] and property = ['a', 'b', 'c'], this will return ['hello']
    */
-  static extract(data: any[], property: string | number | string[] | number[]): any[] {
+  export function extract(data: any[], property: string | number | string[] | number[]): any[] {
     if (!data || Global.isEmpty(data)) {
       return [];
     }
@@ -75,7 +75,7 @@ export class Global {
    *
    * Ex: ([{a: 100, b: 200, c:300}], {a: 'aa', b: 'bb'}) will return {aa: 100, bb: 200}
    */
-  static mapping<T = any>(data: any[], property: any): T[] {
+  export function mapping<T = any>(data: any[], property: any): T[] {
     if (!data || Global.isEmpty(data)) {
       return [];
     }
@@ -113,7 +113,7 @@ export class Global {
    * Ex: (2) will return false
    * Ex: (2.1) will return false
    */
-  static isEmpty(arg: any): boolean {
+  export function isEmpty(arg: any): boolean {
     if (typeof arg === 'undefined') {
       return true;
     } else if (typeof arg === 'string') {
@@ -144,7 +144,7 @@ export class Global {
    * Return true if property is not "empty"
    * Contrary of "isEmpty" function
    */
-  static isPopulated(arg: any): boolean {
+  export function isPopulated(arg: any): boolean {
     return !Global.isEmpty(arg);
   }
 
@@ -157,7 +157,7 @@ export class Global {
    * Ex: (NaN) will return true
    * Ex: ('hello') will return true
    */
-  static isNaN(arg: any): boolean {
+  export function isNaN(arg: any): boolean {
     if (typeof arg === 'undefined') {
       return true;
     } else if (typeof arg === 'string') {
@@ -185,7 +185,7 @@ export class Global {
     }
   }
 
-  static isNumber(arg: any): boolean {
+  export function isNumber(arg: any): boolean {
     return !Global.isNaN(arg);
   }
 
@@ -196,7 +196,7 @@ export class Global {
    * If multiples keys, keys will be joined by a "-"
    * Ex: ([{a: 100, b: 200, c:300}], 'a', 'b') will return {'100-200':{a: 100, b: 200, c:300}}
    */
-  static arrayToObject<T>(data: T[], ...keys: string[]): Record<string, T> {
+  export function arrayToObject<T>(data: T[], ...keys: string[]): Record<string, T> {
     if (!data || typeof data !== 'object') {
       console.error('Argument type unexpected', data);
       throw new Error('Argument type unexpected');
@@ -220,7 +220,7 @@ export class Global {
   /**
    * Remove accents from string
    */
-  static removeAccent(data: string): string {
+  export function removeAccent(data: string): string {
     if (Global.isEmpty(data)) {
       return null;
     }
@@ -235,7 +235,7 @@ export class Global {
    * Do not use on objects containing functions, it will crash !
    * https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone
    */
-  static clone<T>(data: T): T {
+  export function clone<T>(data: T): T {
     if (structuredClone) {
       return structuredClone(data);
     } else {
@@ -243,7 +243,7 @@ export class Global {
     }
   }
 
-  static formatText(data: string, options: { allowCharacters?: string[], allowAccents?: boolean, disableUpperCase?: boolean } = {}): string {
+  export function formatText(data: string, options: { allowCharacters?: string[], allowAccents?: boolean, disableUpperCase?: boolean } = {}): string {
     if (Global.isEmpty(data)) {
       return '';
     }
@@ -275,7 +275,7 @@ export class Global {
     return withoutSpecialCharacters.trim();
   }
 
-  static getEnumKeyByValue(data: any, value: string | number): any {
+  export function getEnumKeyByValue(data: any, value: string | number): any {
     let res;
 
     const keys = Object.keys(data);
@@ -293,7 +293,7 @@ export class Global {
     return res;
   }
 
-  static sort<T>(options: { data: T[], key?: string, keys?: string[], descending?: boolean }): T[] {
+  export function sort<T>(options: { data: T[], key?: string, keys?: string[], descending?: boolean }): T[] {
     const key = options.key || options.keys?.[0];
     const key2 = options.keys?.[1];
 
@@ -329,7 +329,7 @@ export class Global {
    *
    * Ex: get({a: {b: [{c: 1}, {c: 2}]}}, 'a.b[1].c'); // Returns 2
    */
-  static get<T = any>(data: any, stringPath: string): T | undefined {
+  export function get<T = any>(data: any, stringPath: string): T | undefined {
     stringPath = stringPath.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     stringPath = stringPath.replace(/^\./, ''); // strip a leading dot
 
@@ -346,7 +346,7 @@ export class Global {
     return data;
   }
 
-  static sleep(milliseconds: number): Promise<void> {
+  export function sleep(milliseconds: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 }
