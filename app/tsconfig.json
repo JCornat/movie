@@ -19,6 +19,12 @@
       "@config/*": [
         "config/*"
       ],
+      "@controller/*": [
+        "controller/*"
+      ],
+      "@middleware/*": [
+        "middleware/*"
+      ],
       "@model/*": [
         "model/*"
       ]

@@ -1,7 +1,7 @@
 import { Global } from './global';
 
-export class Random {
-  static generate(options: { count?: number, disableLowerCase?: boolean, disableNumbers?: boolean, disableUpperCase?: boolean } = {}): string {
+export namespace Random {
+  export function generate(options: { count?: number, disableLowerCase?: boolean, disableNumbers?: boolean, disableUpperCase?: boolean } = {}): string {
     const lowerCaseCharacters = 'abcdefghijklmnopqrstuvwxyz';
     const upperCaseCharacters = lowerCaseCharacters.toUpperCase();
     const numberCharacters = '0123456789';

@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
 
-export class Encryption {
-  static hash(data: string): Promise<string> {
+export namespace Encryption {
+  export function hash(data: string): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      const salt = await this.generateSalt();
+      const salt = await generateSalt();
       bcrypt.hash(data, salt, (error, hashString) => {
         if (error) {
           return reject(error);
@@ -14,7 +14,7 @@ export class Encryption {
     });
   }
 
-  static generateSalt(complexity: number = 10): Promise<string> {
+  export function generateSalt(complexity: number = 10): Promise<string> {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(complexity, (error, salt) => {
         if (error) {
@@ -26,7 +26,7 @@ export class Encryption {
     });
   }
 
-  static compare(password: string, hashString: string): Promise<boolean> {
+  export function compare(password: string, hashString: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, hashString, (error, isMatch) => {
         if (error) {

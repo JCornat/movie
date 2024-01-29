@@ -4,7 +4,7 @@ import { File } from '@model/file';
 import { Random } from '@model/random';
 import { Image } from '@model/image';
 import { MediaAddParameters, MediaUpdateParameters } from '@model/definition';
-import * as Config from '@config/config';
+import { Config } from '@config/config';
 
 export class Store<T> {
   collection: T;

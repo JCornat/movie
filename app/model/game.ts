@@ -1,6 +1,6 @@
 import request from 'request';
 
-import * as Config from '@config/config';
+import { Config } from '@config/config';
 import { time } from '@model/time';
 import { Global } from '@model/global';
 import { ImportMedia } from '@model/definition';
