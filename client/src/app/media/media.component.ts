@@ -5,14 +5,12 @@ import { AuthenticationService } from '@shared/authentication/authentication.ser
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
-import { CategoryService } from '@app/category/category.service';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
 
 @Directive()
 export abstract class MediaComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
-  categoryService = inject(CategoryService);
   panelService = inject(PanelService);
   router = inject(Router);
   abstract mediaService: SerieService | MovieService | GameService;
