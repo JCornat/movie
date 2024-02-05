@@ -88,7 +88,6 @@ export class LoginComponent {
     this.loginForm().valueChanges
       .pipe(startWith({ stayLogged: true }))
       .subscribe((data) => {
-        console.log('ok', data);
         this.onValid(data);
       });
   }
