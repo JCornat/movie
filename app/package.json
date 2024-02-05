@@ -24,6 +24,8 @@
   "_moduleAliases": {
     "@class": "class",
     "@config": "config",
-    "@model": "model"
+    "@controller": "controller",
+    "@model": "model",
+    "@middleware": "middleware"
   }
 }
