@@ -18,7 +18,7 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
   }
 
   async ngOnInit(): Promise<void> {
-    if (Global.isEmpty(this.importId)) {
+    if (Global.isEmpty(this.importId())) {
       throw new Error('NO IMPORT ID PROVIDED');
     }
 

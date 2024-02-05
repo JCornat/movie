@@ -109,7 +109,6 @@ export class HomeComponent implements OnInit {
   computeMovies() {
     return computed(() => {
       const media = this.movieService.valuesPullAll() as Movie[];
-      console.log('computeMovies', media);
       return this.filterMedia(media || []);
     });
   }
@@ -117,7 +116,6 @@ export class HomeComponent implements OnInit {
   computeSeries() {
     return computed(() => {
       const media = this.serieService.valuesPullAll() as Serie[];
-      console.log('computeSeries', media);
       return this.filterMedia(media || []);
     });
   }
@@ -125,7 +123,6 @@ export class HomeComponent implements OnInit {
   computeGames() {
     return computed(() => {
       const media = this.gameService.valuesPullAll() as Game[];
-      console.log('computeGames', media);
       return this.filterMedia(media || []);
     });
   }

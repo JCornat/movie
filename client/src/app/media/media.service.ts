@@ -3,11 +3,11 @@ import { ScreenService } from '@shared/screen/screen.service';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, OrderBy } from '@app/interface';
 import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
-import { lastValueFrom, Subject, Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { CrudService } from '@shared/crud/crud.service';
 import { SERVER_URL } from '@shared/config/config';
 import { Request } from '@shared/request/request';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive()
 export abstract class MediaService<T> extends CrudService<Medium> {
@@ -18,10 +18,7 @@ export abstract class MediaService<T> extends CrudService<Medium> {
   #searchTerm = signal<string>('');
   searchTerm = this.#searchTerm.asReadonly();
 
-  #groupMediaOriginal = this.#computeGroupMedia();
-
-  #groupMedia = signal<GroupMedium[]>([]);
-  groupMedia = this.#groupMedia.asReadonly();
+  groupMedia = this.#computeGroupMedia();
 
   #groupMediaLimit = signal<GroupMediaLimit>({});
   groupMediaLimit = this.#groupMediaLimit.asReadonly();
@@ -29,17 +26,9 @@ export abstract class MediaService<T> extends CrudService<Medium> {
   #groupMediaSort = this.#initializeGroupMediaSort();
   groupMediaSort = this.#groupMediaSort.asReadonly();
 
-  #localUpdate = new Subject<Medium>();
-  #localAdd = new Subject<Medium>();
-  #localRemove = new Subject<string>();
-
   constructor() {
     super();
 
-    this.#subscribeGroupMediaOriginal();
-    this.#subscribeLocalAdd();
-    this.#subscribeLocalRemove();
-    this.#subscribeLocalUpdate();
     this.#subscribeScreenResize();
     this.#updateGroupMediaLimit();
   }
@@ -120,99 +109,6 @@ export abstract class MediaService<T> extends CrudService<Medium> {
   /*-----------------------*\
            Method
   \*-----------------------*/
-
-  #subscribeGroupMediaOriginal(): Subscription {
-    return toObservable(this.#groupMediaOriginal)
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        this.#groupMedia.set(value);
-      });
-  }
-
-  // Update locally the list of media without calling the API
-  pushLocalAdd(value: Medium): void {
-    this.#localAdd.next(value);
-  }
-
-  // Update locally the list of media without calling the API
-  #subscribeLocalAdd(): Subscription {
-    return this.#localAdd
-      .pipe(takeUntilDestroyed())
-      .subscribe((medium: Medium) => {
-        this.#groupMedia.update((value) => {
-          const groupMedia = Global.clone(value);
-          const groupMedium = groupMedia.find((groupMedium: GroupMedium) => groupMedium.value === medium.rating);
-          if (!groupMedium) {
-            throw new Error(`CATEGORY ${medium.rating} NOT FOUND`);
-          }
-
-          groupMedium.media.unshift(medium);
-          return groupMedia;
-        });
-      });
-  }
-
-  // Update locally the list of media without calling the API
-  pushLocalRemove(id: string): void {
-    this.#localRemove.next(id);
-  }
-
-  // Update locally the list of media without calling the API
-  #subscribeLocalRemove(): Subscription {
-    return this.#localRemove
-      .pipe(takeUntilDestroyed())
-      .subscribe((id: string) => {
-        this.#groupMedia.update((value) => {
-          const groupMedia = Global.clone(value);
-          for (const groupMedium of groupMedia) {
-            const foundMedia = groupMedium.media.find((media: Medium) => media.id === id);
-            if (!foundMedia) {
-              continue;
-            }
-
-            const index = groupMedium.media.indexOf(foundMedia);
-            groupMedium.media.splice(index, 1);
-          }
-
-          return groupMedia;
-        });
-      });
-  }
-
-  // Update locally the list of media without calling the API
-  pushLocalUpdate(value: Medium): void {
-    this.#localUpdate.next(value);
-  }
-
-  // Update locally the list of media without calling the API
-  #subscribeLocalUpdate(): Subscription {
-    return this.#localUpdate
-      .pipe(takeUntilDestroyed())
-      .subscribe((medium: Medium) => {
-        this.#groupMedia.update((value) => {
-          const groupMedia = Global.clone(value);
-          for (const groupMedium of groupMedia) {
-            const foundMedia = groupMedium.media.find((media: Medium) => media.id === medium.id);
-            if (!foundMedia) {
-              continue;
-            }
-
-            const index = groupMedium.media.indexOf(foundMedia);
-            groupMedium.media.splice(index, 1);
-
-            const newCategory = groupMedia.find((category: GroupMedium) => category.value === medium.rating);
-            if (!newCategory) {
-              break;
-            }
-
-            newCategory.media.unshift(medium);
-            break;
-          }
-
-          return groupMedia;
-        });
-      });
-  }
 
   updateSearchTerm(term: string): void {
     this.#searchTerm.set(term);
@@ -352,7 +248,7 @@ export abstract class MediaService<T> extends CrudService<Medium> {
           tmp.media = tmp.media.reverse();
           break;
         default:
-          console.log('NOT SUPPORTED SORT', sort);
+          console.error('NOT SUPPORTED SORT', sort);
           break;
       }
 

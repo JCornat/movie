@@ -85,7 +85,7 @@ export abstract class MediaAddComponent {
   async add(): Promise<void> {
     const formData = this.formData() as Medium;
     await this.mediaService.add(formData);
-    this.mediaService.pushLocalAdd(formData);
+    this.mediaService.pullAll(); // Refresh the list
     this.close();
   }
 
@@ -96,7 +96,7 @@ export abstract class MediaAddComponent {
     }
 
     await this.mediaService.delete(id);
-    this.mediaService.pushLocalRemove(id);
+    this.mediaService.pullAll(); // Refresh the list
     this.close();
   }
 

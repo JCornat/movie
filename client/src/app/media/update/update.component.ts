@@ -43,7 +43,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
 
   async update(data: Medium): Promise<void> {
     await this.mediaService.update(data);
-    this.mediaService.pushLocalUpdate(data);
+    this.mediaService.pullAll(); // Refresh the list
     this.close();
   }
 
