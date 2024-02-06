@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, input, Output, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+
 import { SharedModule } from '@shared/shared.module';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-filter',
@@ -49,8 +50,9 @@ export class MediaFilterComponent {
   }
 
   subscribeForm(): void {
-    this.searchForm().valueChanges.subscribe((data) => {
-      this.onValid(data);
-    });
+    this.searchForm().valueChanges.pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        this.onValid(data);
+      });
   }
 }

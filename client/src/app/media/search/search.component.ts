@@ -1,15 +1,15 @@
 import { Directive, inject, input, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { filter, startWith, tap } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
 import { ImportMedia } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
-import { filter, startWith, tap } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { CategoryService } from '@app/category/category.service';
 
 @Directive()
@@ -91,6 +91,7 @@ export abstract class MediaSearchComponent implements OnInit {
   subscribeFormChanges(): void {
     this.searchForm()!.valueChanges
       .pipe(
+        takeUntilDestroyed(),
         startWith({ search: this.searchTerm() }),
       )
       .subscribe((data) => {

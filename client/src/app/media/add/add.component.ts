@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Directive, ElementRef, inject, input, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
@@ -140,8 +141,10 @@ export abstract class MediaAddComponent {
   \*-----------------------*/
 
   subscribeForm(): void {
-    this.mediaForm().valueChanges.subscribe((data) => {
-      this.onValid(data);
-    });
+    this.mediaForm().valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        this.onValid(data);
+      });
   }
 }

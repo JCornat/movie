@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, input, Output, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+
 import { FormControl, FormGroup } from '@angular/forms';
 import { OrderBy } from '@app/interface';
 import { SharedModule } from '@shared/shared.module';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-sort',
@@ -60,8 +61,10 @@ export class MediaSortComponent {
   }
 
   subscribeForm(): void {
-    this.mediaForm().valueChanges.subscribe((data) => {
-      this.onChange.emit(data.orderBy);
-    });
+    this.mediaForm().valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((data) => {
+        this.onChange.emit(data.orderBy);
+      });
   }
 }
