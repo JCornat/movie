@@ -50,7 +50,8 @@ export class MediaFilterComponent {
   }
 
   subscribeForm(): void {
-    this.searchForm().valueChanges.pipe(takeUntilDestroyed())
+    this.searchForm().valueChanges
+      .pipe(takeUntilDestroyed())
       .subscribe((data) => {
         this.onValid(data);
       });
