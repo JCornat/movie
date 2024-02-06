@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { startWith } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '@shared/authentication/authentication.service';
 import { Global } from '@shared/global/global';
 import { SharedModule } from '@shared/shared.module';
-import { startWith } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -86,7 +86,10 @@ export class LoginComponent {
 
   subscribeForm(): void {
     this.loginForm().valueChanges
-      .pipe(startWith({ stayLogged: true }))
+      .pipe(
+        takeUntilDestroyed(),
+        startWith({ stayLogged: true }),
+      )
       .subscribe((data) => {
         this.onValid(data);
       });
