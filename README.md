@@ -25,19 +25,23 @@ This project is divided in two parts :
 - Create a file `config.ts` in `app/config` folder
 - Here an example of `config.ts` file :
 ```typescript
-import * as path from 'path';
+import path from 'node:path';
 
-export const MODE: 'development' | 'test' | 'production' = 'development';
-export const PORT: number = 3000;
-export const URL: string = 'http://localhost:3000';
-export const UPLOAD_PATH: string = path.join(__dirname, '..', 'public', 'image');
-export const UPLOAD_MAX_SIZE: number = 200000000;
-export const ADMINISTRATOR_USERNAME: string = '';
-export const ADMINISTRATOR_PASSWORD: string = '';
-export const TOKEN_SIGNATURE: string = '';
-export const TOKEN_EXPIRATION: string = '10m';
-export const MOVIEDB_API_KEY = '';
-export const TWITCH_CLIENT = {id: '', secret: ''};
+export namespace Config {
+  export const MODE: 'development' | 'test' | 'production' = 'development';
+  export const PORT: number = 3000;
+  export const URL: string = 'https://localhost:3000';
+  export const UPLOAD_PATH: string = path.join(__dirname, '..', 'public', 'upload');
+  export const IMAGE_PATH: string = path.join(__dirname, '..', 'public', 'image');
+  export const UPLOAD_MAX_SIZE: number = 200000000;
+  export const MOVIEDB_API_KEY = '';
+  export const TOKEN_SIGNATURE: string = '';
+  export const TOKEN_EXPIRATION: string = '';
+  export const ADMINISTRATOR_LOGIN: string = '';
+  export const ADMINISTRATOR_PASSWORD: string = '';
+  export const TWITCH_CLIENT = {id: '', secret: ''};
+}
+
 ```
 - Some variables containing an empty string must be filled :
 1. `ADMINISTRATOR_USERNAME` and `ADMINISTRATOR_PASSWORD` are the credentials to access the administration panel, and must be hashed with bcrypt
