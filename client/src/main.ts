@@ -5,6 +5,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import routes from '@app/routes';
 
 import { AppComponent } from '@app/app.component';
+import { provideAppConfig } from '@shared/config/config.provider';
 import { environment } from './environments/environment';
 
 if (environment.production) {
@@ -12,5 +13,5 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient()],
+  providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(), provideAppConfig()],
 }).catch((error: Error) => console.error(error));

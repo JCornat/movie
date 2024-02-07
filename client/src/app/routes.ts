@@ -1,35 +1,46 @@
-import { Route } from '@angular/router';
-import * as Config from '@shared/config/config';
+import { ResolveFn, Route } from '@angular/router';
+import { getConfig } from '@shared/config/config.provider';
+
+function getTitle(subTitle?: string): ResolveFn<string> {
+  return () => {
+    const title = getConfig('TITLE');
+    if (!subTitle) {
+      return title;
+    }
+
+    return title + ' - ' + subTitle;
+  };
+}
 
 export default [
   {
     path: '',
     loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent),
-    title: `${Config.TITLE}`,
+    title: getTitle(),
   },
   {
     path: 'login',
     loadComponent: () => import('./login/login.component').then((m) => m.LoginComponent),
-    title: `${Config.TITLE}`,
+    title: getTitle(),
   },
   {
     path: 'logout',
     loadComponent: () => import('./logout/logout.component').then((m) => m.LogoutComponent),
-    title: `${Config.TITLE}`,
+    title: getTitle(),
   },
   {
     path: 'game',
     loadComponent: () => import('./game/game.component').then((m) => m.GameComponent),
-    title: `${Config.TITLE} - Games`,
+    title: getTitle('Games'),
   },
   {
     path: 'movie',
     loadComponent: () => import('./movie/movie.component').then((m) => m.MovieComponent),
-    title: `${Config.TITLE} - Movies`,
+    title: getTitle('Movies'),
   },
   {
     path: 'serie',
     loadComponent: () => import('./serie/serie.component').then((m) => m.SerieComponent),
-    title: `${Config.TITLE} - Series`,
+    title: getTitle('Series'),
   },
 ] as Route[];

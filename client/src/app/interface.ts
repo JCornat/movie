@@ -1,3 +1,5 @@
+import { MetaDefinition } from '@angular/platform-browser';
+
 export type Rating = number | 'todo' | 'progress';
 
 export interface RatingDisplay {
@@ -65,4 +67,10 @@ export interface HeaderLink {
   label: string;
   path: string;
   active?: boolean;
+}
+
+export interface AppConfig {
+  readonly SERVER_URL: string;
+  readonly TITLE: string;
+  readonly META_TAGS: MetaDefinition[];
 }

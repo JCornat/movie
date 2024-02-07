@@ -7,7 +7,7 @@ import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { RATINGS } from '@app/media/rating';
 import { RequestService } from '@shared/request/request.service';
-import { SERVER_URL } from '@shared/config/config';
+import { getConfig } from '@shared/config/config.provider';
 import { SerieService } from '@app/serie/serie.service';
 import { Global } from '@shared/global/global';
 import { PanelService } from '@app/panel/panel.service';
@@ -18,6 +18,7 @@ export abstract class MediaAddComponent {
   requestService = inject(RequestService);
   panelService = inject(PanelService);
   router = inject(Router);
+  serverUrl = getConfig('SERVER_URL');
 
   @ViewChild('inputFile', { static: true }) inputFile!: ElementRef;
 
@@ -71,7 +72,7 @@ export abstract class MediaAddComponent {
       return;
     }
 
-    const data = await this.requestService.upload(`${SERVER_URL}/api/file`, files[0]);
+    const data = await this.requestService.upload(`${this.serverUrl}/api/file`, files[0]);
     this.uploadSuccessful(data);
   }
 

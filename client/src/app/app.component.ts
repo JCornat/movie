@@ -4,9 +4,9 @@ import { Meta } from '@angular/platform-browser';
 import { RequestService } from '@shared/request/request.service';
 import { ThemeService } from '@shared/theme/theme.service';
 import { AuthenticationService } from '@shared/authentication/authentication.service';
-import * as Config from '@shared/config/config';
 import { RouterModule } from '@angular/router';
 import { PanelComponent } from '@app/panel/panel.component';
+import { APP_CONFIG } from '@shared/config/config.provider';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +22,11 @@ export class AppComponent implements OnInit {
   themeService = inject(ThemeService);
   requestService = inject(RequestService);
   metaTagService = inject(Meta);
+  config = inject(APP_CONFIG);
 
   ngOnInit(): void {
-    this.requestService.currentServer = Config.SERVER_URL;
+    this.requestService.currentServer = this.config.SERVER_URL;
     this.themeService.init();
-    this.metaTagService.addTags(Config.META_TAGS);
+    this.metaTagService.addTags(this.config.META_TAGS);
   }
 }
