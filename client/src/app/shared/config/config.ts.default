@@ -1,1 +1,7 @@
-export const SERVER_URL = '';
+import { AppConfig } from '@app/interface';
+
+export const Config: AppConfig = {
+  SERVER_URL: '',
+  TITLE: 'My website',
+  META_TAGS: [],
+};

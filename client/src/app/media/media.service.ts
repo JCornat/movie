@@ -5,13 +5,14 @@ import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
 import { lastValueFrom, Subscription } from 'rxjs';
 import { CrudService } from '@shared/crud/crud.service';
-import { SERVER_URL } from '@shared/config/config';
+import { getConfig } from '@shared/config/config.provider';
 import { Request } from '@shared/request/request';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Directive()
 export abstract class MediaService<T> extends CrudService<Medium> {
   screenService = inject(ScreenService);
+  serverUrl = getConfig('SERVER_URL');
 
   abstract type: MediaType;
 
@@ -276,8 +277,8 @@ export abstract class MediaService<T> extends CrudService<Medium> {
 
   processPullAll(data: { data: Medium[] }): Medium[] {
     for (const datum of data.data) {
-      datum.url = `${SERVER_URL}/image/${datum.id}.jpg`;
-      datum.urlWebp = `${SERVER_URL}/image/${datum.id}.webp`;
+      datum.url = `${this.serverUrl}/image/${datum.id}.jpg`;
+      datum.urlWebp = `${this.serverUrl}/image/${datum.id}.webp`;
     }
 
     return data.data;
