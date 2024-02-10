@@ -1,6 +1,9 @@
 <form [formGroup]="searchForm()">
   <div class="relative">
-    <input type="text" formControlName="search" decorationInput placeholder="Search" class="min-w-80"/>
-    <app-icon name="search" class="absolute right-0 top-0 h-full mr-2"/>
+    <app-icon name="search" class="absolute left-0 top-0 h-full mr-3 ml-1"/>
+    <input type="text" formControlName="search" decorationInput placeholder="Search" class="min-w-80 pl-7"/>
+    @if (showCloseIcon()) {
+      <app-icon name="close" class="absolute right-0 top-0 h-full mr-2 cursor-pointer" (click)="clearSearch()"/>
+    }
   </div>
 </form>
