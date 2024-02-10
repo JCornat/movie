@@ -7,11 +7,17 @@ import routes from '@app/routes';
 import { AppComponent } from '@app/app.component';
 import { provideAppConfig } from '@shared/config/config.provider';
 import { environment } from './environments/environment';
+import { provideCustomTitleStrategy } from '@shared/custom-title-strategy/title-strategy';
 
 if (environment.production) {
   enableProdMode();
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [provideRouter(routes, withComponentInputBinding()), provideHttpClient(), provideAppConfig()],
+  providers: [
+    provideRouter(routes, withComponentInputBinding()),
+    provideHttpClient(),
+    provideAppConfig(),
+    provideCustomTitleStrategy(),
+  ],
 }).catch((error: Error) => console.error(error));
