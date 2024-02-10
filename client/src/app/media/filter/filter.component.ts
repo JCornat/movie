@@ -18,6 +18,8 @@ export class MediaFilterComponent {
 
   searchForm = this.buildForm();
 
+  showCloseIcon = signal(false);
+
   constructor() {
     this.subscribeInputChange();
     this.subscribeForm();
@@ -39,6 +41,10 @@ export class MediaFilterComponent {
     this.onSearch.emit(data.search);
   }
 
+  clearSearch() {
+    this.searchForm().patchValue({ search: '' });
+  }
+
   /*-----------------------*\
           Subscriber
   \*-----------------------*/
@@ -54,6 +60,7 @@ export class MediaFilterComponent {
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
         this.onValid(data);
+        this.showCloseIcon.set(!!data.search);
       });
   }
 }
