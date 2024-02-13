@@ -4,7 +4,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "generate-font": "gulp iconfont"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@angular/animations": "17.1.0",
@@ -25,9 +26,12 @@
     "@angular/cli": "17.1.0",
     "@angular/compiler-cli": "17.1.0",
     "@stylistic/eslint-plugin": "1.5.4",
+    "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
     "autoprefixer": "10.4.17",
+    "jest": "^29.7.0",
+    "jest-preset-angular": "^14.0.2",
     "postcss": "8.4.33",
     "tailwindcss": "3.4.1",
     "typescript": "5.3.3"
