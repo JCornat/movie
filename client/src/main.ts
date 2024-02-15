@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import routes from '@app/routes';
 
@@ -8,6 +8,7 @@ import { AppComponent } from '@app/app.component';
 import { provideAppConfig } from '@shared/config/config.provider';
 import { environment } from './environments/environment';
 import { provideCustomTitleStrategy } from '@shared/custom-title-strategy/title-strategy';
+import { apiRewriteInterceptor } from '@shared/interceptors/api-rewrite/api-rewrite.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -16,7 +17,9 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([apiRewriteInterceptor]),
+    ),
     provideAppConfig(),
     provideCustomTitleStrategy(),
   ],
