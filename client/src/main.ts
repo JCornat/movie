@@ -9,6 +9,7 @@ import { provideAppConfig } from '@shared/config/config.provider';
 import { environment } from './environments/environment';
 import { provideCustomTitleStrategy } from '@shared/custom-title-strategy/title-strategy';
 import { apiRewriteInterceptor } from '@shared/interceptors/api-rewrite/api-rewrite.interceptor';
+import { imageRewriteInterceptor } from '@shared/interceptors/image-rewrite/image-rewrite.interceptor';
 
 if (environment.production) {
   enableProdMode();
@@ -18,7 +19,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
-      withInterceptors([apiRewriteInterceptor]),
+      withInterceptors([apiRewriteInterceptor, imageRewriteInterceptor]),
     ),
     provideAppConfig(),
     provideCustomTitleStrategy(),
