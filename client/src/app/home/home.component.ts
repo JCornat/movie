@@ -3,10 +3,11 @@ import { NgOptimizedImage } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 import { CategoryPreview, Game, Medium, Movie, Serie } from '@app/interface';
+import { SharedModule } from '@shared/shared.module';
 import { GameService } from '@app/game/game.service';
 import { MovieService } from '@app/movie/movie.service';
 import { SerieService } from '@app/serie/serie.service';
-import { SharedModule } from '@shared/shared.module';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -31,9 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   init(): void {
-    this.movieService.pullAll();
-    this.serieService.pullAll();
-    this.gameService.pullAll();
+    forkJoin([this.movieService.pullAll(), this.serieService.pullAll(), this.gameService.pullAll()]).subscribe();
   }
 
   /*-----------------------*\

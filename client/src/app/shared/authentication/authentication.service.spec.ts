@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AuthenticationV2Service, LoginPayload, TokenResponse } from './authentication-v2.service';
+import { AuthenticationService, LoginPayload, TokenResponse } from './authentication.service';
 import { TokenService } from '@shared/token/token.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { signal, Signal } from '@angular/core';
 import Mock = jest.Mock;
 
-describe('AuthenticationV2Service', () => {
-  let service: AuthenticationV2Service;
+describe('AuthenticationService', () => {
+  let service: AuthenticationService;
   let tokenServiceMock: {
     setToken: Mock;
     setRefreshToken: Mock;
@@ -30,7 +30,7 @@ describe('AuthenticationV2Service', () => {
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting(), { provide: TokenService, useValue: tokenServiceMock }],
     });
-    service = TestBed.inject(AuthenticationV2Service);
+    service = TestBed.inject(AuthenticationService);
     httpTestingController = TestBed.inject(HttpTestingController);
   });
 

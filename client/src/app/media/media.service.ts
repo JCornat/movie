@@ -1,115 +1,194 @@
-import { computed, Directive, inject, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { MediumApiService } from '@shared/api-services/medium/medium-api.service';
+import { GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, Medium, OrderBy } from '@app/interface';
 import { ScreenService } from '@shared/screen/screen.service';
-import { GroupMediaLimit, GroupMediaSort, GroupMedium, ImportMedia, MediaType, Medium, OrderBy } from '@app/interface';
 import { Global } from '@shared/global/global';
 import { RATINGS } from '@app/media/rating';
-import { lastValueFrom, Subscription } from 'rxjs';
-import { CrudService } from '@shared/crud/crud.service';
-import { getConfig } from '@shared/config/config.provider';
-import { Request } from '@shared/request/request';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
+import { defer, finalize, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-@Directive()
-export abstract class MediaService<T> extends CrudService<Medium> {
-  screenService = inject(ScreenService);
-  serverUrl = getConfig('SERVER_URL');
+export abstract class MediaService<T extends Medium> {
+  readonly screenService = inject(ScreenService);
+  readonly groupMedia = this.#computeGroupMedia();
+  //#endregion
+  //#region Injection
+  protected abstract readonly apiService: MediumApiService<T>;
+  //#region Props
+  protected readonly statePullAll = signal<{ values: T[] | null, hasMore: boolean | null, error: string | null, loading: boolean }>({
+    values: [] as T[],
+    hasMore: null,
+    error: null,
+    loading: false,
+  });
+  readonly valuesPullAll = computed(() => this.statePullAll().values);
+  readonly hasMorePullAll = computed(() => this.statePullAll().hasMore);
+  readonly errorPullAll = computed(() => this.statePullAll().error);
+  readonly loadingPullAll = computed(() => this.statePullAll().loading);
+  protected readonly statePullOne = signal<{ values: T | null, error: string | null, loading: boolean }>({
+    values: null,
+    error: null,
+    loading: false,
+  });
+  readonly valuesPullOne = computed(() => this.statePullOne().values);
+  readonly errorPullOne = computed(() => this.statePullOne().error);
+  readonly loadingPullOne = computed(() => this.statePullOne().loading);
+  protected readonly stateAdd = signal<{ values: any, error: string | null, loading: boolean }>({
+    values: null,
+    error: null,
+    loading: false,
+  });
+  readonly valuesAdd = computed(() => this.stateAdd().values);
+  readonly errorAdd = computed(() => this.stateAdd().error);
+  readonly loadingAdd = computed(() => this.stateAdd().loading);
+  protected readonly stateUpdate = signal<{ values: T | null, error: string | null, loading: boolean }>({
+    values: null,
+    error: null,
+    loading: false,
+  });
+  readonly valuesUpdate = computed(() => this.stateUpdate().values);
+  readonly errorUpdate = computed(() => this.stateUpdate().error);
+  readonly loadingUpdate = computed(() => this.stateUpdate().loading);
+  protected readonly stateDelete = signal<{ values: number | null, error: string | null, loading: boolean }>({
+    values: null,
+    error: null,
+    loading: false,
+  });
+  readonly valuesDelete = computed(() => this.stateDelete().values);
+  readonly errorDelete = computed(() => this.stateDelete().error);
+  readonly loadingDelete = computed(() => this.stateDelete().loading);
+  readonly #searchTerm = signal<string>('');
+  readonly searchTerm = this.#searchTerm.asReadonly();
+  readonly #groupMediaLimit = signal<GroupMediaLimit>({});
+  readonly groupMediaLimit = this.#groupMediaLimit.asReadonly();
 
-  abstract type: MediaType;
-
-  #searchTerm = signal<string>('');
-  searchTerm = this.#searchTerm.asReadonly();
-
-  groupMedia = this.#computeGroupMedia();
-
-  #groupMediaLimit = signal<GroupMediaLimit>({});
-  groupMediaLimit = this.#groupMediaLimit.asReadonly();
-
-  #groupMediaSort = this.#initializeGroupMediaSort();
+  readonly #groupMediaSort = this.#initializeGroupMediaSort();
   groupMediaSort = this.#groupMediaSort.asReadonly();
 
-  constructor() {
-    super();
+  //#endregion
 
-    this.#subscribeScreenResize();
+  constructor() {
     this.#updateGroupMediaLimit();
   }
 
-  /*-----------------------*\
-            HTTP
-  \*-----------------------*/
+  //#region Methods
 
-  override async pullAll(): Promise<void> {
-    const optionsQuery: Request = {
-      url: `/api/${this.type}`,
-      header: {
-        disableAuthentication: true,
-      },
-      process: this.processPullAll.bind(this),
-    };
-
-    await this._pullAll(optionsQuery);
+  pullAll(): Observable<T[]> {
+    return defer(() => {
+      this.#startLoading(this.statePullAll);
+      return of(null);
+    }).pipe(
+      switchMap(() => this.apiService.pullAll()),
+      tap((result) => {
+        this.statePullAll.update((state) => ({
+          ...state,
+          values: result,
+          error: null,
+        }));
+      }),
+      catchError((err) => {
+        this.statePullAll.update((state) => ({
+          ...state,
+          values: [],
+          error: err.error,
+        }));
+        return of([]);
+      }),
+      finalize((() => {
+        this.#stopLoading(this.statePullAll);
+      })),
+    );
   }
 
-  async pullOne(id: string): Promise<void> {
-    const optionsQuery = {
-      url: `/api/${this.type}/${id}`,
-      process: this.processPullOne.bind(this),
-    };
-
-    await this._pullOne(optionsQuery);
+  pullOne(id: string): Observable<T | null> {
+    return defer(() => {
+      this.#startLoading(this.statePullOne);
+      return of(null);
+    }).pipe(
+      switchMap(() => this.apiService.pullOne(id)),
+      tap((values) => {
+        this.statePullOne.update((state) => ({
+          ...state,
+          error: null,
+          values,
+        }));
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.statePullOne.update((state) => ({
+          ...state,
+          error: err.error,
+          values: null,
+        }));
+        return of(null);
+      }),
+      finalize(() => {
+        this.#stopLoading(this.statePullOne);
+      }),
+    );
   }
 
-  async search(title: string): Promise<ImportMedia[]> {
-    const optionsQuery = {
-      url: `/api/${this.type}?search=${title}`,
-    };
-
-    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
-    return data.data;
+  add(value: Partial<T>): Observable<void> {
+    return defer(() => {
+      this.#startLoading(this.stateAdd);
+      return of(null);
+    }).pipe(
+      switchMap(() => this.apiService.add(value)),
+      catchError((err: HttpErrorResponse) => {
+        this.stateAdd.update((state) => ({
+          ...state,
+          error: err.error,
+          values: null,
+          loading: false,
+        }));
+        return throwError(() => err);
+      }),
+      tap(() => this.#stopLoading(this.stateAdd)),
+    );
   }
 
-  async importOne(id: string): Promise<ImportMedia> {
-    const optionsQuery = {
-      url: `/api/${this.type}/${id}/import`,
-    };
-
-    const data: any = await lastValueFrom(this.requestService.get(optionsQuery));
-    return data.data;
+  update(value: Partial<T> & { id: string }): Observable<void> {
+    return defer(() => {
+      this.#startLoading(this.stateUpdate);
+      return of(null);
+    }).pipe(
+      switchMap(() => this.apiService.updateOne(value)),
+      catchError((err: HttpErrorResponse) => {
+        this.stateUpdate.update((state) => ({
+          ...state,
+          error: err.error,
+          values: null,
+          loading: false,
+        }));
+        return throwError(() => err);
+      }),
+      tap(() => this.#stopLoading(this.stateUpdate)),
+    );
   }
 
-  async update(options: { [key: string]: any }): Promise<void> {
-    const optionsQuery = {
-      url: `/api/${this.type}/${options.id}`,
-      body: {
-        ...options,
-      },
-    };
-
-    await this._update(optionsQuery);
+  delete(id: string): Observable<void> {
+    return defer(() => {
+      this.#startLoading(this.stateDelete);
+      return of(null);
+    }).pipe(
+      switchMap(() => this.apiService.delete(id)),
+      catchError((err: HttpErrorResponse) => {
+        this.stateDelete.update((state) => ({
+          ...state,
+          error: err.error,
+        }));
+        return throwError(() => err);
+      }),
+      tap(() => this.#stopLoading(this.stateDelete)),
+    );
   }
 
-  async add(options: { [key: string]: any }): Promise<void> {
-    const optionsQuery = {
-      url: `/api/${this.type}`,
-      body: {
-        ...options,
-      },
-    };
-
-    await this._add(optionsQuery);
+  importOne(id: string): Observable<ImportMedia> {
+    return this.apiService.importOne(id);
   }
 
-  async delete(id: string): Promise<void> {
-    const optionsQuery = {
-      url: `/api/${this.type}/${id}`,
-    };
-
-    await this._delete(optionsQuery);
+  search(title: string): Observable<ImportMedia[]> {
+    return this.apiService.search(title);
   }
-
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
 
   updateSearchTerm(term: string): void {
     this.#searchTerm.set(term);
@@ -174,14 +253,29 @@ export abstract class MediaService<T> extends CrudService<Medium> {
     }
   }
 
-  /*-----------------------*\
-           Compute
-  \*-----------------------*/
+  #startLoading<T extends { loading: boolean, error: any }>(state: WritableSignal<T>): void {
+    state.update((s: T) => ({
+      ...s,
+      loading: true,
+      error: null,
+    }));
+  }
 
+  #stopLoading<T extends { loading: boolean, error: any }>(state: WritableSignal<T>): void {
+    state.update((s) => ({
+      ...s,
+      loading: false,
+    }));
+  }
+  //#endregion
+
+  //#region Computed
   #computeGroupMedia(): Signal<GroupMedium[]> {
     return computed(() => {
       const emptyRatingsRecord = this.#buildRatingRecord();
-      const ratingRecord = this.#populateRatingRecord(emptyRatingsRecord);
+      const data: T[] | null = this.valuesPullAll();
+      const search: string = this.searchTerm();
+      const ratingRecord = this.#populateRatingRecord(emptyRatingsRecord, data ?? [], search);
       return this.#sortRatingRecord(ratingRecord);
     });
   }
@@ -189,22 +283,19 @@ export abstract class MediaService<T> extends CrudService<Medium> {
   #buildRatingRecord() {
     const ratingRecord: Record<string, GroupMedium> = {};
     for (const rating of RATINGS) {
-      const groupMedium: GroupMedium = {
+      ratingRecord[rating.value] = {
         label: rating.label,
         value: rating.value,
         media: [],
       };
-
-      ratingRecord[rating.value] = groupMedium;
     }
 
     return ratingRecord;
   }
 
-  #populateRatingRecord(data: Record<string, GroupMedium>) {
-    const ratingRecord = Global.clone(data);
-    for (const datum of this.valuesPullAll()!) {
-      const search = this.searchTerm();
+  #populateRatingRecord(record: Record<string, GroupMedium>, data: T[], search: string) {
+    const ratingRecord = Global.clone(record);
+    for (const datum of data) {
       if (search) {
         if (!(datum.year + '').includes(search) && !(datum.title.toLowerCase()).includes(search.toLowerCase())) {
           continue;
@@ -258,34 +349,5 @@ export abstract class MediaService<T> extends CrudService<Medium> {
 
     return res;
   }
-
-  /*-----------------------*\
-            Subscriber
-    \*-----------------------*/
-
-  #subscribeScreenResize(): Subscription {
-    return this.screenService.widthResizeObservable
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
-        this.#updateGroupMediaLimit();
-      });
-  }
-
-  /*-----------------------*\
-          Process
-  \*-----------------------*/
-
-  processPullAll(data: { data: Medium[] }): Medium[] {
-    for (const datum of data.data) {
-      datum.url = `${this.serverUrl}/image/${datum.id}.jpg`;
-      datum.urlWebp = `${this.serverUrl}/image/${datum.id}.webp`;
-    }
-
-    return data.data;
-  }
-
-  processPullOne(data: { data: Medium }): Medium {
-    const tmp = this.processPullAll({ data: [data.data] });
-    return tmp[0];
-  }
+  //#endregion
 }
