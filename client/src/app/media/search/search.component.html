@@ -3,9 +3,9 @@
   <div>
     <div class="flex items-center mb-4">
       <div class="grow">
-        <form [formGroup]="searchForm()!">
+        <form>
           <div class="relative">
-            <input type="text" formControlName="search" placeholder="Search" decorationInput/>
+            <input [formControl]="searchForm" decorationInput placeholder="Search" type="text"/>
             <app-icon name="search" class="absolute right-0 top-0 h-full mr-2"/>
           </div>
         </form>

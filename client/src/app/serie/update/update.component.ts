@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { MediaUpdateComponent } from '@app/media/update/update.component';
-import { SerieService } from '@app/serie/serie.service';
 import { SharedModule } from '@shared/shared.module';
+import { Serie } from '@app/interface';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'serie-update',
@@ -12,7 +13,7 @@ import { SharedModule } from '@shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
-export class SerieUpdateComponent extends MediaUpdateComponent {
+export class SerieUpdateComponent extends MediaUpdateComponent<Serie> {
   constructor(
     serieService: SerieService,
   ) {

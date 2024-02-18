@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
-
-import { MediaType, Serie } from '@app/interface';
+import { Serie } from '@app/interface';
+import { inject, Injectable } from '@angular/core';
 import { MediaService } from '@app/media/media.service';
+import { MediumApiService } from '@shared/api-services/medium/medium-api.service';
+import { SerieApiService } from '@shared/api-services/serie/serie-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SerieService extends MediaService<Serie> {
-  type = 'serie' as MediaType;
+  protected readonly apiService: MediumApiService<Serie> = inject(SerieApiService);
 }

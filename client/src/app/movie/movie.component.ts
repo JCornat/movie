@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { MovieService } from '@app/movie/movie.service';
 import { CategoryComponent } from '@app/category/category.component';
 import { MediaFilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
@@ -13,6 +12,7 @@ import { MediaListComponent } from '@app/media/list/list.component';
 import { MovieSearchComponent } from '@app/movie/search/search.component';
 import { MovieUpdateComponent } from '@app/movie/update/update.component';
 import { SharedModule } from '@shared/shared.module';
+import { MovieService } from '@app/movie/movie.service';
 
 @Component({
   selector: 'app-movie',
@@ -30,9 +30,9 @@ import { SharedModule } from '@shared/shared.module';
     MediaListComponent,
   ],
 })
-export class MovieComponent extends MediaComponent {
+export class MovieComponent extends MediaComponent<Movie> {
   override media!: Movie[];
-  override mediaService = inject(MovieService);
+  override mediaService: MovieService = inject(MovieService);
 
   override getSearchComponent(): any {
     return MovieSearchComponent;

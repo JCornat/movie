@@ -1,68 +1,46 @@
-import { inject, Injectable } from '@angular/core';
-
+import { inject, Injectable, Signal } from '@angular/core';
 import { TokenService } from '@shared/token/token.service';
-import { Request } from '@shared/request/request';
-import { CrudService } from '@shared/crud/crud.service';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+export type TokenResponse = { token: string, refresh: string };
+
+export type LoginPayload = { username: string, password: string, stayLogged: boolean };
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthenticationService extends CrudService<any> {
-  tokenService = inject(TokenService);
+export class AuthenticationService {
+  private readonly tokenService: TokenService = inject(TokenService);
+  private readonly http: HttpClient = inject(HttpClient);
+  private readonly refreshToken: Signal<string | null> = this.tokenService.refreshToken;
+  readonly isLogged: Signal<boolean> = this.tokenService.hasToken;
 
-  isLogged = this.tokenService.hasToken;
-  stayLogged = this.tokenService.stayLogged;
-
-  constructor() {
-    super();
-
-    this.#subscribeValuesAdd();
+  login(credentials: LoginPayload): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(`api/login`, credentials).pipe(
+      tap((response) => {
+        this.tokenService.setStayLogged(credentials.stayLogged);
+        this.storeTokens(response);
+      }),
+    );
   }
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
-  async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
-    const optionsQuery: Request = {
-      url: `/api/login`,
-      header: {
-        disableAuthentication: true,
-      },
-      body: {
-        ...options,
-      },
-    };
-
-    await this._add(optionsQuery);
+  refresh(): Observable<TokenResponse> {
+    return this.http.post<TokenResponse>(`api/token`, { refresh: this.refreshToken() }, { headers: {
+      'X-Access-Token': this.tokenService.token()!,
+    } }).pipe(
+      tap((response) => {
+        this.storeTokens(response);
+      }),
+    );
   }
-
-  override async pullAll(): Promise<void> {
-    //
-  }
-
-  /*-----------------------*\
-          Service
-  \*-----------------------*/
 
   logout(): void {
     this.tokenService.reset();
   }
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
-  #subscribeValuesAdd() {
-    toObservable(this.valuesAdd)
-      .subscribe((data) => {
-        if (!data) {
-          return;
-        }
-
-        this.tokenService.setToken(data.token);
-        this.tokenService.setRefreshToken(data.refresh);
-      });
+  private storeTokens(response: TokenResponse): void {
+    this.tokenService.setToken(response.token);
+    this.tokenService.setRefreshToken(response.refresh);
   }
 }

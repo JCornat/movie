@@ -1,9 +1,9 @@
 <input type="file" #inputFile style="visibility: hidden" (change)="selectedFile($event)">
 
 @if (id()) {
-  <div class="font-bold text-2xl mb-2">Update a {{type()}}</div>
+  <div class="font-bold text-2xl mb-2">Update a {{type}}</div>
 } @else {
-  <div class="font-bold text-2xl mb-2">Add a new {{type()}}</div>
+  <div class="font-bold text-2xl mb-2">Add a new {{type}}</div>
 }
 
 @if (loadingAdd() || loadingUpdate() || loadingPullOne()) {
@@ -16,14 +16,14 @@
   <p class="mb-8" style="color: red;">{{errorAdd()}}</p>
 }
 
-@if (!loadingAdd() && !loadingUpdate() && !loadingPullOne() && mediaForm()) {
+@if (!loadingAdd() && !loadingUpdate() && !loadingPullOne() && mediaForm) {
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
     <div class="sm:col-span-2">
       <div class="font-bold text-lg mb-2">Information</div>
 
       <div class="p-4 mb-4 border border-white/30 rounded-lg">
         <div style="min-width: min(400px, 100%);">
-          <form [formGroup]="mediaForm()" (submit)="onSubmit()">
+          <form [formGroup]="mediaForm" (submit)="onSubmit()">
             <div class="bold mb-2">Title</div>
             <div class="mb-4">
               <input type="text" formControlName="title" placeholder="Title" decorationInput/>
@@ -74,10 +74,10 @@
       </div>
     </div>
 
-    @if (formData()) {
+    @if (mediaPreview()) {
       <div class="media-item">
         <div class="font-bold text-lg mb-2">Preview</div>
-        <media-item [data]="$any(formData())" [dynamic]="true"></media-item>
+        <media-item [data]="$any(mediaPreview())" [dynamic]="true"></media-item>
       </div>
     }
   </div>

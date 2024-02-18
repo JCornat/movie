@@ -37,10 +37,10 @@ export interface ImportMedia {
   url: string;
 }
 
-export interface GroupMedium {
+export interface GroupMedium<T extends Medium = Medium> {
   label: string;
   value: Rating;
-  media: (Game | Movie | Serie)[];
+  media: T[];
 }
 
 export type GroupMediaLimit = Record<string, number>;

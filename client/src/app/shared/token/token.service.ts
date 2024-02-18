@@ -1,9 +1,8 @@
-import { computed, inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { jwtDecode } from 'jwt-decode';
+import { computed, effect, inject, Injectable, Signal, signal, untracked, WritableSignal } from '@angular/core';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 import { Global } from '@shared/global/global';
 import { StorageService } from '@shared/storage/storage.service';
-import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +17,15 @@ export class TokenService {
   refreshToken = this.#refreshToken.asReadonly();
   hasToken = computed(() => {
     return Global.isPopulated(this.token());
+  });
+
+  readonly decodedToken: Signal<JwtPayload | null> = computed(() => {
+    const token = this.token();
+    if (!token) {
+      return null;
+    }
+
+    return jwtDecode(token);
   });
 
   constructor() {
@@ -36,6 +44,19 @@ export class TokenService {
 
   setRefreshToken(value: string | null): void {
     this.#refreshToken.set(value);
+  }
+
+  setStayLogged(value: boolean): void {
+    this.stayLogged.set(value);
+  }
+
+  tokenIsExpired(): boolean {
+    const decoded: JwtPayload | null = this.decodedToken();
+    if (!decoded) {
+      return false;
+    }
+
+    return (decoded.exp! * 1000) < new Date().getTime();
   }
 
   #buildToken(): WritableSignal<string | null> {
@@ -115,35 +136,37 @@ export class TokenService {
   \*-----------------------*/
 
   #subscribeToken() {
-    toObservable(this.token)
-      .subscribe((value) => {
-        if (!value || !this.stayLogged()) {
-          return;
-        }
+    effect(() => {
+      const value = this.token();
 
-        this.#storeToken(value);
-      });
+      if (!value || untracked(() => !this.stayLogged())) {
+        return;
+      }
+
+      this.#storeToken(value);
+    });
   }
 
   #subscribeRefreshToken() {
-    toObservable(this.refreshToken)
-      .subscribe((value) => {
-        if (!value || !this.stayLogged()) {
-          return;
-        }
+    effect(() => {
+      const value = this.refreshToken();
 
-        this.#storeRefreshToken(value);
-      });
+      if (!value || untracked(() => !this.stayLogged())) {
+        return;
+      }
+
+      this.#storeRefreshToken(value);
+    });
   }
 
   #subscribeStayLogged() {
-    toObservable(this.stayLogged)
-      .subscribe((value) => {
-        if (value) {
-          this.#setStayLogged('true');
-        } else {
-          this.#removeStayLogged();
-        }
-      });
+    effect(() => {
+      const value = this.stayLogged();
+      if (value) {
+        this.#setStayLogged('true');
+      } else {
+        this.#removeStayLogged();
+      }
+    });
   }
 }

@@ -13,7 +13,7 @@
   <div class="bold text-xl mb-4">Login</div>
 
   <div class="border rounded-lg p-4 mb-4">
-    <form [formGroup]="loginForm()" (submit)="onSubmit()">
+    <form (submit)="onSubmit()" [formGroup]="loginForm">
       <div class="mb-2">Username</div>
       <div class="mb-4 relative">
         <input type="password" formControlName="username" decorationInput/>
@@ -35,9 +35,9 @@
     </form>
   </div>
 
-  @if (errorAdd()) {
+  @if (error()) {
     <div class="mb-8">
-      <div style="color: red">{{errorAdd()}}</div>
+      <div style="color: red">{{error()}}</div>
     </div>
   }
 

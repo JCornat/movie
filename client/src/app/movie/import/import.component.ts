@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { MovieService } from '@app/movie/movie.service';
 import { SharedModule } from '@shared/shared.module';
+import { Movie } from '@app/interface';
+import { MovieService } from '@app/movie/movie.service';
 
 @Component({
   selector: 'movie-import',
@@ -12,7 +13,7 @@ import { SharedModule } from '@shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
-export class MovieImportComponent extends MediaImportComponent implements OnInit {
+export class MovieImportComponent extends MediaImportComponent<Movie> implements OnInit {
   constructor(
     movieService: MovieService,
   ) {

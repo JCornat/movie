@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MediaImportComponent } from '@app/media/import/import.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { SerieService } from '@app/serie/serie.service';
 import { SharedModule } from '@shared/shared.module';
+import { Serie } from '@app/interface';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'serie-import',
@@ -12,7 +13,7 @@ import { SharedModule } from '@shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
-export class SerieImportComponent extends MediaImportComponent implements OnInit {
+export class SerieImportComponent extends MediaImportComponent<Serie> {
   constructor(
     gameService: SerieService,
   ) {

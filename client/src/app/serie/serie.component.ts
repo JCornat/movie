@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
-import { SerieService } from '@app/serie/serie.service';
 import { CategoryComponent } from '@app/category/category.component';
 import { MediaFilterComponent } from '@app/media/filter/filter.component';
 import { MediaMoreComponent } from '@app/media/more/more.component';
@@ -13,6 +12,7 @@ import { MediaListComponent } from '@app/media/list/list.component';
 import { SerieSearchComponent } from '@app/serie/search/search.component';
 import { SerieUpdateComponent } from '@app/serie/update/update.component';
 import { SharedModule } from '@shared/shared.module';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'app-serie',
@@ -30,7 +30,7 @@ import { SharedModule } from '@shared/shared.module';
     MediaListComponent,
   ],
 })
-export class SerieComponent extends MediaComponent {
+export class SerieComponent extends MediaComponent<Serie> {
   override media!: Serie[];
   override mediaService = inject(SerieService);
 

@@ -1,50 +1,48 @@
-import { inject, Injectable, Injector } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { effect, inject, Injectable, Injector, OnInit } from '@angular/core';
 
 import { MediaAddComponent } from '../add/add.component';
 import { Global } from '@shared/global/global';
-import { SerieService } from '@app/serie/serie.service';
-import { MovieService } from '@app/movie/movie.service';
-import { GameService } from '@app/game/game.service';
 import { Medium } from '@app/interface';
+import { MediaService } from '@app/media/media.service';
+import { switchMap } from 'rxjs';
 
 @Injectable()
-export abstract class MediaUpdateComponent extends MediaAddComponent {
-  inject = inject(Injector);
+export abstract class MediaUpdateComponent<T extends Medium> extends MediaAddComponent<T> implements OnInit {
+  protected readonly inject = inject(Injector);
 
   constructor(
-    public override mediaService: SerieService | MovieService | GameService,
+    public override mediaService: MediaService<T>,
   ) {
     super(mediaService);
 
     this.subscribePullOne();
-    this.subscribeId();
+  }
+
+  ngOnInit(): void {
+    this.pullMedia();
   }
 
   /*-----------------------*\
            Template
   \*-----------------------*/
 
-  override async onSubmit(): Promise<void> {
+  override onSubmit(): void {
     if (this.loadingUpdate()) {
       return;
     }
 
-    await this.update(this.formData() as Medium);
+    this.update(this.toMedium());
   }
 
   /*-----------------------*\
            Service
   \*-----------------------*/
 
-  async pullOne(id: string): Promise<void> {
-    return await this.mediaService.pullOne(id);
-  }
-
-  async update(data: Medium): Promise<void> {
-    await this.mediaService.update(data);
-    this.mediaService.pullAll(); // Refresh the list
-    this.close();
+  update(data: T): void {
+    this.mediaService.update(data).pipe(
+      switchMap(() => this.mediaService.pullAll()),
+    )
+      .subscribe(() => this.close());
   }
 
   /*-----------------------*\
@@ -52,24 +50,17 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
   \*-----------------------*/
 
   subscribePullOne(): void {
-    toObservable(this.mediaService.valuesPullOne)
-      .subscribe((value) => {
-        if (Global.isEmpty(value)) {
-          return;
-        }
+    effect(() => {
+      const value = this.mediaService.valuesPullOne();
+      if (Global.isEmpty(value)) {
+        return;
+      }
 
-        this.mediaForm().patchValue(value as any);
-      });
+      this.mediaForm.patchValue(value as any);
+    });
   }
 
-  subscribeId(): void {
-    toObservable(this.id)
-      .subscribe((value) => {
-        if (Global.isEmpty(value)) {
-          return;
-        }
-
-        this.pullOne(this.id()!);
-      });
+  protected pullMedia(): void {
+    this.mediaService.pullOne(this.id()!).subscribe();
   }
 }
