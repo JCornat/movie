@@ -12,7 +12,6 @@ export type LoginPayload = { username: string, password: string, stayLogged: boo
 })
 export class AuthenticationService {
   private readonly tokenService: TokenService = inject(TokenService);
-  readonly hasToken: Signal<boolean> = this.tokenService.hasToken;
   readonly isLogged: Signal<boolean> = this.tokenService.hasToken;
   private readonly http: HttpClient = inject(HttpClient);
   private readonly refreshToken: Signal<string | null> = this.tokenService.refreshToken;

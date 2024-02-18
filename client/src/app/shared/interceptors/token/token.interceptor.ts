@@ -11,7 +11,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   const authService: AuthenticationService = inject(AuthenticationService);
-  if (!authService.hasToken()) {
+  if (!authService.isLogged()) {
     throw new Error('Unauthenticated');
   }
 
