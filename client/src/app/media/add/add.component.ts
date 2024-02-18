@@ -6,8 +6,9 @@ import { Global } from '@shared/global/global';
 import { PanelService } from '@app/panel/panel.service';
 import { MediaType, Medium, Rating, RatingDisplay } from '@app/interface';
 import { MediaService } from '@app/media/media.service';
-import { switchMap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import { UploadApiService } from '@shared/api-services/upload/upload-api.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 export type AddFormType = {
   id: FormControl<string>;
@@ -16,6 +17,8 @@ export type AddFormType = {
   url: FormControl<string>;
   rating: FormControl<Rating>;
 };
+
+type MediaPreview = Partial<{ title: string, year: number, url: string, rating: Rating }>;
 
 @Directive()
 export abstract class MediaAddComponent<T extends Medium> {
@@ -36,6 +39,7 @@ export abstract class MediaAddComponent<T extends Medium> {
   readonly ratings: WritableSignal<RatingDisplay[]> = signal<RatingDisplay[]>([...RATINGS]);
   readonly mediaForm: FormGroup<AddFormType> = this.buildForm();
   readonly type: MediaType = this.buildType();
+  readonly mediaPreview: Signal<MediaPreview | undefined> = this.getMediaPreview();
 
   constructor(
     public mediaService: MediaService<T>,
@@ -137,5 +141,11 @@ export abstract class MediaAddComponent<T extends Medium> {
 
   protected toMedium(): T {
     return this.mediaForm.getRawValue() as T;
+  }
+
+  protected getMediaPreview(): Signal<MediaPreview | undefined> {
+    return toSignal(this.mediaForm.valueChanges.pipe(
+      map((): MediaPreview => this.mediaForm.getRawValue()),
+    ));
   }
 }
