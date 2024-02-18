@@ -12,9 +12,9 @@ export type LoginPayload = { username: string, password: string, stayLogged: boo
 })
 export class AuthenticationService {
   private readonly tokenService: TokenService = inject(TokenService);
-  readonly isLogged: Signal<boolean> = this.tokenService.hasToken;
   private readonly http: HttpClient = inject(HttpClient);
   private readonly refreshToken: Signal<string | null> = this.tokenService.refreshToken;
+  readonly isLogged: Signal<boolean> = this.tokenService.hasToken;
 
   login(credentials: LoginPayload): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(`api/login`, credentials).pipe(

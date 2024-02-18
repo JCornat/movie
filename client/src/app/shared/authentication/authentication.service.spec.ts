@@ -4,15 +4,18 @@ import { AuthenticationService, LoginPayload, TokenResponse } from './authentica
 import { TokenService } from '@shared/token/token.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { signal, Signal } from '@angular/core';
+import { computed, signal, Signal } from '@angular/core';
 import Mock = jest.Mock;
 
 describe('AuthenticationService', () => {
   let service: AuthenticationService;
   let tokenServiceMock: {
+    token: Signal<string>;
+    hasToken: Signal<boolean>;
     setToken: Mock;
     setRefreshToken: Mock;
     reset: Mock;
+    setStayLogged: Mock;
     refreshToken: Signal<string | null>;
   };
   let httpTestingController: HttpTestingController;
@@ -20,10 +23,15 @@ describe('AuthenticationService', () => {
 
   beforeEach(() => {
     tokenResponse = { token: 'token', refresh: 'refresh' };
+    const token = signal(tokenResponse.token);
+    const hasToken = computed(() => !!token());
     tokenServiceMock = {
+      token,
+      hasToken,
       setToken: jest.fn(),
       setRefreshToken: jest.fn(),
       reset: jest.fn(),
+      setStayLogged: jest.fn(),
       refreshToken: signal(tokenResponse.refresh),
     };
 
@@ -64,10 +72,11 @@ describe('AuthenticationService', () => {
     });
 
     it('should store tokens', () => {
-      expect.assertions(2);
+      expect.assertions(3);
       service.login(credentials).subscribe(() => {
         expect(tokenServiceMock.setToken).toHaveBeenCalledWith(tokenResponse.token);
         expect(tokenServiceMock.setRefreshToken).toHaveBeenCalledWith(tokenResponse.refresh);
+        expect(tokenServiceMock.setStayLogged).toHaveBeenCalledWith(credentials.stayLogged);
       });
       const req = httpTestingController.expectOne('api/login');
       req.flush(tokenResponse);
