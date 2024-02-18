@@ -4,6 +4,7 @@ import { ImportMedia, MediaType, Medium } from '@app/interface';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HttpRequest, provideHttpClient } from '@angular/common/http';
+import { APP_CONFIG } from '@shared/config/config.provider';
 
 describe('MediumApiService', () => {
   @Injectable()
@@ -18,7 +19,12 @@ describe('MediumApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting(), TestImpl],
+      providers: [
+        { provide: APP_CONFIG, useValue: { SERVER_URL: 'api' } },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        TestImpl,
+      ],
     });
 
     service = TestBed.inject(TestImpl);
@@ -62,7 +68,7 @@ describe('MediumApiService', () => {
       service.search('title').subscribe();
       const req = httpTestingController.expectOne(url());
       expect(req.request.params.get('search')).toEqual('title');
-      req.flush([importMedia]);
+      req.flush({ data: [importMedia] });
     });
 
     it('should return result', () => {
@@ -72,7 +78,7 @@ describe('MediumApiService', () => {
           expect(result).toEqual([importMedia]);
         },
       );
-      httpTestingController.expectOne(url()).flush([importMedia]);
+      httpTestingController.expectOne(url()).flush({ data: [importMedia] });
     });
   });
 
@@ -90,7 +96,7 @@ describe('MediumApiService', () => {
           expect(result).toEqual(importMedia);
         },
       );
-      httpTestingController.expectOne(url('id/import')).flush(importMedia);
+      httpTestingController.expectOne(url('id/import')).flush({ data: importMedia });
     });
   });
 
@@ -98,7 +104,7 @@ describe('MediumApiService', () => {
     it('should call correct url', () => {
       service.pullOne('id').subscribe();
       const req = httpTestingController.expectOne(url('id'));
-      req.flush(medium);
+      req.flush({ data: medium });
     });
 
     it('should return result', () => {
@@ -107,11 +113,11 @@ describe('MediumApiService', () => {
       service.pullOne('id').subscribe(
         (result) => {
           expect(result).toMatchObject(medium);
-          expect(result.url).toEqual('image/id.jpg');
-          expect(result.urlWebp).toEqual('image/id.webp');
+          expect(result.url).toEqual('api/image/id.jpg');
+          expect(result.urlWebp).toEqual('api/image/id.webp');
         },
       );
-      httpTestingController.expectOne(url('id')).flush(medium);
+      httpTestingController.expectOne(url('id')).flush({ data: medium });
     });
   });
 
@@ -119,7 +125,7 @@ describe('MediumApiService', () => {
     it('should call correct url', () => {
       service.pullAll().subscribe();
       const req = httpTestingController.expectOne(url());
-      req.flush([medium]);
+      req.flush({ data: [medium] });
     });
 
     it('should return result', () => {
@@ -128,11 +134,11 @@ describe('MediumApiService', () => {
       service.pullAll().subscribe(
         (result) => {
           expect(result[0]).toMatchObject(medium);
-          expect(result[0].url).toEqual('image/id.jpg');
-          expect(result[0].urlWebp).toEqual('image/id.webp');
+          expect(result[0].url).toEqual('api/image/id.jpg');
+          expect(result[0].urlWebp).toEqual('api/image/id.webp');
         },
       );
-      httpTestingController.expectOne(url()).flush([medium]);
+      httpTestingController.expectOne(url()).flush({ data: [medium] });
     });
   });
 
