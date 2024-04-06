@@ -10,12 +10,8 @@ export class CustomTitleStrategy extends TitleStrategy {
 
   override updateTitle(snapshot: RouterStateSnapshot): void {
     const title = this.buildTitle(snapshot);
-    const baseTitle = this.#appTitle;
-    if (!title) {
-      return this.#title.setTitle(baseTitle);
-    }
-
-    this.#title.setTitle(baseTitle + ' - ' + title);
+    const res = (title) ? `${this.#appTitle} - ${title}` : this.#appTitle;
+    this.#title.setTitle(res);
   }
 }
 
