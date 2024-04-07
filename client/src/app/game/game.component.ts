@@ -3,7 +3,6 @@ import { NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { Game } from '@app/interface';
-import { GameService } from '@app/game/game.service';
 import { MediaComponent } from '@app/media/media.component';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { CategoryComponent } from '@app/category/category.component';
@@ -13,6 +12,7 @@ import { MediaListComponent } from '@app/media/list/list.component';
 import { GameSearchComponent } from '@app/game/search/search.component';
 import { GameUpdateComponent } from '@app/game/update/update.component';
 import { SharedModule } from '@shared/shared.module';
+import { GameService } from '@app/game/game.service';
 
 @Component({
   selector: 'app-game',
@@ -30,7 +30,7 @@ import { SharedModule } from '@shared/shared.module';
     MediaListComponent,
   ],
 })
-export class GameComponent extends MediaComponent {
+export class GameComponent extends MediaComponent<Game> {
   override media!: Game[];
   override mediaService = inject(GameService);
 

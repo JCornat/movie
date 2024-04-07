@@ -1,12 +1,17 @@
 import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { startWith } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-
-import { AuthenticationService } from '@shared/authentication/authentication.service';
-import { Global } from '@shared/global/global';
 import { SharedModule } from '@shared/shared.module';
+import { AuthenticationService, LoginPayload } from '@shared/authentication/authentication.service';
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { of, tap } from 'rxjs';
+
+type LoginForm = {
+  username: FormControl<string>;
+  password: FormControl<string>;
+  stayLogged: FormControl<boolean>;
+};
 
 @Component({
   selector: 'app-login',
@@ -16,82 +21,47 @@ import { SharedModule } from '@shared/shared.module';
   imports: [SharedModule],
 })
 export class LoginComponent {
-  authenticationService = inject(AuthenticationService);
-  router = inject(Router);
+  readonly loginForm = this.buildForm();
+  readonly error: WritableSignal<any> = signal(null);
+  private readonly authenticationService = inject(AuthenticationService);
+  private readonly router = inject(Router);
 
-  loadingAdd = this.authenticationService.loadingAdd;
-  errorAdd = this.authenticationService.errorAdd;
-  loginForm = this.buildForm();
-  formData = signal<{ [key: string]: any } | null>(null);
+  onSubmit() {
+    this.error.set(null);
+    const options: LoginPayload = {
+      username: this.loginForm.controls.username.value,
+      password: this.loginForm.controls.password.value,
+      stayLogged: this.loginForm.controls.stayLogged.value,
+    };
 
-  constructor() {
-    this.subscribeForm();
-  }
-
-  navigateBack(): void {
-    this.navigateHome();
-  }
-
-  async onSubmit(): Promise<void> {
-    const data = this.formData() as { username: string, password: string, stayLogged: boolean };
-    if (Global.isEmpty(data)) {
-      return;
-    }
-
-    if (data.stayLogged) {
-      this.authenticationService.stayLogged.set(true);
-    }
-
-    await this.login(data);
-    this.navigateHome();
+    this.authenticationService.login(options).pipe(
+      tap(() => {
+        this.navigateBack();
+      }),
+      catchError((err: HttpErrorResponse) => {
+        this.error.set(err.error);
+        return of(null);
+      }),
+    ).subscribe();
   }
 
   /*-----------------------*\
            Navigation
   \*-----------------------*/
 
-  navigateHome(): void {
+  navigateBack(): void {
     this.router.navigate(['/']);
-  }
-
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
-  async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
-    return await this.authenticationService.login(options);
   }
 
   /*-----------------------*\
             Method
   \*-----------------------*/
 
-  buildForm(): WritableSignal<FormGroup> {
-    const form = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      stayLogged: new FormControl(true),
+  private buildForm(): FormGroup<LoginForm> {
+    return new FormGroup<LoginForm>({
+      username: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      stayLogged: new FormControl(true, { nonNullable: true }),
     });
-
-    return signal(form);
-  }
-
-  onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
-  }
-
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
-  subscribeForm(): void {
-    this.loginForm().valueChanges
-      .pipe(
-        takeUntilDestroyed(),
-        startWith({ stayLogged: true }),
-      )
-      .subscribe((data) => {
-        this.onValid(data);
-      });
   }
 }

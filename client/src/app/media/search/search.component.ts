@@ -1,28 +1,26 @@
-import { Directive, inject, input, OnInit, signal } from '@angular/core';
+import { Directive, inject, input, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { filter, startWith, tap } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-
-import { GameService } from '@app/game/game.service';
-import { MovieService } from '@app/movie/movie.service';
-import { SerieService } from '@app/serie/serie.service';
-import { ImportMedia } from '@app/interface';
+import { filter, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, debounceTime } from 'rxjs/operators';
+import { ImportMedia, Medium } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
 import { CategoryService } from '@app/category/category.service';
+import { MediaService } from '@app/media/media.service';
+import { HttpErrorResponse } from '@angular/common/http';
+
+type SearchFormType = { search: FormControl<string> };
 
 @Directive()
-export abstract class MediaSearchComponent implements OnInit {
+export abstract class MediaSearchComponent<T extends Medium> {
   categoryService = inject(CategoryService);
   router = inject(Router);
   panelService = inject(PanelService);
-  abstract mediaService: SerieService | MovieService | GameService;
+  abstract mediaService: MediaService<T>;
 
   searchTerm = input<string>('');
 
-  formData = signal<Record<string, any> | null>(null);
-  searchForm = signal<FormGroup | null>(null);
+  searchForm = new FormControl('', { nonNullable: true });
   type = this.categoryService.currentCategory;
   searchResults = signal<ImportMedia[] | null>(null);
   loading = signal<boolean>(false);
@@ -30,11 +28,7 @@ export abstract class MediaSearchComponent implements OnInit {
 
   constructor() {
     this.subscribeFormData();
-  }
-
-  ngOnInit(): void {
     this.buildSearchForm();
-    this.subscribeFormChanges();
   }
 
   /*-----------------------*\
@@ -51,17 +45,17 @@ export abstract class MediaSearchComponent implements OnInit {
     this.panelService.open({ component });
   }
 
-  async search(title: string): Promise<void> {
+  search(title: string): Observable<ImportMedia[]> {
     this.error.set(null);
 
-    try {
-      const results = await this.mediaService.search(title);
-      this.searchResults.set(results);
-    } catch (error) {
-      this.error.set((error as any).message);
-    } finally {
-      this.loading.set(false);
-    }
+    return this.mediaService.search(title).pipe(
+      tap((result) => this.searchResults.set(result)),
+      catchError((err: HttpErrorResponse) => {
+        this.error.set(err.error);
+        return of([]);
+      }),
+      tap(() => this.loading.set(false)),
+    );
   }
 
   /*-----------------------*\
@@ -72,44 +66,24 @@ export abstract class MediaSearchComponent implements OnInit {
 
   abstract getAddComponent(): any;
 
-  buildSearchForm(): void {
-    const formGroup = new FormGroup({
-      search: new FormControl(this.searchTerm()),
+  buildSearchForm(): FormGroup<SearchFormType> {
+    const formGroup = new FormGroup<SearchFormType>({
+      search: new FormControl('', { nonNullable: true }),
     });
 
-    this.searchForm.set(formGroup);
-  }
-
-  onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
+    return formGroup;
   }
 
   /*-----------------------*\
           Subscribe
   \*-----------------------*/
 
-  subscribeFormChanges(): void {
-    this.searchForm()!.valueChanges
-      .pipe(
-        takeUntilDestroyed(),
-        startWith({ search: this.searchTerm() }),
-      )
-      .subscribe((data) => {
-        this.onValid(data);
-      });
-  }
-
   subscribeFormData(): void {
-    toObservable(this.formData)
-      .pipe(
-        filter((value) => value?.search.length > 2),
-        tap((value) => {
-          this.loading.set(true);
-        }),
-        debounceTime(500),
-      )
-      .subscribe(async (value) => {
-        await this.search(value!.search);
-      });
+    this.searchForm.valueChanges.pipe(
+      filter((value) => value.length > 2),
+      debounceTime(500),
+      tap(() => this.loading.set(true)),
+      switchMap((search) => this.search(search)),
+    ).subscribe();
   }
 }

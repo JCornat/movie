@@ -1,19 +1,16 @@
 import { computed, Directive, inject, OnInit, Signal } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { AuthenticationService } from '@shared/authentication/authentication.service';
-import { GameService } from '@app/game/game.service';
-import { MovieService } from '@app/movie/movie.service';
-import { SerieService } from '@app/serie/serie.service';
 import { GroupMediaLimit, GroupMediaSort, GroupMedium, Medium, OrderBy } from '@app/interface';
 import { PanelService } from '@app/panel/panel.service';
+import { AuthenticationService } from '@shared/authentication/authentication.service';
+import { MediaService } from '@app/media/media.service';
 
 @Directive()
-export abstract class MediaComponent implements OnInit {
+export abstract class MediaComponent<T extends Medium> implements OnInit {
   authenticationService = inject(AuthenticationService);
   panelService = inject(PanelService);
   router = inject(Router);
-  abstract mediaService: SerieService | MovieService | GameService;
+  abstract mediaService: MediaService<T>;
 
   media!: Medium[];
   isLogged = this.authenticationService.isLogged;
@@ -23,7 +20,7 @@ export abstract class MediaComponent implements OnInit {
   groupMediaSort = this.computeGroupMediaSort();
 
   ngOnInit(): void {
-    this.mediaService.pullAll();
+    this.mediaService.pullAll().subscribe();
   }
 
   /*-----------------------*\

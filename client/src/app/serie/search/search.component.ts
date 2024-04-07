@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MediaSearchComponent } from '@app/media/search/search.component';
-import { SerieService } from '@app/serie/serie.service';
 import { SharedModule } from '@shared/shared.module';
 import { MediaItemComponent } from '@app/media/item/item.component';
 import { SerieImportComponent } from '@app/serie/import/import.component';
 import { SerieAddComponent } from '@app/serie/add/add.component';
+import { Serie } from '@app/interface';
+import { SerieService } from '@app/serie/serie.service';
 
 @Component({
   selector: 'serie-search',
@@ -14,7 +15,7 @@ import { SerieAddComponent } from '@app/serie/add/add.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SharedModule, MediaItemComponent],
 })
-export class SerieSearchComponent extends MediaSearchComponent {
+export class SerieSearchComponent extends MediaSearchComponent<Serie> {
   mediaService = inject(SerieService);
 
   override getImportComponent(): any {

@@ -1,60 +1,65 @@
 import { Router } from '@angular/router';
-import { Directive, ElementRef, inject, input, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Directive, ElementRef, inject, input, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import { GameService } from '@app/game/game.service';
-import { MovieService } from '@app/movie/movie.service';
 import { RATINGS } from '@app/media/rating';
-import { RequestService } from '@shared/request/request.service';
-import { getConfig } from '@shared/config/config.provider';
-import { SerieService } from '@app/serie/serie.service';
 import { Global } from '@shared/global/global';
 import { PanelService } from '@app/panel/panel.service';
-import { Medium, RatingDisplay } from '@app/interface';
+import { MediaType, Medium, Rating, RatingDisplay } from '@app/interface';
+import { MediaService } from '@app/media/media.service';
+import { map, switchMap } from 'rxjs';
+import { UploadApiService } from '@shared/api-services/upload/upload-api.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+export type AddFormType = {
+  id: FormControl<string>;
+  title: FormControl<string>;
+  year: FormControl<number>;
+  url: FormControl<string>;
+  rating: FormControl<Rating>;
+};
+
+type MediaPreview = Partial<{ title: string, year: number, url: string, rating: Rating }>;
 
 @Directive()
-export abstract class MediaAddComponent {
-  requestService = inject(RequestService);
-  panelService = inject(PanelService);
-  router = inject(Router);
-  serverUrl = getConfig('SERVER_URL');
+export abstract class MediaAddComponent<T extends Medium> {
+  readonly panelService = inject(PanelService);
+  readonly router = inject(Router);
+  readonly uploaderService = inject(UploadApiService);
 
   @ViewChild('inputFile', { static: true }) inputFile!: ElementRef;
 
   id = input<string | null>(null);
 
-  loadingAdd = this.mediaService.loadingAdd;
-  loadingUpdate = this.mediaService.loadingUpdate;
-  loadingPullOne = this.mediaService.loadingPullOne;
-  errorAdd = this.mediaService.errorAdd;
-  errorUpdate = this.mediaService.errorUpdate;
-  errorPullOne = this.mediaService.errorPullOne;
-  formData = signal<{ [key: string]: any } | null>(null);
-  ratings = signal<RatingDisplay[]>([...RATINGS]);
-  mediaForm = this.buildForm();
-  type = this.buildType();
+  readonly loadingAdd: Signal<boolean> = this.mediaService.loadingAdd;
+  readonly loadingUpdate: Signal<boolean> = this.mediaService.loadingUpdate;
+  readonly loadingPullOne: Signal<boolean> = this.mediaService.loadingPullOne;
+  readonly errorAdd: Signal<string | null> = this.mediaService.errorAdd;
+  readonly errorUpdate: Signal<string | null> = this.mediaService.errorUpdate;
+  readonly errorPullOne: Signal<string | null> = this.mediaService.errorPullOne;
+  readonly ratings: WritableSignal<RatingDisplay[]> = signal<RatingDisplay[]>([...RATINGS]);
+  readonly mediaForm: FormGroup<AddFormType> = this.buildForm();
+  readonly type: MediaType = this.buildType();
+  readonly mediaPreview: Signal<MediaPreview | undefined> = this.getMediaPreview();
 
   constructor(
-    public mediaService: SerieService | MovieService | GameService,
+    public mediaService: MediaService<T>,
   ) {
-    this.subscribeForm();
   }
 
   /*-----------------------*\
            Template
   \*-----------------------*/
 
-  async onSubmit(): Promise<void> {
+  onSubmit(): void {
     if (this.loadingAdd()) {
       return;
     }
 
-    if (this.mediaForm().invalid) {
+    if (this.mediaForm.invalid) {
       return;
     }
 
-    await this.add();
+    this.add();
   }
 
   selectFile(event?: Event): void {
@@ -66,14 +71,15 @@ export abstract class MediaAddComponent {
     this.inputFile.nativeElement.click();
   }
 
-  async selectedFile(event: any): Promise<void> {
+  selectedFile(event: any): void {
     const files = event.target.files;
     if (Global.isEmpty(files)) {
       return;
     }
 
-    const data = await this.requestService.upload(`${this.serverUrl}/api/file`, files[0]);
-    this.uploadSuccessful(data);
+    this.uploaderService.uploadFile(files[0]).subscribe(
+      (data) => this.uploadSuccessful(data),
+    );
   }
 
   close(): void {
@@ -84,68 +90,62 @@ export abstract class MediaAddComponent {
            Service
   \*-----------------------*/
 
-  async add(): Promise<void> {
-    const formData = this.formData() as Medium;
-    await this.mediaService.add(formData);
-    this.mediaService.pullAll(); // Refresh the list
-    this.close();
+  add(): void {
+    this.mediaService.add(this.toMedium()).pipe(
+      switchMap(() => this.mediaService.pullAll()),
+    )
+      .subscribe(() => this.close());
   }
 
-  async remove(): Promise<void> {
-    const id = this.id() as string;
+  remove(): void {
+    const id = this.id();
     if (!id) {
       return;
     }
 
-    await this.mediaService.delete(id);
-    this.mediaService.pullAll(); // Refresh the list
-    this.close();
+    this.mediaService.delete(id)
+      .pipe(
+        switchMap(() => this.mediaService.pullAll()),
+      )
+      .subscribe(() => this.close());
   }
 
   /*-----------------------*\
            Method
   \*-----------------------*/
 
-  buildType(): WritableSignal<'movie' | 'serie' | 'game'> {
+  buildType(): MediaType {
     const regex = /^\/(\w+)/;
     const regexResult = regex.exec(this.router.url);
-    const type = regexResult?.[1] as 'movie' | 'serie' | 'game';
+    const type = regexResult?.[1] as MediaType;
     if (Global.isEmpty(type)) {
       throw { status: 400, method: 'MediaSearchComponent.buildType', message: `Type unknown` };
     }
 
-    return signal(type);
+    return type;
   }
 
-  buildForm(): WritableSignal<FormGroup> {
-    const form = new FormGroup({
-      id: new FormControl(''),
-      title: new FormControl('', [Validators.required]),
-      year: new FormControl('', [Validators.required]),
-      url: new FormControl('', [Validators.required]),
-      rating: new FormControl('', [Validators.required]),
+  buildForm(): FormGroup<AddFormType> {
+    return new FormGroup<AddFormType>({
+      id: new FormControl('', { nonNullable: true }),
+      title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      year: new FormControl(new Date().getFullYear(), { nonNullable: true, validators: [Validators.required] }),
+      url: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      rating: new FormControl('todo', { nonNullable: true, validators: [Validators.required] }),
     });
-
-    return signal(form);
   }
 
   uploadSuccessful(data: string): void {
-    this.mediaForm().get('url')?.setValue(data);
+    this.mediaForm.controls.url.setValue(data);
   }
 
-  onValid(data: { [key: string]: any }): void {
-    this.formData.set(data);
+  protected toMedium(): T {
+    return this.mediaForm.getRawValue() as T;
   }
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
-  subscribeForm(): void {
-    this.mediaForm().valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => {
-        this.onValid(data);
-      });
+  protected getMediaPreview(): Signal<MediaPreview | undefined> {
+    return toSignal(this.mediaForm.valueChanges.pipe(
+      map((): MediaPreview => this.mediaForm.getRawValue()),
+    ));
   }
 }
