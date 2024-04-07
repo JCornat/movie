@@ -1,7 +1,7 @@
 import { Request, Router } from 'express';
 import path from 'node:path';
 
-import { C7zResponse } from '@model/definition';
+import { C7zResponse } from '@model/definition.ts';
 
 export namespace WebsiteController {
   export const router = Router();

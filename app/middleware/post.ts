@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { Config } from '@config/config';
+import { Config } from '@config/config.ts';
 
 export namespace PostMiddleware {
   export const app = express();

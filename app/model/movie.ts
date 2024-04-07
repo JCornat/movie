@@ -1,9 +1,9 @@
-import request from 'request';
+// import request from 'request';
 
-import { Config } from '@config/config';
-import { Global } from '@model/global';
-import { ImportMedia } from '@model/definition';
-import { Media } from '@model/media';
+import { Config } from '@config/config.ts';
+import { Global } from '@model/global.ts';
+import { ImportMedia } from '@model/definition.ts';
+import { Media } from '@model/media.ts';
 
 export class Movie extends Media {
   async init(): Promise<void> {
@@ -16,14 +16,14 @@ export class Movie extends Media {
         url: `https://api.themoviedb.org/3/search/movie?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
       };
 
-      request.get(options, (error, response, body) => {
-        if (error) {
-          return reject(error);
-        }
-
-        const res = this.processSearch(JSON.parse(body).results);
-        resolve(res);
-      });
+      // request.get(options, (error, response, body) => {
+      //   if (error) {
+      //     return reject(error);
+      //   }
+      //
+      //   const res = this.processSearch(JSON.parse(body).results);
+        resolve({} as any);
+      // });
     });
   }
 
@@ -55,14 +55,14 @@ export class Movie extends Media {
         url: `https://api.themoviedb.org/3/movie/${id}?api_key=${Config.MOVIEDB_API_KEY}`,
       };
 
-      request.get(options, (error, response, body) => {
-        if (error) {
-          return reject(error);
-        }
-
-        const res = this.processSearch([JSON.parse(body)]);
-        resolve(res[0]);
-      });
+      // request.get(options, (error, response, body) => {
+      //   if (error) {
+      //     return reject(error);
+      //   }
+      //
+      //   const res = this.processSearch([JSON.parse(body)]);
+        resolve({} as any);
+      // });
     });
   }
 }

@@ -1,11 +1,11 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '@model/definition';
-import { Token } from '@model/token';
-import { Authentication } from '@model/authentication';
-import { game } from '@model/game';
-import { movie } from '@model/movie';
-import { serie } from '@model/serie';
+import { C7zResponse } from '@model/definition.ts';
+import { Token } from '@model/token.ts';
+import { Authentication } from '@model/authentication.ts';
+import { game } from '@model/game.ts';
+import { movie } from '@model/movie.ts';
+import { serie } from '@model/serie.ts';
 
 export namespace MediaController {
   export const router = Router();

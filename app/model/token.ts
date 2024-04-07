@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt from 'npm:jsonwebtoken';
 
-import { Config } from '@config/config';
-import { Global } from './global';
+import { Config } from '@config/config.ts';
+import { Global } from './global.ts';
 
 const refreshTokens: string[] = [];
 

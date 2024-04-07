@@ -1,30 +1,23 @@
-import request from 'request';
+// import request from 'request';
 
-import { Config } from '@config/config';
-import { Global } from '@model/global';
-import { ImportMedia } from '@model/definition';
-import { Media } from '@model/media';
+import { Config } from '@config/config.ts';
+import { Global } from '@model/global.ts';
+import { ImportMedia } from '@model/definition.ts';
+import { Media } from '@model/media.ts';
 
 export class Serie extends Media {
   async init(): Promise<void> {
     await this.createStore('serie');
   }
 
-  override search(title: string): Promise<ImportMedia[]> {
-    return new Promise((resolve, reject) => {
-      const options = {
-        url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
-      };
+  override async search(title: string): Promise<ImportMedia[]> {
+    const options = {
+      url: `https://api.themoviedb.org/3/search/tv?api_key=${Config.MOVIEDB_API_KEY}&query=${title.replace(/ /g, '+')}`,
+    };
 
-      request.get(options, (error, response, body) => {
-        if (error) {
-          return reject(error);
-        }
+    const body = await fetch(options.url)
 
-        const res = this.processSearch(JSON.parse(body).results);
-        resolve(res);
-      });
-    });
+    return this.processSearch((body.body as any).results);
   }
 
   processSearch(data: any[]): ImportMedia[] {

@@ -1,6 +1,6 @@
 import express, { Request } from 'express';
 
-import { C7zResponse } from '@model/definition';
+import { C7zResponse } from '@model/definition.ts';
 
 export namespace SendFileAsyncMiddleware {
   export const app = express();

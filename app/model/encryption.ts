@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'https://deno.land/x/bcrypt@v0.3.0/mod.ts';
 
 export namespace Encryption {
   export function hash(data: string): Promise<string> {

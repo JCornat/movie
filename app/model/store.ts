@@ -1,10 +1,10 @@
 import path from 'node:path';
-import { Global } from '@model/global';
-import { File } from '@model/file';
-import { Random } from '@model/random';
-import { Image } from '@model/image';
-import { MediaAddParameters, MediaUpdateParameters } from '@model/definition';
-import { Config } from '@config/config';
+import { Global } from '@model/global.ts';
+import { File } from '@model/file.ts';
+import { Random } from '@model/random.ts';
+import { Image } from '@model/image.ts';
+import { MediaAddParameters, MediaUpdateParameters } from '@model/definition.ts';
+import { Config } from '@config/config.ts';
 
 export class Store<T> {
   collection: T;
@@ -17,7 +17,9 @@ export class Store<T> {
     }
 
     this.name = name;
-    this.filePath = path.join(__dirname, '..', 'config', `${this.name}.json`);
+
+    const dirname = path.dirname(import.meta.url);
+    this.filePath = path.join(dirname, '..', 'config', `${this.name}.json`);
   }
 
   async init(): Promise<void> {

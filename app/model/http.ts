@@ -1,7 +1,6 @@
 import fs from 'node:fs';
-import Request from 'request';
 
-import { Global } from './global';
+import { Global } from './global.ts';
 
 export namespace Http {
   export async function get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
@@ -24,14 +23,14 @@ export namespace Http {
     const file = fs.createWriteStream(destinationPath);
 
     return await new Promise((resolve, reject) => {
-      const stream = Request({ url })
-        .pipe(file)
-        .on('finish', () => {
+      // const stream = fetch({ url })
+      //   .pipe(file)
+      //   .on('finish', () => {
           resolve();
-        })
-        .on('error', (error) => {
-          reject(error);
-        });
+        // })
+        // .on('error', (error) => {
+        //   reject(error);
+        // });
     });
   }
 
@@ -68,42 +67,43 @@ export namespace Http {
           throw new Error('Method not supported');
       }
 
-      Request[method](requestOptions, (error, response) => {
-        if (error) {
-          return reject(error);
-        }
-
-        const res = {
-          status: response.statusCode,
-          body: response.body,
-        };
-
-        if (res.status >= 400) {
-          const err = {
-            status: res.status,
-            message: res.body || undefined,
-          };
-
-          return reject(err);
-        }
-
-        let data;
-
-        try {
-          data = JSON.parse(res.body);
-        } catch {
-          data = res.body;
-        }
-
-        if (options?.resolveHeaders) {
-          return resolve({
-            content: data,
-            headers: response.rawHeaders,
-          });
-        }
-
-        resolve(data);
-      });
+      return {} as any
+      // Request[method](requestOptions, (error, response) => {
+      //   if (error) {
+      //     return reject(error);
+      //   }
+      //
+      //   const res = {
+      //     status: response.statusCode,
+      //     body: response.body,
+      //   };
+      //
+      //   if (res.status >= 400) {
+      //     const err = {
+      //       status: res.status,
+      //       message: res.body || undefined,
+      //     };
+      //
+      //     return reject(err);
+      //   }
+      //
+      //   let data;
+      //
+      //   try {
+      //     data = JSON.parse(res.body);
+      //   } catch {
+      //     data = res.body;
+      //   }
+      //
+      //   if (options?.resolveHeaders) {
+      //     return resolve({
+      //       content: data,
+      //       headers: response.rawHeaders,
+      //     });
+      //   }
+      //
+      //   resolve(data);
+      // });
     });
   }
 }

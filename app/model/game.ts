@@ -1,10 +1,8 @@
-import request from 'request';
-
-import { Config } from '@config/config';
-import { time } from '@model/time';
-import { Global } from '@model/global';
-import { ImportMedia } from '@model/definition';
-import { Media } from '@model/media';
+import { Config } from '@config/config.ts';
+import { time } from '@model/time.ts';
+import { Global } from '@model/global.ts';
+import { ImportMedia } from '@model/definition.ts';
+import { Media } from '@model/media.ts';
 
 export class Game extends Media {
   bearer: string;
@@ -33,14 +31,14 @@ export class Game extends Media {
         },
       };
 
-      request.post(options, (error, response, body) => {
-        if (error) {
-          return reject(error);
-        }
-
-        const res = this.processSearch(JSON.parse(body));
-        resolve(res);
-      });
+      // request.post(options, (error, response, body) => {
+      //   if (error) {
+      //     return reject(error);
+      //   }
+      //
+      //   const res = this.processSearch(JSON.parse(body));
+        resolve({} as any);
+      // });
     });
   }
 

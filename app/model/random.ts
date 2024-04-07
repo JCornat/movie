@@ -1,4 +1,4 @@
-import { Global } from './global';
+import { Global } from './global.ts';
 
 export namespace Random {
   export function generate(options: { count?: number, disableLowerCase?: boolean, disableNumbers?: boolean, disableUpperCase?: boolean } = {}): string {

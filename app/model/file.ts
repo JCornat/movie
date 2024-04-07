@@ -2,11 +2,11 @@ import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
-import multiparty from 'multiparty';
+// import multiparty from 'multiparty';
 import path from 'node:path';
 
-import { Config } from '@config/config';
-import { Global } from './global';
+import { Config } from '@config/config.ts';
+import { Global } from './global.ts';
 
 export namespace File {
   export async function read(sourcePath: string): Promise<any> {
@@ -66,22 +66,23 @@ export namespace File {
         maxFilesSize: Config.UPLOAD_MAX_SIZE,
       };
 
-      const form = new multiparty.Form(multipartyOptions);
-
-      form.on('file', (name, file) => {
-        resolve(file);
-      });
-
-      form.on('error', (error) => {
-        if (error.name === 'PayloadTooLargeError') {
-          return reject(new Error(`La taille du fichier doit faire moins de ${Config.UPLOAD_MAX_SIZE / 1000000} Mo`));
-        }
-
-        console.error('File.upload', 'error', error);
-        reject(new Error(`Envoi du fichier échoué`));
-      });
-
-      form.parse(req);
+    //   const form = new multiparty.Form(multipartyOptions);
+    //
+    //   form.on('file', (name, file) => {
+    //     resolve(file);
+    //   });
+    //
+    //   form.on('error', (error) => {
+    //     if (error.name === 'PayloadTooLargeError') {
+    //       return reject(new Error(`La taille du fichier doit faire moins de ${Config.UPLOAD_MAX_SIZE / 1000000} Mo`));
+    //     }
+    //
+    //     console.error('File.upload', 'error', error);
+    //     reject(new Error(`Envoi du fichier échoué`));
+    //   });
+    //
+    //   form.parse(req);
+      return {} as any;
     });
   }
 }

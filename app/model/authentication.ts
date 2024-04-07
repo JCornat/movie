@@ -1,11 +1,11 @@
 import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
 
-import { Config } from '@config/config';
-import { C7zResponse } from '@model/definition';
-import { Global } from '@model/global';
-import { Encryption } from '@model/encryption';
-import { Token } from '@model/token';
+import { Config } from '@config/config.ts';
+import { C7zResponse } from '@model/definition.ts';
+import { Global } from '@model/global.ts';
+import { Encryption } from '@model/encryption.ts';
+import { Token } from '@model/token.ts';
 
 export namespace Authentication {
   export async function login(options: { username: string, password: string }): Promise<{ token: string, refresh: string }> {

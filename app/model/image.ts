@@ -1,11 +1,11 @@
 import fs from 'node:fs';
-import imagemagick from 'imagemagick';
+// import imagemagick from 'imagemagick';
 import path from 'node:path';
 
-import { Config } from '@config/config';
-import { Global } from '@model/global';
-import { Http } from '@model/http';
-import { File } from '@model/file';
+import { Config } from '@config/config.ts';
+import { Global } from '@model/global.ts';
+import { Http } from '@model/http.ts';
+import { File } from '@model/file.ts';
 
 export const IMAGE_EXTENSIONS = [
   '.bmp',
@@ -59,26 +59,26 @@ export namespace Image {
     convertOptions.push('-quality', '80', destinationPath);
 
     return await new Promise((resolve, reject) => {
-      imagemagick.convert(convertOptions, (error) => {
-        if (error) {
-          return reject(error);
-        }
+      // imagemagick.convert(convertOptions, (error) => {
+      //   if (error) {
+      //     return reject(error);
+      //   }
 
         resolve();
-      });
+      // });
     });
   }
 
   export async function identify(filename: string): Promise<any> {
     return await new Promise((resolve, reject) => {
-      imagemagick.identify(['-format', '%wx%h', filename], (error, features) => {
-        if (error) {
-          console.error('ShareImage.identify', error);
-          return reject(error);
-        }
+      // imagemagick.identify(['-format', '%wx%h', filename], (error, features) => {
+      //   if (error) {
+      //     console.error('ShareImage.identify', error);
+      //     return reject(error);
+      //   }
 
-        resolve(features);
-      });
+        resolve({});
+      // });
     });
   }
 
@@ -91,14 +91,14 @@ export namespace Image {
         destinationPath,
       ];
 
-      imagemagick.convert(params, (error) => {
-        if (error) {
-          console.error('ShareImage.merge', error);
-          return reject(error);
-        }
+      // imagemagick.convert(params, (error) => {
+      //   if (error) {
+      //     console.error('ShareImage.merge', error);
+      //     return reject(error);
+      //   }
 
         resolve();
-      });
+      // });
     });
   }
 

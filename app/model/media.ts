@@ -1,5 +1,5 @@
-import { Store } from '@model/store';
-import { IMedia, ImportMedia, MediaAddParameters } from '@model/definition';
+import { Store } from '@model/store.ts';
+import { IMedia, ImportMedia, MediaAddParameters } from '@model/definition.ts';
 
 /**
  * Implements a generic media class

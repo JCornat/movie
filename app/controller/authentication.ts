@@ -1,8 +1,8 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '@model/definition';
-import { Authentication } from '@model/authentication';
-import { Token } from '@model/token';
+import { C7zResponse } from '@model/definition.ts';
+import { Authentication } from '@model/authentication.ts';
+import { Token } from '@model/token.ts';
 
 export namespace AuthenticationController {
   export const router = Router();

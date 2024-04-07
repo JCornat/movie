@@ -1,7 +1,7 @@
 import { Request, Router } from 'express';
 
-import { C7zResponse } from '@model/definition';
-import { File } from '@model/file';
+import { C7zResponse } from '@model/definition.ts';
+import { File } from '@model/file.ts';
 
 export namespace FileController {
   export const router = Router();

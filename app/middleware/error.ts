@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { C7zResponse } from '@model/definition';
+import { C7zResponse } from '@model/definition.ts';
 
 export namespace ErrorMiddleware {
   export function handle(error: any, req: Request, res: C7zResponse, next: any): any {
