@@ -1,16 +1,14 @@
-import path from 'node:path';
-
 export namespace Config {
   export const MODE: 'development' | 'test' | 'production' = 'development';
-  export const PORT: number = 3000;
-  export const URL: string = 'https://localhost:3000';
-  export const UPLOAD_PATH: string = path.join(__dirname, '..', 'public', 'upload');
-  export const IMAGE_PATH: string = path.join(__dirname, '..', 'public', 'image');
-  export const UPLOAD_MAX_SIZE: number = 200000000;
+  export const PORT = 3000;
+  export const URL = 'https://localhost:3000';
+  export const UPLOAD_PATH = `${Deno.cwd()}/app/public/upload`;
+  export const IMAGE_PATH = `${Deno.cwd()}/app/public/image`;
+  export const UPLOAD_MAX_SIZE = 200000000;
   export const MOVIEDB_API_KEY = '';
-  export const TOKEN_SIGNATURE: string = '';
-  export const TOKEN_EXPIRATION: string = '';
-  export const ADMINISTRATOR_LOGIN: string = '';
-  export const ADMINISTRATOR_PASSWORD: string = '';
+  export const TOKEN_SIGNATURE = '';
+  export const TOKEN_EXPIRATION = '';
+  export const ADMINISTRATOR_LOGIN = '';
+  export const ADMINISTRATOR_PASSWORD = '';
   export const TWITCH_CLIENT = {id: '', secret: ''};
 }

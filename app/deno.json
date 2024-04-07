@@ -7,5 +7,10 @@
     "express": "npm:express@4.19.2",
     "dayjs": "npm:dayjs@1.11.10",
     "uuid": "https://deno.land/std@0.221.0/uuid/mod.ts"
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-namespace"]
+    }
   }
 }

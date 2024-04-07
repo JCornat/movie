@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { Global } from '@model/global.ts';
 import { File } from '@model/file.ts';
 import { Random } from '@model/random.ts';
@@ -17,15 +16,13 @@ export class Store<T> {
     }
 
     this.name = name;
-
-    const dirname = path.dirname(import.meta.url);
-    this.filePath = path.join(dirname, '..', 'config', `${this.name}.json`);
+    this.filePath = `${Deno.cwd()}/app/config/${this.name}.json`;
   }
 
   async init(): Promise<void> {
     let data = {};
     if (File.exists(this.filePath)) {
-      const content = await File.read(this.filePath);
+      const content = await Deno.readTextFile(this.filePath);
       const tmp = JSON.parse(content);
       data = Global.arrayToObject(tmp, 'id');
     }
