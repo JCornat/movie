@@ -1,37 +1,25 @@
-import { Request, Router } from 'express';
+import { Hono } from 'hono';
 
-import { C7zResponse } from '@model/definition.ts';
+import { PAuthenticationLogin } from '@model/definition.ts';
 import { Authentication } from '@model/authentication.ts';
 import { Token } from '@model/token.ts';
+import { Context } from 'hono/context.ts';
 
 export namespace AuthenticationController {
-  export const router = Router();
+  export const router = new Hono();
 
-  router.post('/api/login', async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const username = req.body.username;
-      const password = req.body.password;
-      const options = {
-        username,
-        password,
-      };
+  router.post('/login', async (c: Context) => {
+    const body = await c.req.json<PAuthenticationLogin>();
 
-      const data = await Authentication.login(options);
-      res.send(data);
-    } catch (error) {
-      return next(error);
-    }
+    const data = await Authentication.login(body);
+    return c.json(data);
   });
 
-  router.post('/api/token', async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const refresh = req.body.refresh;
-      const token = Token.getAccessToken(req);
+  router.post('/token', async (c: Context) => {
+    const body = await c.req.json<{ refresh: string }>();
+    const token = Token.getAccessToken(c.req);
 
-      const data = await Token.checkRefresh(token, refresh);
-      res.send(data);
-    } catch (error) {
-      return next(error);
-    }
+    const data = await Token.checkRefresh({stringToken: token, refreshToken: body.refresh});
+    return c.json(data);
   });
 }

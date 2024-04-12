@@ -1,12 +1,10 @@
-import { Request } from 'express';
-import { v4 as UUID } from 'uuid';
 import fsPromises from 'node:fs/promises';
 // import multiparty from 'multiparty';
 import path from 'node:path';
 
 import { Config } from '@config/config.ts';
 import { Global } from './global.ts';
-import { existsSync } from 'https://deno.land/std/fs/mod.ts';
+import { existsSync } from 'std/fs/mod.ts';
 
 export namespace File {
   export async function read(sourcePath: string): Promise<any> {
@@ -46,7 +44,8 @@ export namespace File {
 
     const extensionName = path.extname(file.path).toLowerCase();
 
-    const filename = `${UUID()}${extensionName}`;
+    const uuid = crypto.randomUUID();
+    const filename = `${uuid}${extensionName}`;
     const url = path.join(Config.UPLOAD_PATH, filename);
 
     try {

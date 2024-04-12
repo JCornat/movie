@@ -1,14 +1,12 @@
-import { Request } from 'express';
-import { v4 as UUID } from 'uuid';
-
 import { Config } from '@config/config.ts';
-import { C7zResponse } from '@model/definition.ts';
+import { C7zResponse, PAuthenticationLogin } from '@model/definition.ts';
 import { Global } from '@model/global.ts';
 import { Encryption } from '@model/encryption.ts';
 import { Token } from '@model/token.ts';
 
 export namespace Authentication {
-  export async function login(options: { username: string, password: string }): Promise<{ token: string, refresh: string }> {
+
+  export async function login(options: PAuthenticationLogin): Promise<{ token: string, refresh: string }> {
     if (Global.isEmpty(options?.username) || Global.isEmpty(options.password)) {
       throw { status: 400, method: 'Authentication.login', message: 'Invalid parameters' };
     }
@@ -25,7 +23,7 @@ export namespace Authentication {
       throw { status: 400, method: 'Authentication.login', message: 'Authentication failed' };
     }
 
-    const refresh = UUID();
+    const refresh = crypto.randomUUID();
     Token.addRefresh(refresh);
 
     return {

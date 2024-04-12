@@ -13,6 +13,5 @@ export function provideAppConfig(): Provider {
 
 export function getConfig<T extends ConfigKeys>(key: T): ConfigTypeForKey<T> {
   const config = inject(APP_CONFIG);
-
   return config[key];
 }

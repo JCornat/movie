@@ -16,7 +16,7 @@ export class Store<T> {
     }
 
     this.name = name;
-    this.filePath = `${Deno.cwd()}/app/config/${this.name}.json`;
+    this.filePath = `${Deno.cwd()}/config/${this.name}.json`;
   }
 
   async init(): Promise<void> {

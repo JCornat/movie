@@ -1,44 +1,16 @@
-import * as bcrypt from 'https://deno.land/x/bcrypt@v0.3.0/mod.ts';
+import * as bcrypt from 'bcrypt';
 
 export namespace Encryption {
-  export function hash(data: string): Promise<string> {
-    return new Promise(async (resolve, reject) => {
-      const salt = await generateSalt();
-      bcrypt.hash(data, salt, (error, hashString) => {
-        if (error) {
-          return reject(error);
-        }
-
-        resolve(hashString);
-      });
-    });
+  export async function hash(data: string): Promise<string> {
+    const salt = await generateSalt();
+    return await bcrypt.hash(data, salt);
   }
 
-  export function generateSalt(complexity: number = 10): Promise<string> {
-    return new Promise((resolve, reject) => {
-      bcrypt.genSalt(complexity, (error, salt) => {
-        if (error) {
-          return reject(error);
-        }
-
-        resolve(salt);
-      });
-    });
+  export async function generateSalt(complexity: number = 10): Promise<string> {
+    return await bcrypt.genSalt(complexity);
   }
 
-  export function compare(password: string, hashString: string): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(password, hashString, (error, isMatch) => {
-        if (error) {
-          return reject(error);
-        }
-
-        if (!isMatch) {
-          return reject(false);
-        }
-
-        resolve(true);
-      });
-    });
+  export async function compare(password: string, hashString: string): Promise<boolean> {
+    return await bcrypt.compare(password, hashString);
   }
 }

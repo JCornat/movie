@@ -1,17 +1,12 @@
-import { Request, Router } from 'express';
-
-import { C7zResponse } from '@model/definition.ts';
 import { File } from '@model/file.ts';
+import { Hono } from 'hono';
+import { Context } from 'hono/context.ts';
 
 export namespace FileController {
-  export const router = Router();
+  export const router = new Hono();
 
-  router.post('/api/file', async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const data = await File.buildUpload(req);
-      res.send(data);
-    } catch (error) {
-      return next(error);
-    }
+  router.post('/api/file', async (c: Context) => {
+    const data = await File.buildUpload(c.req);
+    return c.json(data);
   });
 }

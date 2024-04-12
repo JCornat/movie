@@ -1,12 +1,15 @@
 {
   "imports": {
-    "@controller/": "./controller/",
     "@config/": "./config/",
-    "@model/": "./model/",
+    "@controller/": "./controller/",
     "@middleware/": "./middleware/",
-    "express": "npm:express@4.19.2",
+    "@model/": "./model/",
+    "bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts",
     "dayjs": "npm:dayjs@1.11.10",
-    "uuid": "https://deno.land/std@0.221.0/uuid/mod.ts"
+    "dayjs/": "npm:/dayjs@1.11.10/",
+    "hono": "https://deno.land/x/hono@v4.2.3/mod.ts",
+    "hono/": "https://deno.land/x/hono@v4.2.3/",
+    "std/": "https://deno.land/std/"
   },
   "lint": {
     "rules": {

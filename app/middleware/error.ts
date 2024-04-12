@@ -1,5 +1,3 @@
-import { Request } from 'express';
-
 import { C7zResponse } from '@model/definition.ts';
 
 export namespace ErrorMiddleware {

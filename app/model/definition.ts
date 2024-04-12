@@ -1,9 +1,3 @@
-import { Response } from 'express';
-
-export interface C7zResponse extends Response {
-  sendFileAsync: any;
-}
-
 export type Rating = number | 'todo' | 'progress';
 
 export interface ImportMedia {
@@ -44,4 +38,15 @@ export interface MediaAddParameters {
 
 export interface MediaUpdateParameters extends MediaAddParameters {
   //
+}
+
+export interface PAuthenticationLogin {
+  username: string;
+  password: string;
+}
+
+
+export interface PTokenCheckRefresh {
+  stringToken: string;
+  refreshToken: string;
 }

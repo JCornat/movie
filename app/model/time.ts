@@ -1,13 +1,13 @@
 import dayjs, { Dayjs, OpUnitType } from 'dayjs';
 
-import utc from 'npm:dayjs@1.11.10/plugin/utc.js';
-import isoWeek from 'npm:dayjs@1.11.10/plugin/isoWeek.js';
-import relativeTime from 'npm:dayjs@1.11.10/plugin/relativeTime.js';
-import isSameOrAfter from 'npm:dayjs@1.11.10/plugin/isSameOrAfter.js';
-import isSameOrBefore from 'npm:dayjs@1.11.10/plugin/isSameOrBefore.js';
-import isBetween from 'npm:dayjs@1.11.10/plugin/isBetween.js';
-import weekday from 'npm:dayjs@1.11.10/plugin/weekday.js';
-// import 'dayjs/locale/fr';
+import utc from 'dayjs/plugin/utc.js';
+import isoWeek from 'dayjs/plugin/isoWeek.js';
+import relativeTime from 'dayjs/plugin/relativeTime.js';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
+import isBetween from 'dayjs/plugin/isBetween.js';
+import weekday from 'dayjs/plugin/weekday.js';
+import 'dayjs/locale/fr.js';
 
 dayjs.locale('fr');
 dayjs.extend(utc);

@@ -1,7 +1,8 @@
-import jwt from 'npm:jsonwebtoken';
+import * as jwt from 'hono/utils/jwt/jwt.ts';
 
 import { Config } from '@config/config.ts';
 import { Global } from './global.ts';
+import { PTokenCheckRefresh } from '@model/definition.ts';
 
 const refreshTokens: string[] = [];
 
@@ -22,8 +23,8 @@ export namespace Token {
     return token;
   }
 
-  export function decode(token: string, options: any = {}): any {
-    return jwt.decode(token, options);
+  export function decode(token: string): any {
+    return jwt.decode(token);
   }
 
   export function verify(token: string, options: any = {}): any {
@@ -52,12 +53,12 @@ export namespace Token {
     refreshTokens.push(data);
   }
 
-  export async function checkRefresh(stringToken: any, refreshToken: string): Promise<any> {
-    if (Global.isEmpty(stringToken) || Global.isEmpty(refreshToken)) {
+  export async function checkRefresh(options: PTokenCheckRefresh): Promise<any> {
+    if (Global.isEmpty(options.stringToken) || Global.isEmpty(options.refreshToken)) {
       throw { status: 400, message: 'Paramètres invalides' };
     }
 
-    const token: any = decode(stringToken, { ignoreExpiration: true });
+    const token: Record<string, any> = decode(options.stringToken);
 
     if (Global.isEmpty(refreshTokens)) {
       throw { status: 401, message: 'Reconnexion nécessaire' };
@@ -66,7 +67,7 @@ export namespace Token {
     let generate;
 
     for (const item of refreshTokens) {
-      if (item === refreshToken) {
+      if (item === options.refreshToken) {
         generate = true;
         break;
       }

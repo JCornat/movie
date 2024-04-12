@@ -1,6 +1,5 @@
-import { Request, Router } from 'express';
-
-import { C7zResponse } from '@model/definition.ts';
+import { Hono } from 'hono';
+import { Context } from 'hono/context.ts';
 import { Token } from '@model/token.ts';
 import { Authentication } from '@model/authentication.ts';
 import { game } from '@model/game.ts';
@@ -8,7 +7,7 @@ import { movie } from '@model/movie.ts';
 import { serie } from '@model/serie.ts';
 
 export namespace MediaController {
-  export const router = Router();
+  export const router = new Hono();
 
   function getMedia(media: string): any {
     switch (media) {
@@ -19,92 +18,68 @@ export namespace MediaController {
       case 'serie':
         return serie;
       default:
-        throw { status: 400, method: 'Media.getMedia', message: `Paramètres invalides` };
+        throw {status: 400, method: 'Media.getMedia', message: `Paramètres invalides`};
     }
   }
 
-  router.get('/api/:media(game|movie|serie)', async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const media = getMedia(req.params.media);
-      const search = (req.query.search) ? req.query.search + '' : null;
-      const token = Token.getAccessToken(req);
+  router.get('/:media{game|movie|serie}', async (c: Context) => {
+    const media = getMedia(c.req.param('media'));
+    const search = c.req.query('search');
+    const token = Token.getAccessToken(c.req);
 
-      let data;
-      if (search) {
-        Token.verify(token);
-        data = await media.search(search);
-      } else {
-        data = await media.getAll();
-      }
-
-      res.send({ data });
-    } catch (error) {
-      return next(error);
+    let data;
+    if (search) {
+      Token.verify(token);
+      data = await media.search(search);
+    } else {
+      data = await media.getAll();
     }
+
+    return c.json({data});
   });
 
-  router.get('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const media = getMedia(req.params.media);
-      const id = req.params.id;
+  router.get('/:media{game|movie|serie}/:id', Authentication.isLogged(), async (c: Context) => {
+    const media = getMedia(c.req.param('media'));
+    const id = c.req.param('id');
 
-      const data = await media.getOne(id);
-      res.send({ data });
-    } catch (error) {
-      return next(error);
-    }
+    const data = await media.getOne(id);
+    return c.json({data});
   });
 
-  router.get('/api/:media(game|movie|serie)/:id/import', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const media = getMedia(req.params.media);
-      const id = req.params.id;
+  router.get('/:media{game|movie|serie}/:id/import', Authentication.isLogged(), async (c: Context) => {
+    const media = getMedia(c.req.param('media'));
+    const id = c.req.param('id');
 
-      const data = await media.importOne(id);
-      res.send({ data });
-    } catch (error) {
-      return next(error);
-    }
+    const data = await media.importOne(id);
+    return c.json({data});
   });
 
-  router.put('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const media = getMedia(req.params.media);
-      const id = req.params.id;
-      const body = req.body;
-      const options = {
-        ...body,
-        id,
-      };
+  router.put('/:media{game|movie|serie}/:id', Authentication.isLogged(), async (c: Context) => {
+    const media = getMedia(c.req.param('media'));
+    const id = c.req.param('id');
+    const body = await c.req.json();
+    const options = {
+      ...body,
+      id,
+    };
 
-      await media.update(id, options);
-      res.send({ status: 200 });
-    } catch (error) {
-      return next(error);
-    }
+    await media.update(id, options);
+    return c.json({status: 200});
   });
 
-  router.post('/api/:media(game|movie|serie)', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const media = getMedia(req.params.media);
-      const body = req.body;
+  router.post('/:media{game|movie|serie}', Authentication.isLogged(), async (c: Context) => {
+    const media = getMedia(c.req.param('media'));
+    const body = await c.req.json();
 
-      const data = await media.add(body);
-      res.send({ data });
-    } catch (error) {
-      return next(error);
-    }
+    const data = await media.add(body);
+    return c.json({data});
   });
 
-  router.delete('/api/:media(game|movie|serie)/:id', Authentication.isLogged(), async (req: Request, res: C7zResponse, next: any) => {
-    try {
-      const media = getMedia(req.params.media);
-      const id = req.params.id;
+  router.delete('/:media{game|movie|serie}/:id', Authentication.isLogged(), async (c: Context) => {
+    const media = getMedia(c.req.param('media'));
+    const id = c.req.param('id');
 
-      await media.remove(id);
-      res.send({ status: 200 });
-    } catch (error) {
-      return next(error);
-    }
+    await media.remove(id);
+    return c.json({status: 200});
   });
 }
