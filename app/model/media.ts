@@ -5,8 +5,8 @@ import { IMedia, ImportMedia, MediaAddParameters } from '@model/definition.ts';
  * Implements a generic media class
  */
 export abstract class Media {
-  store: Store<IMedia>;
-  name: string;
+  store!: Store<IMedia>;
+  name!: string;
 
   async createStore(name: string): Promise<void> {
     this.store = new Store(name);

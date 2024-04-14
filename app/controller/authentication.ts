@@ -8,18 +8,18 @@ import { Context } from 'hono/context.ts';
 export namespace AuthenticationController {
   export const router = new Hono();
 
-  router.post('/login', async (c: Context) => {
-    const body = await c.req.json<PAuthenticationLogin>();
+  router.post('/login', async (context: Context) => {
+    const body = await context.req.json<PAuthenticationLogin>();
 
     const data = await Authentication.login(body);
-    return c.json(data);
+    return context.json(data);
   });
 
-  router.post('/token', async (c: Context) => {
-    const body = await c.req.json<{ refresh: string }>();
-    const token = Token.getAccessToken(c.req);
+  router.post('/token', async (context: Context) => {
+    const body = await context.req.json<{ refresh: string }>();
+    const token = Token.getAccessToken(context.req);
 
     const data = await Token.checkRefresh({stringToken: token, refreshToken: body.refresh});
-    return c.json(data);
+    return context.json(data);
   });
 }

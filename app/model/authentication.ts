@@ -1,11 +1,10 @@
 import { Config } from '@config/config.ts';
-import { C7zResponse, PAuthenticationLogin } from '@model/definition.ts';
+import { PAuthenticationLogin } from '@model/definition.ts';
 import { Global } from '@model/global.ts';
 import { Encryption } from '@model/encryption.ts';
 import { Token } from '@model/token.ts';
 
 export namespace Authentication {
-
   export async function login(options: PAuthenticationLogin): Promise<{ token: string, refresh: string }> {
     if (Global.isEmpty(options?.username) || Global.isEmpty(options.password)) {
       throw { status: 400, method: 'Authentication.login', message: 'Invalid parameters' };

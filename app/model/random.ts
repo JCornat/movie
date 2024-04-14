@@ -19,7 +19,7 @@ export namespace Random {
       possibleCharacters += upperCaseCharacters;
     }
 
-    const count = (Global.isNaN(options.count)) ? 5 : options.count;
+    const count = (Global.isNaN(options.count)) ? 5 : options.count as number;
     const array = [];
     for (let i = 0; i < count; i++) {
       const randomNumber = Math.floor(Math.random() * possibleCharacters.length);

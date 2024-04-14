@@ -5,8 +5,8 @@ import { Context } from 'hono/context.ts';
 export namespace FileController {
   export const router = new Hono();
 
-  router.post('/api/file', async (c: Context) => {
-    const data = await File.buildUpload(c.req);
-    return c.json(data);
+  router.post('/api/file', async (context: Context) => {
+    const data = await File.buildUpload(context.req);
+    return context.json(data);
   });
 }
