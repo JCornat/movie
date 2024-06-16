@@ -17,6 +17,7 @@ import { SerieAddComponent } from '@app/serie/add/add.component';
 export class SerieSearchComponent extends MediaSearchComponent {
   mediaService = inject(SerieService);
 
+  //region Method
   override getImportComponent(): any {
     return SerieImportComponent;
   }
@@ -24,4 +25,5 @@ export class SerieSearchComponent extends MediaSearchComponent {
   override getAddComponent(): any {
     return SerieAddComponent;
   }
+  //endregion
 }

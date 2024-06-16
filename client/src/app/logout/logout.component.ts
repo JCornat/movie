@@ -15,20 +15,14 @@ export class LogoutComponent implements OnInit {
   authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
-  ngOnInit(): void {
-    this.init();
-  }
-
-  init(): void {
+  ngOnInit() {
     this.authenticationService.logout();
     this.navigateHome();
   }
 
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
+  //region Navigation
   navigateHome(): void {
     this.router.navigate(['/']);
   }
+  //endregion
 }

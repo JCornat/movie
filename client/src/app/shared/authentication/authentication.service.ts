@@ -11,8 +11,8 @@ import { toObservable } from '@angular/core/rxjs-interop';
 export class AuthenticationService extends CrudService<any> {
   tokenService = inject(TokenService);
 
-  isLogged = this.tokenService.hasToken;
-  stayLogged = this.tokenService.stayLogged;
+  readonly isLogged = this.tokenService.hasToken;
+  readonly stayLogged = this.tokenService.stayLogged;
 
   constructor() {
     super();
@@ -20,10 +20,7 @@ export class AuthenticationService extends CrudService<any> {
     this.#subscribeValuesAdd();
   }
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
+  //region Method
   async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/login`,
@@ -37,23 +34,15 @@ export class AuthenticationService extends CrudService<any> {
 
     await this._add(optionsQuery);
   }
+  //endregion
 
-  override async pullAll(): Promise<void> {
-    //
-  }
-
-  /*-----------------------*\
-          Service
-  \*-----------------------*/
-
+  //region Service
   logout(): void {
     this.tokenService.reset();
   }
+  //endregion
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
+  //region Subscribe
   #subscribeValuesAdd() {
     toObservable(this.valuesAdd)
       .subscribe((data) => {
@@ -65,4 +54,5 @@ export class AuthenticationService extends CrudService<any> {
         this.tokenService.setRefreshToken(data.refresh);
       });
   }
+  //endregion
 }

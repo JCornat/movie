@@ -15,21 +15,20 @@ export abstract class MediaComponent implements OnInit {
   router = inject(Router);
   abstract mediaService: SerieService | MovieService | GameService;
 
+  readonly isLogged = this.authenticationService.isLogged;
+
+  readonly displayList = this.computeDisplayList();
+  readonly searchTerm = this.computeSearchTerm();
+  readonly groupMediaLimit = this.computeGroupMediaLimit();
+  readonly groupMediaSort = this.computeGroupMediaSort();
+
   media!: Medium[];
-  isLogged = this.authenticationService.isLogged;
-  displayList = this.computeDisplayList();
-  searchTerm = this.computeSearchTerm();
-  groupMediaLimit = this.computeGroupMediaLimit();
-  groupMediaSort = this.computeGroupMediaSort();
 
   ngOnInit(): void {
     this.mediaService.pullAll();
   }
 
-  /*-----------------------*\
-           Template
-  \*-----------------------*/
-
+  //region Template
   search(term: string): void {
     this.mediaService.updateSearchTerm(term);
   }
@@ -59,19 +58,15 @@ export abstract class MediaComponent implements OnInit {
     const component = this.getUpdateComponent();
     this.panelService.open({ component, inputs: { id: media.id } });
   }
+  //endregion
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
+  //region Method
   abstract getSearchComponent(): any;
 
   abstract getUpdateComponent(): any;
+  //endregion
 
-  /*-----------------------*\
-          Compute
-  \*-----------------------*/
-
+  //region Compute
   computeDisplayList(): Signal<GroupMedium[]> {
     return computed(() => {
       return this.mediaService.groupMedia();
@@ -95,4 +90,5 @@ export abstract class MediaComponent implements OnInit {
       return this.mediaService.groupMediaSort();
     });
   }
+  //endregion
 }

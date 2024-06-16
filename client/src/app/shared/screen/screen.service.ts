@@ -17,7 +17,7 @@ export class ScreenService {
 
   private widthResizeSubject = new Subject<number>();
   widthResizeObservable = this.widthResizeSubject.asObservable();
-  widthSignal = signal(0);
+  readonly widthSignal = signal(0);
 
   previousHeight!: number;
   currentHeight!: number;

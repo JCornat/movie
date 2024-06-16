@@ -9,7 +9,7 @@ export class SharedIconService {
   httpClient = inject(HttpClient);
   sanitizer = inject(DomSanitizer);
 
-  icons = signal<Record<string, SafeHtml>>({});
+  readonly icons = signal<Record<string, SafeHtml>>({});
 
   load(name: string) {
     if (this.icons()[name]) {

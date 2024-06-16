@@ -12,8 +12,9 @@ import { CommonModule, NgComponentOutlet } from '@angular/common';
 export class PanelComponent {
   panelService = inject(PanelService);
 
-  component = this.panelService.component;
+  readonly component = this.panelService.component;
 
+  //region Template
   preventDefault(event?: Event): void {
     if (event instanceof Event) {
       event.stopPropagation();
@@ -27,4 +28,5 @@ export class PanelComponent {
 
     this.panelService.close();
   }
+  //endregion
 }

@@ -10,6 +10,6 @@ import { Medium } from '@app/interface';
   imports: [NgOptimizedImage],
 })
 export class MediaMoreComponent {
-  data = input.required<Medium>();
-  limit = input.required<number>();
+  readonly data = input.required<Medium>();
+  readonly limit = input.required<number>();
 }

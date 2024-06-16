@@ -11,8 +11,8 @@ import { HeaderLink, MediaType } from '@app/interface';
 export class CategoryService {
   router = inject(Router);
 
-  currentCategory = this.computeCurrentCategory();
-  categories = this.computeCategories();
+  readonly currentCategory = this.computeCurrentCategory();
+  readonly categories = this.computeCategories();
 
   computeCategories(): Signal<HeaderLink[]> {
     return computed(() => {

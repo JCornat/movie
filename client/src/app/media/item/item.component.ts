@@ -10,6 +10,6 @@ import { Medium } from '@app/interface';
   imports: [NgOptimizedImage, NgClass],
 })
 export class MediaItemComponent {
-  data = input.required<Medium>();
-  dynamic = input<boolean>();
+  readonly data = input.required<Medium>();
+  readonly dynamic = input<boolean>();
 }

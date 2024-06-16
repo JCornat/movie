@@ -34,6 +34,7 @@ export class SerieComponent extends MediaComponent {
   override media!: Serie[];
   override mediaService = inject(SerieService);
 
+  //region Method
   override getSearchComponent(): any {
     return SerieSearchComponent;
   }
@@ -41,4 +42,5 @@ export class SerieComponent extends MediaComponent {
   override getUpdateComponent(): any {
     return SerieUpdateComponent;
   }
+  //endregion
 }

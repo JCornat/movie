@@ -19,15 +19,16 @@ export class LoginComponent {
   authenticationService = inject(AuthenticationService);
   router = inject(Router);
 
-  loadingAdd = this.authenticationService.loadingAdd;
-  errorAdd = this.authenticationService.errorAdd;
-  loginForm = this.buildForm();
-  formData = signal<{ [key: string]: any } | null>(null);
+  readonly loadingAdd = this.authenticationService.loadingAdd;
+  readonly errorAdd = this.authenticationService.errorAdd;
+  readonly loginForm = this.buildForm();
+  readonly formData = signal<{ [key: string]: any } | null>(null);
 
   constructor() {
     this.subscribeForm();
   }
 
+  //region Template
   navigateBack(): void {
     this.navigateHome();
   }
@@ -45,27 +46,21 @@ export class LoginComponent {
     await this.login(data);
     this.navigateHome();
   }
+  //endregion
 
-  /*-----------------------*\
-           Navigation
-  \*-----------------------*/
-
+  //region Navigation
   navigateHome(): void {
     this.router.navigate(['/']);
   }
+  //endregion
 
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
+  //region Service
   async login(options: { username: string, password: string, stayLogged: boolean }): Promise<void> {
     return await this.authenticationService.login(options);
   }
+  //endregion
 
-  /*-----------------------*\
-            Method
-  \*-----------------------*/
-
+  //region Method
   buildForm(): WritableSignal<FormGroup> {
     const form = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -79,11 +74,9 @@ export class LoginComponent {
   onValid(data: { [key: string]: any }): void {
     this.formData.set(data);
   }
+  //endregion
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
+  //region Subscribe
   subscribeForm(): void {
     this.loginForm().valueChanges
       .pipe(
@@ -94,4 +87,5 @@ export class LoginComponent {
         this.onValid(data);
       });
   }
+  //endregion
 }

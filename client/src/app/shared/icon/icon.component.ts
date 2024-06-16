@@ -16,9 +16,10 @@ import { toObservable } from '@angular/core/rxjs-interop';
 export class SharedIconComponent {
   svgIconService = inject(SharedIconService);
 
-  name = input.required<string>();
-  height = input<string>('20px');
-  svgIcon = computed(() => {
+  readonly name = input.required<string>();
+  readonly height = input<string>('20px');
+
+  readonly svgIcon = computed(() => {
     return this.svgIconService.icons()[this.name()];
   });
 

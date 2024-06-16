@@ -17,6 +17,7 @@ import { MovieAddComponent } from '@app/movie/add/add.component';
 export class MovieSearchComponent extends MediaSearchComponent {
   mediaService = inject(MovieService);
 
+  //region Method
   override getImportComponent(): any {
     return MovieImportComponent;
   }
@@ -24,4 +25,5 @@ export class MovieSearchComponent extends MediaSearchComponent {
   override getAddComponent(): any {
     return MovieAddComponent;
   }
+  //endregion
 }

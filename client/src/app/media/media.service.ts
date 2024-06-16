@@ -16,16 +16,16 @@ export abstract class MediaService<T> extends CrudService<Medium> {
 
   abstract type: MediaType;
 
-  #searchTerm = signal<string>('');
-  searchTerm = this.#searchTerm.asReadonly();
+  readonly #searchTerm = signal<string>('');
+  readonly searchTerm = this.#searchTerm.asReadonly();
 
-  groupMedia = this.#computeGroupMedia();
+  readonly groupMedia = this.#computeGroupMedia();
 
-  #groupMediaLimit = signal<GroupMediaLimit>({});
-  groupMediaLimit = this.#groupMediaLimit.asReadonly();
+  readonly #groupMediaLimit = signal<GroupMediaLimit>({});
+  readonly groupMediaLimit = this.#groupMediaLimit.asReadonly();
 
-  #groupMediaSort = this.#initializeGroupMediaSort();
-  groupMediaSort = this.#groupMediaSort.asReadonly();
+  readonly #groupMediaSort = this.#initializeGroupMediaSort();
+  readonly groupMediaSort = this.#groupMediaSort.asReadonly();
 
   constructor() {
     super();
@@ -34,11 +34,8 @@ export abstract class MediaService<T> extends CrudService<Medium> {
     this.#updateGroupMediaLimit();
   }
 
-  /*-----------------------*\
-            HTTP
-  \*-----------------------*/
-
-  override async pullAll(): Promise<void> {
+  //region Http
+  async pullAll(): Promise<void> {
     const optionsQuery: Request = {
       url: `/api/${this.type}`,
       header: {
@@ -106,11 +103,9 @@ export abstract class MediaService<T> extends CrudService<Medium> {
 
     await this._delete(optionsQuery);
   }
+  //endregion
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
+  //region Method
   updateSearchTerm(term: string): void {
     this.#searchTerm.set(term);
   }
@@ -173,11 +168,9 @@ export abstract class MediaService<T> extends CrudService<Medium> {
       return 17;
     }
   }
+  //endregion
 
-  /*-----------------------*\
-           Compute
-  \*-----------------------*/
-
+  //region Compute
   #computeGroupMedia(): Signal<GroupMedium[]> {
     return computed(() => {
       const emptyRatingsRecord = this.#buildRatingRecord();
@@ -258,11 +251,9 @@ export abstract class MediaService<T> extends CrudService<Medium> {
 
     return res;
   }
+  //endregion
 
-  /*-----------------------*\
-            Subscriber
-    \*-----------------------*/
-
+  //region Subscribe
   #subscribeScreenResize(): Subscription {
     return this.screenService.widthResizeObservable
       .pipe(takeUntilDestroyed())
@@ -270,11 +261,9 @@ export abstract class MediaService<T> extends CrudService<Medium> {
         this.#updateGroupMediaLimit();
       });
   }
+  //endregion
 
-  /*-----------------------*\
-          Process
-  \*-----------------------*/
-
+  //region Process
   processPullAll(data: { data: Medium[] }): Medium[] {
     for (const datum of data.data) {
       datum.url = `${this.serverUrl}/image/${datum.id}.jpg`;
@@ -288,4 +277,5 @@ export abstract class MediaService<T> extends CrudService<Medium> {
     const tmp = this.processPullAll({ data: [data.data] });
     return tmp[0];
   }
+  //endregion
 }

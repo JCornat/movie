@@ -11,12 +11,12 @@ import { toObservable } from '@angular/core/rxjs-interop';
 export class TokenService {
   private storageService = inject(StorageService);
 
-  stayLogged = this.#buildStayLogged();
-  #token = this.#buildToken();
-  token = this.#token.asReadonly();
-  #refreshToken = this.#buildRefreshToken();
-  refreshToken = this.#refreshToken.asReadonly();
-  hasToken = computed(() => {
+  readonly stayLogged = this.#buildStayLogged();
+  readonly #token = this.#buildToken();
+  readonly token = this.#token.asReadonly();
+  readonly #refreshToken = this.#buildRefreshToken();
+  readonly refreshToken = this.#refreshToken.asReadonly();
+  readonly hasToken = computed(() => {
     return Global.isPopulated(this.token());
   });
 
@@ -26,10 +26,7 @@ export class TokenService {
     this.#subscribeStayLogged();
   }
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
+  //region Method
   setToken(value: string | null): void {
     this.#token.set(value);
   }
@@ -109,11 +106,9 @@ export class TokenService {
 
     return data;
   }
+  //endregion
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
+  //region Subscribe
   #subscribeToken() {
     toObservable(this.token)
       .subscribe((value) => {
@@ -146,4 +141,5 @@ export class TokenService {
         }
       });
   }
+  //endregion
 }

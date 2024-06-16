@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Directive, ElementRef, inject, input, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Directive, ElementRef, inject, input, signal, viewChild, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -20,20 +20,20 @@ export abstract class MediaAddComponent {
   router = inject(Router);
   serverUrl = getConfig('SERVER_URL');
 
-  @ViewChild('inputFile', { static: true }) inputFile!: ElementRef;
+  readonly inputFile = viewChild.required<ElementRef>('inputFile');
 
-  id = input<string | null>(null);
+  readonly id = input<string | null>(null);
 
-  loadingAdd = this.mediaService.loadingAdd;
-  loadingUpdate = this.mediaService.loadingUpdate;
-  loadingPullOne = this.mediaService.loadingPullOne;
-  errorAdd = this.mediaService.errorAdd;
-  errorUpdate = this.mediaService.errorUpdate;
-  errorPullOne = this.mediaService.errorPullOne;
-  formData = signal<{ [key: string]: any } | null>(null);
-  ratings = signal<RatingDisplay[]>([...RATINGS]);
-  mediaForm = this.buildForm();
-  type = this.buildType();
+  readonly loadingAdd = this.mediaService.loadingAdd;
+  readonly loadingUpdate = this.mediaService.loadingUpdate;
+  readonly loadingPullOne = this.mediaService.loadingPullOne;
+  readonly errorAdd = this.mediaService.errorAdd;
+  readonly errorUpdate = this.mediaService.errorUpdate;
+  readonly errorPullOne = this.mediaService.errorPullOne;
+  readonly formData = signal<{ [key: string]: any } | null>(null);
+  readonly ratings = signal<RatingDisplay[]>([...RATINGS]);
+  readonly mediaForm = this.buildForm();
+  readonly type = this.buildType();
 
   constructor(
     public mediaService: SerieService | MovieService | GameService,
@@ -41,10 +41,7 @@ export abstract class MediaAddComponent {
     this.subscribeForm();
   }
 
-  /*-----------------------*\
-           Template
-  \*-----------------------*/
-
+  //region Template
   async onSubmit(): Promise<void> {
     if (this.loadingAdd()) {
       return;
@@ -63,7 +60,7 @@ export abstract class MediaAddComponent {
       event.stopPropagation();
     }
 
-    this.inputFile.nativeElement.click();
+    this.inputFile().nativeElement.click();
   }
 
   async selectedFile(event: any): Promise<void> {
@@ -79,11 +76,9 @@ export abstract class MediaAddComponent {
   close(): void {
     this.panelService.close();
   }
+  //endregion
 
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
+  //region Servie
   async add(): Promise<void> {
     const formData = this.formData() as Medium;
     await this.mediaService.add(formData);
@@ -101,11 +96,9 @@ export abstract class MediaAddComponent {
     this.mediaService.pullAll(); // Refresh the list
     this.close();
   }
+  //endregion
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
+  //region Method
   buildType(): WritableSignal<'movie' | 'serie' | 'game'> {
     const regex = /^\/(\w+)/;
     const regexResult = regex.exec(this.router.url);
@@ -136,11 +129,9 @@ export abstract class MediaAddComponent {
   onValid(data: { [key: string]: any }): void {
     this.formData.set(data);
   }
+  //endregion
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
+  //region Subscribe
   subscribeForm(): void {
     this.mediaForm().valueChanges
       .pipe(takeUntilDestroyed())
@@ -148,4 +139,5 @@ export abstract class MediaAddComponent {
         this.onValid(data);
       });
   }
+  //endregion
 }

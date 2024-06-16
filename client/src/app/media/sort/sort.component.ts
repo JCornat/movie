@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, input, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 import { FormControl, FormGroup } from '@angular/forms';
@@ -13,22 +13,19 @@ import { SharedModule } from '@shared/shared.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaSortComponent {
-  orderBy = input.required<OrderBy>();
+  readonly orderBy = input.required<OrderBy>();
 
-  @Output() onChange = new EventEmitter<OrderBy>();
+  readonly mediaForm = this.buildForm();
+  readonly sorts = this.buildSortList();
 
-  mediaForm = this.buildForm();
-  sorts = this.buildSortList();
+  readonly onChange = output<OrderBy>();
 
   constructor() {
     this.subscribeInputChange();
     this.subscribeForm();
   }
 
-  /*-----------------------*\
-            Method
-  \*-----------------------*/
-
+  //region Method
   buildForm() {
     const formGroup = new FormGroup({
       orderBy: new FormControl<OrderBy>(OrderBy.random, { nonNullable: true }),
@@ -49,11 +46,9 @@ export class MediaSortComponent {
 
     return signal(sortList);
   }
+  //endregion
 
-  /*-----------------------*\
-          Subscriber
-  \*-----------------------*/
-
+  //region Subscribe
   subscribeInputChange() {
     toObservable(this.orderBy).subscribe((value) => {
       this.mediaForm().patchValue({ orderBy: value });
@@ -64,7 +59,8 @@ export class MediaSortComponent {
     this.mediaForm().valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((data) => {
-        this.onChange.emit(data.orderBy);
+        this.onChange.emit(data.orderBy!);
       });
   }
+  //endregion
 }

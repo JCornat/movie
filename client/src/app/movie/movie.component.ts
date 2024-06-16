@@ -34,6 +34,7 @@ export class MovieComponent extends MediaComponent {
   override media!: Movie[];
   override mediaService = inject(MovieService);
 
+  //region Method
   override getSearchComponent(): any {
     return MovieSearchComponent;
   }
@@ -41,4 +42,5 @@ export class MovieComponent extends MediaComponent {
   override getUpdateComponent(): any {
     return MovieUpdateComponent;
   }
+  //endregion
 }

@@ -21,33 +21,51 @@ export class HomeComponent implements OnInit {
   router = inject(Router);
   serieService = inject(SerieService);
 
-  categoriesPreview: Signal<CategoryPreview[]> = this.computeCategoriesPreview();
-  movies: Signal<Movie[]> = this.computeMovies();
-  series: Signal<Serie[]> = this.computeSeries();
-  games: Signal<Game[]> = this.computeGames();
+  readonly categoriesPreview: Signal<CategoryPreview[]> = this.computeCategoriesPreview();
+  readonly movies: Signal<Movie[]> = this.computeMovies();
+  readonly series: Signal<Serie[]> = this.computeSeries();
+  readonly games: Signal<Game[]> = this.computeGames();
 
   ngOnInit(): void {
-    this.init();
-  }
-
-  init(): void {
     this.movieService.pullAll();
     this.serieService.pullAll();
     this.gameService.pullAll();
   }
 
-  /*-----------------------*\
-           Template
-  \*-----------------------*/
-
+  //region Template
   selectCategory(media: { title: string, url: string }): void {
     this.router.navigate([media.url]);
   }
+  //endregion
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
+  //region Method
+  filterMedia(media: Medium[]): Medium[] {
+    media.sort((a, b) => {
+      if (a.rating > b.rating) {
+        return -1;
+      }
 
+      if (a.rating < b.rating) {
+        return 1;
+      }
+
+      return 0;
+    });
+
+    const limit = media.splice(0, 50); // Take first 50
+    this.shuffle(limit);
+    return limit.splice(0, 25); // Display first 25
+  }
+
+  shuffle(array: unknown[]): void {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+  //endregion
+
+  //region Compute
   computeCategoriesPreview(): Signal<CategoryPreview[]> {
     return computed(() => {
       return [
@@ -73,39 +91,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
-  filterMedia(media: Medium[]): Medium[] {
-    media.sort((a, b) => {
-      if (a.rating > b.rating) {
-        return -1;
-      }
-
-      if (a.rating < b.rating) {
-        return 1;
-      }
-
-      return 0;
-    });
-
-    const limit = media.splice(0, 50); // Take first 50
-    this.shuffle(limit);
-    return limit.splice(0, 25); // Display first 25
-  }
-
-  shuffle(array: unknown[]): void {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
-
-  /*-----------------------*\
-          Compute
-  \*-----------------------*/
-
   computeMovies() {
     return computed(() => {
       const media = this.movieService.valuesPullAll() as Movie[];
@@ -126,4 +111,5 @@ export class HomeComponent implements OnInit {
       return this.filterMedia(media || []);
     });
   }
+  //endregion
 }

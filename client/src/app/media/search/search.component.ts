@@ -19,14 +19,14 @@ export abstract class MediaSearchComponent implements OnInit {
   panelService = inject(PanelService);
   abstract mediaService: SerieService | MovieService | GameService;
 
-  searchTerm = input<string>('');
+  readonly searchTerm = input<string>('');
 
-  formData = signal<Record<string, any> | null>(null);
-  searchForm = signal<FormGroup | null>(null);
-  type = this.categoryService.currentCategory;
-  searchResults = signal<ImportMedia[] | null>(null);
-  loading = signal<boolean>(false);
-  error = signal<string | null>(null);
+  readonly formData = signal<Record<string, any> | null>(null);
+  readonly searchForm = signal<FormGroup | null>(null);
+  readonly type = this.categoryService.currentCategory;
+  readonly searchResults = signal<ImportMedia[] | null>(null);
+  readonly loading = signal<boolean>(false);
+  readonly error = signal<string | null>(null);
 
   constructor() {
     this.subscribeFormData();
@@ -37,10 +37,7 @@ export abstract class MediaSearchComponent implements OnInit {
     this.subscribeFormChanges();
   }
 
-  /*-----------------------*\
-           Template
-  \*-----------------------*/
-
+  //region Template
   openImportPanel(value: ImportMedia) {
     const component = this.getImportComponent();
     this.panelService.open({ component, inputs: { importId: value.importId } });
@@ -63,11 +60,9 @@ export abstract class MediaSearchComponent implements OnInit {
       this.loading.set(false);
     }
   }
+  //endregion
 
-  /*-----------------------*\
-           Method
-  \*-----------------------*/
-
+  //region Method
   abstract getImportComponent(): any;
 
   abstract getAddComponent(): any;
@@ -83,11 +78,9 @@ export abstract class MediaSearchComponent implements OnInit {
   onValid(data: { [key: string]: any }): void {
     this.formData.set(data);
   }
+  //endregion
 
-  /*-----------------------*\
-          Subscribe
-  \*-----------------------*/
-
+  //region Subscribe
   subscribeFormChanges(): void {
     this.searchForm()!.valueChanges
       .pipe(
@@ -112,4 +105,5 @@ export abstract class MediaSearchComponent implements OnInit {
         await this.search(value!.search);
       });
   }
+  //endregion
 }

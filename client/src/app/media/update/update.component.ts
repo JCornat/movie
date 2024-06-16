@@ -21,10 +21,7 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
     this.subscribeId();
   }
 
-  /*-----------------------*\
-           Template
-  \*-----------------------*/
-
+  //region Template
   override async onSubmit(): Promise<void> {
     if (this.loadingUpdate()) {
       return;
@@ -32,11 +29,9 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
 
     await this.update(this.formData() as Medium);
   }
+  //endregion
 
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
+  //region Service
   async pullOne(id: string): Promise<void> {
     return await this.mediaService.pullOne(id);
   }
@@ -46,11 +41,9 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
     this.mediaService.pullAll(); // Refresh the list
     this.close();
   }
+  //endregion
 
-  /*-----------------------*\
-          Observable
-  \*-----------------------*/
-
+  //region Subscribe
   subscribePullOne(): void {
     toObservable(this.mediaService.valuesPullOne)
       .subscribe((value) => {
@@ -72,4 +65,5 @@ export abstract class MediaUpdateComponent extends MediaAddComponent {
         this.pullOne(this.id()!);
       });
   }
+  //endregion
 }

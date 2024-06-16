@@ -9,7 +9,7 @@ import { GameService } from '@app/game/game.service';
 
 @Directive()
 export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
-  importId = input<string>();
+  readonly importId = input.required<string>();
 
   constructor(
     public override mediaService: SerieService | MovieService | GameService,
@@ -29,10 +29,7 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
     this.mediaForm().patchValue(values);
   }
 
-  /*-----------------------*\
-           Service
-  \*-----------------------*/
-
+  //region Service
   async pullOne(id: string): Promise<ImportMedia> {
     if (!id) {
       throw new Error('NO IMPORT ID PROVIDED');
@@ -40,4 +37,5 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
 
     return await this.mediaService.importOne(id);
   }
+  //endregion
 }
