@@ -26,3 +26,4 @@ services:
 networks:
     default:
         name: main
+        external: true

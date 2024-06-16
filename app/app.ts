@@ -11,7 +11,6 @@ import { SendFileAsyncMiddleware } from '@middleware/send-file-async';
 import { AuthenticationController } from '@controller/authentication';
 import { FileController } from '@controller/file';
 import { MediaController } from '@controller/media';
-import { WebsiteController } from '@controller/website';
 import { serie } from '@model/serie';
 import { game } from '@model/game';
 import { movie } from '@model/movie';
@@ -34,7 +33,6 @@ async function init(): Promise<void> {
   app.use(AuthenticationController.router);
   app.use(FileController.router);
   app.use(MediaController.router);
-  app.use(WebsiteController.router);
 
   app.use(ErrorMiddleware.handle);
 
