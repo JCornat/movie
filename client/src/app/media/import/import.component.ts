@@ -1,32 +1,23 @@
-import { Directive, input, OnInit } from '@angular/core';
+import { Directive, input } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 
 import { MediaAddComponent } from '@app/media/add/add.component';
-import { Global } from '@shared/global/global';
 import { ImportMedia } from '@app/interface';
 import { SerieService } from '@app/serie/serie.service';
 import { MovieService } from '@app/movie/movie.service';
 import { GameService } from '@app/game/game.service';
 
 @Directive()
-export abstract class MediaImportComponent extends MediaAddComponent implements OnInit {
+export abstract class MediaImportComponent extends MediaAddComponent {
   readonly importId = input.required<string>();
 
   constructor(
     public override mediaService: SerieService | MovieService | GameService,
   ) {
     super(mediaService);
-  }
 
-  async ngOnInit(): Promise<void> {
-    if (Global.isEmpty(this.importId())) {
-      throw new Error('NO IMPORT ID PROVIDED');
-    }
-
-    this.buildType();
-    this.buildForm();
-
-    const values = await this.pullOne(this.importId()!);
-    this.mediaForm().patchValue(values);
+    this.subscribeImportId();
   }
 
   //region Service
@@ -36,6 +27,15 @@ export abstract class MediaImportComponent extends MediaAddComponent implements 
     }
 
     return await this.mediaService.importOne(id);
+  }
+  //endregion
+
+  //region Subscribe
+  subscribeImportId() {
+    toObservable(this.importId).pipe(filter(Boolean)).subscribe(async (value) => {
+      const values = await this.pullOne(value);
+      this.mediaForm().patchValue(values);
+    });
   }
   //endregion
 }

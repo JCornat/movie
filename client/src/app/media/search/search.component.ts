@@ -1,4 +1,4 @@
-import { Directive, inject, input, OnInit, signal } from '@angular/core';
+import { Directive, inject, input, Signal, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { filter, startWith, tap } from 'rxjs';
@@ -13,7 +13,7 @@ import { PanelService } from '@app/panel/panel.service';
 import { CategoryService } from '@app/category/category.service';
 
 @Directive()
-export abstract class MediaSearchComponent implements OnInit {
+export abstract class MediaSearchComponent {
   categoryService = inject(CategoryService);
   router = inject(Router);
   panelService = inject(PanelService);
@@ -22,18 +22,15 @@ export abstract class MediaSearchComponent implements OnInit {
   readonly searchTerm = input<string>('');
 
   readonly formData = signal<Record<string, any> | null>(null);
-  readonly searchForm = signal<FormGroup | null>(null);
+  readonly searchForm = this.buildSearchForm();
   readonly type = this.categoryService.currentCategory;
   readonly searchResults = signal<ImportMedia[] | null>(null);
   readonly loading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
 
   constructor() {
+    this.subscribeSearchTerm();
     this.subscribeFormData();
-  }
-
-  ngOnInit(): void {
-    this.buildSearchForm();
     this.subscribeFormChanges();
   }
 
@@ -67,12 +64,12 @@ export abstract class MediaSearchComponent implements OnInit {
 
   abstract getAddComponent(): any;
 
-  buildSearchForm(): void {
+  buildSearchForm(): Signal<FormGroup> {
     const formGroup = new FormGroup({
-      search: new FormControl(this.searchTerm()),
+      search: new FormControl(),
     });
 
-    this.searchForm.set(formGroup);
+    return signal(formGroup);
   }
 
   onValid(data: { [key: string]: any }): void {
@@ -81,8 +78,14 @@ export abstract class MediaSearchComponent implements OnInit {
   //endregion
 
   //region Subscribe
+  subscribeSearchTerm() {
+    toObservable(this.searchTerm).pipe(filter(Boolean)).subscribe((value) => {
+      this.searchForm().get('search')?.setValue(value);
+    });
+  }
+
   subscribeFormChanges(): void {
-    this.searchForm()!.valueChanges
+    this.searchForm().valueChanges
       .pipe(
         takeUntilDestroyed(),
         startWith({ search: this.searchTerm() }),
