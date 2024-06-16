@@ -7,7 +7,7 @@ services:
             args:
                 - image=${WEB_IMAGE}
         container_name: ${WEB_CONTAINER_NAME}
-        restart: always
+        restart: unless-stopped
         volumes:
             - ./app/class:/src/class
             - ./app/config:/src/config
@@ -16,7 +16,6 @@ services:
             - ./app/middleware:/src/middleware
             - ./app/model:/src/model
             - ./app/public:/src/public
-            - ./app/www:/src/www
             - ./app/app.ts:/src/app.ts
             - ./app/package.json:/src/package.json
             - ./app/package-lock.json:/src/package-lock.json
