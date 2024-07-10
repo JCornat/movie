@@ -112,7 +112,7 @@ export abstract class MediaService<T> extends CrudService<Medium> {
 
   increaseLimit(groupMedium: GroupMedium): void {
     this.#groupMediaLimit.update((value) => {
-      value[groupMedium.value] += this.getLimitByScreenSize();
+      value[groupMedium.value] += 50;
       return Global.clone(value);
     });
   }
