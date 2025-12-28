@@ -7,7 +7,7 @@ import { ImportMedia } from '@model/definition';
 import { Media } from '@model/media';
 
 export class Game extends Media {
-  bearer: string;
+  bearer: string | null = null;
 
   async init(): Promise<void> {
     await this.createStore('game');
@@ -29,7 +29,7 @@ export class Game extends Media {
         `,
         headers: {
           'Client-ID': Config.TWITCH_CLIENT.id,
-          Authorization: `Bearer ${this.bearer}`,
+          'Authorization': `Bearer ${this.bearer}`,
         },
       };
 
@@ -83,7 +83,7 @@ export class Game extends Media {
         `,
         headers: {
           'Client-ID': Config.TWITCH_CLIENT.id,
-          Authorization: `Bearer ${this.bearer}`,
+          'Authorization': `Bearer ${this.bearer}`,
         },
       };
 
@@ -115,7 +115,7 @@ export class Game extends Media {
         url: `https://id.twitch.tv/oauth2/token?client_id=${Config.TWITCH_CLIENT.id}&client_secret=${Config.TWITCH_CLIENT.secret}&grant_type=client_credentials`,
       };
 
-      request.post(options, (error, response, body) => {
+      request.post(options, (error: Error, response, body) => {
         if (error) {
           return reject(error);
         }

@@ -1,9 +1,5 @@
 import { Response } from 'express';
 
-export interface C7zResponse extends Response {
-  sendFileAsync: any;
-}
-
 export type Rating = number | 'todo' | 'progress';
 
 export interface ImportMedia {

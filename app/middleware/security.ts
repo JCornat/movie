@@ -1,11 +1,48 @@
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
+import {config} from '../config'
 
-export namespace SecurityMiddleware {
-  export const app = express();
+const securityMiddleware = express();
 
-  app.use(cors({}));
-  app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false, crossOriginEmbedderPolicy: false }));
-  app.set('x-powered-by', false);
-}
+securityMiddleware.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests without origin header (mobile apps, curl)
+    if (!origin) return callback(null, true);
+
+    // Validate origin against allowed list
+    if (
+      config.cors.allowedOrigins.indexOf(origin) !== -1 ||
+      config.cors.allowedOrigins.indexOf('*') !== -1
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: config.cors.allowedMethods,
+  allowedHeaders: config.cors.allowedHeaders,
+  credentials: true,
+  optionsSuccessStatus: 200, // Support legacy browsers
+  maxAge: 86400, // Cache preflight for 24 hours
+}))
+
+securityMiddleware.use(cors({
+  origin: ['http://localhost:4200'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+securityMiddleware.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+    },
+  },
+}));
+
+securityMiddleware.set('x-powered-by', false);
+
+export {securityMiddleware};

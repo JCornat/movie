@@ -1,10 +1,10 @@
 import express from 'express';
 import path from 'node:path';
 
-export namespace AssetMiddleware {
-  export const app = express();
+const assetMiddleware = express();
 
-  app.use('/public', express.static(path.join(__dirname, '..', 'public')));
-  app.use('/upload', express.static(path.join(__dirname, '..', 'public', 'upload')));
-  app.use('/image', express.static(path.join(__dirname, '..', 'public', 'image')));
-}
+assetMiddleware.use('/public', express.static(path.join(__dirname, '..', 'public')));
+assetMiddleware.use('/upload', express.static(path.join(__dirname, '..', 'public', 'upload')));
+assetMiddleware.use('/image', express.static(path.join(__dirname, '..', 'public', 'image')));
+
+export { assetMiddleware };

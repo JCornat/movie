@@ -1,11 +1,8 @@
 import express from 'express';
 
-import { Config } from '@config/config';
+const postMiddleware = express();
 
-export namespace PostMiddleware {
-  export const app = express();
+postMiddleware.use(express.urlencoded({extended: true}));
+postMiddleware.use(express.json({limit: '10mb'}));
 
-  const limit = `${Config.UPLOAD_MAX_SIZE / 1000000}mb`;
-  app.use(express.urlencoded({ limit, extended: true }));
-  app.use(express.json({ limit }));
-}
+export {postMiddleware};

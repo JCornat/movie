@@ -2,7 +2,6 @@ import { Request } from 'express';
 import { v4 as UUID } from 'uuid';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
-import multiparty from 'multiparty';
 import path from 'node:path';
 
 import { Config } from '@config/config';

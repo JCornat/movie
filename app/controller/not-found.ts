@@ -1,13 +1,9 @@
-import { Request, Router } from 'express';
+import {Request, Response, Router} from 'express';
 
-import { C7zResponse } from '@model/definition';
+const router = Router();
 
-export const router = Router();
-
-router.use((req: Request, res: C7zResponse, next: any) => {
-  try {
-    res.sendStatus(404);
-  } catch (error) {
-    return next(error);
-  }
+router.use((_req: Request, res: Response) => {
+  res.sendStatus(404);
 });
+
+export default router;
