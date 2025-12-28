@@ -1,17 +1,9 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
-    "noImplicitAny": false,
-    "sourceMap": true,
+    "module": "NodeNext",
+    "strict": true,
     "baseUrl": ".",
-    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "lib": [
-      "ES2022"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "paths": {
       "@class/*": [
         "class/*"
@@ -29,8 +21,5 @@
         "model/*"
       ]
     }
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }
