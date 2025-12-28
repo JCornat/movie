@@ -1,6 +1,4 @@
-import { Response } from 'express';
-
-export type Rating = number | 'todo' | 'progress';
+import { Rating } from '../hexagonal/shared/domain/rating';
 
 export interface ImportMedia {
   importId: string;
@@ -16,18 +14,6 @@ export interface IMedia {
   rating: Rating;
   url?: string;
   urlWebp?: string;
-}
-
-export interface IGame extends IMedia {
-  //
-}
-
-export interface IMovie extends IMedia {
-  //
-}
-
-export interface ISerie extends IMedia {
-  //
 }
 
 export interface MediaAddParameters {

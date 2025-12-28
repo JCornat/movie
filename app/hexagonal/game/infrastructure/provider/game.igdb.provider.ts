@@ -2,7 +2,6 @@ import { GameProvider, SearchItem } from '../../domain/provider/game.provider';
 import { config } from '@config/index';
 import { Global } from '@model/global';
 import { time } from '@model/time';
-import { z } from 'zod';
 
 export class GameIgdbProvider implements GameProvider {
   private bearer: string | null = null;

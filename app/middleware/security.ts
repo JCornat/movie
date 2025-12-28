@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import {config} from '../config'
+import { config } from '../config';
 
 const securityMiddleware = express();
 
@@ -25,24 +25,18 @@ securityMiddleware.use(cors({
   credentials: true,
   optionsSuccessStatus: 200, // Support legacy browsers
   maxAge: 86400, // Cache preflight for 24 hours
-}))
-
-securityMiddleware.use(cors({
-  origin: ['http://localhost:4200'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 securityMiddleware.use(helmet({
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      defaultSrc: [`'self'`],
+      scriptSrc: [`'self'`],
+      styleSrc: [`'self'`, `'unsafe-inline'`],
     },
   },
 }));
 
 securityMiddleware.set('x-powered-by', false);
 
-export {securityMiddleware};
+export { securityMiddleware };

@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { ArgumentInvalidException } from '../../../lib/exception';
 import { GameProvider } from '../../domain/provider/game.provider';
 import { defaultGameProvider } from '../../infrastructure/provider/game.igdb.provider';
+import { ArgumentInvalidException } from '../../../util/exception';
 
 const schema = z.object({
   query: z.string(),

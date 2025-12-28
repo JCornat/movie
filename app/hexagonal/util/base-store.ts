@@ -1,7 +1,8 @@
 import path from 'node:path';
-import { File } from '@model/file';
 import { z } from 'zod';
-import { ArgumentInvalidException } from '../lib/exception';
+import { ArgumentInvalidException } from './exception';
+import { FileSystemProvider } from './domain/provider/file-system.provider';
+import { defaultFileSystemProvider } from './infrastructure/provider/file-system.node.provider';
 
 export class BaseStore<T extends { id: string }> {
   protected collection: Record<string, T> = {};
@@ -9,6 +10,7 @@ export class BaseStore<T extends { id: string }> {
 
   constructor(
     protected readonly name: string,
+    protected readonly fileSystemProvider: FileSystemProvider = defaultFileSystemProvider,
   ) {
     const res = z.string().trim().safeParse(name);
     if (!res.success) {
@@ -20,8 +22,8 @@ export class BaseStore<T extends { id: string }> {
   }
 
   async init(): Promise<void> {
-    if (File.exists(this.filePath)) {
-      const content = await File.read(this.filePath);
+    if (await this.fileSystemProvider.exists(this.filePath)) {
+      const content = await this.fileSystemProvider.readTextFile(this.filePath);
       const tmp = JSON.parse(content) as T[];
       this.collection = tmp.reduce((acc, cur) => ({
         ...acc,
@@ -31,7 +33,7 @@ export class BaseStore<T extends { id: string }> {
   }
 
   protected async save(): Promise<void> {
-    await File.write(this.filePath, JSON.stringify(Object.values(this.collection), null, 2));
+    await this.fileSystemProvider.writeFile(this.filePath, JSON.stringify(Object.values(this.collection), null, 2));
   }
 
   getAll(): T[] {

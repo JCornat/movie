@@ -1,9 +1,9 @@
-import {Request, Response, Router} from 'express';
+import { Request, Response, Router } from 'express';
 
-const router = Router();
+const notFoundController = Router();
 
-router.use((_req: Request, res: Response) => {
+notFoundController.use((_req: Request, res: Response) => {
   res.sendStatus(404);
 });
 
-export default router;
+export { notFoundController };
