@@ -1,7 +1,6 @@
 import fs from 'node:fs';
-import Request from 'request';
-
-import { Global } from './global';
+import { finished } from 'node:stream/promises';
+import { Readable } from 'node:stream';
 
 export namespace Http {
   export async function get(url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any | string> {
@@ -21,89 +20,75 @@ export namespace Http {
   }
 
   export async function download(url: string, destinationPath: string): Promise<void> {
-    const file = fs.createWriteStream(destinationPath);
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+    }
 
-    return await new Promise((resolve, reject) => {
-      const stream = Request({ url })
-        .pipe(file)
-        .on('finish', () => {
-          resolve();
-        })
-        .on('error', (error) => {
-          reject(error);
-        });
-    });
+    if (!response.body) {
+      throw new Error(`No body in response from ${url}`);
+    }
+
+    const fileStream = fs.createWriteStream(destinationPath);
+    const body = Readable.fromWeb(response.body as any);
+    body.pipe(fileStream);
+    return await finished(fileStream);
   }
 
-  export function build(method: string, url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
-    return new Promise(async (resolve, reject) => {
-      const requestOptions: any = {
-        url,
+  export async function build(method: string, url: string, form: any = {}, options: { resolveHeaders?: boolean, headers?: { [key: string]: any } } = {}): Promise<any> {
+    const headers: Record<string, string> = { ...options.headers };
+
+    if (form.token) {
+      headers['X-Access-Token'] = form.token;
+      delete form.token;
+    }
+
+    let finalUrl = url;
+    const fetchOptions: RequestInit = {
+      method: method.toUpperCase(),
+      headers,
+    };
+
+    if (fetchOptions.method === 'GET' || fetchOptions.method === 'DELETE') {
+      const params = new URLSearchParams(form);
+      const queryString = params.toString();
+      if (queryString) {
+        finalUrl += (finalUrl.includes('?') ? '&' : '?') + queryString;
+      }
+    } else {
+      // For POST/PUT, if it's "form" data:
+      const body = new URLSearchParams();
+      for (const key in form) {
+        body.append(key, form[key]);
+      }
+
+      fetchOptions.body = body;
+    }
+
+    const response = await fetch(finalUrl, fetchOptions);
+    const bodyText = await response.text();
+
+    if (!response.ok) {
+      throw {
+        status: response.status,
+        message: bodyText || response.statusText,
       };
+    }
 
-      requestOptions.headers = {};
+    let data;
+    try {
+      data = JSON.parse(bodyText);
+    } catch {
+      data = bodyText;
+    }
 
-      if (Global.isPopulated(options.headers)) {
-        requestOptions.headers = {
-          ...options.headers,
-        };
-      }
+    if (options?.resolveHeaders) {
+      return {
+        content: data,
+        headers: Array.from(response.headers.entries()),
+      };
+    }
 
-      if (form.token) {
-        requestOptions.headers['X-Access-Token'] = form.token;
-        delete form.token;
-      }
-
-      switch (method) {
-        case 'get':
-        case 'delete':
-          requestOptions.qs = form;
-          break;
-        case 'put':
-        case 'post':
-          requestOptions.form = form;
-          break;
-        default:
-          console.error('Method not supported', method, url);
-          throw new Error('Method not supported');
-      }
-
-      Request[method](requestOptions, (error, response) => {
-        if (error) {
-          return reject(error);
-        }
-
-        const res = {
-          status: response.statusCode,
-          body: response.body,
-        };
-
-        if (res.status >= 400) {
-          const err = {
-            status: res.status,
-            message: res.body || undefined,
-          };
-
-          return reject(err);
-        }
-
-        let data;
-
-        try {
-          data = JSON.parse(res.body);
-        } catch {
-          data = res.body;
-        }
-
-        if (options?.resolveHeaders) {
-          return resolve({
-            content: data,
-            headers: response.rawHeaders,
-          });
-        }
-
-        resolve(data);
-      });
-    });
+    return data;
   }
 }

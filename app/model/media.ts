@@ -33,7 +33,7 @@ export abstract class Media {
     await this.store.update(id, data);
   }
 
-  search(title: string): Promise<ImportMedia[]> {
+  async search(title: string): Promise<ImportMedia[]> {
     throw { status: 500, method: 'Media.search', message: `Not implemented` };
   }
 

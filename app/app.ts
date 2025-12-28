@@ -10,9 +10,9 @@ import { config } from '@config/index';
 import { authenticationRouter } from '@controller/authentication';
 import { fileRouter } from '@controller/file';
 import { mediaController } from '@controller/media';
-import { serie } from '@model/serie';
-import { game } from '@model/game';
-import { movie } from '@model/movie';
+// import { serie } from '@model/serie';
+// import { game } from '@model/game';
+// import { movie } from '@model/movie';
 
 export const app = express();
 const server = http.createServer(app);
@@ -24,13 +24,13 @@ async function init(): Promise<void> {
   app.use(postMiddleware);
   app.use(assetMiddleware);
 
-  await movie.init();
-  await serie.init();
-  await game.init();
+  // await movie.init();
+  // await serie.init();
+  // await game.init();
 
   app.use(authenticationRouter);
   app.use(fileRouter);
-  app.use(mediaController);
+  // app.use(mediaController);
 
   app.use(handleError);
 

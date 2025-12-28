@@ -1,5 +1,3 @@
-import request from 'request';
-
 import { Config } from '@config/config';
 import { Global } from '@model/global';
 import { ImportMedia } from '@model/definition';

@@ -1,5 +1,3 @@
-import request from 'request';
-
 import { Config } from '@config/config';
 import { time } from '@model/time';
 import { Global } from '@model/global';
@@ -33,7 +31,7 @@ export class Game extends Media {
         },
       };
 
-      request.post(options, (error, response, body) => {
+      fetch.post(options, (error, response, body) => {
         if (error) {
           return reject(error);
         }
