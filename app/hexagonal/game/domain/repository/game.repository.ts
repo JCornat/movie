@@ -5,8 +5,6 @@ export interface StoredGame {
   title: string;
   year: number;
   rating: Rating;
-  url?: string;
-  urlWebp?: string;
 }
 
 export interface GameRepository {

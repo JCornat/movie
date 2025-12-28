@@ -1,7 +1,8 @@
 import { GameProvider, SearchItem } from '../../domain/provider/game.provider';
-import { Config } from '@config/config';
+import { config } from '@config/index';
 import { Global } from '@model/global';
 import { time } from '@model/time';
+import { z } from 'zod';
 
 export class GameIgdbProvider implements GameProvider {
   private bearer: string | null = null;
@@ -11,7 +12,7 @@ export class GameIgdbProvider implements GameProvider {
     const response = await fetch(`https://api.igdb.com/v4/games`, {
       method: 'POST',
       headers: {
-        'Client-ID': Config.TWITCH_CLIENT.id,
+        'Client-ID': config.apiCredentials.twitch.id,
         'Authorization': `Bearer ${this.bearer}`,
       },
       body: `
@@ -30,7 +31,7 @@ export class GameIgdbProvider implements GameProvider {
     const response = await fetch(`https://api.igdb.com/v4/games`, {
       method: 'POST',
       headers: {
-        'Client-ID': Config.TWITCH_CLIENT.id,
+        'Client-ID': config.apiCredentials.twitch.id,
         'Authorization': `Bearer ${this.bearer}`,
       },
       body: `
@@ -63,7 +64,7 @@ export class GameIgdbProvider implements GameProvider {
 
   private async checkBearer(): Promise<void> {
     if (!this.bearer) {
-      const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${Config.TWITCH_CLIENT.id}&client_secret=${Config.TWITCH_CLIENT.secret}&grant_type=client_credentials`, {
+      const response = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${config.apiCredentials.twitch.id}&client_secret=${config.apiCredentials.twitch.secret}&grant_type=client_credentials`, {
         method: 'POST',
       });
 
